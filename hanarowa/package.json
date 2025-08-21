@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "svgr": "pnpm dlx @svgr/cli public/svg --out-dir src/assets/svg --ext tsx --typescript --no-prettier && prettier --write \"src/assets/svg/**/*.tsx\""
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -17,6 +18,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/node": "^20",
