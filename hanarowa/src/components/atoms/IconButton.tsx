@@ -16,7 +16,7 @@ const IconButton = ({
   ...props
 }: PropsWithChildren<ButtonProps>) => {
   const baseStyles =
-    'rounded-16 flex flex-col items-center justify-center gap-[0.6rem] p-[0.7rem] shadow-[0_2px_12px_0_rgba(0,0,0,0.10)]';
+    'size-[75px] rounded-16 flex flex-col items-center justify-center gap-2 shadow-[0_2px_12px_0_rgba(0,0,0,0.10)]';
 
   return (
     <button
