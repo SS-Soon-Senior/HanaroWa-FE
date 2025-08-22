@@ -30,19 +30,19 @@
         "./public/image"
       ],
       "@components": [
-        "./src/components/common"
+        "./src/components"
       ],
       "@contexts": [
         "./src/contexts"
       ],
       "@hooks": [
-        "./src/hooks/common"
+        "./src/hooks"
       ],
       "@types": [
         "./src/types"
       ],
       "@utils": [
-        "./src/utils/common"
+        "./src/utils"
       ],
       "@/*": [
         "./src/*"
@@ -53,7 +53,9 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src/**/*.d.ts",
+    "svgr.d.ts"
   ],
   "exclude": [
     "node_modules"
