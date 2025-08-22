@@ -9,7 +9,7 @@ const SvgIcMyActive = (props: SVGProps<SVGSVGElement>) => (
     fill='none'
     {...props}
   >
-    <path stroke='#00A49D' d='M28 28H0V0h28z' />
+    <path d='M28 28H0V0h28z' />
     <path
       stroke='#00A49D'
       strokeLinecap='round'

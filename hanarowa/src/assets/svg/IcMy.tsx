@@ -9,7 +9,7 @@ const SvgIcMy = (props: SVGProps<SVGSVGElement>) => (
     fill='none'
     {...props}
   >
-    <path stroke='#9CA3AF' d='M28 28H0V0h28z' />
+    <path d='M28 28H0V0h28z' />
     <path
       stroke='#9CA3AF'
       strokeLinecap='round'
