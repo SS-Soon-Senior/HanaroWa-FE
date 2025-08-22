@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { useId, forwardRef } from 'react';
+import { useId, forwardRef, TextareaHTMLAttributes } from 'react';
 
 export interface TextAreaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   containerClassName?: string;
   fullWidth?: boolean;
 }
