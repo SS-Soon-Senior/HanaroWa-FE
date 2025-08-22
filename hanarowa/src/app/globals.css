@@ -93,6 +93,29 @@
 }
 
 @layer components {
+  .shadow-button {
+    @apply shadow-[0_2px_12px_0_rgba(0,0,0,0.10)];
+  }
+
+  .rounded-6 {
+    @apply rounded-[0.6rem];
+  }
+  .rounded-8 {
+    @apply rounded-[0.8rem];
+  }
+  .rounded-10 {
+    @apply rounded-[1rem];
+  }
+  .rounded-12 {
+    @apply rounded-[1.2rem];
+  }
+  .rounded-14 {
+    @apply rounded-[1.4rem];
+  }
+  .rounded-16 {
+    @apply rounded-[1.6rem];
+  }
+
   /* Bold font styles */
   .font-bold-30 {
     @apply font-hana text-[3.0rem] leading-[150%] font-bold;
