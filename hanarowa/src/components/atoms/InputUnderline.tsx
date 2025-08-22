@@ -41,3 +41,5 @@ export const InputUnderline = forwardRef<HTMLInputElement, BaseInputProps>(
   }
 );
 InputUnderline.displayName = 'InputUnderline';
+
+export default InputUnderline;
