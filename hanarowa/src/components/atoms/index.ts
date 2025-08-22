@@ -1,5 +1,6 @@
 import Button from './Button';
+import Header from './Header';
 import IconButton from './IconButton';
 import SpotButton from './SpotButton';
 
-export { Button, IconButton, SpotButton };
+export { Button, Header, IconButton, SpotButton };
