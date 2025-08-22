@@ -1,3 +1,4 @@
+import BottomNavigation from './BottomNavigation';
 import Button from './Button';
 import ErrorMessage from './ErrorMessage';
 import Header from './Header';
@@ -10,6 +11,7 @@ import SpotButton from './SpotButton';
 import Textarea from './Textarea';
 
 export {
+  BottomNavigation,
   Layout,
   Button,
   Header,

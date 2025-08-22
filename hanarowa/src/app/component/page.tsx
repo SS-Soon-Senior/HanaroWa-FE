@@ -1,9 +1,15 @@
-import { Button, IconButton, Layout, SpotButton } from '@/components/atoms';
-import BottomNavigation from '@/components/atoms/BottomNavigation';
+import {
+  Button,
+  Header,
+  IconButton,
+  Layout,
+  SpotButton,
+  BottomNavigation,
+} from '@/components/atoms';
 import { IcBell, IcCalendar, IcSearch } from '@svg';
 
 const Page = () => (
-  <Layout title='하나은행' showBackButton={true} showBottomNav={true}>
+  <Layout header={<Header title='하나은행' />} footer={<BottomNavigation />}>
     <h1 className='font-bold-18 text-main'>하나은행</h1>
     <h1 className='font-medium-18'>하나은행</h1>
     <h1 className='font-regular-18'>하나은행</h1>
