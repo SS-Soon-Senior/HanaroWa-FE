@@ -1,7 +1,7 @@
 import { IcCalendar } from '@/assets/svg';
 import IcBell from '@/assets/svg/IcBell';
 import IcSearch from '@/assets/svg/IcSearch';
-import { Button, IconButton } from '@/components/atoms';
+import { Button, IconButton, SpotButton } from '@/components/atoms';
 
 const Page = () => (
   <div>
@@ -21,6 +21,10 @@ const Page = () => (
       <IconButton title='강좌 개설' icon={<IcBell />} />
       <IconButton title='내 예약' icon={<IcCalendar />} />
       <IconButton title='강좌 찾기' icon={<IcSearch />} />
+    </div>
+    <div className='flex flex-row gap-5'>
+      <SpotButton location='춘천' title='50+ 컬처뱅크' />
+      <SpotButton location='춘천' title='50+ 컬처뱅크' />
     </div>
   </div>
 );

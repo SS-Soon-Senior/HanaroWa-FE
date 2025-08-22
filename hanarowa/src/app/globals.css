@@ -93,6 +93,10 @@
 }
 
 @layer components {
+  .shadow-button {
+    @apply shadow-[0_2px_12px_0_rgba(0,0,0,0.10)];
+  }
+
   .rounded-6 {
     @apply rounded-[0.6rem];
   }
