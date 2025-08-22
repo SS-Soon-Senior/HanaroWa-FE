@@ -47,6 +47,9 @@
       "@/*": [
         "./src/*"
       ],
+      "@svg": [
+        "./src/assets/svg"
+      ]
     }
   },
   "include": [

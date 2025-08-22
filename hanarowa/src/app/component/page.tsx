@@ -1,7 +1,5 @@
-import { IcCalendar } from '@/assets/svg';
-import IcBell from '@/assets/svg/IcBell';
-import IcSearch from '@/assets/svg/IcSearch';
 import { Button, IconButton, SpotButton } from '@/components/atoms';
+import { IcBell, IcCalendar, IcSearch } from '@svg';
 
 const Page = () => (
   <div>
