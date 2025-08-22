@@ -3,12 +3,12 @@
 import { IcHeaderArrow } from '@svg';
 import { useRouter } from 'next/navigation';
 
-interface HeaderProps {
+type Props = {
   title?: string;
-  back: boolean;
-}
+  showBackButton?: boolean;
+};
 
-const Header = ({ title, back }: HeaderProps) => {
+const Header = ({ title, showBackButton = true }: Props) => {
   const router = useRouter();
 
   const handleClickBack = () => {
@@ -16,15 +16,15 @@ const Header = ({ title, back }: HeaderProps) => {
   };
 
   return (
-    <header className='fixed z-40 inset-0 top-0 mx-auto flex h-[6rem] max-w-[768px] items-center px-[2rem] py-[1rem]'>
+    <header className='bg-background fixed inset-0 top-0 z-40 mx-auto flex h-[6rem] max-w-[768px] items-center px-[2rem] py-[1rem]'>
       {/* 왼쪽 화살표 */}
       <div className='flex w-1/6 items-center'>
-        {back && (
+        {showBackButton && (
           <IcHeaderArrow onClick={handleClickBack} className='cursor-pointer' />
         )}
       </div>
       {/* 가운데 타이틀 */}
-      <div className='flex-1 flex justify-center'>
+      <div className='flex flex-1 justify-center'>
         <h1 className='font-bold-22 text-main text-center'>{title}</h1>
       </div>
       {/* 오른쪽 공간 맞추기 */}

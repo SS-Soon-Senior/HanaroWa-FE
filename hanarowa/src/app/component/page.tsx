@@ -1,10 +1,9 @@
-import { Button, IconButton, SpotButton } from '@/components/atoms';
+import { Button, IconButton, Layout, SpotButton } from '@/components/atoms';
 import BottomNavigation from '@/components/atoms/BottomNavigation';
 import { IcBell, IcCalendar, IcSearch } from '@svg';
 
 const Page = () => (
-  <div>
-    <BottomNavigation></BottomNavigation>
+  <Layout title='하나은행' showBackButton={true} showBottomNav={true}>
     <h1 className='font-bold-18 text-main'>하나은행</h1>
     <h1 className='font-medium-18'>하나은행</h1>
     <h1 className='font-regular-18'>하나은행</h1>
@@ -26,7 +25,19 @@ const Page = () => (
       <SpotButton location='춘천' title='50+ 컬처뱅크' />
       <SpotButton location='춘천' title='50+ 컬처뱅크' />
     </div>
-  </div>
+    <div className='flex flex-row gap-5'>
+      <SpotButton location='춘천' title='50+ 컬처뱅크' />
+      <SpotButton location='춘천' title='50+ 컬처뱅크' />
+    </div>{' '}
+    <div className='flex flex-row gap-5'>
+      <SpotButton location='춘천' title='50+ 컬처뱅크' />
+      <SpotButton location='춘천' title='50+ 컬처뱅크' />
+    </div>{' '}
+    <div className='flex flex-row gap-5'>
+      <SpotButton location='춘천' title='50+ 컬처뱅크' />
+      <SpotButton location='춘천' title='50+ 컬처뱅크' />
+    </div>
+  </Layout>
 );
 
 export default Page;
