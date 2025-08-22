@@ -2,6 +2,7 @@ export { default as IcAi } from './IcAi';
 export { default as IcBell } from './IcBell';
 export { default as IcBook } from './IcBook';
 export { default as IcCalendar } from './IcCalendar';
+export { default as IcHeaderArrow } from './IcHeaderArrow';
 export { default as IcHomeActive } from './IcHomeActive';
 export { default as IcHome } from './IcHome';
 export { default as IcMyActive } from './IcMyActive';
