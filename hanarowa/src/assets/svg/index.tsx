@@ -1,6 +1,7 @@
 export { default as IcBell } from './IcBell';
 export { default as IcBook } from './IcBook';
 export { default as IcCalendar } from './IcCalendar';
+export { default as IcExclamationMark } from './IcExclamationMark';
 export { default as IcHeaderArrow } from './IcHeaderArrow';
 export { default as IcSearch } from './IcSearch';
 export { default as IcSofa } from './IcSofa';
