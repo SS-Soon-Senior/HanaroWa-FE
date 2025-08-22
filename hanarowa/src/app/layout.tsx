@@ -1,3 +1,4 @@
+import BottomNavigation from '@/components/atoms/BottomNavigation';
 import type { Metadata } from 'next';
 import './globals.css';
 
