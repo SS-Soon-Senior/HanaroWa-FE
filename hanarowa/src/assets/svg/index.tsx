@@ -1,14 +1,17 @@
 export { default as IcAi } from './IcAi';
 export { default as IcBell } from './IcBell';
+export { default as IcBlackcalendar } from './IcBlackcalendar';
 export { default as IcBook } from './IcBook';
 export { default as IcCalendar } from './IcCalendar';
 export { default as IcExclamationMark } from './IcExclamationMark';
 export { default as IcHeaderArrow } from './IcHeaderArrow';
 export { default as IcHomeActive } from './IcHomeActive';
 export { default as IcHome } from './IcHome';
+export { default as IcLocation } from './IcLocation';
 export { default as IcMyActive } from './IcMyActive';
 export { default as IcMy } from './IcMy';
 export { default as IcSearch } from './IcSearch';
 export { default as IcSofa } from './IcSofa';
+export { default as IcUser } from './IcUser';
 export { default as IcUsers } from './IcUsers';
 export { default as IcWallet } from './IcWallet';

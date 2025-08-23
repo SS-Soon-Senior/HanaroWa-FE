@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'green' | 'disabled' | 'lightgray' | 'line';
-  sizeType?: 'lg' | 'md' | 'sm' | 'xs';
+  sizeType?: 'lg' | 'md' | 'sm' | 'xs' | 'reserve';
 }
 
 const Button = ({
@@ -25,6 +25,7 @@ const Button = ({
     md: 'font-medium-22 rounded-16 py-[1.1rem]',
     sm: 'font-medium-20 rounded-12 py-[1.4rem]',
     xs: 'font-medium-16 rounded-8 py-[1.1rem]',
+    reserve: 'font-medium-18 rounded-6 py-[1.4rem]',
   };
 
   return (
