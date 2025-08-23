@@ -10,4 +10,5 @@ export { default as IcMyActive } from './IcMyActive';
 export { default as IcMy } from './IcMy';
 export { default as IcSearch } from './IcSearch';
 export { default as IcSofa } from './IcSofa';
+export { default as IcUsers } from './IcUsers';
 export { default as IcWallet } from './IcWallet';

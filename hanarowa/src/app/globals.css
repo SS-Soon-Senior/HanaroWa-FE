@@ -141,6 +141,9 @@
   .font-bold-16 {
     @apply font-hana text-[1.6rem] leading-[150%] font-bold;
   }
+  .font-bold-14 {
+    @apply font-hana text-[1.4rem] leading-[150%] font-bold;
+  }
 
   /* Medium font styles */
   .font-medium-30 {
