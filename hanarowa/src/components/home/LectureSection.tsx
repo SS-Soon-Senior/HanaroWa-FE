@@ -10,7 +10,7 @@ const Lectures = [
     date: '3월 15일',
     participants: 12,
     capacity: 15,
-    price: '12,000',
+    price: 12000,
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ const Lectures = [
     date: '3월 15일',
     participants: 12,
     capacity: 15,
-    price: '12,000',
+    price: 12000,
   },
   {
     id: 3,
@@ -30,7 +30,7 @@ const Lectures = [
     date: '3월 20일',
     participants: 8,
     capacity: 12,
-    price: '15,000',
+    price: 15000,
   },
   {
     id: 4,
@@ -40,7 +40,7 @@ const Lectures = [
     date: '3월 18일',
     participants: 10,
     capacity: 20,
-    price: '8,000',
+    price: 8000,
   },
 ];
 
