@@ -1,6 +1,8 @@
 export { default as IcAi } from './IcAi';
+export { default as IcArrowDown } from './IcArrowDown';
 export { default as IcBell } from './IcBell';
 export { default as IcBook } from './IcBook';
+export { default as IcByeoldol } from './IcByeoldol';
 export { default as IcCalendar } from './IcCalendar';
 export { default as IcExclamationMark } from './IcExclamationMark';
 export { default as IcHeaderArrow } from './IcHeaderArrow';

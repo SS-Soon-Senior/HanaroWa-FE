@@ -1,7 +1,6 @@
 import BottomNavigation from './BottomNavigation';
 import Button from './Button';
 import ErrorMessage from './ErrorMessage';
-import Header from './Header';
 import IconButton from './IconButton';
 import Input from './Input';
 import InputUnderline from './InputUnderline';
@@ -10,11 +9,12 @@ import Modal from './Modal';
 import SpotButton from './SpotButton';
 import Textarea from './Textarea';
 
+export * from './headers';
+
 export {
   BottomNavigation,
   Layout,
   Button,
-  Header,
   IconButton,
   SpotButton,
   Input,
