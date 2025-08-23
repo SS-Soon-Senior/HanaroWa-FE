@@ -1,4 +1,4 @@
+import BranchSelectHeader from './BranchSelectHeader';
 import Header from './Header';
-import SpotSelectHeader from './SpotSelectHeader';
 
-export { Header, SpotSelectHeader };
+export { Header, BranchSelectHeader };

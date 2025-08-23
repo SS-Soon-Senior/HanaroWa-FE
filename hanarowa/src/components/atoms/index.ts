@@ -1,4 +1,5 @@
 import BottomNavigation from './BottomNavigation';
+import BranchButton from './BranchButton';
 import Button from './Button';
 import ClassCard from './ClassCard';
 import ErrorMessage from './ErrorMessage';
@@ -7,7 +8,6 @@ import Input from './Input';
 import InputUnderline from './InputUnderline';
 import Layout from './Layout';
 import Modal from './Modal';
-import SpotButton from './SpotButton';
 import Textarea from './Textarea';
 
 export * from './headers';
@@ -18,7 +18,7 @@ export {
   Layout,
   Button,
   IconButton,
-  SpotButton,
+  BranchButton,
   Input,
   InputUnderline,
   Textarea,

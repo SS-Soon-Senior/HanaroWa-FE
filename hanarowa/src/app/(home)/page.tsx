@@ -1,4 +1,8 @@
-import { BottomNavigation, Layout, SpotSelectHeader } from '@/components/atoms';
+import {
+  BottomNavigation,
+  Layout,
+  BranchSelectHeader,
+} from '@/components/atoms';
 import { LectureSection, MenuSection } from '@/components/home';
 import { IcSearch, IcBell, IcBook, IcCalendar, IcSofa } from '@svg';
 
@@ -35,7 +39,7 @@ const reservationMenu = [
 
 const Page = () => (
   <Layout
-    header={<SpotSelectHeader location='춘천' title='하나50+ 컬처뱅크' />}
+    header={<BranchSelectHeader location='춘천' title='하나50+ 컬처뱅크' />}
     footer={<BottomNavigation />}
   >
     <MenuSection title='강좌' items={lectureMenu} />

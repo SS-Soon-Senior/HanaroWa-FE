@@ -6,7 +6,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   title: string;
 }
 
-const SpotButton = ({
+const BranchButton = ({
   disabled = false,
   className,
   location,
@@ -24,10 +24,10 @@ const SpotButton = ({
       {...props}
     >
       <span className='font-bold-24 text-main text-left'>{location}</span>
-      <span className='font-bold-22 text-black text-left'>{title}</span>
+      <span className='font-bold-22 text-left text-black'>{title}</span>
       {children}
     </button>
   );
 };
 
-export default SpotButton;
+export default BranchButton;
