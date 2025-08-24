@@ -113,15 +113,13 @@ const LessonCreatePage = () => {
           <h2 className='font-hana mb-[1.5rem] text-[2rem] leading-[2.16rem] font-medium text-black'>
             강좌 제목
           </h2>
-          <div className='rounded-16 border-gray7eb flex h-[5.6rem] items-center border bg-white px-[2rem]'>
-            <input
-              type='text'
-              placeholder='예) 디지털 카메라 기초 완성'
-              value={formData.title}
-              onChange={(e) => handleInputChange('title', e.target.value)}
-              className='font-medium-18 placeholder:text-gray3af w-full bg-transparent text-black outline-none'
-            />
-          </div>
+          <Input
+            type='text'
+            placeholder='예) 디지털 카메라 기초 완성'
+            value={formData.title}
+            onChange={(e) => handleInputChange('title', e.target.value)}
+            fullWidth
+          />
         </div>
 
         {/* 강사 소개 */}
@@ -159,15 +157,13 @@ const LessonCreatePage = () => {
           <h2 className='font-hana mb-[1.5rem] text-[2rem] leading-[2.16rem] font-medium text-black'>
             비용
           </h2>
-          <div className='rounded-16 border-gray7eb flex h-[5.6rem] items-center border bg-white px-[2rem]'>
-            <input
-              type='text'
-              placeholder='10,000원'
-              value={formData.fee}
-              onChange={(e) => handleInputChange('fee', e.target.value)}
-              className='font-medium-18 placeholder:text-gray3af w-full bg-transparent text-black outline-none'
-            />
-          </div>
+          <Input
+            type='text'
+            placeholder='10,000원'
+            value={formData.fee}
+            onChange={(e) => handleInputChange('fee', e.target.value)}
+            fullWidth
+          />
         </div>
 
         {/* 카테고리 */}
@@ -302,18 +298,6 @@ const LessonCreatePage = () => {
           />
         </div>
 
-        {/* + 버튼 */}
-        <div>
-          <Button
-            onClick={handleAddContent}
-            variant='line'
-            sizeType='xs'
-            className='bg-gray9a0 font-medium-16 rounded-6 h-[1.6rem] border-none text-white'
-          >
-            +
-          </Button>
-        </div>
-
         {/* 추가 강좌 내용들 */}
         {formData.additionalContents.map((content, index) => (
           <div key={index}>
@@ -340,6 +324,17 @@ const LessonCreatePage = () => {
             />
           </div>
         ))}
+        {/* + 버튼 */}
+        <div>
+          <Button
+            onClick={handleAddContent}
+            variant='line'
+            sizeType='xs'
+            className='bg-gray9a0 font-medium-16 rounded-6 h-[1.6rem] border-none text-white'
+          >
+            +
+          </Button>
+        </div>
 
         {/* 예상 정원 */}
         <div className='flex items-center space-x-[1rem]'>
@@ -348,14 +343,15 @@ const LessonCreatePage = () => {
             예상 정원
           </span>
           <div className='rounded-16 border-gray7eb ml-auto flex h-[5.6rem] w-[18.5rem] items-center justify-end border bg-white px-[1.7rem]'>
-            <input
+            <Input
               type='number'
               placeholder='20'
               value={formData.expectedParticipants}
-              className='font-medium-18 w-full bg-transparent text-right text-black outline-none'
               onChange={(e) =>
                 handleInputChange('expectedParticipants', e.target.value)
               }
+              className='text-right'
+              containerClassName='border-none bg-transparent p-0'
             />
             <span className='font-medium-18 ml-[0.5rem] text-black'>명</span>
           </div>
