@@ -7,6 +7,13 @@ import Header from '@/components/atoms/Header';
 import Input from '@/components/atoms/Input';
 import Layout from '@/components/atoms/Layout';
 import Textarea from '@/components/atoms/Textarea';
+import {
+  categoryOptions,
+  dayOptions,
+  endDateOptions,
+  startDateOptions,
+  timeOptions,
+} from '@/constants/lesson-options';
 import React, { useState } from 'react';
 
 const LessonCreatePage = () => {
@@ -23,52 +30,8 @@ const LessonCreatePage = () => {
     lessonImage: null as File | null,
     lessonDescription: '',
     expectedParticipants: '20',
-    additionalContents: [] as string[], // 추가 강좌 내용들
+    additionalContents: [] as string[],
   });
-
-  // 드롭다운 옵션들
-  const categoryOptions = [
-    { value: 'language', label: '어학' },
-    { value: 'programming', label: '프로그래밍' },
-    { value: 'art', label: '예술' },
-    { value: 'music', label: '음악' },
-    { value: 'cooking', label: '요리' },
-    { value: 'etc', label: '기타' },
-  ];
-
-  const dayOptions = [
-    { value: 'mon-wed', label: '월, 수' },
-    { value: 'tue-thu', label: '화, 목' },
-    { value: 'mon-fri', label: '월, 화, 수, 목, 금' },
-    { value: 'weekend', label: '토, 일' },
-    { value: 'daily', label: '매일' },
-  ];
-
-  const timeOptions = [
-    { value: '09:00-10:00', label: '09:00 ~ 10:00' },
-    { value: '10:00-11:00', label: '10:00 ~ 11:00' },
-    { value: '11:00-12:00', label: '11:00 ~ 12:00' },
-    { value: '11:00-13:00', label: '11:00 ~ 13:00' },
-    { value: '13:00-14:00', label: '13:00 ~ 14:00' },
-    { value: '14:00-15:00', label: '14:00 ~ 15:00' },
-    { value: '15:00-16:00', label: '15:00 ~ 16:00' },
-    { value: '16:00-17:00', label: '16:00 ~ 17:00' },
-    { value: '17:00-18:00', label: '17:00 ~ 18:00' },
-    { value: '18:00-19:00', label: '18:00 ~ 19:00' },
-    { value: '19:00-20:00', label: '19:00 ~ 20:00' },
-  ];
-
-  const startDateOptions = [
-    { value: '2025-08-18', label: '2025-08-18' },
-    { value: '2025-08-19', label: '2025-08-19' },
-    { value: '2025-08-20', label: '2025-08-20' },
-  ];
-
-  const endDateOptions = [
-    { value: '2025-08-30', label: '2025-08-30' },
-    { value: '2025-08-31', label: '2025-08-31' },
-    { value: '2025-09-01', label: '2025-09-01' },
-  ];
 
   const handleInputChange = (
     field: string,
@@ -110,9 +73,7 @@ const LessonCreatePage = () => {
       <div className='space-y-[3rem]'>
         {/* 강좌 제목 */}
         <div>
-          <h2 className='font-hana mb-[1.5rem] text-[2rem] leading-[2.16rem] font-medium text-black'>
-            강좌 제목
-          </h2>
+          <h2 className='font-medium-22 mb-[1.5rem] text-black'>강좌 제목</h2>
           <Input
             type='text'
             placeholder='예) 디지털 카메라 기초 완성'
@@ -124,11 +85,9 @@ const LessonCreatePage = () => {
 
         {/* 강사 소개 */}
         <div>
-          <h2 className='font-hana mb-[1.5rem] text-[2rem] leading-[2.16rem] font-medium text-black'>
-            강사 소개
-          </h2>
+          <h2 className='font-medium-22 mb-[1.5rem] text-black'>강사 소개</h2>
           <Textarea
-            placeholder='자기소개를 작성해주세요&#10;경력, 전문분야, 강좌 스타일 등을 포함해주세요'
+            placeholder='자기소개를 작성해주세요 경력, 전문분야, 강좌 스타일 등을 포함해주세요'
             value={formData.instructorIntro}
             onChange={(e) =>
               handleInputChange('instructorIntro', e.target.value)
@@ -140,9 +99,7 @@ const LessonCreatePage = () => {
 
         {/* 강좌 소개 */}
         <div>
-          <h2 className='font-hana mb-[1.5rem] text-[2rem] leading-[2.16rem] font-medium text-black'>
-            강좌 소개
-          </h2>
+          <h2 className='font-medium-22 mb-[1.5rem] text-black'>강좌 소개</h2>
           <Textarea
             placeholder='강좌 내용과 목표를 자세히 작성해주세요'
             value={formData.lessonIntro}
@@ -154,9 +111,7 @@ const LessonCreatePage = () => {
 
         {/* 비용 */}
         <div>
-          <h2 className='font-hana mb-[1.5rem] text-[2rem] leading-[2.16rem] font-medium text-black'>
-            비용
-          </h2>
+          <h2 className='font-medium-22 mb-[1.5rem] text-black'>비용</h2>
           <Input
             type='text'
             placeholder='10,000원'
@@ -168,9 +123,7 @@ const LessonCreatePage = () => {
 
         {/* 카테고리 */}
         <div>
-          <h2 className='font-hana mb-[1.5rem] text-[2rem] leading-[2.16rem] font-medium text-black'>
-            카테고리
-          </h2>
+          <h2 className='font-medium-22 mb-[1.5rem] text-black'>카테고리</h2>
           <Dropdown
             options={categoryOptions}
             value={formData.category}
@@ -182,9 +135,7 @@ const LessonCreatePage = () => {
 
         {/* 강의 시작일 */}
         <div>
-          <h2 className='font-hana mb-[1.5rem] text-[2rem] leading-[2.16rem] font-medium text-black'>
-            강의 시작일
-          </h2>
+          <h2 className='font-medium-22 mb-[1.5rem] text-black'>강의 시작일</h2>
           <Dropdown
             options={startDateOptions}
             value={formData.startDate}
@@ -196,9 +147,7 @@ const LessonCreatePage = () => {
 
         {/* 강의 종료일 */}
         <div>
-          <h2 className='font-hana mb-[1.5rem] text-[2rem] leading-[2.16rem] font-medium text-black'>
-            강의 종료일
-          </h2>
+          <h2 className='font-medium-22 mb-[1.5rem] text-black'>강의 종료일</h2>
           <Dropdown
             options={endDateOptions}
             value={formData.endDate}
@@ -210,9 +159,7 @@ const LessonCreatePage = () => {
 
         {/* 강의 요일 */}
         <div>
-          <h2 className='font-hana mb-[1.5rem] text-[2rem] leading-[2.16rem] font-medium text-black'>
-            강의 요일
-          </h2>
+          <h2 className='font-medium-22 mb-[1.5rem] text-black'>강의 요일</h2>
           <Dropdown
             options={dayOptions}
             value={formData.days}
@@ -224,9 +171,7 @@ const LessonCreatePage = () => {
 
         {/* 강의 시간 */}
         <div>
-          <h2 className='font-hana mb-[1.5rem] text-[2rem] leading-[2.16rem] font-medium text-black'>
-            강의 시간
-          </h2>
+          <h2 className='font-medium-22 mb-[1.5rem] text-black'>강의 시간</h2>
           <Dropdown
             options={timeOptions}
             value={formData.time}
@@ -238,7 +183,7 @@ const LessonCreatePage = () => {
 
         {/* 강의 사진 등록 */}
         <div>
-          <h2 className='font-hana mb-[1.5rem] text-[2rem] leading-[2.16rem] font-medium text-black'>
+          <h2 className='font-medium-22 mb-[1.5rem] text-black'>
             강의 사진 등록
           </h2>
           <div className='rounded-16 border-gray7eb border border-dashed bg-white px-[2rem] py-[3rem] text-center'>
@@ -274,9 +219,6 @@ const LessonCreatePage = () => {
                 className='flex cursor-pointer flex-col items-center space-y-[1rem]'
               >
                 <IcImageUpload height={30} width={30} />
-                <span className='font-medium-16 text-gray3af'>
-                  사진을 업로드하세요
-                </span>
               </label>
             )}
           </div>
@@ -284,9 +226,7 @@ const LessonCreatePage = () => {
 
         {/* 강좌 내용 */}
         <div>
-          <h2 className='font-hana mb-[1.5rem] text-[2rem] leading-[2.16rem] font-medium text-black'>
-            강좌 내용
-          </h2>
+          <h2 className='font-medium-22 mb-[1.5rem] text-black'>강좌 내용</h2>
           <Textarea
             placeholder='1차시에 진행되는 강좌 내용을 적어주세요'
             value={formData.lessonDescription}
@@ -302,7 +242,7 @@ const LessonCreatePage = () => {
         {formData.additionalContents.map((content, index) => (
           <div key={index}>
             <div className='mb-[1.5rem] flex items-center justify-between'>
-              <h2 className='font-hana text-[2rem] leading-[2.16rem] font-medium text-black'>
+              <h2 className='font-medium-22 text-black'>
                 강좌 내용 {index + 2}차시
               </h2>
               <button
@@ -330,7 +270,7 @@ const LessonCreatePage = () => {
             onClick={handleAddContent}
             variant='line'
             sizeType='xs'
-            className='bg-gray9a0 font-medium-16 rounded-6 h-[1.6rem] border-none text-white'
+            className='bg-gray9a0 font-medium-16 rounded-6 h-[2.5rem] border-none text-white'
           >
             +
           </Button>
@@ -339,9 +279,7 @@ const LessonCreatePage = () => {
         {/* 예상 정원 */}
         <div className='flex items-center space-x-[1rem]'>
           <IcUsers height={24} width={24} />
-          <span className='text-main font-hana text-[2rem] leading-[2.16rem] font-medium'>
-            예상 정원
-          </span>
+          <span className='text-gray353 font-medium-22'>예상 정원</span>
           <div className='rounded-16 border-gray7eb ml-auto flex h-[5.6rem] w-[18.5rem] items-center justify-end border bg-white px-[1.7rem]'>
             <Input
               type='number'
@@ -351,9 +289,9 @@ const LessonCreatePage = () => {
                 handleInputChange('expectedParticipants', e.target.value)
               }
               className='text-right'
-              containerClassName='border-none bg-transparent p-0'
+              containerClassName='!border-none !bg-transparent !p-0 !rounded-none !h-auto'
             />
-            <span className='font-medium-18 ml-[0.5rem] text-black'>명</span>
+            <span className='font-medium-20 ml-[0.5rem] text-black'>명</span>
           </div>
         </div>
 
