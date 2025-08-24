@@ -4,8 +4,8 @@ import type { SVGProps } from 'react';
 const SvgIcBlackcalendar = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    // width와 height를 제거하고 viewBox를 추가
-    viewBox='0 0 20 20'
+    width={20}
+    height={20}
     fill='none'
     {...props}
   >

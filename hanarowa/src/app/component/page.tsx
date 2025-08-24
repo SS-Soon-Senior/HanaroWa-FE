@@ -7,6 +7,7 @@ import {
   BottomNavigation,
 } from '@/components/atoms';
 import ReservationCard from '@/components/atoms/ClassReservationCard';
+import FacilityCard from '@/components/atoms/FacilityCard';
 import RoomReservationCard from '@/components/atoms/RoomReservationCard';
 import { IcBell, IcCalendar, IcSearch } from '@svg';
 
@@ -63,6 +64,14 @@ const Page = () => (
         location='춘천 50+ 컬처뱅크 301호'
         isUsed={true}
       ></RoomReservationCard>
+    </div>
+    <div>
+      <FacilityCard
+        imageUrl='/imgs/cinemaroom.png'
+        facilityName='시네마룸'
+        description='편안하게 영화를 볼 수 있는 공간'
+        height={200}
+      />
     </div>
   </Layout>
 );
