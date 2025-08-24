@@ -30,7 +30,7 @@ export async function signup(
     };
   }
 
-  // 중복 아이디 체크
+  // 중복 아이디 체크 <<<<< 여기 지금 test로 고정해놨는데 나중에 수정해야 합니다..
   if (id === 'test') {
     return {
       success: false,
