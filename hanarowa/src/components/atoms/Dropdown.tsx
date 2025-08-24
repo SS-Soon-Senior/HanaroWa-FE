@@ -1,24 +1,8 @@
+import { DropdownProps } from '@/types/dropdown';
 import clsx from 'clsx';
 import React, { useState, useRef, useEffect } from 'react';
 import { useId, forwardRef } from 'react';
 import Button from './Button';
-
-interface DropdownOption {
-  value: string;
-  label: string;
-}
-
-export interface DropdownProps {
-  id?: string;
-  options: DropdownOption[];
-  value?: string;
-  placeholder?: string;
-  onChange: (value: string) => void;
-  className?: string;
-  containerClassName?: string;
-  disabled?: boolean;
-  fullWidth?: boolean;
-}
 
 const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
   (

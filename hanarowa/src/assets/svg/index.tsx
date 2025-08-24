@@ -6,6 +6,7 @@ export { default as IcExclamationMark } from './IcExclamationMark';
 export { default as IcHeaderArrow } from './IcHeaderArrow';
 export { default as IcHomeActive } from './IcHomeActive';
 export { default as IcHome } from './IcHome';
+export { default as IcImageUpload } from './IcImageUpload';
 export { default as IcMyActive } from './IcMyActive';
 export { default as IcMy } from './IcMy';
 export { default as IcSearch } from './IcSearch';
