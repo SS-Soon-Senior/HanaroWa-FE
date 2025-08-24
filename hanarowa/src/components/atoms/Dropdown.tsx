@@ -78,7 +78,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
             )}
             fill='none'
             stroke='currentColor'
-            viewBox='0 0 24 24'
+            viewBox='0 24 24'
           >
             <path
               strokeLinecap='round'
@@ -98,7 +98,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
                 sizeType='xs'
                 onClick={() => handleSelect(option.value)}
                 className={clsx(
-                  'hover:bg-gray4f6 focus:bg-gray4f6 justify-start border-none bg-transparent text-left',
+                  'hover:bg-gray4f6 focus:bg-gray4f6 ml-[1.5rem] justify-start border-none bg-transparent text-left',
                   value === option.value && 'text-main bg-gray4f6',
                   index === 0 && 'rounded-14',
                   index === options.length - 1 && 'rounded-14',
@@ -114,7 +114,5 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     );
   }
 );
-
-Dropdown.displayName = 'Dropdown';
 
 export default Dropdown;

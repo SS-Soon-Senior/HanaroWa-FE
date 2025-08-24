@@ -1,8 +1,8 @@
 'use client';
 
 import { IcImageUpload, IcUsers } from '@/assets/svg';
+import { Dropdown } from '@/components/atoms';
 import Button from '@/components/atoms/Button';
-import Dropdown from '@/components/atoms/Dropdown';
 import Header from '@/components/atoms/Header';
 import Input from '@/components/atoms/Input';
 import Layout from '@/components/atoms/Layout';
@@ -14,7 +14,7 @@ import {
   startDateOptions,
   timeOptions,
 } from '@/constants/lesson-options';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 const LessonCreatePage = () => {
   const [formData, setFormData] = useState({
@@ -67,6 +67,14 @@ const LessonCreatePage = () => {
     console.log('강좌 개설 데이터:', formData);
     // API 호출 로직 구현
   };
+
+  const handleRemoveImage = () => {
+    handleInputChange('lessonImage', null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
     <Layout header={<Header title='강좌 개설하기' showBackButton={true} />}>
@@ -133,8 +141,8 @@ const LessonCreatePage = () => {
             value={formData.category}
             placeholder='카테고리를 선택하세요'
             onChange={(value) => handleInputChange('category', value)}
-            fullWidth
-            containerClassName='!h-[5.6rem] !px-[2rem] !py-0'
+            containerClassName='!w-[33.5rem]'
+            className='!h-[5.6rem] !px-[2rem] !py-0'
           />
         </div>
 
@@ -146,8 +154,8 @@ const LessonCreatePage = () => {
             value={formData.startDate}
             placeholder='2025-08-18'
             onChange={(value) => handleInputChange('startDate', value)}
-            fullWidth
-            containerClassName='!h-[5.6rem] !px-[2rem] !py-0'
+            containerClassName='!w-[33.5rem]'
+            className='!h-[5.6rem] !px-[2rem] !py-0'
           />
         </div>
 
@@ -159,8 +167,8 @@ const LessonCreatePage = () => {
             value={formData.endDate}
             placeholder='2025-08-30'
             onChange={(value) => handleInputChange('endDate', value)}
-            fullWidth
-            containerClassName='!h-[5.6rem] !px-[2rem] !py-0'
+            containerClassName='!w-[33.5rem]'
+            className='!h-[5.6rem] !px-[2rem] !py-0'
           />
         </div>
 
@@ -172,8 +180,8 @@ const LessonCreatePage = () => {
             value={formData.days}
             placeholder='월, 수'
             onChange={(value) => handleInputChange('days', value)}
-            fullWidth
-            containerClassName='!h-[5.6rem] !px-[2rem] !py-0'
+            containerClassName='!w-[33.5rem]'
+            className='!h-[5.6rem] !px-[2rem] !py-0'
           />
         </div>
 
@@ -185,8 +193,8 @@ const LessonCreatePage = () => {
             value={formData.time}
             placeholder='11:00 ~ 13:00'
             onChange={(value) => handleInputChange('time', value)}
-            fullWidth
-            containerClassName='!h-[5.6rem] !px-[2rem] !py-0'
+            containerClassName='!w-[33.5rem]'
+            className='!h-[5.6rem] !px-[2rem] !py-0'
           />
         </div>
 
@@ -199,6 +207,7 @@ const LessonCreatePage = () => {
             <Input
               type='file'
               id='lessonImage'
+              ref={fileInputRef}
               accept='image/*'
               className='hidden'
               onChange={(e) => {
@@ -217,7 +226,7 @@ const LessonCreatePage = () => {
                   className='rounded-12 max-h-[20rem] w-full object-contain'
                 />
                 <Button
-                  onClick={() => handleInputChange('lessonImage', null)}
+                  onClick={handleRemoveImage}
                   variant='line'
                   sizeType='xs'
                   className='!bg-red !absolute top-2 right-2 !h-6 !w-6 !rounded-full !p-0 text-sm text-white'
