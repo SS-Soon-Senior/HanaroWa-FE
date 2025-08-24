@@ -1,9 +1,12 @@
+'use client';
+
 import {
   BottomNavigation,
   Layout,
   BranchSelectHeader,
 } from '@/components/atoms';
 import { LectureSection, MenuSection } from '@/components/home';
+import { useBranch } from '@/hooks';
 import { IcSearch, IcBell, IcBook, IcCalendar, IcSofa } from '@svg';
 
 const lectureMenu = [
@@ -37,15 +40,19 @@ const reservationMenu = [
   },
 ];
 
-const Page = () => (
-  <Layout
-    header={<BranchSelectHeader location='춘천' title='하나50+ 컬처뱅크' />}
-    footer={<BottomNavigation />}
-  >
-    <MenuSection title='강좌' items={lectureMenu} />
-    <MenuSection title='예약 하기' items={reservationMenu} />
-    <LectureSection />
-  </Layout>
-);
+const Page = () => {
+  const { location, branch } = useBranch();
+
+  return (
+    <Layout
+      header={<BranchSelectHeader location={location} title={branch} />}
+      footer={<BottomNavigation />}
+    >
+      <MenuSection title='강좌' items={lectureMenu} />
+      <MenuSection title='예약 하기' items={reservationMenu} />
+      <LectureSection />
+    </Layout>
+  );
+};
 
 export default Page;
