@@ -78,7 +78,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
             )}
             fill='none'
             stroke='currentColor'
-            viewBox='0 24 24'
+            viewBox='0 0 24 24'
           >
             <path
               strokeLinecap='round'
