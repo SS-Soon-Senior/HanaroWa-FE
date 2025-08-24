@@ -1,5 +1,6 @@
 import BottomNavigation from './BottomNavigation';
 import Button from './Button';
+import Dropdown from './Dropdown';
 import ErrorMessage from './ErrorMessage';
 import Header from './Header';
 import IconButton from './IconButton';
@@ -22,4 +23,5 @@ export {
   Textarea,
   Modal,
   ErrorMessage,
+  Dropdown,
 };
