@@ -60,7 +60,7 @@ export default function LoginPage() {
             <div className='font-medium-18 text-gray4a9 flex items-center justify-center underline'>
               <Link href='/soicial'>회원가입 하러가기</Link>
             </div>
-            <Button variant='disabled' sizeType='lg' type='submit'>
+            <Button variant='green' sizeType='lg' type='submit'>
               확인
             </Button>
           </div>
