@@ -4,7 +4,7 @@ import { IcCheck } from '@/assets/svg';
 import { Button } from '@/components/atoms';
 import Layout from '@/components/atoms/Layout';
 
-const Welcome = () => {
+const Page = () => {
   return (
     <Layout>
       <div className='flex flex-col justify-center'>
@@ -32,4 +32,4 @@ const Welcome = () => {
   );
 };
 
-export default Welcome;
+export default Page;

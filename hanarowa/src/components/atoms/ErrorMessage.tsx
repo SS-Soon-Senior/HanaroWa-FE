@@ -7,12 +7,12 @@ type Props = {
   align?: 'text-left' | 'text-center' | 'text-right';
 };
 
-export default function ErrorMessage({
+const ErrorMessage = ({
   className,
   children,
 
   align = 'text-left',
-}: PropsWithChildren<Props>) {
+}: PropsWithChildren<Props>) => {
   return (
     <div className='flex flex-row items-center gap-[0.5rem]'>
       <IcExclamationMark height={17} width={17} />
@@ -25,4 +25,6 @@ export default function ErrorMessage({
       </span>
     </div>
   );
-}
+};
+
+export default ErrorMessage;
