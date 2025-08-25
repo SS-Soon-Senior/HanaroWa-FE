@@ -1,7 +1,7 @@
 import { Header, Layout } from '@/components/atoms';
 import { ClassCard } from '@/components/lesson';
 
-const Lectures = [
+const Lessons = [
   {
     id: 1,
     imageUrl: '/imgs/IMG_7675.png',
@@ -47,8 +47,8 @@ const Lectures = [
 const Page = () => {
   return (
     <Layout header={<Header title='강좌 목록' />}>
-      <div className='grid grid-cols-2 gap-[2.5rem]'>
-        {Lectures.map(({ id, ...cardProps }) => (
+      <div className='grid grid-cols-2 gap-[2.5rem] pt-[2.5rem]'>
+        {Lessons.map(({ id, ...cardProps }) => (
           <ClassCard key={id} {...cardProps} />
         ))}
       </div>

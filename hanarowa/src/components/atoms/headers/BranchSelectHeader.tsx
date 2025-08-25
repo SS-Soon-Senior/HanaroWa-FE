@@ -16,7 +16,7 @@ const BranchSelectHeader = ({ location, title }: Props) => {
     <>
       <header
         onClick={openModal}
-        className='bg-background fixed inset-0 top-0 z-40 mx-auto flex h-[6rem] max-w-[768px] cursor-pointer items-center justify-center gap-2 px-[2rem] py-[1rem]'
+        className='bg-background fixed inset-0 top-0 z-40 mx-auto flex h-[6rem] max-w-[768px] cursor-pointer items-center justify-center gap-2 px-[2rem] py-[2rem]'
       >
         <div className='flex items-end gap-[1rem]'>
           <IcByeoldol className='mb-[-0.4rem]' />
