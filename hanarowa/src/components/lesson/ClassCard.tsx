@@ -37,7 +37,7 @@ const ClassCard = ({
           {creator} · {date}
         </p>
         <div className='flex items-center justify-between'>
-          <div className='font-bold-16 text-main flex items-center'>
+          <div className='font-bold-16 text-main flex items-center gap-[0.6rem]'>
             <IcUsers width={20} height={20} />
             <span>
               {participants}/{capacity}명
