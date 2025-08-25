@@ -7,7 +7,11 @@ const Page = () => {
   return (
     <Layout
       header={<Header title='AI 상담하기' showBackButton />}
-      footer={<Button sizeType='lg'>홈으로 가기</Button>}
+      footer={
+        <div className='px-[2rem] pb-[4rem]'>
+          <Button sizeType='lg'>홈으로 가기</Button>
+        </div>
+      }
     >
       <AiChat />
       <AiButton
