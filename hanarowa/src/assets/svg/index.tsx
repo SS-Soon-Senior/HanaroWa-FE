@@ -32,6 +32,8 @@ export { default as IcPlayByeoldol } from './IcPlayByeoldol';
 export { default as IcSearch } from './IcSearch';
 export { default as IcSignupFace } from './IcSignupFace';
 export { default as IcSofa } from './IcSofa';
+export { default as IcStarEmpty } from './IcStarEmpty';
+export { default as IcStarRed } from './IcStarRed';
 export { default as IcUp } from './IcUp';
 export { default as IcUser } from './IcUser';
 export { default as IcUsers } from './IcUsers';
