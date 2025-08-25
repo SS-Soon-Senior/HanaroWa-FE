@@ -3,7 +3,7 @@ import {
   Header,
   IconButton,
   Layout,
-  SpotButton,
+  BranchButton,
   BottomNavigation,
 } from '@/components/atoms';
 import ReservationCard from '@/components/atoms/ClassReservationCard';
@@ -31,20 +31,8 @@ const Page = () => (
       <IconButton title='강좌 찾기' icon={<IcSearch />} />
     </div>
     <div className='flex flex-row gap-5'>
-      <SpotButton location='춘천' title='50+ 컬처뱅크' />
-      <SpotButton location='춘천' title='50+ 컬처뱅크' />
-    </div>
-    <div className='flex flex-row gap-5'>
-      <SpotButton location='춘천' title='50+ 컬처뱅크' />
-      <SpotButton location='춘천' title='50+ 컬처뱅크' />
-    </div>{' '}
-    <div className='flex flex-row gap-5'>
-      <SpotButton location='춘천' title='50+ 컬처뱅크' />
-      <SpotButton location='춘천' title='50+ 컬처뱅크' />
-    </div>{' '}
-    <div className='flex flex-row gap-5'>
-      <SpotButton location='춘천' title='50+ 컬처뱅크' />
-      <SpotButton location='춘천' title='50+ 컬처뱅크' />
+      <BranchButton location='춘천' title='50+ 컬처뱅크' />
+      <BranchButton location='춘천' title='50+ 컬처뱅크' />
     </div>
     <div>
       <ReservationCard

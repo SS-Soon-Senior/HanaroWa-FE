@@ -1,6 +1,5 @@
 import { IcUsers } from '@/assets/svg';
 import Image from 'next/image';
-import React from 'react';
 
 type ClassCardProps = {
   imageUrl: string;
@@ -9,10 +8,10 @@ type ClassCardProps = {
   date: string;
   participants: number;
   capacity: number;
-  price: string;
+  price: number;
 };
 
-const ClassCard: React.FC<ClassCardProps> = ({
+const ClassCard = ({
   imageUrl,
   title,
   creator,
@@ -20,7 +19,7 @@ const ClassCard: React.FC<ClassCardProps> = ({
   participants,
   capacity,
   price,
-}) => {
+}: ClassCardProps) => {
   return (
     <div className='flex w-full flex-col gap-[1.7rem] overflow-hidden'>
       <div className='relative aspect-square'>
