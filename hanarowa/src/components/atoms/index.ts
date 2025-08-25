@@ -2,6 +2,7 @@ import BottomNavigation from './BottomNavigation';
 import BranchButton from './BranchButton';
 import Button from './Button';
 import ClassCard from './ClassCard';
+import Dropdown from './Dropdown';
 import ErrorMessage from './ErrorMessage';
 import IconButton from './IconButton';
 import Input from './Input';
@@ -24,4 +25,5 @@ export {
   Textarea,
   Modal,
   ErrorMessage,
+  Dropdown,
 };

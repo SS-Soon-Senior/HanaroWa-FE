@@ -23,10 +23,10 @@ const BottomNavigation = ({ selectedItem }: { selectedItem?: string }) => {
       icon: <IcAi />,
     },
     {
-      name: 'my',
+      name: 'mypage',
       title: '마이',
       icon: <IcMy />,
-      activeIcon: <IcMyActive onClick={() => handleClick('/my')} />,
+      activeIcon: <IcMyActive onClick={() => handleClick('/mypage')} />,
     },
   ];
 
