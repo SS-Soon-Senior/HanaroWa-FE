@@ -13,7 +13,7 @@ import { useActionState } from 'react';
 import { login } from './actions';
 import type { ErrorState } from './actions';
 
-const LoginPage = () => {
+const Page = () => {
   const [loginState, loginAction] = useActionState<ErrorState, FormData>(
     login,
     {
@@ -72,4 +72,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Page;
