@@ -2,7 +2,8 @@
 
 import { IcImageUpload, IcUsers } from '@/assets/svg';
 import { Layout, Header, Input, Textarea, Button } from '@/components/atoms';
-import StatusTags from '@/components/atoms/tags/StatusTag';
+import LessonStatusTags from '@/components/atoms/tags/LessonStatusTag';
+import { StatusKey } from '@/constants/status';
 import { Dropdown } from '@/components/lesson';
 import {
   categoryOptions,
@@ -24,6 +25,20 @@ const TEXTAREA_BOX =
   '!w-full !h-[12rem] !px-[2rem] !py-[2rem] !pb-[3.2rem] !gap-[0.6rem]';
 const DROPDOWN_BOX = '!h-[5.6rem] !px-[2rem] !py-0';
 const DROPDOWN_W = '!w-[33.5rem]';
+
+// 한글 상태값을 StatusKey로 변환
+const convertToStatusKey = (status: string): StatusKey => {
+  switch (status) {
+    case '승인':
+      return 'approved';
+    case '반려':
+      return 'rejected';
+    case '대기중':
+      return 'pending';
+    default:
+      return 'pending';
+  }
+};
 
 function DetailForm() {
   const {
@@ -61,7 +76,7 @@ function DetailForm() {
       <form onSubmit={onSubmit} className='space-y-[2rem]'>
         {/* 상태 태그들 */}
         <section className='mt-[3rem] mb-[2rem]'>
-          <StatusTags currentStatus={initial?.status ?? '대기중'} />
+          <LessonStatusTags currentStatus={convertToStatusKey(initial?.status ?? '대기중')} />
         </section>
 
         {/* 강좌 제목 */}
