@@ -1,9 +1,13 @@
 'use client';
 
 import { IcSignupFace } from '@/assets/svg';
-import { Button, ErrorMessage, Input } from '@/components/atoms';
-import Header from '@/components/atoms/Header';
-import Layout from '@/components/atoms/Layout';
+import {
+  Header,
+  Input,
+  ErrorMessage,
+  Button,
+  Layout,
+} from '@/components/atoms';
 import { useState } from 'react';
 import { useActionState } from 'react';
 import { signup, SignupErrorState } from './action';

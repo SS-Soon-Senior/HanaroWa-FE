@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ClassCard } from '../atoms';
+import { ClassCard } from '../lesson';
 
 const Lectures = [
   {

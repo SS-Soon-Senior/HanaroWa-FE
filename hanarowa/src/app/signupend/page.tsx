@@ -2,7 +2,7 @@
 
 import { IcCheck } from '@/assets/svg';
 import { Button } from '@/components/atoms';
-import Layout from '@/components/atoms/Layout';
+import Layout from '../layout';
 
 export default function SignUpSuccess() {
   return (
