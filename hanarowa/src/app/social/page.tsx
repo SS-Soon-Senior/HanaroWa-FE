@@ -1,18 +1,11 @@
-import { IcGoogle, IcKakao, IcNaver } from '@/assets/svg';
-import Image from 'next/image';
+import { IcBookByeoldol, IcGoogle, IcKakao, IcNaver } from '@/assets/svg';
 import Link from 'next/link';
 
 const SocialLoginPage = () => {
   return (
     <div className='relative flex flex-col items-center px-[2.0rem]'>
       <div className='flex flex-col items-center pt-[17.9rem]'>
-        <Image
-          src='/imgs/logo.png'
-          alt='logo'
-          width={164}
-          height={164}
-          priority
-        />
+        <IcBookByeoldol />
         <p className='font-medium-26 relative pt-[-2rem] text-center font-black'>
           하나로와
         </p>

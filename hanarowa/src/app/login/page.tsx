@@ -1,5 +1,6 @@
 'use client';
 
+import { IcBookByeoldol } from '@/assets/svg';
 import {
   Header,
   Input,
@@ -7,7 +8,6 @@ import {
   Button,
   Layout,
 } from '@/components/atoms';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useActionState } from 'react';
 import { login } from './actions';
@@ -26,17 +26,14 @@ const LoginPage = () => {
 
   return (
     <Layout header={<Header />}>
-      <div className='relative flex w-full flex-col items-center'>
-        <div className='flex w-full flex-col items-center pt-[1.7rem]'>
-          <Image
-            src='/imgs/logo.png'
-            alt='logo'
-            width={109}
-            height={109}
-            priority
-          />
+      <div className='flex min-h-[calc(100vh-6rem-4rem)] w-full flex-col items-center'>
+        <div className='flex flex-col items-center pt-[1.7rem]'>
+          <IcBookByeoldol />
         </div>
-        <form action={loginAction} className='flex w-full flex-col'>
+        <form
+          action={loginAction}
+          className='flex min-h-full w-full flex-1 flex-col justify-between'
+        >
           <div className='items-center pt-[3.5rem]'>
             <div className='flex flex-col justify-start gap-[1.7rem]'>
               <p className='font-medium-20 text-black'>아이디</p>
@@ -55,14 +52,15 @@ const LoginPage = () => {
               />
             </div>
           </div>
+
           {!loginState.success && (
-            <ErrorMessage className='pt-[0.6rem]'>
-              {loginState.message}
-            </ErrorMessage>
+            <div className='pt-[0.6rem]'>
+              <ErrorMessage>{loginState.message}</ErrorMessage>
+            </div>
           )}
-          <div className='flex flex-col gap-[2.5rem] pt-[17.5rem]'>
+          <div className='mt-auto flex flex-col gap-[2.5rem]'>
             <div className='font-medium-18 text-gray4a9 flex items-center justify-center underline'>
-              <Link href='/soicial'>회원가입 하러가기</Link>
+              <Link href='/signup'>회원가입 하러가기</Link>
             </div>
             <Button variant='green' sizeType='lg' type='submit'>
               확인

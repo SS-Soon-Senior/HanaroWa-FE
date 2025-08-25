@@ -5,12 +5,12 @@ const SvgIcBookByeoldol = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     xmlnsXlink='http://www.w3.org/1999/xlink'
-    width={187}
-    height={187}
+    width={109}
+    height={109}
     fill='none'
     {...props}
   >
-    <path fill='url(#ic-book-byeoldol_svg__a)' d='M0 0h187v187H0z' />
+    <path fill='url(#ic-book-byeoldol_svg__a)' d='M0 0h109v109H0z' />
     <defs>
       <pattern
         id='ic-book-byeoldol_svg__a'
