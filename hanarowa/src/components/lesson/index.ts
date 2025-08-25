@@ -1,6 +1,6 @@
-import LessonReservationCard from './ClassReservationCard';
 import Dropdown from './Dropdown';
 import LessonCard from './LessonCard';
+import LessonReservationCard from './LessonReservationCard';
 import StarRating from './StarRating';
 import StatusTab from './StatusTab';
 

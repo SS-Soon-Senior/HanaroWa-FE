@@ -1,13 +1,12 @@
 'use client';
 
 import { Header, Layout, StatusTag } from '@/components/atoms';
-import { StatusTab } from '@/components/lesson';
-import ClassReservationCard from '@/components/lesson/ClassReservationCard';
+import { LessonReservationCard, StatusTab } from '@/components/lesson';
 import { useState } from 'react';
 
 const myClasses = [
   {
-    courseName: '최면 기초 완성',
+    lessonName: '최면 기초 완성',
     reserveHanDate: '2024.03.15',
     reservationDate: '4월 5일 (금) 오후 2:00',
     location: '종로구 문화센터 301호',
@@ -16,7 +15,7 @@ const myClasses = [
     isInProgress: true,
   },
   {
-    courseName: '스마트폰 활용법 입문',
+    lessonName: '스마트폰 활용법 입문',
     reserveHanDate: '2024.03.15',
     reservationDate: '3월 20일 (수) 오전 10:00',
     location: '강남구 복지센터 강의실',
@@ -25,7 +24,7 @@ const myClasses = [
     isInProgress: true,
   },
   {
-    courseName: '스마트폰 활용법 입문',
+    lessonName: '스마트폰 활용법 입문',
     reserveHanDate: '2024.03.15',
     reservationDate: '3월 20일 (수) 오전 10:00',
     location: '강남구 복지센터 강의실',
@@ -34,7 +33,7 @@ const myClasses = [
     isInProgress: false,
   },
   {
-    courseName: '스마트폰 활용법 입문',
+    lessonName: '스마트폰 활용법 입문',
     reserveHanDate: '2024.03.15',
     reservationDate: '3월 20일 (수) 오전 10:00',
     location: '강남구 복지센터 강의실',
@@ -42,7 +41,7 @@ const myClasses = [
     isInProgress: true,
   },
   {
-    courseName: '스마트폰 활용법 입문',
+    lessonName: '스마트폰 활용법 입문',
     reserveHanDate: '2024.03.15',
     reservationDate: '3월 20일 (수) 오전 10:00',
     location: '강남구 복지센터 강의실',
@@ -86,7 +85,7 @@ const Page = () => {
             <div className='space-y-4'>
               <StatusTag status='inprogress' />
               {reservations.map((cls, idx) => (
-                <ClassReservationCard
+                <LessonReservationCard
                   key={`reservation-${idx}`}
                   {...cls}
                   isOpened={false}
@@ -103,7 +102,7 @@ const Page = () => {
             <div className='space-y-4'>
               <StatusTag status='complete' />
               {completes.map((cls, idx) => (
-                <ClassReservationCard
+                <LessonReservationCard
                   key={`complete-${idx}`}
                   {...cls}
                   isOpened={false}
@@ -123,7 +122,7 @@ const Page = () => {
               {openedClasses
                 .filter((c) => c.isInProgress)
                 .map((cls, idx) => (
-                  <ClassReservationCard
+                  <LessonReservationCard
                     key={`teaching-${idx}`}
                     {...cls}
                     isOpened
@@ -143,7 +142,7 @@ const Page = () => {
               {openedClasses
                 .filter((c) => !c.isInProgress)
                 .map((cls, idx) => (
-                  <ClassReservationCard
+                  <LessonReservationCard
                     key={`complete-${idx}`}
                     {...cls}
                     isOpened
