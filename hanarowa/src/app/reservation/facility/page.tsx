@@ -1,6 +1,7 @@
-import { Header, Layout } from '@/components/atoms';
+import { Header, Layout, StatusTag } from '@/components/atoms';
 import { RoomReservationCard } from '@/components/facility';
 
+//더미 <<< 나중에 삭제해야함
 const myfacilities = [
   {
     roomName: '프로젝트룸 1',
@@ -14,35 +15,46 @@ const myfacilities = [
     reserveHanDate: '2025.08.20',
     reservationDate: '8월 21일 (목) 오후 1:00',
     location: '서울특별시 성동구 알파코 제 2캠퍼스',
-    isUsed: false,
+    isUsed: true,
   },
   {
     roomName: '프로젝트룸 1',
     reserveHanDate: '2025.08.20',
     reservationDate: '8월 26일 (화) 오후 3:00',
     location: '서울특별시 성동구 알파코 제 2캠퍼스',
-    isUsed: true,
+    isUsed: false,
   },
 ];
 
 const Page = () => {
+  const reservations = myfacilities.filter((f) => !f.isUsed);
+  const completes = myfacilities.filter((f) => f.isUsed);
+
   return (
     <Layout header={<Header title='내 예약 내역' />}>
-      <div className='flex flex-col gap-6 p-4'>
-        {myfacilities.map(
-          (
-            { roomName, reserveHanDate, reservationDate, location, isUsed },
-            index
-          ) => (
-            <RoomReservationCard
-              key={index}
-              roomName={roomName}
-              reserveHanDate={reserveHanDate}
-              reservationDate={reservationDate}
-              location={location}
-              isUsed={isUsed}
-            />
-          )
+      <div className='flex flex-col gap-8 p-4'>
+        {/* 예약 중 섹션 */}
+        {reservations.length > 0 && (
+          <div className='space-y-4'>
+            <StatusTag status='reservation' />
+            {reservations.map((facility, index) => (
+              <RoomReservationCard key={`reservation-${index}`} {...facility} />
+            ))}
+          </div>
+        )}
+
+        {reservations.length > 0 && completes.length > 0 && (
+          <hr className='border-gray7eb space-y-4 border-t' />
+        )}
+
+        {/* 완료 섹션 */}
+        {completes.length > 0 && (
+          <div className='space-y-4'>
+            <StatusTag status='complete' />
+            {completes.map((facility, index) => (
+              <RoomReservationCard key={`complete-${index}`} {...facility} />
+            ))}
+          </div>
         )}
       </div>
     </Layout>

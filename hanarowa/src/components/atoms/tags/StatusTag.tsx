@@ -6,7 +6,7 @@ const StatusTag = ({ status }: PropsWithChildren<{ status: StatusKey }>) => {
 
   return (
     <span
-      className={`font-bold-14 inline-block rounded-full px-[1.6rem] py-[0.8rem] ${className}`}
+      className={`font-bold-16 inline-block rounded-full px-[1.6rem] py-[0.8rem] ${className}`}
     >
       {title}
     </span>
