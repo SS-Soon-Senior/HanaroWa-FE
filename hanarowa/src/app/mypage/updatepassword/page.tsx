@@ -1,5 +1,6 @@
 'use client';
 
+import { IcCloseeye, IcOpeneye } from '@/assets/svg';
 import {
   Header,
   Layout,
@@ -7,7 +8,6 @@ import {
   Button,
   ErrorMessage,
 } from '@/components/atoms';
-import { on } from 'events';
 import { useState, ChangeEvent } from 'react';
 
 const hasLetterAndNumber = (s: string) => /[A-Za-z]/.test(s) && /\d/.test(s);
@@ -17,6 +17,10 @@ const Page = () => {
   const [newPassword, setNewPassword] = useState('');
   const [checkNewPassword, setCheckNewPassword] = useState('');
   const [error, setError] = useState<string>('');
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showCheckNewPassword, setShowCheckNewPassword] = useState(false);
 
   const isFull = [password, newPassword, checkNewPassword].every(Boolean);
   const handleSubmit = async () => {
@@ -78,10 +82,15 @@ const Page = () => {
           <Input
             value={password}
             onChange={onChangeClear(setPassword)}
-            type='password'
+            type={showPassword ? 'text' : 'password'}
             maxLength={20}
             autoComplete='new-password'
             fullWidth
+            rightContent={
+              <button onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <IcOpeneye /> : <IcCloseeye />}
+              </button>
+            }
           />
         </div>
         <div className='flex flex-col gap-[1.6rem]'>
@@ -89,10 +98,15 @@ const Page = () => {
           <Input
             value={newPassword}
             onChange={onChangeClear(setNewPassword)}
-            type='password'
+            type={showNewPassword ? 'text' : 'password'}
             maxLength={20}
             autoComplete='new-password'
             fullWidth
+            rightContent={
+              <button onClick={() => setShowNewPassword(!showNewPassword)}>
+                {showNewPassword ? <IcOpeneye /> : <IcCloseeye />}
+              </button>
+            }
           />
         </div>
 
@@ -101,10 +115,17 @@ const Page = () => {
           <Input
             value={checkNewPassword}
             onChange={onChangeClear(setCheckNewPassword)}
-            type='password'
+            type={showCheckNewPassword ? 'text' : 'password'}
             maxLength={20}
             autoComplete='new-password'
             fullWidth
+            rightContent={
+              <button
+                onClick={() => setShowCheckNewPassword(!showCheckNewPassword)}
+              >
+                {showCheckNewPassword ? <IcOpeneye /> : <IcCloseeye />}
+              </button>
+            }
           />
         </div>
       </div>
