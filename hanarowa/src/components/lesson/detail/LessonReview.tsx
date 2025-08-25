@@ -1,3 +1,5 @@
+import StarRating from '../StarRating';
+
 type LessionReview = {
   id: number;
   reviewer: string;
@@ -18,8 +20,7 @@ const LessonReview = ({ reviews }: LessonReviewProps) => {
           <div className='flex items-center justify-between'>
             <p className='font-bold-20 text-black'>{review.reviewer}</p>
             <p className='font-bold-18 text-black'>
-              {'★'.repeat(review.rating)}
-              {'☆'.repeat(5 - review.rating)}
+              <StarRating readOnly={true} starCount={review.rating} />
             </p>
           </div>
           <p className='font-medium-18 text-gray353'>{review.comment}</p>
