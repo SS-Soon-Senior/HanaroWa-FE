@@ -9,7 +9,7 @@ const StatusTag = ({
 }: PropsWithChildren<{ status: Status; isActive?: boolean }>) => {
   const getStatusStyles = (status: Status, isActive: boolean) => {
     const baseStyles = `
-      flex flex-col justify-center items-center w-[60px] h-[36px] rounded-[18px] cursor-pointer transition-all duration-200
+      flex flex-col justify-center items-center w-[60px] h-[36px] rounded-18 cursor-pointer transition-all duration-200
     `;
 
     if (!isActive) {

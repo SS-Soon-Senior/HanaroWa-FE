@@ -3,7 +3,6 @@
 import { IcImageUpload, IcUsers } from '@/assets/svg';
 import { Layout, Header, Input, Textarea, Button } from '@/components/atoms';
 import StatusTags from '@/components/atoms/tags/StatusTag';
-import StatusTag from '@/components/atoms/tags/StatusTag';
 import { Dropdown } from '@/components/lesson';
 import {
   categoryOptions,
@@ -341,7 +340,7 @@ function DetailForm() {
               onChange={(e) =>
                 handleInputChange('expectedParticipants', e.target.value)
               }
-              className='text-right'
+              className='font-medium-16 placeholder:text-gray353 text-right'
               containerClassName='!border-none !bg-transparent !p-0 !rounded-none !h-auto'
             />
             <span className='font-medium-16 ml-[0.5rem] text-black'>명</span>

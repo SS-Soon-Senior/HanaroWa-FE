@@ -119,6 +119,9 @@
   .rounded-16 {
     @apply rounded-[1.6rem];
   }
+  .rounded-18 {
+    @apply rounded-[1.8rem];
+  }
 
   /* Bold font styles */
   .font-bold-30 {
