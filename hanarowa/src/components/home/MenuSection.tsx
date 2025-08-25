@@ -12,11 +12,12 @@ interface MenuItem {
 }
 
 interface MenuSectionProps {
-  title: string;
+  title?: string;
   items: MenuItem[];
+  className?: string;
 }
 
-const MenuSection = ({ title, items }: MenuSectionProps) => {
+const MenuSection = ({ title, items, className }: MenuSectionProps) => {
   const router = useRouter();
 
   const handleClick = (href?: string) => {
@@ -26,8 +27,10 @@ const MenuSection = ({ title, items }: MenuSectionProps) => {
   };
 
   return (
-    <section className='my-[2.4rem]'>
-      <h2 className='font-bold-22 text-center text-black'>{title}</h2>
+    <section className={`my-[2.4rem] ${className}`}>
+      {title && (
+        <h2 className='font-bold-22 text-center text-black'>{title}</h2>
+      )}
       <div className={`mt-[1.2rem] flex flex-row justify-center gap-[2rem]`}>
         {items.map((item, index) => (
           <IconButton

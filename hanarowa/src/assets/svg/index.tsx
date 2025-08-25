@@ -1,3 +1,4 @@
+export { default as IcAdminUsers } from './IcAdminUsers';
 export { default as IcAi } from './IcAi';
 export { default as IcArrowDown } from './IcArrowDown';
 export { default as IcBell } from './IcBell';
