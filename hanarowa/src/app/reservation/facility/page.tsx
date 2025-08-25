@@ -44,7 +44,7 @@ const Page = () => {
         )}
 
         {reservations.length > 0 && completes.length > 0 && (
-          <hr className='border-gray7eb space-y-4 border-t' />
+          <hr className='border-grayaaa space-y-4 border-t' />
         )}
 
         {/* 완료 섹션 */}
