@@ -1,8 +1,12 @@
 'use client';
 
-import { Button, ErrorMessage, Input } from '@/components/atoms';
-import Header from '@/components/atoms/Header';
-import Layout from '@/components/atoms/Layout';
+import {
+  Header,
+  Input,
+  ErrorMessage,
+  Button,
+  Layout,
+} from '@/components/atoms';
 import Image from 'next/image';
 import { useState } from 'react';
 import { useActionState } from 'react';

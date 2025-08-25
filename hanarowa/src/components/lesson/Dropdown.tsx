@@ -2,7 +2,7 @@ import { DropdownProps } from '@/types/dropdown';
 import clsx from 'clsx';
 import React, { useState, useRef, useEffect } from 'react';
 import { useId, forwardRef } from 'react';
-import Button from './Button';
+import { Button } from '../atoms';
 
 const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
   (

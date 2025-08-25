@@ -1,7 +1,7 @@
 'use client';
 
 import { useBranch } from '@/hooks';
-import BranchButton from '../BranchButton';
+import BranchButton from '../buttons/BranchButton';
 
 const branches: Branch[] = [
   { id: 1, location: '춘천', branch: '50+ 컬처뱅크' },

@@ -1,36 +1,29 @@
-import { IcBlackcalendar, IcLocation, IcUser } from '@/assets/svg';
+import { IcBlackcalendar, IcLocation } from '@/assets/svg';
 import React from 'react';
-import Button from './Button';
+import { Button } from '../atoms';
 
-type ReservationCardProps = {
-  courseName: string;
+type RoomReservationCardProps = {
+  roomName: string;
   reserveHanDate: string;
   reservationDate: string;
   location: string;
-  instructor: string;
-  isReviewed?: boolean;
+  isUsed?: boolean;
 };
 
-const ReservationCard: React.FC<ReservationCardProps> = ({
-  courseName,
+const RoomReservationCard: React.FC<RoomReservationCardProps> = ({
+  roomName,
   reserveHanDate,
   reservationDate,
   location,
-  instructor,
-  isReviewed = false,
+  isUsed = false,
 }) => {
   return (
     <div className='rounded-8 flex w-full flex-col bg-white'>
       <div className='flex flex-col gap-[2rem] p-[2.4rem]'>
         <p className='font-medium-18 text-gray3af'>{reserveHanDate}</p>
         <div className='flex flex-col gap-[1.2rem]'>
-          <p className='font-bold-24 text-black'>{courseName}</p>
+          <p className='font-bold-24 text-black'>{roomName}</p>
           <div className='flex flex-col gap-[0.8rem]'>
-            <div className='flex flex-row items-center gap-[1.2rem]'>
-              <IcUser className='h-[2rem] w-[2rem]' />
-
-              <p className='font-medium-20 text-gray353'>{instructor} 강사님</p>
-            </div>
             <div className='flex flex-row items-center gap-[1.2rem]'>
               <IcBlackcalendar className='h-[2rem] w-[2rem]' />
 
@@ -43,18 +36,23 @@ const ReservationCard: React.FC<ReservationCardProps> = ({
             </div>
           </div>
         </div>
-        {isReviewed ? (
-          <Button variant='disabled' sizeType='reserve' disabled={true}>
-            리뷰작성완료
-          </Button>
-        ) : (
-          <Button variant='green' sizeType='reserve'>
-            리뷰작성하기
-          </Button>
-        )}
+        {!isUsed ? (
+          <div className='flex flex-row gap-[1.3rem]'>
+            <Button
+              variant='lightgray'
+              sizeType='reserve'
+              className='font-gray280'
+            >
+              취소하기
+            </Button>
+            <Button variant='green' sizeType='reserve'>
+              상세보기
+            </Button>
+          </div>
+        ) : null}
       </div>
     </div>
   );
 };
 
-export default ReservationCard;
+export default RoomReservationCard;

@@ -1,8 +1,6 @@
 'use client';
 
-import { Button, Input } from '@/components/atoms';
-import Header from '@/components/atoms/Header';
-import Layout from '@/components/atoms/Layout';
+import { Layout, Header, Input, Button } from '@/components/atoms';
 import Image from 'next/image';
 import { useState } from 'react';
 
