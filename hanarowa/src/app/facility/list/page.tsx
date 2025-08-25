@@ -41,16 +41,18 @@ const Page = () => {
   return (
     <Layout header={<Header title='시설 예약하기' />}>
       <div className='flex flex-col gap-6 p-4'>
-        {facilities.map((facility, index) => (
-          <FacilityCard
-            key={index}
-            imageUrl={facility.imageUrl}
-            facilityName={facility.facilityName}
-            description={facility.description}
-            height={facility.height}
-            onClick={() => console.log(`${facility.facilityName} 클릭`)} // 여기 수정해야 합니다.
-          />
-        ))}
+        {facilities.map(
+          ({ imageUrl, facilityName, description, height }, index) => (
+            <FacilityCard
+              key={index}
+              imageUrl={imageUrl}
+              facilityName={facilityName}
+              description={description}
+              height={height}
+              onClick={() => console.log(`${facilityName} 클릭`)} // 여기 수정해야 합니다.
+            />
+          )
+        )}
       </div>
     </Layout>
   );
