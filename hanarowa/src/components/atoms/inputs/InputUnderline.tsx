@@ -1,4 +1,5 @@
 import { BaseInputProps } from '@/types/input';
+import { cn } from '@/utils/utils';
 import clsx from 'clsx';
 import * as React from 'react';
 import { useId, forwardRef } from 'react';
@@ -30,7 +31,7 @@ export const InputUnderline = forwardRef<HTMLInputElement, BaseInputProps>(
           id={inputId}
           ref={ref}
           disabled={disabled}
-          className={clsx(
+          className={cn(
             'font-medium-18 placeholder:text-gray4a9 w-full bg-transparent text-black outline-none',
             className
           )}
