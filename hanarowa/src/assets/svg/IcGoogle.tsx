@@ -4,12 +4,25 @@ import type { SVGProps } from 'react';
 const SvgIcGoogle = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    viewBox='0 0 38 38'
+    width={21}
+    height={20}
     fill='none'
     {...props}
   >
-    {/* 아이콘을 가로 9, 세로 9만큼 이동하여 중앙에 배치 */}
-    <g transform='translate(9 9)'>
+    <mask
+      id='ic-google_svg__a'
+      width={21}
+      height={20}
+      x={0}
+      y={0}
+      maskUnits='userSpaceOnUse'
+      style={{
+        maskType: 'luminance',
+      }}
+    >
+      <path fill='#fff' d='M20.5 0H.5v20h20z' />
+    </mask>
+    <g mask='url(#ic-google_svg__a)'>
       <path
         fill='#4285F4'
         d='M20.1 10.227c0-.709-.064-1.39-.182-2.045H10.5v3.868h5.382a4.6 4.6 0 0 1-1.996 3.018v2.51h3.232c1.891-1.742 2.982-4.305 2.982-7.35'

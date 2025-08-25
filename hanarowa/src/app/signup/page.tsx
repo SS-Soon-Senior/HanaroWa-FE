@@ -1,9 +1,9 @@
 'use client';
 
+import { IcSignupFace } from '@/assets/svg';
 import { Button, ErrorMessage, Input } from '@/components/atoms';
 import Header from '@/components/atoms/Header';
 import Layout from '@/components/atoms/Layout';
-import Image from 'next/image';
 import { useState } from 'react';
 import { useActionState } from 'react';
 import { signup, SignupErrorState } from './action';
@@ -41,13 +41,7 @@ export default function SignupPage() {
     <Layout header={<Header />}>
       <div className='relative flex w-full flex-col items-center'>
         <div className='flex w-full flex-col items-center pt-[1.7rem]'>
-          <Image
-            src='/svg/ic-signupFace.svg'
-            alt='회원가입 아이콘'
-            width={109}
-            height={109}
-            priority
-          />
+          <IcSignupFace width={100} height={100} />
         </div>
 
         <form action={signupAction} className='flex w-full flex-col'>
