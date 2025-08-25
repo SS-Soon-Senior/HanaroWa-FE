@@ -45,9 +45,7 @@ export default function Modal({
 
         {/* 설명 (옵션) */}
         {description && (
-          <p className='font-medium-22 text-grayaaa py-[10px] leading-[20px]'>
-            {description}
-          </p>
+          <p className='font-medium-18 text-grayaaa py-[10px]'>{description}</p>
         )}
 
         {/* 버튼 영역 */}

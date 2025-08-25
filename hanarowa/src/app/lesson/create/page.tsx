@@ -12,7 +12,7 @@ import {
 } from '@/constants/lesson-options';
 import React, { useState, useRef } from 'react';
 
-const LessonCreatePage = () => {
+const Page = () => {
   const [formData, setFormData] = useState({
     title: '',
     instructorIntro: '',
@@ -120,8 +120,8 @@ const LessonCreatePage = () => {
         <div>
           <h2 className='font-medium-20 mb-[1.2rem] text-black'>비용</h2>
           <Input
-            type='text'
-            placeholder='10,000원'
+            type='number'
+            placeholder='10,000'
             value={formData.fee}
             onChange={(e) => handleInputChange('fee', e.target.value)}
             fullWidth
@@ -335,4 +335,4 @@ const LessonCreatePage = () => {
   );
 };
 
-export default LessonCreatePage;
+export default Page;

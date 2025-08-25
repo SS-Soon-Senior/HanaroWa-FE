@@ -12,7 +12,7 @@ const Layout = ({ children, header, footer }: PropsWithChildren<Props>) => {
       {header}
       <main
         className={clsx({
-          'pt-[6rem]': !!header,
+          'pt-[9rem]': !!header,
           'pb-[11.5rem]': !!footer,
           'pb-[4rem]': !footer,
           'px-[2rem]': true,
