@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ClassCard } from '../lesson';
+import { LessonCard } from '../lesson';
 
 const Lessons = [
   {
@@ -66,7 +66,7 @@ const LessonSection = () => {
             capacity,
             price,
           }) => (
-            <ClassCard
+            <LessonCard
               key={id}
               imageUrl={imageUrl}
               title={title}
