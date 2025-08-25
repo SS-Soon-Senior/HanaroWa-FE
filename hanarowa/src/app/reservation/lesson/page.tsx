@@ -4,7 +4,7 @@ import { Header, Layout, StatusTag } from '@/components/atoms';
 import { LessonReservationCard, StatusTab } from '@/components/lesson';
 import { useState } from 'react';
 
-const myClasses = [
+const myLessons = [
   {
     lessonName: '최면 기초 완성',
     reserveHanDate: '2024.03.15',
@@ -61,12 +61,12 @@ const Page = () => {
   const currentUser = 'test'; // 임시 유저
 
   // 수강 강좌
-  const appliedClasses = myClasses.filter((c) => c.instructor !== currentUser);
-  const reservations = appliedClasses.filter((c) => c.isInProgress);
-  const completes = appliedClasses.filter((c) => !c.isInProgress);
+  const appliedLessons = myLessons.filter((c) => c.instructor !== currentUser);
+  const reservations = appliedLessons.filter((c) => c.isInProgress);
+  const completes = appliedLessons.filter((c) => !c.isInProgress);
 
   // 개설 강좌
-  const openedClasses = myClasses.filter((c) => c.instructor === currentUser);
+  const openedLessons = myLessons.filter((c) => c.instructor === currentUser);
 
   return (
     <Layout header={<Header title='내 강좌' />}>
@@ -116,10 +116,10 @@ const Page = () => {
       {/* 개설 강좌 */}
       {activeTab === 'opened' && (
         <div className='flex flex-col gap-8 p-4'>
-          {openedClasses.filter((c) => c.isInProgress).length > 0 && (
+          {openedLessons.filter((c) => c.isInProgress).length > 0 && (
             <div className='space-y-4'>
               <StatusTag status='teaching' />
-              {openedClasses
+              {openedLessons
                 .filter((c) => c.isInProgress)
                 .map((cls, idx) => (
                   <LessonReservationCard
@@ -131,15 +131,15 @@ const Page = () => {
             </div>
           )}
 
-          {openedClasses.filter((c) => c.isInProgress).length > 0 &&
-            openedClasses.filter((c) => !c.isInProgress).length > 0 && (
+          {openedLessons.filter((c) => c.isInProgress).length > 0 &&
+            openedLessons.filter((c) => !c.isInProgress).length > 0 && (
               <hr className='my-4 border-t border-gray-200' />
             )}
 
-          {openedClasses.filter((c) => !c.isInProgress).length > 0 && (
+          {openedLessons.filter((c) => !c.isInProgress).length > 0 && (
             <div className='space-y-4'>
               <StatusTag status='complete' />
-              {openedClasses
+              {openedLessons
                 .filter((c) => !c.isInProgress)
                 .map((cls, idx) => (
                   <LessonReservationCard
