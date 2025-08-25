@@ -1,3 +1,4 @@
+import { cn } from '@/utils/utils';
 import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -31,7 +32,9 @@ const Button = ({
   return (
     <button
       type='button'
-      className={`${baseStyles} ${variantStyles[variant]} ${sizeTypeStyles[sizeType]} ${className}`}
+      className={cn(
+        `${baseStyles} ${variantStyles[variant]} ${sizeTypeStyles[sizeType]} ${className}`
+      )}
       disabled={variant === 'disabled'}
       {...props}
     >

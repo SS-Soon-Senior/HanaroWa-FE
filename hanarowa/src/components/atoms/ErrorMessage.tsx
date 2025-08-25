@@ -14,12 +14,11 @@ export default function ErrorMessage({
   align = 'text-left',
 }: PropsWithChildren<Props>) {
   return (
-    <div className='flex flex-row gap-[0.5rem] items-center'>
+    <div className='flex flex-row items-center gap-[0.5rem]'>
       <IcExclamationMark height={17} width={17} />
       <span
         className={cn(
-          `bg-transparent font-medium-17 text-red ${align} 
-        ${className}`
+          `font-medium-17 text-red bg-transparent ${align} ${className}`
         )}
       >
         {children}

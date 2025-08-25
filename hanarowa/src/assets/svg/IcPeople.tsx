@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { SVGProps } from 'react';
 
-const SvgIcUsers = (props: SVGProps<SVGSVGElement>) => (
+const SvgIcPeople = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     width={24}
@@ -9,6 +9,7 @@ const SvgIcUsers = (props: SVGProps<SVGSVGElement>) => (
     fill='none'
     {...props}
   >
+    <path d='M24 24H0V0h24z' />
     <path
       stroke='#00A49D'
       strokeLinecap='round'
@@ -18,4 +19,4 @@ const SvgIcUsers = (props: SVGProps<SVGSVGElement>) => (
     />
   </svg>
 );
-export default SvgIcUsers;
+export default SvgIcPeople;

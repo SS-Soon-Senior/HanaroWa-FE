@@ -1,51 +1,43 @@
-import { IcGoogle, IcKakao, IcNaver } from '@/assets/svg';
-import Image from 'next/image';
+import { IcBookByeoldol, IcGoogle, IcKakao, IcNaver } from '@/assets/svg';
+import { Layout } from '@/components/atoms';
 import Link from 'next/link';
 
-const SocialLoginPage = () => {
-  return (
-    <div className='relative flex flex-col items-center px-[2.0rem]'>
-      <div className='flex flex-col items-center pt-[17.9rem]'>
-        <Image
-          src='/imgs/logo.png'
-          alt='logo'
-          width={164}
-          height={164}
-          priority
-        />
-        <p className='font-medium-26 relative pt-[-2rem] text-center font-black'>
-          하나로와
-        </p>
-      </div>
-      <div className='rounded-8 flex w-full flex-col items-center gap-[1rem] pt-[6.095rem]'>
-        <button className='bg-gray4f6 font-bold-22 flex w-full items-center justify-start gap-[1.7rem] py-[1.7rem] pl-[6rem]'>
-          <div className='flex items-center justify-center'>
-            <IcGoogle width={21} height={20} />
-          </div>
-          <p>구글로 로그인하기</p>
-        </button>
-        <button className='bg-kakao font-bold-22 flex w-full items-center justify-start gap-[1rem] py-[1.7rem] pl-[5.3rem]'>
-          <div className='flex items-center justify-center'>
-            <IcKakao width={38} height={38} />
-            <p>카카오로 로그인하기</p>
-          </div>
-        </button>
-        <button className='bg-naver font-bold-22 flex w-full items-center justify-start gap-[1rem] py-[1.7rem] pl-[5.3rem] text-white'>
-          <div className='flex items-center justify-center'>
-            <IcNaver width={38} height={38} />
-            <p>네이버로 로그인하기</p>
-          </div>
-        </button>
-      </div>
+const Page = () => {
+  const socialButtonStyle =
+    'rounded-8 font-bold-22 flex w-full items-center justify-center gap-[1rem] px-[6rem] py-[1.7rem]';
 
-      <Link
-        href='/login'
-        className='font-medium-18 text-gray4a9 pt-[1.6rem] underline'
-      >
-        로그인/회원가입하기
-      </Link>
-    </div>
+  return (
+    <Layout>
+      <div className='flex h-full w-full flex-col items-center'>
+        <div className='flex flex-col items-center pt-[17.9rem]'>
+          <IcBookByeoldol />
+          <h1 className='font-medium-26 pt-[-2rem] text-center text-black'>
+            하나로와
+          </h1>
+        </div>
+        <div className='flex w-full flex-col items-center gap-[1.2rem] pt-[6rem]'>
+          <Link href='#' className={`${socialButtonStyle} bg-gray4f6`}>
+            <IcGoogle />
+            <h1 className='text-black'>구글로 로그인하기</h1>
+          </Link>
+          <Link href='#' className={`${socialButtonStyle} bg-kakao`}>
+            <IcKakao />
+            <h1 className='text-[#371F1C]'>카카오로 로그인하기</h1>
+          </Link>
+          <Link href='#' className={`${socialButtonStyle} bg-naver text-white`}>
+            <IcNaver />
+            <h1>네이버로 로그인하기</h1>
+          </Link>
+        </div>
+        <Link
+          href='/login'
+          className='font-medium-18 text-gray4a9 justify-center pt-[1.6rem] underline'
+        >
+          로그인/회원가입하기
+        </Link>
+      </div>
+    </Layout>
   );
 };
 
-export default SocialLoginPage;
+export default Page;
