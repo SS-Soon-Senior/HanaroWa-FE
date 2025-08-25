@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { useActionState } from 'react';
 import { signup, SignupErrorState } from './action';
 
-export default function SignupPage() {
+const Page = () => {
   const [signupState, signupAction] = useActionState<
     SignupErrorState,
     FormData
@@ -108,4 +108,6 @@ export default function SignupPage() {
       </div>
     </Layout>
   );
-}
+};
+
+export default Page;

@@ -6,7 +6,7 @@ import Header from '@/components/atoms/Header';
 import Layout from '@/components/atoms/Layout';
 import { useState } from 'react';
 
-export default function SignupBirthPhonePage() {
+const Page = () => {
   const [birth, setBirth] = useState('');
   const [phone, setPhone] = useState('');
 
@@ -63,4 +63,6 @@ export default function SignupBirthPhonePage() {
       </div>
     </Layout>
   );
-}
+};
+
+export default Page;
