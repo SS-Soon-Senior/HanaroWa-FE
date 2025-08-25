@@ -43,13 +43,13 @@ const Page = () => {
 
   return (
     <Layout header={<Header />}>
-      <div className='relative flex w-full flex-col items-center'>
+      <div className='relative flex w-full flex-1 flex-col items-center'>
         <div className='flex w-full flex-col items-center pt-[1.7rem]'>
           <IcSignupFace width={100} height={100} />
         </div>
 
-        <form action={signupAction} className='flex w-full flex-col'>
-          <div className='items-center pt-[3.5rem]'>
+        <form action={signupAction} className='flex w-full flex-1 flex-col'>
+          <div className='items-center pt-[2rem]'>
             <div className={fieldBaseClass}>
               <p className='font-medium-20 text-black'>이름</p>
               <Input
@@ -98,7 +98,7 @@ const Page = () => {
             </ErrorMessage>
           )}
 
-          <div className='flex flex-col gap-[2.5rem] pt-[5rem]'>
+          <div className='mt-auto flex flex-col gap-[2.5rem]'>
             <Button
               variant={isAllFilled ? 'green' : 'disabled'}
               sizeType='lg'

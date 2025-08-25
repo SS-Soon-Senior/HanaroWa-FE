@@ -43,7 +43,7 @@ const Page = () => {
         className='text-gray353 font-medium-22 px-[1rem]'
       />
 
-      <div className='flex flex-col gap-[3rem] pt-[4rem]'>
+      <div className='flex w-full flex-col items-start gap-[3rem] pt-[4rem]'>
         <div
           className='flex flex-row items-center gap-[1.1rem]'
           onClick={() => router.push('/mypage/updateinfo')}

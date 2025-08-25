@@ -26,7 +26,7 @@ const Page = () => {
 
   return (
     <Layout header={<Header />}>
-      <div className='flex min-h-[calc(100vh-6rem-4rem)] w-full flex-col items-center'>
+      <div className='flex w-full flex-1 flex-col items-center'>
         <div className='flex flex-col items-center pt-[1.7rem]'>
           <IcBookByeoldol />
         </div>
