@@ -84,6 +84,7 @@ const Page = () => {
             value={formData.title}
             onChange={(e) => handleInputChange('title', e.target.value)}
             fullWidth
+            className='font-medium-16 placeholder:text-gray353'
             containerClassName='!h-[5.6rem] !px-[2rem] !py-0'
           />
         </div>
@@ -99,6 +100,7 @@ const Page = () => {
             }
             rows={4}
             fullWidth
+            className='font-medium-16 placeholder:text-gray353'
             containerClassName='!w-full !h-[12rem] !px-[2rem] !py-[2rem] !pb-[3.2rem] !gap-[0.6rem]'
           />
         </div>
@@ -112,6 +114,7 @@ const Page = () => {
             onChange={(e) => handleInputChange('lessonIntro', e.target.value)}
             rows={4}
             fullWidth
+            className='font-medium-16 placeholder:text-gray353'
             containerClassName='!w-full !h-[12rem] !px-[2rem] !py-[2rem] !pb-[3.2rem] !gap-[0.6rem]'
           />
         </div>
@@ -125,6 +128,7 @@ const Page = () => {
             value={formData.fee}
             onChange={(e) => handleInputChange('fee', e.target.value)}
             fullWidth
+            className='font-medium-16 placeholder:text-gray353'
             containerClassName='!h-[5.6rem] !px-[2rem] !py-0'
           />
         </div>
@@ -139,6 +143,8 @@ const Page = () => {
             onChange={(value) => handleInputChange('category', value)}
             containerClassName='!w-[33.5rem]'
             className='!h-[5.6rem] !px-[2rem] !py-0'
+            labelClassName='font-medium-16'
+            placeholderClassName='text-gray353'
           />
         </div>
 
@@ -152,6 +158,8 @@ const Page = () => {
             onChange={(value) => handleInputChange('startDate', value)}
             containerClassName='!w-[33.5rem]'
             className='!h-[5.6rem] !px-[2rem] !py-0'
+            labelClassName='font-medium-16'
+            placeholderClassName='text-gray353'
           />
         </div>
 
@@ -165,6 +173,8 @@ const Page = () => {
             onChange={(value) => handleInputChange('endDate', value)}
             containerClassName='!w-[33.5rem]'
             className='!h-[5.6rem] !px-[2rem] !py-0'
+            labelClassName='font-medium-16'
+            placeholderClassName='text-gray353'
           />
         </div>
 
@@ -178,6 +188,8 @@ const Page = () => {
             onChange={(value) => handleInputChange('days', value)}
             containerClassName='!w-[33.5rem]'
             className='!h-[5.6rem] !px-[2rem] !py-0'
+            labelClassName='font-medium-16'
+            placeholderClassName='text-gray353'
           />
         </div>
 
@@ -191,6 +203,8 @@ const Page = () => {
             onChange={(value) => handleInputChange('time', value)}
             containerClassName='!w-[33.5rem]'
             className='!h-[5.6rem] !px-[2rem] !py-0'
+            labelClassName='font-medium-16'
+            placeholderClassName='text-gray353'
           />
         </div>
 
@@ -252,6 +266,7 @@ const Page = () => {
             }
             rows={4}
             fullWidth
+            className='font-medium-16 placeholder:text-gray353'
             containerClassName='!w-full !h-[12rem] !px-[2rem] !py-[2rem] !pb-[3.2rem] !gap-[0.6rem]'
           />
         </div>
@@ -279,6 +294,7 @@ const Page = () => {
                 handleAdditionalContentChange(index, e.target.value)
               }
               rows={4}
+              className='font-medium-16 placeholder:text-gray353'
               fullWidth
             />
           </div>

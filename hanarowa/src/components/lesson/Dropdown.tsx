@@ -18,6 +18,8 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       containerClassName,
       disabled = false,
       fullWidth = false,
+      labelClassName,
+      placeholderClassName,
       ...props
     },
     ref
@@ -68,7 +70,9 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           <span
             className={clsx(
               'font-medium-18',
-              selectedOption ? 'text-black' : 'text-gray3af'
+              selectedOption ? 'text-black' : 'text-gray3af',
+              labelClassName,
+              !selectedOption && placeholderClassName
             )}
           >
             {selectedOption ? selectedOption.label : placeholder}
