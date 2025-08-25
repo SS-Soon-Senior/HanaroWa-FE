@@ -1,14 +1,18 @@
 'use client';
 
-import { IcClock, IcGreencalendar, IcInfo } from '@/assets/svg';
+import {
+  IcClock,
+  IcGreencalendar,
+  IcInfo,
+  IcWhitearrow,
+  IcWhitearrowreverse,
+} from '@/assets/svg';
 import { Button, Header, Layout } from '@/components/atoms';
-import { start } from 'repl';
 import Image from 'next/image';
 import { useState } from 'react';
 
 type Schedule = Record<string, string[]>;
 
-// --- 가상 데이터 (실제로는 예약된 시간들) ---
 const DUMMY_SCHEDULE: Schedule = {
   '2025-08-19': ['09:00'],
   '2025-08-20': ['10:00'],
@@ -16,17 +20,30 @@ const DUMMY_SCHEDULE: Schedule = {
 };
 
 const Page = () => {
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  Date.now();
+  const [selectedDate, setSelectedDate] = useState<string | null>('2025-08-19'); //첫번째 날짜로 초기화 합시다
   const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
+  const [imageIndex, setImageIndex] = useState(0);
 
-  // 예약된 시간 목록
   const bookedTimesForSelectedDate = selectedDate
     ? DUMMY_SCHEDULE[selectedDate] || []
     : [];
 
-  const ImgSrc = '/imgs/IMG_7675.png';
+  const ImgSrc = [
+    '/imgs/IMG_7675.png',
+    '/imgs/cinemaroom.png',
+    '/imgs/stardolilogo.png',
+  ];
   const roomname = '화이트보드룸';
   const roomtext = '편안하게 영화를 볼 수 있는 공간';
+
+  const handleImageIndex = (index: number) => {
+    setImageIndex(index + 1);
+  };
+
+  const handleImageIndexMinus = (index: number) => {
+    setImageIndex(index - 1);
+  };
 
   const handleDateSelect = (date: string): void => {
     setSelectedDate(date);
@@ -82,10 +99,6 @@ const Page = () => {
     return `${y}년 ${parseInt(m, 10)}월 ${parseInt(d, 10)}일`;
   };
 
-  const timeCalc = (start: string, int: number): string => {
-    const endTime = `${parseInt(start.split(':')[0]) + int}:00`;
-    return `${start} ~ ${endTime} (${int}시간)`;
-  };
   return (
     <Layout
       header={<Header showBackButton={true} title='예약하기' />}
@@ -98,10 +111,31 @@ const Page = () => {
       }
     >
       <div className='relative h-[22.9rem] w-full pt-[2.6rem]'>
-        <Image src={ImgSrc} alt='Reservation Image' fill objectFit='cover' />
+        <Image
+          src={ImgSrc[imageIndex]}
+          alt='Reservation Image'
+          fill
+          objectFit='cover'
+        />
       </div>
+      {imageIndex < ImgSrc.length - 1 && (
+        <div
+          onClick={() => handleImageIndex(imageIndex)}
+          className='bg-opacity-30 absolute top-[15.5rem] right-[2.8rem] flex h-[3.6rem] w-[3.6rem] cursor-pointer items-center justify-center rounded-full bg-black'
+        >
+          <IcWhitearrow />
+        </div>
+      )}
       <div className='flex flex-col gap-[1.2rem] pt-[2.6rem] pl-[1.7rem]'>
-        <p className='font-bold-24'>{roomname}</p>
+        <p className='font-bold-24'>{roomname}</p>{' '}
+        {imageIndex > 0 && (
+          <div
+            onClick={() => handleImageIndexMinus(imageIndex)}
+            className='bg-opacity-30 absolute top-[15.5rem] left-[2.8rem] flex h-[3.6rem] w-[3.6rem] cursor-pointer items-center justify-center rounded-full bg-black'
+          >
+            <IcWhitearrowreverse />
+          </div>
+        )}
         <p className='font-medium-18 text-grayaaa'>{roomtext}</p>
       </div>
       <div className='flex flex-col gap-[1.4rem] pt-[2.3rem] pl-[0.5rem]'>
@@ -157,9 +191,7 @@ const Page = () => {
                 <div className='flex flex-row items-center gap-[1.2rem] pb-[2rem]'>
                   <IcClock />{' '}
                   <p className='font-medium-18'>
-                    {duration === 2
-                      ? timeCalc(startTime, 2)
-                      : timeCalc(startTime, 1)}
+                    {startTime} ~ {endTime} ({duration}시간)
                   </p>
                 </div>
               </div>

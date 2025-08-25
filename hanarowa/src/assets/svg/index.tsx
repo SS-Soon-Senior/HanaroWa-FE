@@ -31,3 +31,5 @@ export { default as IcSofa } from './IcSofa';
 export { default as IcUser } from './IcUser';
 export { default as IcUsers } from './IcUsers';
 export { default as IcWallet } from './IcWallet';
+export { default as IcWhitearrow } from './IcWhitearrow';
+export { default as IcWhitearrowreverse } from './IcWhitearrowreverse';
