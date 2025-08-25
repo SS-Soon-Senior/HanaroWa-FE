@@ -20,8 +20,8 @@ const formatPhone = (v: string) => {
 
 const Page = () => {
   // 서버에서 가져온 값
-  const [initialBirth, setInitialBirth] = useState(''); //
-  const [initialPhone, setInitialPhone] = useState(''); //
+  const [initialBirth, setInitialBirth] = useState('');
+  const [initialPhone, setInitialPhone] = useState('');
 
   // 사용자가 실제로 입력하는 값(초기엔 비워둠)
   const [birth, setBirth] = useState('');
