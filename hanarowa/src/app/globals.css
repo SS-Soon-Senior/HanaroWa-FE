@@ -4,7 +4,7 @@
   font-family: 'Hana';
   src: url('/fonts/Hana2-Light.otf') format('opentype');
   font-weight: 300;
-  font-style: normal;
+  font-style: light;
   font-display: swap;
 }
 
@@ -12,7 +12,7 @@
   font-family: 'Hana';
   src: url('/fonts/Hana2-Regular.otf') format('opentype');
   font-weight: 400;
-  font-style: normal;
+  font-style: regular;
   font-display: swap;
 }
 
@@ -20,7 +20,7 @@
   font-family: 'Hana';
   src: url('/fonts/Hana2-Medium.otf') format('opentype');
   font-weight: 500;
-  font-style: normal;
+  font-style: medium;
   font-display: swap;
 }
 
@@ -28,7 +28,15 @@
   font-family: 'Hana';
   src: url('/fonts/Hana2-Bold.otf') format('opentype');
   font-weight: 600;
-  font-style: normal;
+  font-style: bold;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hana';
+  src: url('/fonts/Hana2-Heavy.otf') format('opentype');
+  font-weight: 700;
+  font-style: extra-bold;
   font-display: swap;
 }
 
@@ -118,62 +126,72 @@
     @apply rounded-[1.6rem];
   }
 
+  /* Heavy font styles */
+
+  .font-heavy-22 {
+    @apply font-hana text-[2.2rem] leading-[150%] font-[700];
+  }
+
+  .font-heavy-20 {
+    @apply font-hana text-[2.0rem] leading-[150%] font-[700];
+  }
+
   /* Bold font styles */
   .font-bold-30 {
-    @apply font-hana text-[3.0rem] leading-[150%] font-bold;
+    @apply font-hana text-[3.0rem] leading-[150%] font-[600];
   }
   .font-bold-28 {
-    @apply font-hana text-[2.8rem] leading-[150%] font-bold;
+    @apply font-hana text-[2.8rem] leading-[150%] font-[600];
   }
   .font-bold-26 {
-    @apply font-hana text-[2.6rem] leading-[150%] font-bold;
+    @apply font-hana text-[2.6rem] leading-[150%] font-[600];
   }
   .font-bold-24 {
-    @apply font-hana text-[2.4rem] leading-[150%] font-bold;
+    @apply font-hana text-[2.4rem] leading-[150%] font-[600];
   }
   .font-bold-22 {
-    @apply font-hana text-[2.2rem] leading-[150%] font-bold;
+    @apply font-hana text-[2.2rem] leading-[150%] font-[600];
   }
   .font-bold-20 {
-    @apply font-hana text-[2.0rem] leading-[150%] font-bold;
+    @apply font-hana text-[2.0rem] leading-[150%] font-[600];
   }
   .font-bold-18 {
-    @apply font-hana text-[1.8rem] leading-[150%] font-bold;
+    @apply font-hana text-[1.8rem] leading-[150%] font-[600];
   }
   .font-bold-16 {
-    @apply font-hana text-[1.6rem] leading-[150%] font-bold;
+    @apply font-hana text-[1.6rem] leading-[150%] font-[600];
   }
   .font-bold-14 {
-    @apply font-hana text-[1.4rem] leading-[150%] font-bold;
+    @apply font-hana text-[1.4rem] leading-[150%] font-[600];
   }
 
   /* Medium font styles */
   .font-medium-30 {
-    @apply font-hana text-[3.0rem] leading-[150%] font-medium;
+    @apply font-hana text-[3.0rem] leading-[150%] font-[500];
   }
   .font-medium-28 {
-    @apply font-hana text-[2.8rem] leading-[150%] font-medium;
+    @apply font-hana text-[2.8rem] leading-[150%] font-[500];
   }
   .font-medium-26 {
-    @apply font-hana text-[2.6rem] leading-[150%] font-medium;
+    @apply font-hana text-[2.6rem] leading-[150%] font-[500];
   }
   .font-medium-24 {
-    @apply font-hana text-[2.4rem] leading-[150%] font-medium;
+    @apply font-hana text-[2.4rem] leading-[150%] font-[500];
   }
   .font-medium-22 {
-    @apply font-hana text-[2.2rem] leading-[150%] font-medium;
+    @apply font-hana text-[2.2rem] leading-[150%] font-[500];
   }
   .font-medium-20 {
-    @apply font-hana text-[2.0rem] leading-[150%] font-medium;
+    @apply font-hana text-[2.0rem] leading-[150%] font-[500];
   }
   .font-medium-18 {
-    @apply font-hana text-[1.8rem] leading-[150%] font-medium;
+    @apply font-hana text-[1.8rem] leading-[150%] font-[500];
   }
   .font-medium-17 {
-    @apply font-hana text-[1.7rem] leading-[150%] font-medium;
+    @apply font-hana text-[1.7rem] leading-[150%] font-[500];
   }
   .font-medium-16 {
-    @apply font-hana text-[1.6rem] leading-[150%] font-medium;
+    @apply font-hana text-[1.6rem] leading-[150%] font-[500];
   }
 
   /* Regular font styles */

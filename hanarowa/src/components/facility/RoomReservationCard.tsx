@@ -18,7 +18,7 @@ const RoomReservationCard = ({
   isUsed = false,
 }: RoomReservationCardProps) => {
   return (
-    <div className='rounded-8 flex w-full flex-col bg-white'>
+    <div className='rounded-16 border-gray7eb flex w-full flex-col border bg-white'>
       <div className='flex flex-col gap-[2rem] p-[2.4rem]'>
         <p className='font-medium-18 text-gray3af'>{reserveHanDate}</p>
         <div className='flex flex-col gap-[1.2rem]'>

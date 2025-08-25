@@ -36,10 +36,10 @@ export default function Modal({
   return (
     <div
       ref={overlay}
-      className='bg-modal-overlay fixed inset-0 z-[100] flex items-center justify-center'
+      className='bg-modal-overlay fixed inset-0 z-[100] flex items-center justify-center bg-black/50'
       onClick={onClickOverlay}
     >
-      <div className='w-11/12 rounded-[10px] bg-white p-[30px] text-center sm:w-[22rem]'>
+      <div className='mx-[3rem] w-full max-w-[650px] rounded-[10px] bg-white p-[30px] text-center'>
         {/* 제목 */}
         <h2 className='font-bold-22 py-[10px]'>{title}</h2>
 
