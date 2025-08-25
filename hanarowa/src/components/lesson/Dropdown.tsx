@@ -1,3 +1,5 @@
+'use client';
+
 import { DropdownProps } from '@/types/dropdown';
 import clsx from 'clsx';
 import React, { useState, useRef, useEffect } from 'react';
