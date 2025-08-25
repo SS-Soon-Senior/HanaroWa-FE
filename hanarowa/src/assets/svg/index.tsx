@@ -3,6 +3,7 @@ export { default as IcBell } from './IcBell';
 export { default as IcBlackcalendar } from './IcBlackcalendar';
 export { default as IcBook } from './IcBook';
 export { default as IcCalendar } from './IcCalendar';
+export { default as IcCheck } from './IcCheck';
 export { default as IcExclamationMark } from './IcExclamationMark';
 export { default as IcGoogle } from './IcGoogle';
 export { default as IcHeaderArrow } from './IcHeaderArrow';
