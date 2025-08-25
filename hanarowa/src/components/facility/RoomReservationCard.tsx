@@ -10,13 +10,13 @@ type RoomReservationCardProps = {
   isUsed?: boolean;
 };
 
-const RoomReservationCard: React.FC<RoomReservationCardProps> = ({
+const RoomReservationCard = ({
   roomName,
   reserveHanDate,
   reservationDate,
   location,
   isUsed = false,
-}) => {
+}: RoomReservationCardProps) => {
   return (
     <div className='rounded-8 flex w-full flex-col bg-white'>
       <div className='flex flex-col gap-[2rem] p-[2.4rem]'>
