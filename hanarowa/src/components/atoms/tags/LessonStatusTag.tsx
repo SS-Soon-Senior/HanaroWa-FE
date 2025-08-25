@@ -24,7 +24,7 @@ const LessonStatusTag = ({
 
   return (
     <span
-      className={`rounded-18 flex h-[3.6rem] w-[6rem] flex-shrink-0 flex-col items-center justify-center ${isActive ? 'font-bold-16 text-white' : 'font-medium-14'} ${getBackgroundColor()}`}
+      className={`rounded-18 flex h-[3.6rem] w-[6rem] flex-shrink-0 flex-col items-center justify-center ${isActive ? 'font-medium-14 text-white' : 'font-medium-14'} ${getBackgroundColor()}`}
     >
       {title}
     </span>
