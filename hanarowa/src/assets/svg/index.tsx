@@ -8,6 +8,7 @@ export { default as IcGoogle } from './IcGoogle';
 export { default as IcHeaderArrow } from './IcHeaderArrow';
 export { default as IcHomeActive } from './IcHomeActive';
 export { default as IcHome } from './IcHome';
+export { default as IcImageUpload } from './IcImageUpload';
 export { default as IcKakao } from './IcKakao';
 export { default as IcImgArrow } from './IcImgArrow';
 export { default as IcLocation } from './IcLocation';
