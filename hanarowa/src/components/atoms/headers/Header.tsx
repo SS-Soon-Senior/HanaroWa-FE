@@ -16,7 +16,7 @@ const Header = ({ title, showBackButton = true }: Props) => {
   };
 
   return (
-    <header className='bg-background fixed inset-0 top-0 z-40 mx-auto flex h-[6rem] max-w-[768px] items-center px-[2rem] py-[1rem]'>
+    <header className='bg-background fixed inset-0 top-0 z-40 mx-auto flex h-[6rem] max-w-[768px] items-center px-[2rem] py-[2rem]'>
       {/* 왼쪽 화살표 */}
       <div className='flex w-1/6 items-center'>
         {showBackButton && (

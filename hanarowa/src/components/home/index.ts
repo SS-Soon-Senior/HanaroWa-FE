@@ -1,4 +1,4 @@
-import LectureSection from './LectureSection';
+import LessonSection from './LessonSection';
 import MenuSection from './MenuSection';
 
-export { MenuSection, LectureSection };
+export { MenuSection, LessonSection };
