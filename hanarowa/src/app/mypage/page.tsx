@@ -8,18 +8,20 @@ import {
   Layout,
   Modal,
 } from '@/components/atoms';
+import useModal from '@/hooks/useModal';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 const Page = () => {
   const [name, setName] = useState<string>('');
-  const [showModal, setShowModal] = useState<boolean>(false);
+  // const [showModal, setShowModal] = useState<boolean>(false);
+  const { isOpen, openModal, closeModal } = useModal();
 
   const router = useRouter();
 
   //탈퇴 api 구현 필요
   const handleUnsubscribe = async () => {
-    setShowModal(false);
+    closeModal();
     router.replace('/'); // 혹은 로그인 페이지 등으로 이동
   };
 
@@ -65,23 +67,22 @@ const Page = () => {
           <h1 className='font-medium-22 text-gray353'>로그아웃</h1>
         </div>
 
-        {/* 회원탈퇴 모달 추가 중 */}
         <div
           className='flex flex-row items-center gap-[1.1rem]'
-          onClick={() => setShowModal(true)}
+          onClick={openModal}
         >
           <IcMyUnsub />
           <h1 className='font-medium-22 text-gray353'>회원 탈퇴</h1>
         </div>
 
-        {showModal && (
+        {isOpen && (
           <Modal
             title='정말 탈퇴하시겠어요?'
             description='탈퇴 시 모든 데이터가 삭제되며 복구할 수 없습니다.'
             greenButtonText='탈퇴하기'
             grayButtonText='취소'
             onClickGreenButton={handleUnsubscribe}
-            onClickGrayButton={() => setShowModal(false)}
+            onClickGrayButton={closeModal}
           />
         )}
       </div>
