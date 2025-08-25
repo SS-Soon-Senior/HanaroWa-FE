@@ -6,6 +6,9 @@ import {
   SpotButton,
   BottomNavigation,
 } from '@/components/atoms';
+import ReservationCard from '@/components/atoms/ClassReservationCard';
+import FacilityCard from '@/components/atoms/FacilityCard';
+import RoomReservationCard from '@/components/atoms/RoomReservationCard';
 import { IcBell, IcCalendar, IcSearch } from '@svg';
 
 const Page = () => (
@@ -42,6 +45,33 @@ const Page = () => (
     <div className='flex flex-row gap-5'>
       <SpotButton location='춘천' title='50+ 컬처뱅크' />
       <SpotButton location='춘천' title='50+ 컬처뱅크' />
+    </div>
+    <div>
+      <ReservationCard
+        courseName='사랑의 배터리 충전하기'
+        reserveHanDate='2024.03.09'
+        reservationDate='3월 15일 (금) 오전 10:00'
+        location='춘천 50+ 컬처뱅크'
+        instructor='시영코코'
+        isReviewed={true}
+      ></ReservationCard>
+    </div>
+    <div>
+      <RoomReservationCard
+        roomName='디지털 크리에이터룸'
+        reserveHanDate='2024.03.09'
+        reservationDate='3월 15일 (금) 오후 2:00'
+        location='춘천 50+ 컬처뱅크 301호'
+        isUsed={true}
+      ></RoomReservationCard>
+    </div>
+    <div>
+      <FacilityCard
+        imageUrl='/imgs/cinemaroom.png'
+        facilityName='시네마룸'
+        description='편안하게 영화를 볼 수 있는 공간'
+        height={200}
+      />
     </div>
   </Layout>
 );
