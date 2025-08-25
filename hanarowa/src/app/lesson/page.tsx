@@ -1,5 +1,5 @@
 import { Header, Layout } from '@/components/atoms';
-import { ClassCard } from '@/components/lesson';
+import { LessonCard } from '@/components/lesson';
 
 const Lessons = [
   {
@@ -47,9 +47,9 @@ const Lessons = [
 const Page = () => {
   return (
     <Layout header={<Header title='강좌 목록' />}>
-      <div className='grid grid-cols-2 gap-[2.5rem] pt-[2.5rem]'>
+      <div className='grid w-full grid-cols-2 gap-[2.5rem] pt-[2.5rem]'>
         {Lessons.map(({ id, ...cardProps }) => (
-          <ClassCard key={id} {...cardProps} />
+          <LessonCard key={id} {...cardProps} />
         ))}
       </div>
     </Layout>

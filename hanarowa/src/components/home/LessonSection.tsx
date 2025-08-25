@@ -46,7 +46,7 @@ const Lessons = [
 
 const LessonSection = () => {
   return (
-    <section className='mt-[3rem]'>
+    <section className='mt-[3rem] w-full'>
       <div className='mb-[1.8rem] flex flex-row items-center justify-between'>
         <h1 className='font-bold-22 text-black'>인기 강좌</h1>
         <Link href='/lesson' className='font-medium-16 text-main'>

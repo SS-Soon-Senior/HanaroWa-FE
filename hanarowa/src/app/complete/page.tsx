@@ -18,15 +18,13 @@ const Page = () => {
           </p>
         </div>
       </div>
-      <div className='mx-auto flex flex-col items-center justify-center'>
-        <div className='flex items-center justify-center pt-[7.9rem]'>
-          <IcCheck />
-        </div>
-        <div className='flex w-full items-center justify-center pt-[27.6rem]'>
-          <Button className='w-full' sizeType='lg' variant='green'>
-            강좌 신청하러 가기
-          </Button>
-        </div>
+      <div className='flex items-center justify-center pt-[7.9rem]'>
+        <IcCheck />
+      </div>
+      <div className='w-full justify-end'>
+        <Button className='w-full' sizeType='lg' variant='green'>
+          강좌 신청하러 가기
+        </Button>
       </div>
     </Layout>
   );

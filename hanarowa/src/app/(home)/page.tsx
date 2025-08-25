@@ -31,7 +31,7 @@ const reservationMenu = [
   {
     icon: <IcSofa />,
     title: '시설',
-    href: '/facility',
+    href: '/reservation/facility',
   },
   {
     icon: <IcCalendar />,
