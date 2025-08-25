@@ -2,6 +2,8 @@
 
 import { IcImageUpload, IcUsers } from '@/assets/svg';
 import { Layout, Header, Input, Textarea, Button } from '@/components/atoms';
+import StatusTags from '@/components/atoms/tags/StatusTag';
+import StatusTag from '@/components/atoms/tags/StatusTag';
 import { Dropdown } from '@/components/lesson';
 import {
   categoryOptions,
@@ -56,11 +58,16 @@ function DetailForm() {
   };
 
   return (
-    <Layout header={<Header title='강좌 수정하기' showBackButton />}>
+    <Layout header={<Header title='강좌 신청 상세' showBackButton />}>
       <form onSubmit={onSubmit} className='space-y-[2rem]'>
+        {/* 상태 태그들 */}
+        <section className='mt-[3rem] mb-[2rem]'>
+          <StatusTags currentStatus={initial?.status ?? '대기중'} />
+        </section>
+
         {/* 강좌 제목 */}
         <section>
-          <h2 className='font-medium-16 mb-[1.2rem] text-black'>강좌 제목</h2>
+          <h2 className='font-medium-16 mb-[2.0rem] text-black'>강좌 제목</h2>
           <Input
             type='text'
             placeholder={initial?.title ?? '예) 디지털 카메라 기초 완성'}
@@ -74,7 +81,7 @@ function DetailForm() {
 
         {/* 강사 소개 */}
         <section>
-          <h2 className='font-medium-16 mb-[1.2rem] text-black'>강사 소개</h2>
+          <h2 className='font-medium-16 mb-[2.0rem] text-black'>강사 소개</h2>
           <Textarea
             placeholder={
               initial?.instructorIntro ??
@@ -93,7 +100,7 @@ function DetailForm() {
 
         {/* 강좌 소개 */}
         <section>
-          <h2 className='font-medium-16 mb-[1.2rem] text-black'>강좌 소개</h2>
+          <h2 className='font-medium-16 mb-[2.0rem] text-black'>강좌 소개</h2>
           <Textarea
             placeholder={
               initial?.lessonIntro ?? '강좌 내용과 목표를 자세히 작성해주세요'
@@ -109,7 +116,7 @@ function DetailForm() {
 
         {/* 비용 */}
         <section>
-          <h2 className='font-medium-16 mb-[1.2rem] text-black'>비용</h2>
+          <h2 className='font-medium-16 mb-[2.0rem] text-black'>비용</h2>
           <Input
             type='number'
             placeholder={initial?.fee ?? '10,000'}
@@ -123,7 +130,7 @@ function DetailForm() {
 
         {/* 카테고리 */}
         <section>
-          <h2 className='font-medium-16 mb-[1.2rem] text-black'>카테고리</h2>
+          <h2 className='font-medium-16 mb-[2.0rem] text-black'>카테고리</h2>
           <Dropdown
             options={categoryOptions}
             value={formData.category}
@@ -138,7 +145,7 @@ function DetailForm() {
 
         {/* 강의 시작/종료/요일/시간 */}
         <section>
-          <h2 className='font-medium-16 mb-[1.2rem] text-black'>강의 시작일</h2>
+          <h2 className='font-medium-16 mb-[2.0rem] text-black'>강의 시작일</h2>
           <Dropdown
             options={startDateOptions}
             value={formData.startDate}
@@ -152,7 +159,7 @@ function DetailForm() {
         </section>
 
         <section>
-          <h2 className='font-medium-16 mb-[1.2rem] text-black'>강의 종료일</h2>
+          <h2 className='font-medium-16 mb-[2.0rem] text-black'>강의 종료일</h2>
           <Dropdown
             options={endDateOptions}
             value={formData.endDate}
@@ -166,7 +173,7 @@ function DetailForm() {
         </section>
 
         <section>
-          <h2 className='font-medium-16 mb-[1.2rem] text-black'>강의 요일</h2>
+          <h2 className='font-medium-16 mb-[2.0rem] text-black'>강의 요일</h2>
           <Dropdown
             options={dayOptions}
             value={formData.days}
@@ -180,7 +187,7 @@ function DetailForm() {
         </section>
 
         <section>
-          <h2 className='font-medium-16 mb-[1.2rem] text-black'>강의 시간</h2>
+          <h2 className='font-medium-16 mb-[2.0rem] text-black'>강의 시간</h2>
           <Dropdown
             options={timeOptions}
             value={formData.time}
@@ -195,7 +202,7 @@ function DetailForm() {
 
         {/* 강의 사진 등록 */}
         <section>
-          <h2 className='font-medium-16 mb-[1.2rem] text-black'>
+          <h2 className='font-medium-16 mb-[2.0rem] text-black'>
             강의 사진 등록
           </h2>
           <div className='rounded-16 border-gray7eb border border-dashed bg-white px-[2rem] py-[3rem] text-center'>
@@ -257,7 +264,7 @@ function DetailForm() {
 
         {/* 강좌 내용 (1차시) */}
         <section>
-          <h2 className='font-medium-16 mb-[1.2rem] text-black'>강좌 내용</h2>
+          <h2 className='font-medium-16 mb-[2.0rem] text-black'>강좌 내용</h2>
           <Textarea
             placeholder={
               initial?.lessonDescription ??
@@ -281,7 +288,7 @@ function DetailForm() {
             `${index + 2}차시에 진행되는 강좌 내용을 적어주세요`;
           return (
             <section key={index}>
-              <div className='mb-[1.2rem] flex items-center justify-between'>
+              <div className='mb-[2.0rem] flex items-center justify-between'>
                 <h2 className='font-medium-16 text-black'>
                   강좌 내용 {index + 2}차시
                 </h2>

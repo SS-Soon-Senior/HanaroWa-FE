@@ -1,3 +1,5 @@
+export type Status = '승인' | '반려' | '대기중';
+
 export type Lesson = {
   title: string;
   instructorIntro: string;
@@ -12,9 +14,9 @@ export type Lesson = {
   lessonDescription: string;
   expectedParticipants: string;
   additionalContents: string[];
+  status?: Status; // 추가
 };
 
-// 입력 폼 전용 상태
 export interface LessonFormData {
   title: string;
   instructorIntro: string;

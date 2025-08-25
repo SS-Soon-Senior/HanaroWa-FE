@@ -2,12 +2,13 @@ import { Lesson } from '@/types/lesson';
 
 // 드롭다운 옵션들
 export const categoryOptions = [
-  { value: 'language', label: '어학' },
-  { value: 'programming', label: '프로그래밍' },
-  { value: 'art', label: '예술' },
-  { value: 'music', label: '음악' },
-  { value: 'cooking', label: '요리' },
-  { value: 'etc', label: '기타' },
+  { value: 'digital', label: '디지털/IT' },
+  { value: 'culture', label: '문화/예술' },
+  { value: 'language', label: '어학/인문' },
+  { value: 'health', label: '건강' },
+  { value: 'trend', label: '트렌드' },
+  { value: 'others', label: '기타' },
+  { value: 'finance', label: '금융' },
 ];
 
 export const dayOptions = [
@@ -59,6 +60,7 @@ export const MOCK_LESSONS: Record<string, Lesson> = {
     lessonDescription: '1차시: 카메라 기본 조작',
     expectedParticipants: '20',
     additionalContents: ['2차시: 노출 삼요소', '3차시: 구도와 실습'],
+    status: '승인',
   },
   '2': {
     title: '스마트폰 사진 마스터',
@@ -74,5 +76,21 @@ export const MOCK_LESSONS: Record<string, Lesson> = {
     lessonDescription: '1차시: 기본 앱과 설정',
     expectedParticipants: '25',
     additionalContents: ['2차시: 인물/음식 사진', '3차시: 야외 실습'],
+  },
+  '3': {
+    title: '스마트폰 사진 마스터',
+    instructorIntro: '모바일 사진 전문 강사.',
+    lessonIntro: '스마트폰으로도 충분히 예쁜 사진을!',
+    fee: '15,000원',
+    category: '사진',
+    startDate: '2025-09-01',
+    endDate: '2025-09-15',
+    days: '화, 목',
+    time: '10:00 ~ 12:00',
+    imageUrl: 'https://via.placeholder.com/480x300?text=Lesson+2',
+    lessonDescription: '1차시: 기본 앱과 설정',
+    expectedParticipants: '25',
+    additionalContents: ['2차시: 인물/음식 사진', '3차시: 야외 실습'],
+    status: '반려',
   },
 };
