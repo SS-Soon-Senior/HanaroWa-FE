@@ -22,6 +22,7 @@ export { default as IcMyPassword } from './IcMyPassword';
 export { default as IcMyUnsub } from './IcMyUnsub';
 export { default as IcMy } from './IcMy';
 export { default as IcNaver } from './IcNaver';
+export { default as IcPlayByeoldol } from './IcPlayByeoldol';
 export { default as IcSearch } from './IcSearch';
 export { default as IcSignupFace } from './IcSignupFace';
 export { default as IcSofa } from './IcSofa';
