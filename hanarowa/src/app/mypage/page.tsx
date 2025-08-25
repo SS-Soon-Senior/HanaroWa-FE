@@ -6,14 +6,22 @@ import {
   BottomNavigation,
   InputUnderline,
   Layout,
+  Modal,
 } from '@/components/atoms';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 const Page = () => {
   const [name, setName] = useState<string>('');
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const router = useRouter();
+
+  //탈퇴 api 구현 필요
+  const handleUnsubscribe = async () => {
+    setShowModal(false);
+    router.replace('/'); // 혹은 로그인 페이지 등으로 이동
+  };
 
   useEffect(() => {
     // 사용자 이름 가져오는 로직 짜야함!!
@@ -31,7 +39,7 @@ const Page = () => {
         fullWidth
         value={name}
         readOnly
-        className='text-gray353 px-[1rem]'
+        className='text-gray353 font-medium-22 px-[1rem]'
       />
 
       <div className='flex flex-col gap-[3rem] pt-[4rem]'>
@@ -40,7 +48,7 @@ const Page = () => {
           onClick={() => router.push('/mypage/updateinfo')}
         >
           <IcMyMember />
-          <h1 className='text-gray353 font-medium-18'>회원 정보 수정</h1>
+          <h1 className='text-gray353 font-medium-22'>회원 정보 수정</h1>
         </div>
 
         <div
@@ -48,18 +56,34 @@ const Page = () => {
           onClick={() => router.push('/mypage/updatepassword')}
         >
           <IcMyPassword />
-          <h1 className='font-medium-18 text-gray353'>비밀번호 변경</h1>
+          <h1 className='font-medium-22 text-gray353'>비밀번호 변경</h1>
         </div>
 
-        {/* 로그아웃 및 회원탈퇴 기능 구현 필요 */}
+        {/* 로그아웃 기능 구현 필요*/}
         <div className='flex flex-row items-center gap-[1.1rem]'>
           <IcMyLogout />
-          <h1 className='font-medium-18 text-gray353'>로그아웃</h1>
+          <h1 className='font-medium-22 text-gray353'>로그아웃</h1>
         </div>
-        <div className='flex flex-row items-center gap-[1.1rem]'>
+
+        {/* 회원탈퇴 모달 추가 중 */}
+        <div
+          className='flex flex-row items-center gap-[1.1rem]'
+          onClick={() => setShowModal(true)}
+        >
           <IcMyUnsub />
-          <h1 className='font-medium-18 text-gray353'>회원 탈퇴</h1>
+          <h1 className='font-medium-22 text-gray353'>회원 탈퇴</h1>
         </div>
+
+        {showModal && (
+          <Modal
+            title='정말 탈퇴하시겠어요?'
+            description='탈퇴 시 모든 데이터가 삭제되며 복구할 수 없습니다.'
+            greenButtonText='탈퇴하기'
+            grayButtonText='취소'
+            onClickGreenButton={handleUnsubscribe}
+            onClickGrayButton={() => setShowModal(false)}
+          />
+        )}
       </div>
     </Layout>
   );
