@@ -65,7 +65,7 @@ const Page = () => {
             </div>
           )}
           <Button
-            sizeType='md'
+            sizeType='lg'
             variant={isDirty ? 'green' : 'disabled'}
             onClick={handleSubmit}
           >
