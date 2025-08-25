@@ -47,18 +47,9 @@ const Lectures = [
 const Page = () => {
   return (
     <Layout header={<Header title='강좌 목록' />}>
-      <div className='flex grid grid-cols-2 gap-[2.5rem] p-[2rem]'>
-        {Lectures.map((lecture) => (
-          <ClassCard
-            key={lecture.id}
-            imageUrl={lecture.imageUrl}
-            title={lecture.title}
-            creator={lecture.creator}
-            date={lecture.date}
-            participants={lecture.participants}
-            capacity={lecture.capacity}
-            price={lecture.price}
-          />
+      <div className='flex grid grid-cols-2 gap-[2.5rem]'>
+        {Lectures.map(({ id, ...cardProps }) => (
+          <ClassCard key={id} {...cardProps} />
         ))}
       </div>
     </Layout>
