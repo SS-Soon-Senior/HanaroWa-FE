@@ -6,5 +6,6 @@ export * from './headers';
 export * from './buttons';
 export * from './inputs';
 export * from './modals';
+export * from './tags';
 
 export { BottomNavigation, Layout, ErrorMessage };
