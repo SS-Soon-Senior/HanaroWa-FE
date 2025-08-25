@@ -1,5 +1,4 @@
 import { clsx } from 'clsx';
-import { useRouter } from 'next/router';
 import { PropsWithChildren, ReactNode } from 'react';
 
 type Props = {

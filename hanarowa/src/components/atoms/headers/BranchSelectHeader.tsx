@@ -2,14 +2,7 @@
 
 import { IcArrowDown, IcByeoldol } from '@/assets/svg';
 import useModal from '@/hooks/useModal';
-import BranchSelectModal from '../modals/BranchSelectModal';
-
-type Branch = {
-  id: number;
-  location: string;
-  name: string;
-  color: 'teal' | 'blue' | 'green' | 'purple';
-};
+import { BranchSelectModal } from '../modals';
 
 type Props = {
   location: string;
