@@ -14,7 +14,6 @@ import { useState, useEffect } from 'react';
 
 const Page = () => {
   const [name, setName] = useState<string>('');
-  // const [showModal, setShowModal] = useState<boolean>(false);
   const { isOpen, openModal, closeModal } = useModal();
 
   const router = useRouter();
