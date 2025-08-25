@@ -11,14 +11,14 @@ type ClassReservationCardProps = {
   isReviewed?: boolean;
 };
 
-const ClassReservationCard: React.FC<ClassReservationCardProps> = ({
+const ClassReservationCard = ({
   courseName,
   reserveHanDate,
   reservationDate,
   location,
   instructor,
   isReviewed = false,
-}) => {
+}: ClassReservationCardProps) => {
   return (
     <div className='rounded-8 flex w-full flex-col bg-white'>
       <div className='flex flex-col gap-[2rem] p-[2.4rem]'>
