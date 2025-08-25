@@ -1,5 +1,8 @@
 export { default as IcInfo } from './IcInfo';
 export { default as IcAdminUsers } from './IcAdminUsers';
+export { default as IcAiByeoldol } from './IcAiByeoldol';
+export { default as IcAiCalendar } from './IcAiCalendar';
+export { default as IcAiSearch } from './IcAiSearch';
 export { default as IcAi } from './IcAi';
 export { default as IcArrowDown } from './IcArrowDown';
 export { default as IcBell } from './IcBell';
@@ -33,6 +36,7 @@ export { default as IcNaver } from './IcNaver';
 export { default as IcOpeneye } from './IcOpeneye';
 export { default as IcPeople } from './IcPeople';
 export { default as IcPlayByeoldol } from './IcPlayByeoldol';
+export { default as IcRightChevron } from './IcRightChevron';
 export { default as IcReserveclock } from './IcReserveclock';
 export { default as IcSearch } from './IcSearch';
 export { default as IcSignupFace } from './IcSignupFace';
