@@ -12,7 +12,7 @@ import {
 } from '@/constants/lesson-options';
 import React, { useState, useRef } from 'react';
 
-const LessonCreatePage = () => {
+const Page = () => {
   const [formData, setFormData] = useState({
     title: '',
     instructorIntro: '',
@@ -335,4 +335,4 @@ const LessonCreatePage = () => {
   );
 };
 
-export default LessonCreatePage;
+export default Page;
