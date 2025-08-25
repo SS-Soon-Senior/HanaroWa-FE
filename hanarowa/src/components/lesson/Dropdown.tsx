@@ -28,6 +28,15 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     const dropdownRef = useRef<HTMLDivElement>(null);
     const autoId = useId();
     const dropdownId = id ?? `dropdown-${autoId}`;
+    
+    const combinedRef = (node: HTMLDivElement | null) => {
+      dropdownRef.current = node;
+      if (typeof ref === 'function') {
+        ref(node);
+      } else if (ref) {
+        ref.current = node;
+      }
+    };
 
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
@@ -55,7 +64,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     return (
       <div
         id={dropdownId}
-        ref={dropdownRef}
+        ref={combinedRef}
         className={clsx('relative', fullWidth && 'w-full', containerClassName)}
         {...props}
       >

@@ -15,7 +15,7 @@ import {
   useLessonEditContext,
 } from '@/contexts/LessonEditContext';
 import { useParams } from 'next/navigation';
-import React from 'react';
+import { FormEventHandler } from 'react';
 
 const TXT = 'font-medium-16 placeholder:text-gray353';
 const INPUT_BOX = '!h-[5.6rem] !px-[2rem] !py-0';
@@ -48,7 +48,7 @@ function DetailForm() {
     );
   }
 
-  const onSubmit: React.FormEventHandler = (e) => {
+  const onSubmit: FormEventHandler = (e) => {
     e.preventDefault();
     const payload = buildPayload();
     console.log('강좌 수정 payload:', payload);
@@ -111,8 +111,8 @@ function DetailForm() {
         <section>
           <h2 className='font-medium-16 mb-[1.2rem] text-black'>비용</h2>
           <Input
-            type='text'
-            placeholder={initial?.fee ?? '10,000원'}
+            type='number'
+            placeholder={initial?.fee ?? '10,000'}
             value={formData.fee}
             onChange={(e) => handleInputChange('fee', e.target.value)}
             fullWidth
@@ -275,8 +275,7 @@ function DetailForm() {
         </section>
 
         {/* 추가 강좌 내용들 */}
-        {Array.from({ length: additionalCount }).map((_, index) => {
-          const value = formData.additionalContents[index] ?? '';
+        {formData.additionalContents.map((value, index) => {
           const ph =
             initial?.additionalContents?.[index] ??
             `${index + 2}차시에 진행되는 강좌 내용을 적어주세요`;
