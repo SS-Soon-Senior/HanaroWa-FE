@@ -1,18 +1,12 @@
-import Image from 'next/image';
+import { IcBookByeoldol } from '@/assets/svg';
 
-export default function SplashPage() {
+const Page = () => {
   return (
-    <div className='relative flex flex-col items-center pt-[25.7rem]'>
-      <Image
-        src='/imgs/logo.png'
-        alt='logo'
-        width={187}
-        height={187}
-        priority
-      />
-      <p className='font-medium-26 relative mt-[-2rem] text-center text-black'>
-        하나로와
-      </p>
+    <div className='flex h-screen flex-col items-center justify-start pt-[33vh]'>
+      <IcBookByeoldol width='200' height='200' viewBox='0 0 109 109' />
+      <p className='font-medium-30 text-center text-black'>하나로와</p>
     </div>
   );
-}
+};
+
+export default Page;

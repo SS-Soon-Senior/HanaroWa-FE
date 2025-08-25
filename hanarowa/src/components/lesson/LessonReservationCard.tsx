@@ -2,8 +2,8 @@ import { IcBlackcalendar, IcLocation, IcUser } from '@/assets/svg';
 import React from 'react';
 import { Button } from '../atoms';
 
-type ClassReservationCardProps = {
-  courseName: string;
+type LessonReservationCardProps = {
+  lessonName: string;
   reserveHanDate: string;
   reservationDate: string;
   location: string;
@@ -13,22 +13,22 @@ type ClassReservationCardProps = {
   isOpened?: boolean;
 };
 
-const ClassReservationCard = ({
-  courseName,
+const LessonReservationCard = ({
+  lessonName: lessonName,
   reserveHanDate,
   reservationDate,
   location,
   instructor,
   isReviewed = false,
-  isInProgress = false,
-  isOpened = false,
-}: ClassReservationCardProps) => {
+  isInProgress,
+  isOpened,
+}: LessonReservationCardProps) => {
   return (
     <div className='rounded-8 flex w-full flex-col bg-white'>
       <div className='flex flex-col gap-[2rem] p-[2.4rem]'>
         <p className='font-medium-18 text-gray3af'>{reserveHanDate}</p>
         <div className='flex flex-col gap-[1.2rem]'>
-          <p className='font-bold-24 text-black'>{courseName}</p>
+          <p className='font-bold-24 text-black'>{lessonName}</p>
           <div className='flex flex-col gap-[0.8rem]'>
             <div className='flex flex-row items-center gap-[1.2rem]'>
               <IcUser className='h-[2rem] w-[2rem]' />
@@ -65,4 +65,4 @@ const ClassReservationCard = ({
   );
 };
 
-export default ClassReservationCard;
+export default LessonReservationCard;

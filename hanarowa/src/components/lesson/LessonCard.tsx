@@ -1,7 +1,7 @@
 import { IcUsers } from '@/assets/svg';
 import Image from 'next/image';
 
-type ClassCardProps = {
+type LessonCardProps = {
   imageUrl: string;
   title: string;
   creator: string;
@@ -11,7 +11,7 @@ type ClassCardProps = {
   price: number;
 };
 
-const ClassCard = ({
+const LessonCard = ({
   imageUrl,
   title,
   creator,
@@ -19,7 +19,7 @@ const ClassCard = ({
   participants,
   capacity,
   price,
-}: ClassCardProps) => {
+}: LessonCardProps) => {
   return (
     <div className='flex w-full flex-col gap-[1.7rem] overflow-hidden'>
       <div className='relative aspect-square'>
@@ -50,4 +50,4 @@ const ClassCard = ({
   );
 };
 
-export default ClassCard;
+export default LessonCard;
