@@ -2,9 +2,9 @@
 
 import { IcCheck } from '@/assets/svg';
 import { Button } from '@/components/atoms';
-import Layout from '../layout';
+import Layout from '@/components/atoms/Layout';
 
-export default function SignUpSuccess() {
+const Welcome = () => {
   return (
     <Layout>
       <div className='flex flex-col justify-center'>
@@ -18,7 +18,6 @@ export default function SignUpSuccess() {
           </p>
         </div>
       </div>
-      {/* 아이콘 및 중앙 공간 */}
       <div className='mx-auto flex flex-col items-center justify-center'>
         <div className='flex items-center justify-center pt-[7.9rem]'>
           <IcCheck />
@@ -31,4 +30,6 @@ export default function SignUpSuccess() {
       </div>
     </Layout>
   );
-}
+};
+
+export default Welcome;

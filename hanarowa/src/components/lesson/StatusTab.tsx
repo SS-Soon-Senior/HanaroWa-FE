@@ -11,7 +11,7 @@ interface TabbarProps {
   onTabChange: (key: string) => void;
 }
 
-const StatusTab: React.FC<TabbarProps> = ({ tabs, activeTab, onTabChange }) => {
+const StatusTab = ({ tabs, activeTab, onTabChange }: TabbarProps) => {
   return (
     <div className='flex rounded-[1rem] bg-white px-[0.4rem] py-[0.5rem]'>
       {tabs.map((tab) => (
