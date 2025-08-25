@@ -1,7 +1,7 @@
 'use client';
 
+import { IcSignupFace } from '@/assets/svg';
 import { Layout, Header, Input, Button } from '@/components/atoms';
-import Image from 'next/image';
 import { useState } from 'react';
 
 const Page = () => {

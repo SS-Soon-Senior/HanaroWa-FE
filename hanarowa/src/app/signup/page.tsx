@@ -1,5 +1,6 @@
 'use client';
 
+import { IcSignupFace } from '@/assets/svg';
 import {
   Header,
   Input,
@@ -7,7 +8,6 @@ import {
   Button,
   Layout,
 } from '@/components/atoms';
-import Image from 'next/image';
 import { useState } from 'react';
 import { useActionState } from 'react';
 import { signup, SignupErrorState } from './action';
