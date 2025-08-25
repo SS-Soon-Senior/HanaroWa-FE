@@ -10,206 +10,191 @@ import {
   startDateOptions,
   timeOptions,
 } from '@/constants/lesson-options';
-import React, { useState, useRef } from 'react';
+import {
+  LessonEditProvider,
+  useLessonEditContext,
+} from '@/contexts/LessonEditContext';
+import { useParams } from 'next/navigation';
+import React from 'react';
 
-const Page = () => {
-  const [formData, setFormData] = useState({
-    title: '',
-    instructorIntro: '',
-    lessonIntro: '',
-    fee: '',
-    category: '',
-    startDate: '2025-08-18',
-    endDate: '2025-08-30',
-    days: '월, 수',
-    time: '11:00 ~ 13:00',
-    lessonImage: null as File | null,
-    lessonDescription: '',
-    expectedParticipants: '20',
-    additionalContents: [] as string[],
-  });
+const TXT = 'font-medium-16 placeholder:text-gray353';
+const INPUT_BOX = '!h-[5.6rem] !px-[2rem] !py-0';
+const TEXTAREA_BOX =
+  '!w-full !h-[12rem] !px-[2rem] !py-[2rem] !pb-[3.2rem] !gap-[0.6rem]';
+const DROPDOWN_BOX = '!h-[5.6rem] !px-[2rem] !py-0';
+const DROPDOWN_W = '!w-[33.5rem]';
 
-  const handleInputChange = (
-    field: string,
-    value: string | boolean | File | null | string[]
-  ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
+function DetailForm() {
+  const {
+    initial,
+    loading,
+    formData,
+    fileInputRef,
+    isDirty,
+    additionalCount,
+    handleInputChange,
+    handleAddContent,
+    handleAdditionalContentChange,
+    removeAdditionalContent,
+    removeImage,
+    buildPayload,
+  } = useLessonEditContext();
 
-  const handleAddContent = () => {
-    setFormData((prev) => ({
-      ...prev,
-      additionalContents: [...prev.additionalContents, ''],
-    }));
-  };
-
-  const handleAdditionalContentChange = (index: number, value: string) => {
-    const newContents = [...formData.additionalContents];
-    newContents[index] = value;
-    handleInputChange('additionalContents', newContents);
-  };
-
-  const removeAdditionalContent = (index: number) => {
-    const newContents = formData.additionalContents.filter(
-      (_, i) => i !== index
+  if (loading && !initial) {
+    return (
+      <Layout header={<Header title='강좌 수정하기' showBackButton />}>
+        <div className='text-gray353 p-4'>불러오는 중...</div>
+      </Layout>
     );
-    handleInputChange('additionalContents', newContents);
-  };
+  }
 
-  const handleSubmit = () => {
-    console.log('강좌 개설 데이터:', formData);
-    // API 호출 로직 구현
+  const onSubmit: React.FormEventHandler = (e) => {
+    e.preventDefault();
+    const payload = buildPayload();
+    console.log('강좌 수정 payload:', payload);
+    // TODO: API 연동 시 PUT/POST 호출
   };
-
-  const handleRemoveImage = () => {
-    handleInputChange('lessonImage', null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <Layout header={<Header title='강좌 개설하기' showBackButton={true} />}>
-      <div className='space-y-[2rem]'>
+    <Layout header={<Header title='강좌 수정하기' showBackButton />}>
+      <form onSubmit={onSubmit} className='space-y-[2rem]'>
         {/* 강좌 제목 */}
-        <div>
+        <section>
           <h2 className='font-medium-16 mb-[1.2rem] text-black'>강좌 제목</h2>
           <Input
             type='text'
-            placeholder='예) 디지털 카메라 기초 완성'
+            placeholder={initial?.title ?? '예) 디지털 카메라 기초 완성'}
             value={formData.title}
             onChange={(e) => handleInputChange('title', e.target.value)}
             fullWidth
-            className='font-medium-16 placeholder:text-gray353'
-            containerClassName='!h-[5.6rem] !px-[2rem] !py-0'
+            className={TXT}
+            containerClassName={INPUT_BOX}
           />
-        </div>
+        </section>
 
         {/* 강사 소개 */}
-        <div>
+        <section>
           <h2 className='font-medium-16 mb-[1.2rem] text-black'>강사 소개</h2>
           <Textarea
-            placeholder='자기소개를 작성해주세요 경력, 전문분야, 강좌 스타일 등을 포함해주세요'
+            placeholder={
+              initial?.instructorIntro ??
+              '자기소개를 작성해주세요 경력, 전문분야, 강좌 스타일 등을 포함해주세요'
+            }
             value={formData.instructorIntro}
             onChange={(e) =>
               handleInputChange('instructorIntro', e.target.value)
             }
             rows={4}
             fullWidth
-            className='font-medium-16 placeholder:text-gray353'
-            containerClassName='!w-full !h-[12rem] !px-[2rem] !py-[2rem] !pb-[3.2rem] !gap-[0.6rem]'
+            className={TXT}
+            containerClassName={TEXTAREA_BOX}
           />
-        </div>
+        </section>
 
         {/* 강좌 소개 */}
-        <div>
+        <section>
           <h2 className='font-medium-16 mb-[1.2rem] text-black'>강좌 소개</h2>
           <Textarea
-            placeholder='강좌 내용과 목표를 자세히 작성해주세요'
+            placeholder={
+              initial?.lessonIntro ?? '강좌 내용과 목표를 자세히 작성해주세요'
+            }
             value={formData.lessonIntro}
             onChange={(e) => handleInputChange('lessonIntro', e.target.value)}
             rows={4}
             fullWidth
-            className='font-medium-16 placeholder:text-gray353'
-            containerClassName='!w-full !h-[12rem] !px-[2rem] !py-[2rem] !pb-[3.2rem] !gap-[0.6rem]'
+            className={TXT}
+            containerClassName={TEXTAREA_BOX}
           />
-        </div>
+        </section>
 
         {/* 비용 */}
-        <div>
+        <section>
           <h2 className='font-medium-16 mb-[1.2rem] text-black'>비용</h2>
           <Input
             type='text'
-            placeholder='10,000원'
+            placeholder={initial?.fee ?? '10,000원'}
             value={formData.fee}
             onChange={(e) => handleInputChange('fee', e.target.value)}
             fullWidth
-            className='font-medium-16 placeholder:text-gray353'
-            containerClassName='!h-[5.6rem] !px-[2rem] !py-0'
+            className={TXT}
+            containerClassName={INPUT_BOX}
           />
-        </div>
+        </section>
 
         {/* 카테고리 */}
-        <div>
+        <section>
           <h2 className='font-medium-16 mb-[1.2rem] text-black'>카테고리</h2>
           <Dropdown
             options={categoryOptions}
             value={formData.category}
-            placeholder='카테고리를 선택하세요'
-            onChange={(value) => handleInputChange('category', value)}
-            containerClassName='!w-[33.5rem]'
-            className='!h-[5.6rem] !px-[2rem] !py-0'
+            placeholder={initial?.category ?? '카테고리를 선택하세요'}
+            onChange={(v) => handleInputChange('category', v)}
+            containerClassName={DROPDOWN_W}
+            className={DROPDOWN_BOX}
             labelClassName='font-medium-16'
             placeholderClassName='text-gray353'
           />
-        </div>
+        </section>
 
-        {/* 강의 시작일 */}
-        <div>
+        {/* 강의 시작/종료/요일/시간 */}
+        <section>
           <h2 className='font-medium-16 mb-[1.2rem] text-black'>강의 시작일</h2>
           <Dropdown
             options={startDateOptions}
             value={formData.startDate}
-            placeholder='2025-08-18'
-            onChange={(value) => handleInputChange('startDate', value)}
-            containerClassName='!w-[33.5rem]'
-            className='!h-[5.6rem] !px-[2rem] !py-0'
+            placeholder={initial?.startDate ?? '2025-08-18'}
+            onChange={(v) => handleInputChange('startDate', v)}
+            containerClassName={DROPDOWN_W}
+            className={DROPDOWN_BOX}
             labelClassName='font-medium-16'
             placeholderClassName='text-gray353'
           />
-        </div>
+        </section>
 
-        {/* 강의 종료일 */}
-        <div>
+        <section>
           <h2 className='font-medium-16 mb-[1.2rem] text-black'>강의 종료일</h2>
           <Dropdown
             options={endDateOptions}
             value={formData.endDate}
-            placeholder='2025-08-30'
-            onChange={(value) => handleInputChange('endDate', value)}
-            containerClassName='!w-[33.5rem]'
-            className='!h-[5.6rem] !px-[2rem] !py-0'
+            placeholder={initial?.endDate ?? '2025-08-30'}
+            onChange={(v) => handleInputChange('endDate', v)}
+            containerClassName={DROPDOWN_W}
+            className={DROPDOWN_BOX}
             labelClassName='font-medium-16'
             placeholderClassName='text-gray353'
           />
-        </div>
+        </section>
 
-        {/* 강의 요일 */}
-        <div>
+        <section>
           <h2 className='font-medium-16 mb-[1.2rem] text-black'>강의 요일</h2>
           <Dropdown
             options={dayOptions}
             value={formData.days}
-            placeholder='월, 수'
-            onChange={(value) => handleInputChange('days', value)}
-            containerClassName='!w-[33.5rem]'
-            className='!h-[5.6rem] !px-[2rem] !py-0'
+            placeholder={initial?.days ?? '월, 수'}
+            onChange={(v) => handleInputChange('days', v)}
+            containerClassName={DROPDOWN_W}
+            className={DROPDOWN_BOX}
             labelClassName='font-medium-16'
             placeholderClassName='text-gray353'
           />
-        </div>
+        </section>
 
-        {/* 강의 시간 */}
-        <div>
+        <section>
           <h2 className='font-medium-16 mb-[1.2rem] text-black'>강의 시간</h2>
           <Dropdown
             options={timeOptions}
             value={formData.time}
-            placeholder='11:00 ~ 13:00'
-            onChange={(value) => handleInputChange('time', value)}
-            containerClassName='!w-[33.5rem]'
-            className='!h-[5.6rem] !px-[2rem] !py-0'
+            placeholder={initial?.time ?? '11:00 ~ 13:00'}
+            onChange={(v) => handleInputChange('time', v)}
+            containerClassName={DROPDOWN_W}
+            className={DROPDOWN_BOX}
             labelClassName='font-medium-16'
             placeholderClassName='text-gray353'
           />
-        </div>
+        </section>
 
         {/* 강의 사진 등록 */}
-        <div>
+        <section>
           <h2 className='font-medium-16 mb-[1.2rem] text-black'>
             강의 사진 등록
           </h2>
@@ -221,10 +206,9 @@ const Page = () => {
               accept='image/*'
               className='hidden'
               onChange={(e) => {
-                const target = e.target as HTMLInputElement;
-                if (target.files && target.files[0]) {
-                  handleInputChange('lessonImage', target.files[0]);
-                }
+                const t = e.target as HTMLInputElement;
+                if (t.files && t.files[0])
+                  handleInputChange('lessonImage', t.files[0]);
               }}
               containerClassName='!p-0 !border-none !bg-transparent !rounded-none'
             />
@@ -236,13 +220,29 @@ const Page = () => {
                   className='rounded-12 max-h-[20rem] w-full object-contain'
                 />
                 <Button
-                  onClick={handleRemoveImage}
+                  onClick={removeImage}
                   variant='line'
                   sizeType='xs'
                   className='!bg-red !absolute top-2 right-2 !h-6 !w-6 !rounded-full !p-0 text-sm text-white'
+                  type='button'
                 >
                   ×
                 </Button>
+              </div>
+            ) : initial?.imageUrl ? (
+              <div className='relative'>
+                <img
+                  src={initial.imageUrl}
+                  alt='기존 이미지'
+                  className='rounded-12 max-h-[20rem] w-full object-contain'
+                />
+                <label
+                  htmlFor='lessonImage'
+                  className='rounded-6 absolute top-2 right-2 cursor-pointer bg-black/60 px-2 py-1 text-xs text-white'
+                  title='이미지 변경'
+                >
+                  변경
+                </label>
               </div>
             ) : (
               <label
@@ -253,52 +253,63 @@ const Page = () => {
               </label>
             )}
           </div>
-        </div>
+        </section>
 
-        {/* 강좌 내용 */}
-        <div>
+        {/* 강좌 내용 (1차시) */}
+        <section>
           <h2 className='font-medium-16 mb-[1.2rem] text-black'>강좌 내용</h2>
           <Textarea
-            placeholder='1차시에 진행되는 강좌 내용을 적어주세요'
+            placeholder={
+              initial?.lessonDescription ??
+              '1차시에 진행되는 강좌 내용을 적어주세요'
+            }
             value={formData.lessonDescription}
             onChange={(e) =>
               handleInputChange('lessonDescription', e.target.value)
             }
             rows={4}
             fullWidth
-            className='font-medium-16 placeholder:text-gray353'
-            containerClassName='!w-full !h-[12rem] !px-[2rem] !py-[2rem] !pb-[3.2rem] !gap-[0.6rem]'
+            className={TXT}
+            containerClassName={TEXTAREA_BOX}
           />
-        </div>
+        </section>
 
         {/* 추가 강좌 내용들 */}
-        {formData.additionalContents.map((content, index) => (
-          <div key={index}>
-            <div className='mb-[1.2rem] flex items-center justify-between'>
-              <h2 className='font-medium-16 text-black'>
-                강좌 내용 {index + 2}차시
-              </h2>
-              <Button
-                onClick={() => removeAdditionalContent(index)}
-                variant='line'
-                sizeType='xs'
-                className='text-red font-medium-16 !w-auto !border-none !px-4'
-              >
-                삭제
-              </Button>
-            </div>
-            <Textarea
-              placeholder={`${index + 2}차시에 진행되는 강좌 내용을 적어주세요`}
-              value={content}
-              onChange={(e) =>
-                handleAdditionalContentChange(index, e.target.value)
-              }
-              rows={4}
-              className='font-medium-16 placeholder:text-gray353'
-              fullWidth
-            />
-          </div>
-        ))}
+        {Array.from({ length: additionalCount }).map((_, index) => {
+          const value = formData.additionalContents[index] ?? '';
+          const ph =
+            initial?.additionalContents?.[index] ??
+            `${index + 2}차시에 진행되는 강좌 내용을 적어주세요`;
+          return (
+            <section key={index}>
+              <div className='mb-[1.2rem] flex items-center justify-between'>
+                <h2 className='font-medium-16 text-black'>
+                  강좌 내용 {index + 2}차시
+                </h2>
+                <Button
+                  onClick={() => removeAdditionalContent(index)}
+                  variant='line'
+                  sizeType='xs'
+                  className='text-red font-medium-16 !w-auto !border-none !px-4'
+                  type='button'
+                >
+                  삭제
+                </Button>
+              </div>
+              <Textarea
+                placeholder={ph}
+                value={value}
+                onChange={(e) =>
+                  handleAdditionalContentChange(index, e.target.value)
+                }
+                rows={4}
+                className={TXT}
+                fullWidth
+              />
+            </section>
+          );
+        })}
+
         {/* + 버튼 */}
         <div>
           <Button
@@ -306,19 +317,20 @@ const Page = () => {
             variant='line'
             sizeType='xs'
             className='bg-gray9a0 font-medium-16 rounded-6 h-[4rem] border-none text-white'
+            type='button'
           >
             +
           </Button>
         </div>
 
         {/* 예상 정원 */}
-        <div className='flex items-center space-x-[1rem]'>
+        <section className='flex items-center space-x-[1rem]'>
           <IcUsers height={24} width={24} />
           <span className='text-gray353 font-medium-16'>예상 정원</span>
           <div className='rounded-16 border-gray7eb ml-auto flex h-[5.6rem] w-[18.5rem] items-center justify-end border bg-white px-[1.7rem]'>
             <Input
               type='number'
-              placeholder='20'
+              placeholder={initial?.expectedParticipants ?? '20'}
               value={formData.expectedParticipants}
               onChange={(e) =>
                 handleInputChange('expectedParticipants', e.target.value)
@@ -328,27 +340,35 @@ const Page = () => {
             />
             <span className='font-medium-16 ml-[0.5rem] text-black'>명</span>
           </div>
-        </div>
+        </section>
 
-        {/* 강좌 개설하기 버튼 */}
+        {/* 수정하기 */}
         <div className='pb-[2rem]'>
           <Button
-            onClick={handleSubmit}
+            type='submit'
             variant='green'
             sizeType='lg'
-            className='h-[6.3rem] text-center font-bold text-white'
+            disabled={!isDirty || loading || !initial}
+            className='h-[6.3rem] text-center font-bold text-white disabled:cursor-not-allowed disabled:opacity-40'
             style={{
               fontFamily: 'Inter',
               fontSize: '16px',
               lineHeight: '21.6px',
             }}
           >
-            강좌 개설하기
+            수정하기
           </Button>
         </div>
-      </div>
+      </form>
     </Layout>
   );
-};
+}
 
-export default Page;
+export default function Page() {
+  const { id } = useParams<{ id: string }>();
+  return (
+    <LessonEditProvider id={id}>
+      <DetailForm />
+    </LessonEditProvider>
+  );
+}
