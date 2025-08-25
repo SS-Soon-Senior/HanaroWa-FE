@@ -61,6 +61,8 @@
     overscroll-behavior: none;
     background-color: var(--color-background);
     font-size: 62.5%;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   body {

@@ -3,7 +3,7 @@
 import { useBranch } from '@/hooks';
 import BranchButton from '../buttons/BranchButton';
 
-const branches: Branch[] = [
+export const branches: Branch[] = [
   { id: 1, location: '춘천', branch: '50+ 컬처뱅크' },
   { id: 2, location: '대전', branch: '50+ 컬처뱅크' },
   { id: 3, location: '광주', branch: '1968 라운지' },

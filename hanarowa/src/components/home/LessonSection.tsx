@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ClassCard } from '../lesson';
 
-const Lectures = [
+const Lessons = [
   {
     id: 1,
     imageUrl: '/imgs/IMG_7675.png',
@@ -44,18 +44,18 @@ const Lectures = [
   },
 ];
 
-const LectureSection = () => {
+const LessonSection = () => {
   return (
     <section className='mt-[3rem]'>
       <div className='mb-[1.8rem] flex flex-row items-center justify-between'>
         <h1 className='font-bold-22 text-black'>인기 강좌</h1>
-        <Link href='/lectures' className='font-medium-16 text-main'>
+        <Link href='/lesson' className='font-medium-16 text-main'>
           바로가기
         </Link>
       </div>
 
       <div className='grid grid-cols-2 gap-[2.5rem]'>
-        {Lectures.map(
+        {Lessons.map(
           ({
             id,
             imageUrl,
@@ -83,4 +83,4 @@ const LectureSection = () => {
   );
 };
 
-export default LectureSection;
+export default LessonSection;

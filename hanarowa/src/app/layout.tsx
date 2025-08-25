@@ -1,3 +1,4 @@
+import { BranchProvider } from '@contexts';
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import './globals.css';
@@ -16,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <body className='antialiased' suppressHydrationWarning>
-        {children}
+        <BranchProvider>{children}</BranchProvider>
       </body>
     </html>
   );

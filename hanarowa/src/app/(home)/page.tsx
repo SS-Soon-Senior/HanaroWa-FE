@@ -5,7 +5,7 @@ import {
   Layout,
   BranchSelectHeader,
 } from '@/components/atoms';
-import { LectureSection, MenuSection } from '@/components/home';
+import { LessonSection, MenuSection } from '@/components/home';
 import { useBranch } from '@/hooks';
 import { IcSearch, IcBell, IcBook, IcCalendar, IcSofa } from '@svg';
 
@@ -13,17 +13,17 @@ const lectureMenu = [
   {
     icon: <IcSearch />,
     title: '강좌 찾기',
-    href: '/lectures',
+    href: '/lesson',
   },
   {
     icon: <IcBell />,
     title: '강좌 개설',
-    href: '/lectures/create',
+    href: '/lesson/create',
   },
   {
     icon: <IcBook />,
     title: '내 강좌',
-    href: '/my-lectures',
+    href: '/my-lesson',
   },
 ];
 
@@ -50,7 +50,7 @@ const Page = () => {
     >
       <MenuSection title='강좌' items={lectureMenu} />
       <MenuSection title='예약 하기' items={reservationMenu} />
-      <LectureSection />
+      <LessonSection />
     </Layout>
   );
 };
