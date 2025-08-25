@@ -4,6 +4,7 @@ import {
   IcClock,
   IcGreencalendar,
   IcInfo,
+  IcReserveclock,
   IcWhitearrow,
   IcWhitearrowreverse,
 } from '@/assets/svg';
@@ -189,7 +190,7 @@ const Page = () => {
                   </p>
                 </div>
                 <div className='flex flex-row items-center gap-[1.2rem] pb-[2rem]'>
-                  <IcClock />{' '}
+                  <IcReserveclock />{' '}
                   <p className='font-medium-18'>
                     {startTime} ~ {endTime} ({duration}시간)
                   </p>
