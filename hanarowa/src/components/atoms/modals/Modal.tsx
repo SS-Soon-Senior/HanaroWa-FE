@@ -15,7 +15,7 @@ type Props = {
   type?: 'submit';
 };
 
-export default function Modal({
+const Modal = ({
   title,
   description,
   greenButtonText,
@@ -24,7 +24,7 @@ export default function Modal({
   onClickGrayButton,
   isGrayButtonDisabled,
   type,
-}: PropsWithChildren<Props>) {
+}: PropsWithChildren<Props>) => {
   const overlay = useRef<HTMLDivElement>(null);
 
   const onClickOverlay: MouseEventHandler<HTMLDivElement> = (e) => {
@@ -81,4 +81,6 @@ export default function Modal({
       </div>
     </div>
   );
-}
+};
+
+export default Modal;
