@@ -1,5 +1,3 @@
-'use client';
-
 import { IcCheck } from '@/assets/svg';
 import { Button } from '@/components/atoms';
 import Layout from '@/components/atoms/Layout';
@@ -10,9 +8,11 @@ const Page = () => {
     <Layout
       footer={
         <div className='w-full justify-end px-[2rem] pb-[2rem]'>
-          <Button className='w-full' sizeType='lg' variant='green'>
-            <Link href='/home'>홈으로 가기</Link>
-          </Button>
+          <Link href='/' className='w-full'>
+            <Button sizeType='lg' variant='green'>
+              홈으로 가기
+            </Button>
+          </Link>
         </div>
       }
     >
