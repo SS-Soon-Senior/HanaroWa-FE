@@ -32,7 +32,7 @@ const Page = () => {
 
   return (
     <Layout header={<Header title='내 예약 내역' />}>
-      <div className='flex flex-col gap-8 p-4'>
+      <div className='flex w-full flex-col gap-8 p-4'>
         {/* 예약 중 섹션 */}
         {reservations.length > 0 && (
           <div className='space-y-4'>
