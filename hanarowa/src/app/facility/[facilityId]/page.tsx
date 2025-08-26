@@ -102,13 +102,7 @@ const Page = () => {
   return (
     <Layout
       header={<Header showBackButton={true} title='예약하기' />}
-      footer={
-        <div className='px-[2rem] pb-[2rem]'>
-          <Button variant={duration === 0 ? 'disabled' : 'green'} sizeType='lg'>
-            예약하기
-          </Button>
-        </div>
-      }
+      footer={<div className='px-[2rem] pb-[2rem]'></div>}
     >
       <div className='relative h-[22.9rem] w-full pt-[2.6rem]'>
         <Image
@@ -206,6 +200,9 @@ const Page = () => {
           )}
         </div>
       </div>
+      <Button variant={duration === 0 ? 'disabled' : 'green'} sizeType='lg'>
+        예약하기
+      </Button>
     </Layout>
   );
 };
