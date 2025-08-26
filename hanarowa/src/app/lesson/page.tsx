@@ -1,5 +1,12 @@
-import { Header, Layout } from '@/components/atoms';
+import { IcRefresh } from '@/assets/svg';
+import {
+  CategoryFilter,
+  CategoryTag,
+  Header,
+  Layout,
+} from '@/components/atoms';
 import { LessonCard } from '@/components/lesson';
+import { CATEGORY_KEYS } from '@/constants/category';
 
 const Lessons = [
   {
@@ -46,8 +53,16 @@ const Lessons = [
 
 const Page = () => {
   return (
-    <Layout header={<Header title='강좌 목록' />}>
-      <div className='grid w-full grid-cols-2 gap-[2.5rem] pt-[2.5rem]'>
+    <Layout header={<Header title='강좌 목록' showSearchButton />}>
+      <div className='flex w-full items-center justify-between'>
+        <p className='font-bold-18 text-gray353'>춘천 컬쳐뱅크</p>
+        <button className='flex items-center gap-[0.6rem]'>
+          <span className='font-bold-18 text-gray353'>지점 변경</span>
+          <IcRefresh />
+        </button>
+      </div>
+      <CategoryFilter />
+      <div className='grid w-full grid-cols-2 gap-[2.5rem]'>
         {Lessons.map(({ id, ...cardProps }) => (
           <LessonCard key={id} {...cardProps} />
         ))}
