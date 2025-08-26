@@ -19,33 +19,15 @@
       }
     ],
     "paths": {
-      "@apis": [
-        "./src/apis"
-      ],
-      "@image": [
-        "./public/image"
-      ],
-      "@components": [
-        "./src/components"
-      ],
-      "@contexts": [
-        "./src/contexts"
-      ],
-      "@hooks": [
-        "./src/hooks"
-      ],
-      "@types": [
-        "./src/types"
-      ],
-      "@utils": [
-        "./src/utils"
-      ],
-      "@/*": [
-        "./src/*"
-      ],
-      "@svg": [
-        "./src/assets/svg"
-      ]
+      "@apis": ["./src/apis"],
+      "@image": ["./public/image"],
+      "@components": ["./src/components"],
+      "@contexts": ["./src/contexts"],
+      "@hooks": ["./src/hooks"],
+      "@types": ["./src/types"],
+      "@utils": ["./src/utils"],
+      "@/*": ["./src/*"],
+      "@svg": ["./src/assets/svg"]
     }
   },
   "include": [
@@ -56,7 +38,5 @@
     "src/**/*.d.ts",
     "svgr.d.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

@@ -74,7 +74,9 @@ const Page = () => {
           <Input
             placeholder={initialBirth || '000000'}
             value={birth}
-            onChange={(e: any) => setBirth(digits(e.target.value).slice(0, 6))}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setBirth(digits(e.target.value).slice(0, 6))
+            }
             inputMode='numeric'
             maxLength={6}
             autoComplete='bday'
@@ -88,7 +90,9 @@ const Page = () => {
               initialPhone ? formatPhone(initialPhone) : '010-0000-0000'
             }
             value={phone}
-            onChange={(e: any) => setPhone(formatPhone(e.target.value))}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setPhone(formatPhone(e.target.value))
+            }
             inputMode='numeric'
             maxLength={13}
             autoComplete='tel'

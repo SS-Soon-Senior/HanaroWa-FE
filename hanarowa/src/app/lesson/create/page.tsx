@@ -217,6 +217,8 @@ const Page = () => {
             />
             {formData.lessonImage ? (
               <div className='relative'>
+                {/* 나중에 Next Image로 바꾸세요. */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={URL.createObjectURL(formData.lessonImage)}
                   alt='업로드된 이미지'

@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useBranch } from '@/hooks';
+import { useEffect } from 'react';
 import BranchButton from '../buttons/BranchButton';
 
 export const branches: Branch[] = [
