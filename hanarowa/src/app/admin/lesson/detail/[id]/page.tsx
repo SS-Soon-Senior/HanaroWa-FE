@@ -3,7 +3,6 @@
 import { IcImageUpload, IcUsers } from '@/assets/svg';
 import { Layout, Header, Input, Textarea, Button } from '@/components/atoms';
 import LessonStatusTags from '@/components/atoms/tags/LessonStatusTag';
-import { StatusKey } from '@/constants/status';
 import { Dropdown } from '@/components/lesson';
 import {
   categoryOptions,
@@ -12,6 +11,7 @@ import {
   startDateOptions,
   timeOptions,
 } from '@/constants/lesson-options';
+import { StatusKey } from '@/constants/status';
 import {
   LessonEditProvider,
   useLessonEditContext,
@@ -24,7 +24,7 @@ const INPUT_BOX = '!h-[5.6rem] !px-[2rem] !py-0';
 const TEXTAREA_BOX =
   '!w-full !h-[12rem] !px-[2rem] !py-[2rem] !pb-[3.2rem] !gap-[0.6rem]';
 const DROPDOWN_BOX = '!h-[5.6rem] !px-[2rem] !py-0';
-const DROPDOWN_W = '!w-[33.5rem]';
+const DROPDOWN_W = '!w-full';
 
 // 한글 상태값을 StatusKey로 변환
 const convertToStatusKey = (status: string): StatusKey => {
@@ -73,10 +73,12 @@ function DetailForm() {
 
   return (
     <Layout header={<Header title='강좌 신청 상세' showBackButton />}>
-      <form onSubmit={onSubmit} className='space-y-[2rem]'>
+      <form onSubmit={onSubmit} className='w-full space-y-[2rem]'>
         {/* 상태 태그들 */}
         <section className='mt-[3rem] mb-[2rem]'>
-          <LessonStatusTags currentStatus={convertToStatusKey(initial?.status ?? '대기중')} />
+          <LessonStatusTags
+            currentStatus={convertToStatusKey(initial?.status ?? '대기중')}
+          />
         </section>
 
         {/* 강좌 제목 */}
@@ -143,7 +145,7 @@ function DetailForm() {
         </section>
 
         {/* 카테고리 */}
-        <section>
+        <section className='w-full'>
           <h2 className='font-medium-16 mb-[2.0rem] text-black'>카테고리</h2>
           <Dropdown
             options={categoryOptions}
