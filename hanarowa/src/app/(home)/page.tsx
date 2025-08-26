@@ -24,7 +24,7 @@ const lectureMenu = [
   {
     icon: <IcBook />,
     title: '내 강좌',
-    href: '/my-lesson',
+    href: '/reservation/lesson',
   },
 ];
 
@@ -32,12 +32,12 @@ const reservationMenu = [
   {
     icon: <IcSofa />,
     title: '시설',
-    href: '/reservation/facility',
+    href: '/facility',
   },
   {
     icon: <IcCalendar />,
     title: '내 예약',
-    href: '/reservation',
+    href: '/reservation/facility',
   },
 ];
 

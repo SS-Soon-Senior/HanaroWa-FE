@@ -15,17 +15,17 @@ const firstMenu = [
   {
     icon: <IcSofa />,
     title: '시설 예약',
-    href: '/lesson',
+    href: '/admin/facility',
   },
   {
     icon: <IcAdminUsers />,
     title: '회원',
-    href: '/lesson/create',
+    href: '/admin/member',
   },
   {
     icon: <IcCalendar />,
     title: '강좌 관리',
-    href: '/',
+    href: '/admin/lesson',
   },
 ];
 
@@ -33,12 +33,12 @@ const secondMenu = [
   {
     icon: <IcBook />,
     title: '강좌 목록',
-    href: '/',
+    href: '/admin/lesson',
   },
   {
     icon: <IcBell />,
     title: '강좌 개설',
-    href: '/',
+    href: '/admin/lesson/manage',
   },
 ];
 
