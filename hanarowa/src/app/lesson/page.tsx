@@ -1,5 +1,8 @@
+'use client';
+
 import { Header, Layout } from '@/components/atoms';
-import { LessonCard } from '@/components/lesson';
+import { BranchFilter } from '@/components/common';
+import { CategoryFilter, LessonCard } from '@/components/lesson';
 
 const Lessons = [
   {
@@ -46,8 +49,10 @@ const Lessons = [
 
 const Page = () => {
   return (
-    <Layout header={<Header title='강좌 목록' />}>
-      <div className='grid w-full grid-cols-2 gap-[2.5rem] pt-[2.5rem]'>
+    <Layout header={<Header title='강좌 목록' showSearchButton />}>
+      <BranchFilter branchName='춘천 컬쳐뱅크' onChangeBranch={() => {}} />
+      <CategoryFilter selectedCategories={[]} onChange={() => {}} />
+      <div className='grid w-full grid-cols-2 gap-[2.5rem]'>
         {Lessons.map(({ id, ...cardProps }) => (
           <LessonCard key={id} {...cardProps} />
         ))}

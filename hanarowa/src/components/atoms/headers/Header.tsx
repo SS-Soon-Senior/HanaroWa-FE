@@ -1,18 +1,27 @@
 'use client';
 
-import { IcHeaderArrow } from '@svg';
+import { IcHeaderArrow, IcHeaderSearch } from '@svg';
 import { useRouter } from 'next/navigation';
 
 type Props = {
   title?: string;
   showBackButton?: boolean;
+  showSearchButton?: boolean;
 };
 
-const Header = ({ title, showBackButton = true }: Props) => {
+const Header = ({
+  title,
+  showBackButton = true,
+  showSearchButton = false,
+}: Props) => {
   const router = useRouter();
 
   const handleClickBack = () => {
     router.back();
+  };
+
+  const handleClickSearch = () => {
+    router.push('/lesson/search');
   };
 
   return (
@@ -27,8 +36,15 @@ const Header = ({ title, showBackButton = true }: Props) => {
       <div className='flex flex-1 justify-center'>
         <h1 className='font-bold-22 text-main text-center'>{title}</h1>
       </div>
-      {/* 오른쪽 공간 맞추기 */}
-      <div className='w-1/6' />
+      {/* 오른쪽 공간 */}
+      <div className='flex w-1/6 items-center justify-end'>
+        {showSearchButton && (
+          <IcHeaderSearch
+            onClick={handleClickSearch}
+            className='cursor-pointer'
+          />
+        )}
+      </div>
     </header>
   );
 };
