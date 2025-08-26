@@ -21,7 +21,7 @@ const Page = () => {
         </div>
         <IcCheck className='mb-[4rem]' />
         <Button className='w-full' sizeType='lg' variant='green'>
-          강좌 신청하러 가기
+          내 지점 선택하러 가기
         </Button>
       </div>
     </Layout>
