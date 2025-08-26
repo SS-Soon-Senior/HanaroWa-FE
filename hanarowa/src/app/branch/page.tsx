@@ -17,7 +17,7 @@ const Page = () => {
 
   return (
     <Layout>
-      <div className='bg-background sticky top-0 z-20 flex flex-col items-center pt-[7rem] pb-[4rem]'>
+      <div className='bg-background sticky top-0 z-20 flex w-full flex-col items-center pt-[7rem] pb-[4rem]'>
         <IcPlayByeoldol className='mx-auto' />
         <h1 className='font-bold-30 text-main text-center'>지점 선택하기</h1>
       </div>

@@ -24,7 +24,9 @@ const BranchButton = ({
       {...props}
     >
       <span className='font-bold-24 text-main text-left'>{location}</span>
-      <span className='font-bold-22 text-left text-black'>{branch}</span>
+      <span className='font-bold-22 text-left whitespace-pre text-black'>
+        {branch}
+      </span>
       {children}
     </button>
   );
