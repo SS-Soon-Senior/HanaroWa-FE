@@ -1,5 +1,4 @@
-import { Header, Layout, StatusTag } from '@/components/atoms';
-import { RoomReservationCard } from '@/components/facility';
+import { Header, Layout, StatusTag, RoomReservationCard } from '@/components';
 
 //더미 <<< 나중에 삭제해야함
 const myfacilities = [

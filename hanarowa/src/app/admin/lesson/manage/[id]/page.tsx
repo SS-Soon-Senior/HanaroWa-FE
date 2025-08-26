@@ -1,21 +1,27 @@
 'use client';
 
 import { IcImageUpload, IcUsers } from '@/assets/svg';
-import { Layout, Header, Input, Textarea, Button } from '@/components/atoms';
-import LessonStatusTags from '@/components/atoms/tags/LessonStatusTag';
-import { Dropdown } from '@/components/lesson';
 import {
   categoryOptions,
-  dayOptions,
-  endDateOptions,
   startDateOptions,
+  endDateOptions,
+  dayOptions,
   timeOptions,
 } from '@/constants/lesson-options';
 import { StatusKey } from '@/constants/status';
 import {
-  LessonEditProvider,
   useLessonEditContext,
+  LessonEditProvider,
 } from '@/contexts/LessonEditContext';
+import {
+  Layout,
+  Header,
+  LessonStatusTags,
+  Input,
+  Textarea,
+  Dropdown,
+  Button,
+} from '@components';
 import { useParams } from 'next/navigation';
 import { FormEventHandler } from 'react';
 

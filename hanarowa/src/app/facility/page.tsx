@@ -1,8 +1,6 @@
 'use client';
 
-import { Header, Layout } from '@/components/atoms';
-import { BranchFilter } from '@/components/common';
-import { FacilityCard } from '@/components/facility';
+import { BranchFilter, FacilityCard, Header, Layout } from '@/components';
 
 // 더미 <<< 작업할 때 날려주세욥
 export const facilities = [

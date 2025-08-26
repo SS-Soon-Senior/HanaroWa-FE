@@ -1,7 +1,7 @@
 'use client';
 
-import { Header, Layout, MemberCard, Modal } from '@/components/atoms';
-import useModal from '@/hooks/useModal';
+import { Header, Layout, MemberCard, Modal } from '@/components';
+import { useModal } from '@/hooks';
 
 const Page = () => {
   const { isOpen, openModal, closeModal } = useModal();

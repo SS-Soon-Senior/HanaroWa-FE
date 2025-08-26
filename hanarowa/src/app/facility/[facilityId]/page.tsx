@@ -1,13 +1,15 @@
 'use client';
 
-import { Layout, Header, Button } from '@/components/atoms';
 import {
+  Layout,
+  Header,
+  Button,
   FacilityImageCarousel,
   FacilityInfo,
   DateSelector,
   TimeSelector,
   ReservationSummary,
-} from '@/components/facility';
+} from '@/components';
 import { useState } from 'react';
 
 type Schedule = Record<string, string[]>;

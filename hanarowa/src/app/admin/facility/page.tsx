@@ -1,6 +1,6 @@
 'use client';
 
-import { Header, Layout } from '@/components/atoms';
+import { Header, Layout } from '@/components';
 
 const Page = () => {
   return (

@@ -1,15 +1,14 @@
 'use client';
 
 import {
-  IcAdminUsers,
-  IcBell,
-  IcBook,
-  IcBookByeoldol,
-  IcCalendar,
   IcSofa,
+  IcAdminUsers,
+  IcCalendar,
+  IcBook,
+  IcBell,
+  IcBookByeoldol,
 } from '@/assets/svg';
-import { BranchSelectHeader, Layout } from '@/components/atoms';
-import { MenuSection } from '@/components/home';
+import { Layout, BranchSelectHeader, MenuSection } from '@components';
 import { useBranch } from '@hooks';
 
 const firstMenu = [

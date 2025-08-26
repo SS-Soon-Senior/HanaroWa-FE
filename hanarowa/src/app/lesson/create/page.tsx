@@ -1,8 +1,14 @@
 'use client';
 
 import { IcImageUpload, IcUsers } from '@/assets/svg';
-import { Layout, Header, Input, Textarea, Button } from '@/components/atoms';
-import { Dropdown } from '@/components/lesson';
+import {
+  Layout,
+  Header,
+  Input,
+  Textarea,
+  Button,
+  Dropdown,
+} from '@/components';
 import {
   categoryOptions,
   dayOptions,

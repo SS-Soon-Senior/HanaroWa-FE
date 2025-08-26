@@ -1,8 +1,7 @@
 'use client';
 
 import { Lessons } from '@/app/lesson/page';
-import { Header, Layout } from '@/components/atoms';
-import { LessonCard } from '@/components/lesson';
+import { Header, Layout, LessonCard } from '@components';
 import Link from 'next/link';
 
 const Page = () => {

@@ -1,8 +1,12 @@
 'use client';
 
-import { Header, Layout } from '@/components/atoms';
-import { BranchFilter } from '@/components/common';
-import { CategoryFilter, LessonCard } from '@/components/lesson';
+import {
+  Layout,
+  Header,
+  BranchFilter,
+  CategoryFilter,
+  LessonCard,
+} from '@components';
 
 export const Lessons = [
   {

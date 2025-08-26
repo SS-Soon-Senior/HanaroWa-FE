@@ -1,13 +1,14 @@
 'use client';
 
+import { IcSearch, IcBell, IcBook, IcSofa, IcCalendar } from '@/assets/svg';
 import {
-  BottomNavigation,
   Layout,
+  BottomNavigation,
   BranchSelectHeader,
-} from '@/components/atoms';
-import { LessonSection, MenuSection } from '@/components/home';
-import { useBranch } from '@/hooks';
-import { IcSearch, IcBell, IcBook, IcCalendar, IcSofa } from '@svg';
+  MenuSection,
+  LessonSection,
+} from '@components';
+import { useBranch } from '@hooks';
 
 const lectureMenu = [
   {

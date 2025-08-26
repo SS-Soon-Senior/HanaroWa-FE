@@ -1,13 +1,7 @@
 'use client';
 
 import { IcCloseeye, IcOpeneye } from '@/assets/svg';
-import {
-  Header,
-  Layout,
-  Input,
-  Button,
-  ErrorMessage,
-} from '@/components/atoms';
+import { Header, Layout, Input, Button, ErrorMessage } from '@/components';
 import { useState, ChangeEvent } from 'react';
 
 const hasLetterAndNumber = (s: string) => /[A-Za-z]/.test(s) && /\d/.test(s);

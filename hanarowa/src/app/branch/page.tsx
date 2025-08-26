@@ -1,9 +1,9 @@
 'use client';
 
 import { IcPlayByeoldol } from '@/assets/svg';
-import { BranchButton, Layout } from '@/components/atoms';
+import { BranchButton, Layout } from '@/components';
 import { branches } from '@/components/atoms/modals/BranchSelectModal';
-import { useBranch } from '@/hooks/useBranch';
+import { useBranch } from '@/hooks';
 import { useRouter } from 'next/navigation';
 
 const Page = () => {

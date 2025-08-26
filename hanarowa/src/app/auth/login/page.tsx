@@ -1,13 +1,7 @@
 'use client';
 
 import { IcBookByeoldol } from '@/assets/svg';
-import {
-  Header,
-  Input,
-  ErrorMessage,
-  Button,
-  Layout,
-} from '@/components/atoms';
+import { Header, Input, ErrorMessage, Button, Layout } from '@/components';
 import Link from 'next/link';
 import { useActionState } from 'react';
 import { login } from './actions';

@@ -1,7 +1,12 @@
 'use client';
 
-import { Header, Layout, StatusTag } from '@/components/atoms';
-import { LessonReservationCard, StatusTab } from '@/components/lesson';
+import {
+  Header,
+  Layout,
+  StatusTag,
+  LessonReservationCard,
+  StatusTab,
+} from '@/components';
 import { useState } from 'react';
 
 const myLessons = [

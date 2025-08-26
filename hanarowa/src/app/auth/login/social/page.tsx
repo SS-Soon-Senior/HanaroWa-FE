@@ -1,5 +1,5 @@
 import { IcBookByeoldol, IcGoogle, IcKakao, IcNaver } from '@/assets/svg';
-import { Layout } from '@/components/atoms';
+import { Layout } from '@/components';
 import Link from 'next/link';
 
 const Page = () => {

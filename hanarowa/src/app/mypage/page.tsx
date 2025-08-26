@@ -1,8 +1,8 @@
 'use client';
 
 import { IcMyMember, IcMyPassword, IcMyLogout, IcMyUnsub } from '@/assets/svg';
-import { Header, BottomNavigation, Layout, Modal } from '@/components/atoms';
-import useModal from '@/hooks/useModal';
+import { Header, BottomNavigation, Layout, Modal } from '@/components';
+import { useModal } from '@/hooks';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
