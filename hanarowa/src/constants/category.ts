@@ -16,3 +16,5 @@ export const CATEGORY_META = {
   finance: { title: '금융', className: 'bg-main text-white' },
   others: { title: '기타', className: 'bg-[#DAD3DA] text-[#6A6B8E]' },
 } as const satisfies Record<CategoryKey, { title: string; className: string }>;
+
+export const CATEGORY_KEYS = Object.keys(CATEGORY_META) as CategoryKey[];
