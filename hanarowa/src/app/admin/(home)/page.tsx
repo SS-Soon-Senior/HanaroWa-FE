@@ -1,3 +1,5 @@
+'use client';
+
 import {
   IcAdminUsers,
   IcBell,
@@ -6,8 +8,9 @@ import {
   IcCalendar,
   IcSofa,
 } from '@/assets/svg';
-import { Layout } from '@/components/atoms';
+import { BranchSelectHeader, Layout } from '@/components/atoms';
 import { MenuSection, LessonSection } from '@/components/home';
+import { useBranch } from '@hooks';
 
 const firstMenu = [
   {
@@ -41,17 +44,24 @@ const secondMenu = [
 ];
 
 const Page = () => {
+  const { location, branch } = useBranch();
   return (
-    <div className='flex min-h-screen flex-col items-center justify-center'>
-      <div className='flex flex-col items-center justify-center'>
-        <IcBookByeoldol />
-        <h1 className='font-bold-24 text-center text-black'>
-          관리자 빠른 메뉴
-        </h1>
+    <Layout
+      header={
+        <BranchSelectHeader location={location} title={branch} admin={true} />
+      }
+    >
+      <div className='flex flex-col items-center justify-center pt-[15rem]'>
+        <div className='flex flex-col items-center justify-center'>
+          <IcBookByeoldol />
+          <h1 className='font-bold-24 text-center text-black'>
+            관리자 빠른 메뉴
+          </h1>
+        </div>
+        <MenuSection items={firstMenu} />
+        <MenuSection items={secondMenu} className='mt-[-1rem]' />
       </div>
-      <MenuSection items={firstMenu} />
-      <MenuSection items={secondMenu} className='mt-[-1rem]' />
-    </div>
+    </Layout>
   );
 };
 
