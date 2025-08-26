@@ -74,9 +74,9 @@ const Page = () => {
 
   return (
     <Layout header={<Header title='강좌 개설하기' showBackButton={true} />}>
-      <div className='space-y-[2rem]'>
+      <div className='mb-[4rem] flex w-full flex-col gap-[2rem]'>
         {/* 강좌 제목 */}
-        <div>
+        <div className='w-full'>
           <h2 className='font-medium-20 mb-[1.2rem] text-black'>강좌 제목</h2>
           <Input
             type='text'
@@ -89,7 +89,7 @@ const Page = () => {
         </div>
 
         {/* 강사 소개 */}
-        <div>
+        <div className='w-full'>
           <h2 className='font-medium-20 mb-[1.2rem] text-black'>강사 소개</h2>
           <Textarea
             placeholder='자기소개를 작성해주세요 경력, 전문분야, 강좌 스타일 등을 포함해주세요'
@@ -104,7 +104,7 @@ const Page = () => {
         </div>
 
         {/* 강좌 소개 */}
-        <div>
+        <div className='w-full'>
           <h2 className='font-medium-20 mb-[1.2rem] text-black'>강좌 소개</h2>
           <Textarea
             placeholder='강좌 내용과 목표를 자세히 작성해주세요'
@@ -117,7 +117,7 @@ const Page = () => {
         </div>
 
         {/* 비용 */}
-        <div>
+        <div className='w-full'>
           <h2 className='font-medium-20 mb-[1.2rem] text-black'>비용</h2>
           <Input
             type='number'
@@ -130,72 +130,67 @@ const Page = () => {
         </div>
 
         {/* 카테고리 */}
-        <div>
+        <div className='w-full'>
           <h2 className='font-medium-20 mb-[1.2rem] text-black'>카테고리</h2>
           <Dropdown
             options={categoryOptions}
             value={formData.category}
             placeholder='카테고리를 선택하세요'
             onChange={(value) => handleInputChange('category', value)}
-            containerClassName='!w-[33.5rem]'
             className='!h-[5.6rem] !px-[2rem] !py-0'
           />
         </div>
 
         {/* 강의 시작일 */}
-        <div>
+        <div className='w-full'>
           <h2 className='font-medium-20 mb-[1.2rem] text-black'>강의 시작일</h2>
           <Dropdown
             options={startDateOptions}
             value={formData.startDate}
             placeholder='2025-08-18'
             onChange={(value) => handleInputChange('startDate', value)}
-            containerClassName='!w-[33.5rem]'
             className='!h-[5.6rem] !px-[2rem] !py-0'
           />
         </div>
 
         {/* 강의 종료일 */}
-        <div>
+        <div className='w-full'>
           <h2 className='font-medium-20 mb-[1.2rem] text-black'>강의 종료일</h2>
           <Dropdown
             options={endDateOptions}
             value={formData.endDate}
             placeholder='2025-08-30'
             onChange={(value) => handleInputChange('endDate', value)}
-            containerClassName='!w-[33.5rem]'
             className='!h-[5.6rem] !px-[2rem] !py-0'
           />
         </div>
 
         {/* 강의 요일 */}
-        <div>
+        <div className='w-full'>
           <h2 className='font-medium-20 mb-[1.2rem] text-black'>강의 요일</h2>
           <Dropdown
             options={dayOptions}
             value={formData.days}
             placeholder='월, 수'
             onChange={(value) => handleInputChange('days', value)}
-            containerClassName='!w-[33.5rem]'
             className='!h-[5.6rem] !px-[2rem] !py-0'
           />
         </div>
 
         {/* 강의 시간 */}
-        <div>
+        <div className='w-full'>
           <h2 className='font-medium-20 mb-[1.2rem] text-black'>강의 시간</h2>
           <Dropdown
             options={timeOptions}
             value={formData.time}
             placeholder='11:00 ~ 13:00'
             onChange={(value) => handleInputChange('time', value)}
-            containerClassName='!w-[33.5rem]'
             className='!h-[5.6rem] !px-[2rem] !py-0'
           />
         </div>
 
         {/* 강의 사진 등록 */}
-        <div>
+        <div className='w-full'>
           <h2 className='font-medium-20 mb-[1.2rem] text-black'>
             강의 사진 등록
           </h2>
@@ -242,7 +237,7 @@ const Page = () => {
         </div>
 
         {/* 강좌 내용 */}
-        <div>
+        <div className='w-full'>
           <h2 className='font-medium-20 mb-[1.2rem] text-black'>강좌 내용</h2>
           <Textarea
             placeholder='1차시에 진행되는 강좌 내용을 적어주세요'
@@ -258,8 +253,8 @@ const Page = () => {
 
         {/* 추가 강좌 내용들 */}
         {formData.additionalContents.map((content, index) => (
-          <div key={index}>
-            <div className='mb-[1.2rem] flex items-center justify-between'>
+          <div key={index} className='w-full'>
+            <div className='mb-[1.2rem] flex w-full items-center justify-between'>
               <h2 className='font-medium-20 text-black'>
                 강좌 내용 {index + 2}차시
               </h2>
@@ -279,12 +274,12 @@ const Page = () => {
                 handleAdditionalContentChange(index, e.target.value)
               }
               rows={4}
-              fullWidth
+              fullWidth={true}
             />
           </div>
         ))}
         {/* + 버튼 */}
-        <div>
+        <div className='w-full'>
           <Button
             onClick={handleAddContent}
             variant='line'
@@ -296,7 +291,7 @@ const Page = () => {
         </div>
 
         {/* 예상 정원 */}
-        <div className='flex items-center space-x-[1rem]'>
+        <div className='flex w-full items-center space-x-[1rem]'>
           <IcUsers height={24} width={24} />
           <span className='text-gray353 font-medium-22'>예상 정원</span>
           <div className='rounded-16 border-gray7eb ml-auto flex h-[5.6rem] w-[18.5rem] items-center justify-end border bg-white px-[1.7rem]'>
@@ -313,24 +308,21 @@ const Page = () => {
             <span className='font-medium-20 ml-[0.5rem] text-black'>명</span>
           </div>
         </div>
-
-        {/* 강좌 개설하기 버튼 */}
-        <div className='pb-[2rem]'>
-          <Button
-            onClick={handleSubmit}
-            variant='green'
-            sizeType='lg'
-            className='h-[6.3rem] text-center font-bold text-white'
-            style={{
-              fontFamily: 'Inter',
-              fontSize: '22px',
-              lineHeight: '21.6px',
-            }}
-          >
-            강좌 개설하기
-          </Button>
-        </div>
       </div>
+      {/* 강좌 개설하기 버튼 */}
+      <Button
+        onClick={handleSubmit}
+        variant='green'
+        sizeType='lg'
+        className='h-[6.3rem] text-center font-bold text-white'
+        style={{
+          fontFamily: 'Inter',
+          fontSize: '22px',
+          lineHeight: '21.6px',
+        }}
+      >
+        강좌 개설하기
+      </Button>
     </Layout>
   );
 };
