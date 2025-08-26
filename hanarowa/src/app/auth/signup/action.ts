@@ -71,6 +71,7 @@ export async function signup(
     // 회원가입 API
     return { success: true, message: '회원가입 성공!' };
   } catch (err) {
+    console.log(err);
     return {
       success: false,
       message: '회원가입 중 오류가 발생했습니다.',

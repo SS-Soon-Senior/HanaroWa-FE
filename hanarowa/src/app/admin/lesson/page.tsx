@@ -1,6 +1,6 @@
 'use client';
 
-import { Lessons } from '@/app/lesson/page';
+import { Lessons } from '@/data/lessons';
 import { Header, Layout, LessonCard } from '@components';
 import Link from 'next/link';
 

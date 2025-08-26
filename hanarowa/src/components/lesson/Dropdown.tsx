@@ -28,7 +28,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     const dropdownRef = useRef<HTMLDivElement>(null);
     const autoId = useId();
     const dropdownId = id ?? `dropdown-${autoId}`;
-    
+
     const combinedRef = (node: HTMLDivElement | null) => {
       dropdownRef.current = node;
       if (typeof ref === 'function') {
@@ -129,5 +129,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
     );
   }
 );
+
+Dropdown.displayName = 'Dropdown';
 
 export default Dropdown;

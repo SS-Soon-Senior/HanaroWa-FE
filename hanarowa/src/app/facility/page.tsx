@@ -3,7 +3,7 @@
 import { BranchFilter, FacilityCard, Header, Layout } from '@/components';
 
 // 더미 <<< 작업할 때 날려주세욥
-export const facilities = [
+const facilities = [
   {
     imageUrl: '@/assets/svg/IcSignupFace.svg',
     facilityName: '시네마룸',
