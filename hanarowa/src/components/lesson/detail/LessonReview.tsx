@@ -13,7 +13,7 @@ type LessonReviewProps = {
 
 const LessonReview = ({ reviews }: LessonReviewProps) => {
   return (
-    <div className='flex flex-col gap-[2rem] py-[2.5rem]'>
+    <div className='flex w-full flex-col gap-[2rem] py-[2.5rem]'>
       <p className='font-bold-22 text-black'>강좌 리뷰</p>
       {reviews.map((review) => (
         <div key={review.id} className='flex flex-col gap-[1.4rem]'>
