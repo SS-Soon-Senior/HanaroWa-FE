@@ -41,7 +41,7 @@ const RoomReservationCard = ({
             <Button
               variant='lightgray'
               sizeType='reserve'
-              className='font-gray280'
+              className='font-gray280 font-medium-18'
             >
               취소하기
             </Button>

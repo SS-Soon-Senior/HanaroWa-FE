@@ -1,7 +1,6 @@
 'use client';
 
-import { Header, Layout } from '@/components/atoms';
-import { FacilityCard } from '@/components/facility';
+import { BranchFilter, FacilityCard, Header, Layout } from '@/components';
 
 // 더미 <<< 작업할 때 날려주세욥
 const facilities = [
@@ -40,7 +39,8 @@ const facilities = [
 const Page = () => {
   return (
     <Layout header={<Header title='시설 예약하기' />}>
-      <div className='flex flex-col gap-6 p-4'>
+      <div className='flex w-full flex-col gap-7 p-4'>
+        <BranchFilter branchName='춘천 컬쳐뱅크' onChangeBranch={() => {}} />
         {facilities.map(
           ({ imageUrl, facilityName, description, height }, index) => (
             <FacilityCard

@@ -1,13 +1,7 @@
 'use client';
 
 import { IcSignupFace } from '@/assets/svg';
-import {
-  Header,
-  Input,
-  ErrorMessage,
-  Button,
-  Layout,
-} from '@/components/atoms';
+import { Header, Input, ErrorMessage, Button, Layout } from '@/components';
 import { useState } from 'react';
 import { useActionState } from 'react';
 import { signup, SignupErrorState } from './action';
@@ -39,17 +33,20 @@ const Page = () => {
 
   const isAllFilled = Object.values(form).every((v) => v.trim() !== '');
 
-  const fieldBaseClass = 'flex flex-col justify-start gap-[1.7rem]';
+  const fieldBaseClass = 'flex flex-col justify-start gap-[1.5rem]';
 
   return (
     <Layout header={<Header />}>
       <div className='relative flex w-full flex-1 flex-col items-center'>
-        <div className='flex w-full flex-col items-center pt-[1.7rem]'>
+        <div className='flex w-full flex-col items-center pt-[1rem]'>
           <IcSignupFace width={100} height={100} />
         </div>
 
-        <form action={signupAction} className='flex w-full flex-1 flex-col'>
-          <div className='items-center pt-[2rem]'>
+        <form
+          action={signupAction}
+          className='flex w-full flex-1 flex-col justify-between'
+        >
+          <div className='items-center pt-[1rem]'>
             <div className={fieldBaseClass}>
               <p className='font-medium-20 text-black'>이름</p>
               <Input
@@ -60,7 +57,7 @@ const Page = () => {
               />
             </div>
 
-            <div className={`${fieldBaseClass} pt-[2.9rem]`}>
+            <div className={`${fieldBaseClass} pt-[2rem]`}>
               <p className='font-medium-20 text-black'>아이디</p>
               <Input
                 placeholder='아이디를 입력해주세요.'
@@ -70,7 +67,7 @@ const Page = () => {
               />
             </div>
 
-            <div className={`${fieldBaseClass} pt-[2.9rem]`}>
+            <div className={`${fieldBaseClass} pt-[2rem]`}>
               <p className='font-medium-20 text-black'>비밀번호</p>
               <Input
                 placeholder='비밀번호를 입력해주세요.'
@@ -81,7 +78,7 @@ const Page = () => {
               />
             </div>
 
-            <div className={`${fieldBaseClass} pt-[2.9rem]`}>
+            <div className={`${fieldBaseClass} pt-[1rem] pb-[0.6rem]`}>
               <Input
                 placeholder='비밀번호 확인'
                 name='confirmPassword'
@@ -90,24 +87,20 @@ const Page = () => {
                 onChange={handleChange('confirmPassword')}
               />
             </div>
+
+            {!signupState.success && (
+              <ErrorMessage>{signupState.message}</ErrorMessage>
+            )}
           </div>
 
-          {!signupState.success && (
-            <ErrorMessage className='pt-[0.6rem]'>
-              {signupState.message}
-            </ErrorMessage>
-          )}
-
-          <div className='mt-auto flex flex-col gap-[2.5rem]'>
-            <Button
-              variant={isAllFilled ? 'green' : 'disabled'}
-              sizeType='lg'
-              type='submit'
-              disabled={!isAllFilled}
-            >
-              확인
-            </Button>
-          </div>
+          <Button
+            variant={isAllFilled ? 'green' : 'disabled'}
+            sizeType='lg'
+            type='submit'
+            disabled={!isAllFilled}
+          >
+            확인
+          </Button>
         </form>
       </div>
     </Layout>

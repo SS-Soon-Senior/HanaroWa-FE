@@ -1,13 +1,14 @@
 'use client';
 
+import { IcSearch, IcBell, IcBook, IcSofa, IcCalendar } from '@/assets/svg';
 import {
-  BottomNavigation,
   Layout,
+  BottomNavigation,
   BranchSelectHeader,
-} from '@/components/atoms';
-import { LessonSection, MenuSection } from '@/components/home';
-import { useBranch } from '@/hooks';
-import { IcSearch, IcBell, IcBook, IcCalendar, IcSofa } from '@svg';
+  MenuSection,
+  LessonSection,
+} from '@components';
+import { useBranch } from '@hooks';
 
 const lectureMenu = [
   {
@@ -23,7 +24,7 @@ const lectureMenu = [
   {
     icon: <IcBook />,
     title: '내 강좌',
-    href: '/my-lesson',
+    href: '/reservation/lesson',
   },
 ];
 
@@ -31,12 +32,12 @@ const reservationMenu = [
   {
     icon: <IcSofa />,
     title: '시설',
-    href: '/reservation/facility',
+    href: '/facility',
   },
   {
     icon: <IcCalendar />,
     title: '내 예약',
-    href: '/reservation',
+    href: '/reservation/facility',
   },
 ];
 
@@ -44,10 +45,8 @@ const Page = () => {
   const { location, branch } = useBranch();
 
   return (
-    <Layout
-      header={<BranchSelectHeader location={location} title={branch} />}
-      footer={<BottomNavigation />}
-    >
+    <Layout footer={<BottomNavigation />}>
+      <BranchSelectHeader location={location} title={branch} />
       <MenuSection title='강좌' items={lectureMenu} />
       <MenuSection title='예약 하기' items={reservationMenu} />
       <LessonSection />

@@ -1,11 +1,14 @@
-import { Button, Devider, Header, Layout } from '@/components/atoms';
 import {
   InstructorInfo,
   LessonCurriculum,
   LessonInfo,
   LessonReview,
   LessonTimeTable,
-} from '@/components/lesson';
+  Button,
+  Devider,
+  Header,
+  Layout,
+} from '@/components';
 import { LessonCurriculumItem } from '@/components/lesson/detail/LessonCurriculum';
 import Image from 'next/image';
 

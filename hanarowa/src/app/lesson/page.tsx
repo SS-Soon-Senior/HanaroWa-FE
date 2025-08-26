@@ -1,51 +1,13 @@
 'use client';
 
-import { Header, Layout } from '@/components/atoms';
-import { BranchFilter } from '@/components/common';
-import { CategoryFilter, LessonCard } from '@/components/lesson';
-
-const Lessons = [
-  {
-    id: 1,
-    imageUrl: '/imgs/IMG_7675.png',
-    title: '남심 저격',
-    creator: '시니영',
-    date: '3월 15일',
-    participants: 12,
-    capacity: 15,
-    price: 120000,
-  },
-  {
-    id: 2,
-    imageUrl: '/imgs/IMG_7675.png',
-    title: '노후 브랜딩',
-    creator: '박영희',
-    date: '3월 15일',
-    participants: 12,
-    capacity: 15,
-    price: 120000,
-  },
-  {
-    id: 3,
-    imageUrl: '/imgs/IMG_7675.png',
-    title: '건강한 요리교실',
-    creator: '김철수',
-    date: '3월 20일',
-    participants: 8,
-    capacity: 12,
-    price: 120000,
-  },
-  {
-    id: 4,
-    imageUrl: '/imgs/IMG_7675.png',
-    title: '스마트폰 활용법',
-    creator: '이민수',
-    date: '3월 18일',
-    participants: 10,
-    capacity: 20,
-    price: 120000,
-  },
-];
+import { Lessons } from '@/data/lessons';
+import {
+  Layout,
+  Header,
+  BranchFilter,
+  CategoryFilter,
+  LessonCard,
+} from '@components';
 
 const Page = () => {
   return (

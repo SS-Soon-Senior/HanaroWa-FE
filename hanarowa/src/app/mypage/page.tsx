@@ -1,16 +1,14 @@
 'use client';
 
 import { IcMyMember, IcMyPassword, IcMyLogout, IcMyUnsub } from '@/assets/svg';
-import {
-  Header,
-  BottomNavigation,
-  InputUnderline,
-  Layout,
-  Modal,
-} from '@/components/atoms';
-import useModal from '@/hooks/useModal';
+import { Header, BottomNavigation, Layout, Modal } from '@/components';
+import { useModal } from '@/hooks';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
+
+const divStyle = 'flex flex-row items-center gap-[1.1rem]';
+const textStyle = 'font-medium-22 text-gray353';
 
 const Page = () => {
   const [name, setName] = useState<string>('');
@@ -35,43 +33,34 @@ const Page = () => {
       header={<Header showBackButton={false} title='마이페이지' />}
       footer={<BottomNavigation selectedItem='mypage' />}
     >
-      <InputUnderline
-        disabled
-        fullWidth
-        value={name}
-        readOnly
-        className='text-gray353 font-medium-22 px-[1rem]'
-      />
-
+      <h1
+        className={`${textStyle} border-gray4a9 flex w-full border-b-[0.2rem] px-[1rem] py-[1rem]`}
+      >
+        {name}
+      </h1>
       <div className='flex w-full flex-col items-start gap-[3rem] pt-[4rem]'>
-        <div
-          className='flex flex-row items-center gap-[1.1rem]'
-          onClick={() => router.push('/mypage/updateinfo')}
-        >
+        <Link href='/mypage/info' className={divStyle}>
           <IcMyMember />
-          <h1 className='text-gray353 font-medium-22'>회원 정보 수정</h1>
-        </div>
+          <h1 className={textStyle}>회원 정보 수정</h1>
+        </Link>
 
-        <div
-          className='flex flex-row items-center gap-[1.1rem]'
-          onClick={() => router.push('/mypage/updatepassword')}
-        >
+        <Link href='/mypage/password' className={divStyle}>
           <IcMyPassword />
-          <h1 className='font-medium-22 text-gray353'>비밀번호 변경</h1>
-        </div>
+          <h1 className={textStyle}>비밀번호 변경</h1>
+        </Link>
 
         {/* 로그아웃 기능 구현 필요*/}
-        <div className='flex flex-row items-center gap-[1.1rem]'>
+        <Link href='/auth/login/social' className={divStyle}>
           <IcMyLogout />
-          <h1 className='font-medium-22 text-gray353'>로그아웃</h1>
-        </div>
+          <h1 className={textStyle}>로그아웃</h1>
+        </Link>
 
         <div
           className='flex flex-row items-center gap-[1.1rem]'
           onClick={openModal}
         >
           <IcMyUnsub />
-          <h1 className='font-medium-22 text-gray353'>회원 탈퇴</h1>
+          <h1 className={textStyle}>회원 탈퇴</h1>
         </div>
 
         {isOpen && (

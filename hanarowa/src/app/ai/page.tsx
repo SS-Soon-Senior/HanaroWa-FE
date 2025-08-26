@@ -1,7 +1,5 @@
-import { IcAiCalendar, IcAiSearch } from '@/assets/svg';
-import { AiChat } from '@/components/ai';
-import AiButton from '@/components/ai/AiButton';
-import { Button, Header, Layout } from '@/components/atoms';
+import { IcAiSearch, IcAiCalendar } from '@/assets/svg';
+import { AiButton, AiChat, Button, Header, Layout } from '@components';
 
 const Page = () => {
   return (

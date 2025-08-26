@@ -27,7 +27,7 @@ const MenuSection = ({ title, items, className }: MenuSectionProps) => {
   };
 
   return (
-    <section className={`my-[2.4rem] ${className}`}>
+    <section className={`my-[2rem] ${className}`}>
       {title && (
         <h2 className='font-bold-22 text-center text-black'>{title}</h2>
       )}

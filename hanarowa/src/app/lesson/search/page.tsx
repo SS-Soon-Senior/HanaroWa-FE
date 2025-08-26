@@ -1,8 +1,7 @@
 'use client';
 
 import { IcGraysearch } from '@/assets/svg';
-import { Header, InputUnderline, Layout } from '@/components/atoms';
-import { LessonCard } from '@/components/lesson';
+import { Header, InputUnderline, Layout, LessonCard } from '@/components';
 
 const Lessons = [
   {
