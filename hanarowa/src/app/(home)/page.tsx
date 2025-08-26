@@ -44,10 +44,8 @@ const Page = () => {
   const { location, branch } = useBranch();
 
   return (
-    <Layout
-      header={<BranchSelectHeader location={location} title={branch} />}
-      footer={<BottomNavigation />}
-    >
+    <Layout footer={<BottomNavigation />}>
+      <BranchSelectHeader location={location} title={branch} />
       <MenuSection title='강좌' items={lectureMenu} />
       <MenuSection title='예약 하기' items={reservationMenu} />
       <LessonSection />
