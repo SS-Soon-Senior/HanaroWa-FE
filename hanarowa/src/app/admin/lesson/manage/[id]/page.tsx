@@ -47,7 +47,6 @@ function DetailForm() {
     formData,
     fileInputRef,
     isDirty,
-    additionalCount,
     handleInputChange,
     handleAddContent,
     handleAdditionalContentChange,

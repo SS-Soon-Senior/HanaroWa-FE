@@ -9,7 +9,7 @@ import {
   IcSofa,
 } from '@/assets/svg';
 import { BranchSelectHeader, Layout } from '@/components/atoms';
-import { MenuSection, LessonSection } from '@/components/home';
+import { MenuSection } from '@/components/home';
 import { useBranch } from '@hooks';
 
 const firstMenu = [

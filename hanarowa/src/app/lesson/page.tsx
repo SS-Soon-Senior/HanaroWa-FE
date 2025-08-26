@@ -4,7 +4,7 @@ import { Header, Layout } from '@/components/atoms';
 import { BranchFilter } from '@/components/common';
 import { CategoryFilter, LessonCard } from '@/components/lesson';
 
-const Lessons = [
+export const Lessons = [
   {
     id: 1,
     imageUrl: '/imgs/IMG_7675.png',

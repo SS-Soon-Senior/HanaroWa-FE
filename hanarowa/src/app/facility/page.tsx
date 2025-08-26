@@ -5,7 +5,7 @@ import { BranchFilter } from '@/components/common';
 import { FacilityCard } from '@/components/facility';
 
 // 더미 <<< 작업할 때 날려주세욥
-const facilities = [
+export const facilities = [
   {
     imageUrl: '@/assets/svg/IcSignupFace.svg',
     facilityName: '시네마룸',
