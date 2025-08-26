@@ -56,78 +56,74 @@ const Page = () => {
     };
 
   return (
-    <Layout
-      header={<Header title='비밀번호 수정' />}
-      footer={
-        <div className='fixed inset-x-0 bottom-[4rem] z-50 px-[2rem]'>
-          {error && (
-            <div className='mb-[1.2rem] flex justify-center'>
-              <ErrorMessage align='text-center'>{error}</ErrorMessage>
-            </div>
-          )}
-          <Button
-            sizeType='lg'
-            variant={isFull ? 'green' : 'disabled'}
-            disabled={!isFull}
-            onClick={handleSubmit}
-          >
-            수정하기
-          </Button>
-        </div>
-      }
-    >
-      <div className='flex w-full flex-col gap-[3rem] pt-[9rem]'>
-        <div className='flex flex-col gap-[1.6rem]'>
-          <p className='font-medium-20'>현재 비밀번호</p>
-          <Input
-            value={password}
-            onChange={onChangeClear(setPassword)}
-            type={showPassword ? 'text' : 'password'}
-            maxLength={20}
-            autoComplete='new-password'
-            fullWidth
-            rightContent={
-              <button onClick={() => setShowPassword(!showPassword)}>
-                {showPassword ? <IcOpeneye /> : <IcCloseeye />}
-              </button>
-            }
-          />
-        </div>
-        <div className='flex flex-col gap-[1.6rem]'>
-          <p className='font-medium-20'>새 비밀번호</p>
-          <Input
-            value={newPassword}
-            onChange={onChangeClear(setNewPassword)}
-            type={showNewPassword ? 'text' : 'password'}
-            maxLength={20}
-            autoComplete='new-password'
-            fullWidth
-            rightContent={
-              <button onClick={() => setShowNewPassword(!showNewPassword)}>
-                {showNewPassword ? <IcOpeneye /> : <IcCloseeye />}
-              </button>
-            }
-          />
-        </div>
+    <Layout header={<Header title='비밀번호 수정' />}>
+      <div className='flex w-full flex-1 flex-col justify-between gap-[2rem] pt-[9rem]'>
+        <div className='flex flex-col gap-[2.4rem] px-[1rem]'>
+          <div className='flex flex-col gap-[1.6rem]'>
+            <p className='font-medium-20'>현재 비밀번호</p>
+            <Input
+              value={password}
+              onChange={onChangeClear(setPassword)}
+              type={showPassword ? 'text' : 'password'}
+              maxLength={20}
+              autoComplete='new-password'
+              fullWidth
+              rightContent={
+                <button onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <IcOpeneye /> : <IcCloseeye />}
+                </button>
+              }
+            />
+          </div>
+          <div className='flex flex-col gap-[1.6rem]'>
+            <p className='font-medium-20'>새 비밀번호</p>
+            <Input
+              value={newPassword}
+              onChange={onChangeClear(setNewPassword)}
+              type={showNewPassword ? 'text' : 'password'}
+              maxLength={20}
+              autoComplete='new-password'
+              fullWidth
+              rightContent={
+                <button onClick={() => setShowNewPassword(!showNewPassword)}>
+                  {showNewPassword ? <IcOpeneye /> : <IcCloseeye />}
+                </button>
+              }
+            />
+          </div>
 
-        <div className='flex flex-col gap-[1.6rem]'>
-          <p className='font-medium-20'>새 비밀번호 확인</p>
-          <Input
-            value={checkNewPassword}
-            onChange={onChangeClear(setCheckNewPassword)}
-            type={showCheckNewPassword ? 'text' : 'password'}
-            maxLength={20}
-            autoComplete='new-password'
-            fullWidth
-            rightContent={
-              <button
-                onClick={() => setShowCheckNewPassword(!showCheckNewPassword)}
-              >
-                {showCheckNewPassword ? <IcOpeneye /> : <IcCloseeye />}
-              </button>
-            }
-          />
+          <div className='flex flex-col gap-[1.6rem]'>
+            <p className='font-medium-20'>새 비밀번호 확인</p>
+            <Input
+              value={checkNewPassword}
+              onChange={onChangeClear(setCheckNewPassword)}
+              type={showCheckNewPassword ? 'text' : 'password'}
+              maxLength={20}
+              autoComplete='new-password'
+              fullWidth
+              rightContent={
+                <button
+                  onClick={() => setShowCheckNewPassword(!showCheckNewPassword)}
+                >
+                  {showCheckNewPassword ? <IcOpeneye /> : <IcCloseeye />}
+                </button>
+              }
+            />
+          </div>
         </div>
+        {error && (
+          <div className='mb-[1.2rem] flex justify-center'>
+            <ErrorMessage align='text-center'>{error}</ErrorMessage>
+          </div>
+        )}
+        <Button
+          sizeType='lg'
+          variant={isFull ? 'green' : 'disabled'}
+          disabled={!isFull}
+          onClick={handleSubmit}
+        >
+          수정하기
+        </Button>
       </div>
     </Layout>
   );

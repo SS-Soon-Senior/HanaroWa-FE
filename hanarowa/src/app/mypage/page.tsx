@@ -50,7 +50,7 @@ const Page = () => {
         </Link>
 
         {/* 로그아웃 기능 구현 필요*/}
-        <Link href='/mypage/logout' className={divStyle}>
+        <Link href='/auth/login/social' className={divStyle}>
           <IcMyLogout />
           <h1 className={textStyle}>로그아웃</h1>
         </Link>
