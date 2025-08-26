@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  Header,
-  Layout,
-  Input,
-  Button,
-  ErrorMessage,
-} from '@/components/atoms';
+import { Header, Layout, Input, Button, ErrorMessage } from '@/components';
 import { useState, useEffect } from 'react';
 
 const digits = (s: string) => s.replace(/\D/g, '');

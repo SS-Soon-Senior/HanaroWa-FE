@@ -1,3 +1,4 @@
+import AiButton from './AiButton';
 import AiChat from './AiChat';
 
-export { AiChat };
+export { AiButton, AiChat };

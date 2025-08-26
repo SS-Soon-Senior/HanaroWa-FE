@@ -1,3 +1,4 @@
-import { useBranch } from './useBranch';
+import useBranch from './useBranch';
+import useModal from './useModal';
 
-export { useBranch };
+export { useBranch, useModal };

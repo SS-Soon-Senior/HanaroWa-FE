@@ -1,7 +1,12 @@
 'use client';
 
-import { Header, Layout, StatusTag } from '@/components/atoms';
-import { LessonReservationCard, StatusTab } from '@/components/lesson';
+import {
+  Header,
+  Layout,
+  StatusTag,
+  LessonReservationCard,
+  StatusTab,
+} from '@/components';
 import { useState } from 'react';
 
 const myLessons = [
@@ -70,17 +75,11 @@ const Page = () => {
 
   return (
     <Layout header={<Header title='내 강좌' />}>
-      <div className='p-4'>
-        <StatusTab
-          tabs={tabs}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-        />
-      </div>
+      <StatusTab tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
 
       {/* 수강 강좌 */}
       {activeTab === 'applied' && (
-        <div className='flex flex-col gap-8 p-4'>
+        <div className='flex w-full flex-col gap-8 p-4'>
           {reservations.length > 0 && (
             <div className='space-y-4'>
               <StatusTag status='inprogress' />
@@ -115,7 +114,7 @@ const Page = () => {
 
       {/* 개설 강좌 */}
       {activeTab === 'opened' && (
-        <div className='flex flex-col gap-8 p-4'>
+        <div className='flex w-full flex-col gap-8 p-4'>
           {openedLessons.filter((c) => c.isInProgress).length > 0 && (
             <div className='space-y-4'>
               <StatusTag status='teaching' />

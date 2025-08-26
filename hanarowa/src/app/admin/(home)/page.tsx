@@ -1,29 +1,31 @@
+'use client';
+
 import {
-  IcAdminUsers,
-  IcBell,
-  IcBook,
-  IcBookByeoldol,
-  IcCalendar,
   IcSofa,
+  IcAdminUsers,
+  IcCalendar,
+  IcBook,
+  IcBell,
+  IcBookByeoldol,
 } from '@/assets/svg';
-import { Layout } from '@/components/atoms';
-import { MenuSection, LessonSection } from '@/components/home';
+import { Layout, BranchSelectHeader, MenuSection } from '@components';
+import { useBranch } from '@hooks';
 
 const firstMenu = [
   {
     icon: <IcSofa />,
     title: '시설 예약',
-    href: '/lesson',
+    href: '/admin/facility',
   },
   {
     icon: <IcAdminUsers />,
     title: '회원',
-    href: '/lesson/create',
+    href: '/admin/member',
   },
   {
     icon: <IcCalendar />,
     title: '강좌 관리',
-    href: '/',
+    href: '/admin/lesson',
   },
 ];
 
@@ -31,27 +33,34 @@ const secondMenu = [
   {
     icon: <IcBook />,
     title: '강좌 목록',
-    href: '/',
+    href: '/admin/lesson',
   },
   {
     icon: <IcBell />,
     title: '강좌 개설',
-    href: '/',
+    href: '/admin/lesson/manage',
   },
 ];
 
 const Page = () => {
+  const { location, branch } = useBranch();
   return (
-    <div className='flex min-h-screen flex-col items-center justify-center'>
-      <div className='flex flex-col items-center justify-center'>
-        <IcBookByeoldol />
-        <h1 className='font-bold-24 text-center text-black'>
-          관리자 빠른 메뉴
-        </h1>
+    <Layout
+      header={
+        <BranchSelectHeader location={location} title={branch} admin={true} />
+      }
+    >
+      <div className='flex flex-col items-center justify-center pt-[15rem]'>
+        <div className='flex flex-col items-center justify-center'>
+          <IcBookByeoldol />
+          <h1 className='font-bold-24 text-center text-black'>
+            관리자 빠른 메뉴
+          </h1>
+        </div>
+        <MenuSection items={firstMenu} />
+        <MenuSection items={secondMenu} className='mt-[-1rem]' />
       </div>
-      <MenuSection items={firstMenu} />
-      <MenuSection items={secondMenu} className='mt-[-1rem]' />
-    </div>
+    </Layout>
   );
 };
 

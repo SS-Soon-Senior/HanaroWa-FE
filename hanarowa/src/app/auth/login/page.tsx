@@ -1,13 +1,7 @@
 'use client';
 
 import { IcBookByeoldol } from '@/assets/svg';
-import {
-  Header,
-  Input,
-  ErrorMessage,
-  Button,
-  Layout,
-} from '@/components/atoms';
+import { Header, Input, ErrorMessage, Button, Layout } from '@/components';
 import Link from 'next/link';
 import { useActionState } from 'react';
 import { login } from './actions';
@@ -19,7 +13,7 @@ const Page = () => {
     {
       success: true,
       message: '',
-      id: '',
+      email: '',
       password: '',
     }
   );
@@ -36,11 +30,11 @@ const Page = () => {
         >
           <div className='items-center pt-[3.5rem]'>
             <div className='flex flex-col justify-start gap-[1.7rem]'>
-              <p className='font-medium-20 text-black'>아이디</p>
+              <p className='font-medium-20 text-black'>이메일</p>
               <Input
-                placeholder='아이디를 입력해주세요'
-                name='id'
-                defaultValue={loginState.id}
+                placeholder='이메일을 입력해주세요'
+                name='email'
+                defaultValue={loginState.email}
               />
             </div>
             <div className='flex flex-col justify-start gap-[1.7rem] pt-[2.9rem]'>
@@ -60,7 +54,7 @@ const Page = () => {
           )}
           <div className='mt-auto flex flex-col gap-[2.5rem]'>
             <div className='font-medium-18 text-gray4a9 flex items-center justify-center underline'>
-              <Link href='/signup'>회원가입 하러가기</Link>
+              <Link href='/auth/signup'>회원가입 하러가기</Link>
             </div>
             <Button variant='green' sizeType='lg' type='submit'>
               확인

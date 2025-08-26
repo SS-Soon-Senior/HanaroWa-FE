@@ -6,8 +6,8 @@ import {
   Header,
   Layout,
   Textarea,
-} from '@/components/atoms';
-import { StarRating } from '@/components/lesson';
+  StarRating,
+} from '@/components';
 import { useState } from 'react';
 
 const Page = () => {

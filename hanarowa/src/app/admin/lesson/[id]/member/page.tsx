@@ -12,7 +12,7 @@ const Page = () => {
   };
 
   return (
-    <Layout header={<Header title='회원 목록' />}>
+    <Layout header={<Header title='수강 회원 목록' />}>
       <div className='flex w-full flex-col gap-[1.4rem] py-[1rem]'>
         {/* 더미데이터 */}
         <MemberCard

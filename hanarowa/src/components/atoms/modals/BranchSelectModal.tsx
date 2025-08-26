@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useBranch } from '@/hooks';
 import BranchButton from '../buttons/BranchButton';
 
@@ -28,6 +29,18 @@ type BranchSelectModalProps = {
 const BranchSelectModal = ({ isOpen, onClose }: BranchSelectModalProps) => {
   const { setLocation } = useBranch();
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   const handleBranchSelect = (branch: Branch) => {
     setLocation(branch.location, branch.branch);
     onClose();
@@ -37,11 +50,11 @@ const BranchSelectModal = ({ isOpen, onClose }: BranchSelectModalProps) => {
 
   return (
     <div
-      className='fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/70'
+      className='fixed inset-0 z-60 flex flex-col items-center justify-center bg-black/70'
       onClick={onClose}
     >
       <h1 className='font-bold-30 mt-40 mb-20 text-center text-white'>
-        지점 선택하기
+        내 지점 선택하기
       </h1>
       <div className='overflow-scroll overflow-y-auto'>
         <div className='grid grid-cols-2 gap-x-[1.5rem] gap-y-[2.4rem] pb-12'>

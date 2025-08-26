@@ -1,10 +1,10 @@
 import { IcBookByeoldol, IcGoogle, IcKakao, IcNaver } from '@/assets/svg';
-import { Layout } from '@/components/atoms';
+import { Layout } from '@/components';
 import Link from 'next/link';
 
 const Page = () => {
   const socialButtonStyle =
-    'rounded-8 font-bold-22 flex w-full items-center justify-center gap-[1rem] px-[6rem] py-[1.7rem]';
+    'rounded-8 font-bold-20 flex w-full items-center justify-center gap-[1rem] px-auto py-[1.7rem]';
 
   return (
     <Layout>
@@ -26,11 +26,11 @@ const Page = () => {
           </Link>
           <Link href='#' className={`${socialButtonStyle} bg-naver text-white`}>
             <IcNaver />
-            <h1>네이버로 로그인하기</h1>
+            <h1 className='text-white'>네이버로 로그인하기</h1>
           </Link>
         </div>
         <Link
-          href='/login'
+          href='/auth/login'
           className='font-medium-18 text-gray4a9 justify-center pt-[1.6rem] underline'
         >
           로그인/회원가입하기

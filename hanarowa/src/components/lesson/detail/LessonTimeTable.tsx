@@ -12,7 +12,7 @@ const LessonTimeTable = ({
   duration,
 }: LessonTimeTableProps) => {
   return (
-    <div className='flex flex-col gap-[2rem] py-[2.5rem]'>
+    <div className='flex w-full flex-col gap-[2rem] py-[2.5rem]'>
       <p className='font-bold-22 text-black'>강의 일정</p>
       <div className='flex items-center gap-[2rem]'>
         <IcDetailCalendar width={24} height={24} />
