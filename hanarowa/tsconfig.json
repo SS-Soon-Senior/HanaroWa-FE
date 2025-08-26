@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -23,39 +19,24 @@
       }
     ],
     "paths": {
-      "@apis": [
-        "./src/apis"
-      ],
-      "@image": [
-        "./public/image"
-      ],
-      "@components": [
-        "./src/components/common"
-      ],
-      "@contexts": [
-        "./src/contexts"
-      ],
-      "@hooks": [
-        "./src/hooks/common"
-      ],
-      "@types": [
-        "./src/types"
-      ],
-      "@utils": [
-        "./src/utils/common"
-      ],
-      "@/*": [
-        "./src/*"
-      ],
+      "@apis": ["./src/apis"],
+      "@image": ["./public/image"],
+      "@components": ["./src/components"],
+      "@contexts": ["./src/contexts"],
+      "@hooks": ["./src/hooks"],
+      "@types": ["./src/types"],
+      "@utils": ["./src/utils"],
+      "@/*": ["./src/*"],
+      "@svg": ["./src/assets/svg"]
     }
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src/**/*.d.ts",
+    "svgr.d.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

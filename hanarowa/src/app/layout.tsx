@@ -1,4 +1,6 @@
+import { BranchProvider } from '@contexts';
 import type { Metadata } from 'next';
+import { ReactNode } from 'react';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -10,11 +12,13 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
-    <html lang='en'>
-      <body className='antialiased'>{children}</body>
+    <html lang='ko'>
+      <body className='antialiased' suppressHydrationWarning>
+        <BranchProvider>{children}</BranchProvider>
+      </body>
     </html>
   );
 }
