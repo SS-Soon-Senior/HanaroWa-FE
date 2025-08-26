@@ -1,8 +1,7 @@
-'use client';
-
 import { IcCheck } from '@/assets/svg';
 import { Button } from '@/components/atoms';
 import Layout from '@/components/atoms/Layout';
+import Link from 'next/link';
 
 const Page = () => {
   return (
@@ -20,9 +19,11 @@ const Page = () => {
           </div>
         </div>
         <IcCheck className='mb-[4rem]' />
-        <Button className='w-full' sizeType='lg' variant='green'>
-          내 지점 선택하러 가기
-        </Button>
+        <Link href='/branch' className='w-full'>
+          <Button className='w-full' sizeType='lg' variant='green'>
+            내 지점 선택하러 가기
+          </Button>
+        </Link>
       </div>
     </Layout>
   );
