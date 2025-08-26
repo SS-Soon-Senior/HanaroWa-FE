@@ -1,16 +1,20 @@
-'use client';
-
 import { CATEGORY_KEYS, CategoryKey } from '@/constants/category';
-import { useState } from 'react';
-import CategoryTag from './CategoryTag';
+import CategoryTag from '../atoms/tags/CategoryTag';
 
-const CategoryFilter = () => {
-  const [selectedCategory, setSelectedCategory] = useState<CategoryKey[]>([]);
+type CategoryFilterProps = {
+  selectedCategories: CategoryKey[];
+  onChange: (selectedCategories: CategoryKey[]) => void;
+};
+
+const CategoryFilter = ({
+  onChange,
+  selectedCategories = [],
+}: CategoryFilterProps) => {
   const handleSelectCategory = (category: CategoryKey) => {
-    if (selectedCategory.includes(category)) {
-      setSelectedCategory((prev) => prev.filter((cat) => cat !== category));
+    if (selectedCategories.includes(category)) {
+      onChange(selectedCategories.filter((cat) => cat !== category));
     } else {
-      setSelectedCategory((prev) => [...prev, category]);
+      onChange([...selectedCategories, category]);
     }
   };
 
@@ -20,7 +24,7 @@ const CategoryFilter = () => {
         <CategoryTag
           key={category}
           category={category}
-          disabled={!selectedCategory.includes(category)}
+          disabled={!selectedCategories.includes(category)}
           onClick={() => handleSelectCategory(category)}
         />
       ))}
