@@ -14,6 +14,8 @@
     "openapi": "openapi-typescript http://localhost:8080/hanarowa/api-docs -o src/types/api.ts"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.85.5",
+    "@tanstack/react-query-devtools": "^5.85.5",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.12",
     "next": "15.4.7",
