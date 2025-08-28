@@ -10,7 +10,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint:fix": "next lint --fix",
-    "svgr": "pnpm dlx @svgr/cli public/svg --out-dir src/assets/svg --ext tsx --typescript --no-prettier && prettier --write \"src/assets/svg/**/*.tsx\""
+    "svgr": "pnpm dlx @svgr/cli public/svg --out-dir src/assets/svg --ext tsx --typescript --no-prettier && prettier --write \"src/assets/svg/**/*.tsx\"",
+    "openapi": "openapi-typescript http://localhost:8080/hanarowa/api-docs -o src/types/api.ts"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -32,6 +33,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.4.7",
     "eslint-config-prettier": "^10.1.8",
+    "openapi-typescript": "^7.9.1",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.14",
     "tailwindcss": "^4",
