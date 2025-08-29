@@ -1,7 +1,9 @@
-import { TanstackQueryClient } from '@apis';
+import { client } from '@apis';
+
+//서버컴포넌트에서 사용하는 경우
 
 const getBranch = () => {
-  return TanstackQueryClient.useQuery('get', '/branch');
+  return client.GET('/branch');
 };
 
 export default getBranch;
