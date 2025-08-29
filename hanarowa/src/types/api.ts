@@ -602,10 +602,13 @@ export interface components {
             result?: components["schemas"]["LoginResponseDTO"];
         };
         LoginResponseDTO: {
-            result?: {
-                [key: string]: unknown;
-            };
             url?: string;
+            tokens?: components["schemas"]["TokenResponseDTO"];
+        };
+        TokenResponseDTO: {
+            email?: string;
+            accessToken?: string;
+            refreshToken?: string;
         };
         ApiResponseMapStringObject: {
             isSuccess?: boolean;

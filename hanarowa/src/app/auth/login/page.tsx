@@ -21,13 +21,13 @@ const Page = () => {
     try {
       const { data } = await postSignin({ email, password });
 
-      if (data?.code !== 'MEMBER400') {
+      if (data?.code == 'MEMBER400') {
         setError('아이디 또는 비밀번호를 확인해주세요.');
         return;
       }
 
-      const accessToken = data?.result?.result?.accessToken;
-      const refreshToken = data?.result?.refreshToken;
+      const accessToken = data?.result?.tokens?.accessToken;
+      const refreshToken = data?.result?.tokens?.refreshToken;
 
       if (accessToken) {
         setAccessToken(accessToken);
