@@ -14,8 +14,6 @@
     "openapi": "openapi-typescript http://localhost:8080/hanarowa/api-docs -o src/types/api.ts"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.85.5",
-    "@tanstack/react-query-devtools": "^5.85.5",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.12",
     "next": "15.4.7",
@@ -28,7 +26,6 @@
     "@eslint/eslintrc": "^3",
     "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4",
-    "@tanstack/eslint-plugin-query": "^5.83.1",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/node": "^20",
     "@types/react": "^19",
