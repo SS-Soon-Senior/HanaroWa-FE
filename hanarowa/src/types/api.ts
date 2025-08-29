@@ -21,22 +21,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/member/refresh": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["refresh"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/member/info": {
         parameters: {
             query?: never;
@@ -144,6 +128,22 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["signin"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/reissue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["refresh"];
         delete?: never;
         options?: never;
         head?: never;
@@ -569,14 +569,6 @@ export interface components {
             message?: string;
             result?: string;
         };
-        ApiResponseMapStringObject: {
-            isSuccess?: boolean;
-            code?: string;
-            message?: string;
-            result?: {
-                [key: string]: unknown;
-            };
-        };
         MemberInfoRequestDTO: {
             birth?: string;
             phoneNumber?: string;
@@ -601,7 +593,27 @@ export interface components {
         };
         LoginRequestDTO: {
             email: string;
-            pwd: string;
+            password: string;
+        };
+        ApiResponseLoginResponseDTO: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: components["schemas"]["LoginResponseDTO"];
+        };
+        LoginResponseDTO: {
+            result?: {
+                [key: string]: unknown;
+            };
+            url?: string;
+        };
+        ApiResponseMapStringObject: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: {
+                [key: string]: unknown;
+            };
         };
         /** @description AI 직업 추천 요청 DTO */
         JobRecRequestDto: {
@@ -1034,30 +1046,6 @@ export interface operations {
             };
         };
     };
-    refresh: {
-        parameters: {
-            query: {
-                refreshToken: string;
-            };
-            header: {
-                Authorization: string;
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ApiResponseMapStringObject"];
-                };
-            };
-        };
-    };
     info: {
         parameters: {
             query?: never;
@@ -1188,6 +1176,30 @@ export interface operations {
                 "application/json": components["schemas"]["LoginRequestDTO"];
             };
         };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseLoginResponseDTO"];
+                };
+            };
+        };
+    };
+    refresh: {
+        parameters: {
+            query: {
+                refreshToken: string;
+            };
+            header: {
+                Authorization: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
         responses: {
             /** @description OK */
             200: {
