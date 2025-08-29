@@ -21,6 +21,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/member/refresh": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["refresh"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/member/info": {
         parameters: {
             query?: never;
@@ -128,6 +144,26 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["signin"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 로그아웃
+         * @description 사용자 로그아웃 및 refreshToken 삭제
+         */
+        post: operations["logout"];
         delete?: never;
         options?: never;
         head?: never;
@@ -271,7 +307,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/lesson/reservation/offered": {
+    "/lesson/reservation/offered/{memberId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -288,7 +324,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/lesson/reservation/applied": {
+    "/lesson/reservation/applied/{memberId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -357,6 +393,26 @@ export interface paths {
          * @description 시설 리스트 목록을 조회합니다.
          */
         get: operations["getFacilityByBranchId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/facility/reservation/{memberId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 시설 예약 목록 조회
+         * @description 시설 예약 목록을 조회합니다.
+         */
+        get: operations["getAllMyFacilityReservations"];
         put?: never;
         post?: never;
         delete?: never;
@@ -512,6 +568,14 @@ export interface components {
             code?: string;
             message?: string;
             result?: string;
+        };
+        ApiResponseMapStringObject: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: {
+                [key: string]: unknown;
+            };
         };
         MemberInfoRequestDTO: {
             birth?: string;
@@ -712,10 +776,6 @@ export interface components {
             /** Format: int64 */
             lessonGisuId?: number;
         };
-        OfferedLessonRequestDTO: {
-            /** @enum {string} */
-            lessonState: "PENDING" | "APPROVED" | "REJECTED";
-        };
         LessonListResponseDTO: {
             /** Format: int64 */
             lessonId?: number;
@@ -732,10 +792,6 @@ export interface components {
         };
         OfferedLessonListResponseDTO: {
             offeredLessonList?: components["schemas"]["LessonListResponseDTO"][];
-        };
-        AppliedLessonRequestDTO: {
-            /** @enum {string} */
-            lessonState: "PENDING" | "APPROVED" | "REJECTED";
         };
         AppliedLessonListResponseDTO: {
             appliedLessonList?: components["schemas"]["LessonListResponseDTO"][];
@@ -787,6 +843,8 @@ export interface components {
             capacity?: number;
             /** Format: int32 */
             currentStudentCount?: number;
+            /** @enum {string} */
+            lessonCategory?: "DIGITAL" | "LANGUAGE" | "TREND" | "OTHERS" | "FINANCE" | "HEALTH" | "CULTURE";
         };
         LessonListByBranchIdResponseDTO: {
             /** Format: int64 */
@@ -835,6 +893,21 @@ export interface components {
             id?: number;
             name?: string;
             branches?: components["schemas"]["Branch"][];
+        };
+        ApiResponseListFacilityReservationResponseDTO: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: components["schemas"]["FacilityReservationResponseDTO"][];
+        };
+        FacilityReservationResponseDTO: {
+            /** Format: int64 */
+            facilityId?: number;
+            facilityName?: string;
+            /** Format: date-time */
+            startedAt?: string;
+            duration?: string;
+            placeName?: string;
         };
         ApiResponseFacilityDetailResponseDTO: {
             isSuccess?: boolean;
@@ -961,6 +1034,30 @@ export interface operations {
             };
         };
     };
+    refresh: {
+        parameters: {
+            query: {
+                refreshToken: string;
+            };
+            header: {
+                Authorization: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseMapStringObject"];
+                };
+            };
+        };
+    };
     info: {
         parameters: {
             query?: never;
@@ -1081,13 +1178,31 @@ export interface operations {
     };
     signin: {
         parameters: {
-            query: {
-                /** @example {
-                 *       "email": "youngkyun@hana.com",
-                 *       "pwd": "1234"
-                 *     } */
-                loginRequest: components["schemas"]["LoginRequestDTO"];
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LoginRequestDTO"];
             };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseMapStringObject"];
+                };
+            };
+        };
+    };
+    logout: {
+        parameters: {
+            query?: never;
             header?: never;
             path?: never;
             cookie?: never;
@@ -1100,7 +1215,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": Record<string, never>;
+                    "*/*": components["schemas"]["ApiResponseString"];
                 };
             };
         };
@@ -1317,11 +1432,11 @@ export interface operations {
     };
     getAllOfferedLessons: {
         parameters: {
-            query: {
-                req: components["schemas"]["OfferedLessonRequestDTO"];
-            };
+            query?: never;
             header?: never;
-            path?: never;
+            path: {
+                memberId: number;
+            };
             cookie?: never;
         };
         requestBody?: never;
@@ -1339,11 +1454,11 @@ export interface operations {
     };
     getAllAppliedLessons: {
         parameters: {
-            query: {
-                req: components["schemas"]["AppliedLessonRequestDTO"];
-            };
+            query?: never;
             header?: never;
-            path?: never;
+            path: {
+                memberId: number;
+            };
             cookie?: never;
         };
         requestBody?: never;
@@ -1421,6 +1536,28 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiResponseListFacilityResponseDTO"];
+                };
+            };
+        };
+    };
+    getAllMyFacilityReservations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                memberId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseListFacilityReservationResponseDTO"];
                 };
             };
         };
