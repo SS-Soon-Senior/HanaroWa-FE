@@ -1,8 +1,7 @@
-import { client } from '@/apis/client';
+import { TanstackQueryClient } from '@apis';
 
-const getBranch = async () => {
-  const response = await client.GET('/branch');
-  return response;
+const getBranch = () => {
+  return TanstackQueryClient.useQuery('get', '/branch');
 };
 
 export default getBranch;

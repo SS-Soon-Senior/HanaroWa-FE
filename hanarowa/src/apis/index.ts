@@ -1,5 +1,5 @@
-import { client } from './client';
+import { client, TanstackQueryClient } from './client';
 
 export * from './branch';
 
-export { client };
+export { client, TanstackQueryClient };
