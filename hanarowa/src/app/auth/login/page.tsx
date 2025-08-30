@@ -1,22 +1,47 @@
 'use client';
 
+import postSignin from '@/apis/auth/postSignin';
 import { IcBookByeoldol } from '@/assets/svg';
 import { Header, Input, ErrorMessage, Button, Layout } from '@/components';
+import { setAccessToken, setRefreshToken } from '@/utils/common/auth';
 import Link from 'next/link';
-import { useActionState } from 'react';
-import { login } from './actions';
-import type { ErrorState } from './actions';
+import { useRouter } from 'next/navigation';
+import { FormEvent, useState } from 'react';
 
 const Page = () => {
-  const [loginState, loginAction] = useActionState<ErrorState, FormData>(
-    login,
-    {
-      success: true,
-      message: '',
-      email: '',
-      password: '',
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const router = useRouter();
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    try {
+      const { data } = await postSignin({ email, password });
+
+      if (data?.code == 'MEMBER400') {
+        setError('아이디 또는 비밀번호를 확인해주세요.');
+        return;
+      }
+
+      const accessToken = data?.result?.tokens?.accessToken;
+      const refreshToken = data?.result?.tokens?.refreshToken;
+
+      if (accessToken) {
+        setAccessToken(accessToken);
+      }
+      if (refreshToken) {
+        setRefreshToken(refreshToken);
+      }
+
+      router.push('/');
+    } catch (err) {
+      console.error(err);
+      setError('로그인 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
-  );
+  };
 
   return (
     <Layout header={<Header />}>
@@ -25,7 +50,7 @@ const Page = () => {
           <IcBookByeoldol />
         </div>
         <form
-          action={loginAction}
+          onSubmit={handleSubmit}
           className='flex min-h-full w-full flex-1 flex-col justify-between'
         >
           <div className='items-center pt-[3.5rem]'>
@@ -33,23 +58,27 @@ const Page = () => {
               <p className='font-medium-20 text-black'>이메일</p>
               <Input
                 placeholder='이메일을 입력해주세요'
-                name='email'
-                defaultValue={loginState.email}
+                type='email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
             <div className='flex flex-col justify-start gap-[1.7rem] pt-[2.9rem]'>
               <p className='font-medium-20 text-black'>비밀번호</p>
               <Input
                 placeholder='비밀번호를 입력해주세요'
-                name='password'
-                defaultValue={loginState.password}
+                type='password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
           </div>
 
-          {!loginState.success && (
+          {error && (
             <div className='pt-[0.6rem]'>
-              <ErrorMessage>{loginState.message}</ErrorMessage>
+              <ErrorMessage>{error}</ErrorMessage>
             </div>
           )}
           <div className='mt-auto flex flex-col gap-[2.5rem]'>

@@ -1,7 +1,7 @@
-import { BranchProvider } from '@contexts';
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import './globals.css';
+import Providers from './provider';
 
 export const metadata: Metadata = {
   title: '하나로와',
@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <body className='antialiased' suppressHydrationWarning>
-        <BranchProvider>{children}</BranchProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
