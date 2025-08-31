@@ -98,6 +98,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/lesson/create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 강좌 개설
+         * @description 사용자가 새로운 강좌를 개설합니다.
+         */
+        post: operations["createLesson"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/facility/reservation": {
         parameters: {
             query?: never;
@@ -583,6 +603,31 @@ export interface components {
             /** Format: int32 */
             rating: number;
             reviewTxt: string;
+        };
+        CreateCurriculumRequestDTO: {
+            content: string;
+        };
+        CreateLessonGisuRequestDTO: {
+            /** Format: int32 */
+            capacity: number;
+            /** Format: int32 */
+            lessonFee: number;
+            duration: string;
+            /** Format: int64 */
+            lessonRoomId: number;
+            curriculums: components["schemas"]["CreateCurriculumRequestDTO"][];
+        };
+        CreateLessonRequestDTO: {
+            lessonName: string;
+            instructor: string;
+            instruction: string;
+            description: string;
+            /** @enum {string} */
+            category: "DIGITAL" | "LANGUAGE" | "TREND" | "OTHERS" | "FINANCE" | "HEALTH" | "CULTURE";
+            lessonImg?: string;
+            /** Format: int64 */
+            branchId: number;
+            lessonGisus: components["schemas"]["CreateLessonGisuRequestDTO"][];
         };
         FacilityReservationDTO: {
             /** Format: int64 */
@@ -1129,6 +1174,30 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["ReviewRequestDTO"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseVoid"];
+                };
+            };
+        };
+    };
+    createLesson: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateLessonRequestDTO"];
             };
         };
         responses: {

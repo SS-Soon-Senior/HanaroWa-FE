@@ -16,9 +16,13 @@ import {
   startDateOptions,
   timeOptions,
 } from '@/constants/lesson-options';
+import { usePostLesson } from '@/apis/lesson';
+import { CreateLessonRequest } from '@/apis/lesson/postLesson';
 import React, { useState, useRef } from 'react';
 
 const Page = () => {
+  const { mutate: createLesson, isPending } = usePostLesson();
+  
   const [formData, setFormData] = useState({
     title: '',
     instructorIntro: '',
@@ -66,8 +70,49 @@ const Page = () => {
   };
 
   const handleSubmit = () => {
-    console.log('강좌 개설 데이터:', formData);
-    // API 호출 로직 구현
+    // localStorage에서 branchId 가져오기
+    const branchId = localStorage.getItem('branchId');
+    
+    if (!branchId) {
+      alert('지점 정보를 찾을 수 없습니다. 다시 로그인해주세요.');
+      return;
+    }
+
+    // 카테고리 값을 API에서 요구하는 형식으로 매핑
+    const categoryMap: Record<string, CreateLessonRequest['category']> = {
+      '디지털': 'DIGITAL',
+      '어학': 'LANGUAGE', 
+      '트렌드': 'TREND',
+      '기타': 'OTHERS',
+      '금융': 'FINANCE',
+      '건강': 'HEALTH',
+      '문화': 'CULTURE',
+    };
+
+    // 강좌 내용들을 커리큘럼 형태로 변환
+    const curriculums = [
+      { content: formData.lessonDescription },
+      ...formData.additionalContents.map(content => ({ content }))
+    ].filter(curriculum => curriculum.content.trim() !== '');
+
+    const requestData: CreateLessonRequest = {
+      lessonName: formData.title,
+      instructor: formData.instructorIntro,
+      instruction: formData.instructorIntro, // 강사 소개를 instruction으로 사용
+      description: formData.lessonIntro,
+      category: categoryMap[formData.category] || 'OTHERS',
+      lessonImg: formData.lessonImage ? URL.createObjectURL(formData.lessonImage) : undefined,
+      branchId: parseInt(branchId),
+      lessonGisus: [{
+        capacity: parseInt(formData.expectedParticipants) || 20,
+        lessonFee: parseInt(formData.fee) || 0,
+        duration: `${formData.startDate} ~ ${formData.endDate} ${formData.days} ${formData.time}`,
+        curriculums: curriculums,
+      }],
+    };
+
+    console.log('강좌 개설 데이터:', requestData);
+    createLesson(requestData);
   };
 
   const handleRemoveImage = () => {
@@ -323,13 +368,14 @@ const Page = () => {
         variant='green'
         sizeType='lg'
         className='h-[6.3rem] text-center font-bold text-white'
+        disabled={isPending}
         style={{
           fontFamily: 'Inter',
           fontSize: '22px',
           lineHeight: '21.6px',
         }}
       >
-        강좌 개설하기
+        {isPending ? '강좌 개설 중...' : '강좌 개설하기'}
       </Button>
     </Layout>
   );
