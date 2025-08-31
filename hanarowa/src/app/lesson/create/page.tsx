@@ -1,5 +1,7 @@
 'use client';
 
+import { usePostLesson } from '@/apis/lesson';
+import { components } from '@/types/api';
 import { IcImageUpload, IcUsers } from '@/assets/svg';
 import {
   Layout,
@@ -9,6 +11,7 @@ import {
   Button,
   Dropdown,
 } from '@/components';
+import { CATEGORY_META } from '@/constants/category';
 import {
   categoryOptions,
   dayOptions,
@@ -16,13 +19,13 @@ import {
   startDateOptions,
   timeOptions,
 } from '@/constants/lesson-options';
-import { usePostLesson } from '@/apis/lesson';
-import { CreateLessonRequest } from '@/apis/lesson/postLesson';
 import React, { useState, useRef } from 'react';
+
+type CreateLessonRequest = components['schemas']['CreateLessonRequestDTO'];
 
 const Page = () => {
   const { mutate: createLesson, isPending } = usePostLesson();
-  
+
   const [formData, setFormData] = useState({
     title: '',
     instructorIntro: '',
@@ -72,7 +75,7 @@ const Page = () => {
   const handleSubmit = () => {
     // localStorage에서 branchId 가져오기
     const branchId = localStorage.getItem('branchId');
-    
+
     if (!branchId) {
       alert('지점 정보를 찾을 수 없습니다. 다시 로그인해주세요.');
       return;
@@ -80,39 +83,46 @@ const Page = () => {
 
     // 카테고리 값을 API에서 요구하는 형식으로 매핑
     const categoryMap: Record<string, CreateLessonRequest['category']> = {
-      '디지털': 'DIGITAL',
-      '어학': 'LANGUAGE', 
-      '트렌드': 'TREND',
-      '기타': 'OTHERS',
-      '금융': 'FINANCE',
-      '건강': 'HEALTH',
-      '문화': 'CULTURE',
+      [CATEGORY_META.digital.title]: 'DIGITAL',
+      [CATEGORY_META.language.title]: 'LANGUAGE',
+      [CATEGORY_META.trend.title]: 'TREND',
+      [CATEGORY_META.others.title]: 'OTHERS',
+      [CATEGORY_META.finance.title]: 'FINANCE',
+      [CATEGORY_META.health.title]: 'HEALTH',
+      [CATEGORY_META.culture.title]: 'CULTURE',
     };
 
     // 강좌 내용들을 커리큘럼 형태로 변환
     const curriculums = [
       { content: formData.lessonDescription },
-      ...formData.additionalContents.map(content => ({ content }))
-    ].filter(curriculum => curriculum.content.trim() !== '');
+      ...formData.additionalContents.map((content) => ({ content })),
+    ].filter((curriculum) => curriculum.content.trim() !== '');
 
     const requestData: CreateLessonRequest = {
       lessonName: formData.title,
       instructor: formData.instructorIntro,
-      instruction: formData.instructorIntro, // 강사 소개를 instruction으로 사용
+      instruction: formData.instructorIntro,
       description: formData.lessonIntro,
       category: categoryMap[formData.category] || 'OTHERS',
-      lessonImg: formData.lessonImage ? URL.createObjectURL(formData.lessonImage) : undefined,
+      lessonImg: formData.lessonImage
+        ? URL.createObjectURL(formData.lessonImage)
+        : undefined,
       branchId: parseInt(branchId),
-      lessonGisus: [{
-        capacity: parseInt(formData.expectedParticipants) || 20,
-        lessonFee: parseInt(formData.fee) || 0,
-        duration: `${formData.startDate} ~ ${formData.endDate} ${formData.days} ${formData.time}`,
-        curriculums: curriculums,
-      }],
+      lessonGisus: [
+        {
+          capacity: parseInt(formData.expectedParticipants) || 20,
+          lessonFee: parseInt(formData.fee) || 0,
+          duration: `${formData.startDate} ~ ${formData.endDate} ${formData.days} ${formData.time}`,
+          lessonRoomId: 1, // TODO: 실제 강의실 선택 기능 추가 필요
+          curriculums: curriculums,
+        },
+      ],
     };
 
     console.log('강좌 개설 데이터:', requestData);
-    createLesson(requestData);
+    createLesson({
+      body: requestData,
+    });
   };
 
   const handleRemoveImage = () => {
