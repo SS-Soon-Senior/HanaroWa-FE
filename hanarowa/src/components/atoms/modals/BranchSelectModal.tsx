@@ -1,25 +1,9 @@
 'use client';
 
+import { Branch } from '@/contexts/BranchContext';
 import { useBranch } from '@/hooks';
 import { useEffect } from 'react';
 import BranchButton from '../buttons/BranchButton';
-
-export const branches: Branch[] = [
-  { id: 1, location: '춘천', branch: '50+ 컬처뱅크' },
-  { id: 2, location: '대전', branch: '50+ 컬처뱅크' },
-  { id: 3, location: '광주', branch: '1968 라운지' },
-  { id: 4, location: '서울', branch: '하나더넥스트' },
-  { id: 5, location: '광주', branch: '1968 라운지' },
-  { id: 6, location: '광주', branch: '1968 라운지' },
-  { id: 7, location: '광주', branch: '1968 라운지' },
-  { id: 8, location: '서울', branch: '하나더넥스트' },
-];
-
-type Branch = {
-  id: number;
-  location: string;
-  branch: string;
-};
 
 type BranchSelectModalProps = {
   isOpen: boolean;
@@ -27,7 +11,7 @@ type BranchSelectModalProps = {
 };
 
 const BranchSelectModal = ({ isOpen, onClose }: BranchSelectModalProps) => {
-  const { setLocation } = useBranch();
+  const { setLocation, branches } = useBranch();
 
   useEffect(() => {
     if (isOpen) {
@@ -42,7 +26,7 @@ const BranchSelectModal = ({ isOpen, onClose }: BranchSelectModalProps) => {
   }, [isOpen]);
 
   const handleBranchSelect = (branch: Branch) => {
-    setLocation(branch.location, branch.branch);
+    setLocation(branch.locationName, branch.branchName);
     onClose();
   };
 
@@ -58,12 +42,14 @@ const BranchSelectModal = ({ isOpen, onClose }: BranchSelectModalProps) => {
       </h1>
       <div className='overflow-scroll overflow-y-auto'>
         <div className='grid grid-cols-2 gap-x-[1.5rem] gap-y-[2.4rem] pb-12'>
-          {branches.map(({ id, location, branch }) => (
+          {branches.map(({ branchId, locationName, branchName }) => (
             <BranchButton
-              key={id}
-              location={location}
-              branch={branch}
-              onClick={() => handleBranchSelect({ id, location, branch })}
+              key={branchId}
+              location={locationName}
+              branch={branchName}
+              onClick={() =>
+                handleBranchSelect({ branchId, locationName, branchName })
+              }
             />
           ))}
         </div>
