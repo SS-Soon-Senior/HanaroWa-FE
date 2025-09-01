@@ -16,15 +16,24 @@ const Page = () => {
           </h1>
         </div>
         <div className='flex w-full flex-col items-center gap-[1.2rem] pt-[6rem]'>
-          <Link href='#' className={`${socialButtonStyle} bg-gray4f6`}>
+          <Link
+            href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/signin/google`}
+            className={`${socialButtonStyle} bg-gray4f6`}
+          >
             <IcGoogle />
             <h1 className='text-black'>구글로 로그인하기</h1>
           </Link>
-          <Link href='#' className={`${socialButtonStyle} bg-kakao`}>
+          <Link
+            href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/signin/kakao`}
+            className={`${socialButtonStyle} bg-kakao`}
+          >
             <IcKakao />
             <h1 className='text-[#371F1C]'>카카오로 로그인하기</h1>
           </Link>
-          <Link href='#' className={`${socialButtonStyle} bg-naver text-white`}>
+          <Link
+            href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/signin/naver`}
+            className={`${socialButtonStyle} bg-naver text-white`}
+          >
             <IcNaver />
             <h1 className='text-white'>네이버로 로그인하기</h1>
           </Link>
