@@ -12,25 +12,14 @@ import {
   ReservationSummary,
 } from '@/components';
 import { components } from '@/types/api';
+import createFacilityDate from '@/utils/facility';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
-
-type Schedule = Record<string, string[]>;
 
 type MemberRegistRequest = components['schemas']['FacilityDetailResponseDTO'];
 
 const Page = () => {
-  // 내일 날짜를 초기값으로 설정
-  const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(today.getDate() + 1);
-
-  const formatDate = (date: Date): string => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
+  const { formatDate, tomorrow, today } = createFacilityDate();
 
   const [selectedDate, setSelectedDate] = useState<string | null>(
     formatDate(tomorrow)
@@ -46,7 +35,6 @@ const Page = () => {
     '/imgs/stardolilogo.png',
   ];
 
-  // 로딩 중일 때
   if (isLoading) {
     return (
       <Layout>
@@ -55,7 +43,6 @@ const Page = () => {
     );
   }
 
-  // 에러가 발생했거나 데이터가 없을 때
   if (isError || !data?.result) {
     return (
       <Layout>
