@@ -3,6 +3,7 @@
 import { IcMyMember, IcMyPassword, IcMyLogout, IcMyUnsub } from '@/assets/svg';
 import { Header, BottomNavigation, Layout, Modal } from '@/components';
 import { useModal } from '@/hooks';
+import { useGetMemberInfo } from '@apis';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -13,6 +14,7 @@ const textStyle = 'font-medium-22 text-gray353';
 const Page = () => {
   const [name, setName] = useState<string>('');
   const { isOpen, openModal, closeModal } = useModal();
+  const { data } = useGetMemberInfo();
 
   const router = useRouter();
 
@@ -23,10 +25,9 @@ const Page = () => {
   };
 
   useEffect(() => {
-    // 사용자 이름 가져오는 로직 짜야함!!
-    const fetchedName = '김시영 님';
+    const fetchedName = data?.result?.name + ' 님';
     setName(fetchedName ?? '');
-  }, []);
+  }, [data]);
 
   return (
     <Layout
