@@ -1,7 +1,18 @@
 'use client';
 
-import { Header, Layout, Input, Button, ErrorMessage } from '@/components';
-import { useState, useEffect } from 'react';
+import usePostMemberInfo from '@/apis/member/usePostMemberInfo';
+import {
+  Header,
+  Layout,
+  Input,
+  Button,
+  ErrorMessage,
+  Modal,
+} from '@/components';
+import { useGetMemberInfo } from '@apis';
+import { useModal } from '@hooks';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect, ChangeEvent } from 'react';
 
 const digits = (s: string) => s.replace(/\D/g, '');
 
@@ -14,36 +25,65 @@ const formatPhone = (v: string) => {
 
 const Page = () => {
   // 서버에서 가져온 값
-  const [initialBirth, setInitialBirth] = useState('');
-  const [initialPhone, setInitialPhone] = useState('');
+  const { data } = useGetMemberInfo();
+  const [initialBirth, setInitialBirth] = useState(data?.result?.birth);
+  const [initialPhone, setInitialPhone] = useState(data?.result?.phone);
+  const { isOpen, openModal, closeModal } = useModal();
 
-  // 사용자가 실제로 입력하는 값(초기엔 비워둠)
+  const router = useRouter();
+
+  // 사용자가 실제로 입력하는 값
   const [birth, setBirth] = useState('');
   const [phone, setPhone] = useState('');
 
   //입력값 검증
   const [showError, setShowError] = useState(false);
 
-  //fetch 후 응답으로 대체
-  useEffect(() => {
-    setInitialBirth('960101');
-    setInitialPhone('01012345678');
-  }, []);
-
   const isDirty = birth !== '' || phone !== '';
 
   const isValid =
-    (birth === '' || birth.length === 6) &&
-    (phone === '' || digits(phone).length === 11);
+    (birth === '' || (birth ?? '').length === 8) &&
+    (phone === '' || digits(phone ?? '').length === 13);
+
+  const { mutate } = usePostMemberInfo();
+
+  useEffect(() => {
+    setInitialBirth(data?.result?.birth);
+    setInitialPhone(data?.result?.phone);
+  }, [data]);
 
   const handleSubmit = () => {
-    if (!isValid) {
+    const finalBirth =
+      birth && birth.trim() !== '' ? birth : (initialBirth ?? '');
+
+    const finalPhone =
+      phone && phone.trim() !== '' ? phone : (initialPhone ?? '');
+
+    const valid = finalBirth.length === 8 && finalPhone.length === 13;
+
+    if (!valid) {
       setShowError(true);
       return;
     }
     setShowError(false);
 
-    //여기에 isValid 일 시의 액션 코드 추가 필요!!(서버API 호출)
+    mutate(
+      {
+        body: {
+          birth: finalBirth, // "YYYYMMDD" 8자리
+          phoneNumber: finalPhone,
+        },
+      },
+      {
+        onSuccess: () => {
+          openModal();
+        },
+
+        onError: (error) => {
+          console.error(error);
+        },
+      }
+    );
   };
 
   return (
@@ -72,13 +112,13 @@ const Page = () => {
         <div className='flex flex-col gap-[1.6rem]'>
           <p className='font-medium-20'>생년월일</p>
           <Input
-            placeholder={initialBirth || '000000'}
+            placeholder={initialBirth || '00000000'}
             value={birth}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setBirth(digits(e.target.value).slice(0, 6))
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setBirth(digits(e.target.value).slice(0, 8))
             }
             inputMode='numeric'
-            maxLength={6}
+            maxLength={8}
             autoComplete='bday'
             fullWidth
           />
@@ -99,6 +139,17 @@ const Page = () => {
             fullWidth
           />
         </div>
+
+        {isOpen && (
+          <Modal
+            title='회원 정보 수정 완료'
+            greenButtonText='확인'
+            onClickGreenButton={() => {
+              closeModal();
+              router.push('/mypage');
+            }}
+          />
+        )}
       </div>
     </Layout>
   );

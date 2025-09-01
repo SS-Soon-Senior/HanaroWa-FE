@@ -1,16 +1,26 @@
 'use client';
 
+import usePostMemberInfo from '@/apis/member/usePostMemberInfo';
 import { IcSignupFace } from '@/assets/svg';
-import { Layout, Header, Input, Button } from '@/components';
+import { Layout, Header, Input, Button, ErrorMessage } from '@/components';
 import { setAccessToken } from '@/utils/common/auth';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { ChangeEvent, useEffect, useState } from 'react';
+
+const digits = (s: string) => s.replace(/\D/g, '');
+
+const formatPhone = (v: string) => {
+  const d = digits(v).slice(0, 11);
+  if (d.length <= 3) return d;
+  if (d.length <= 7) return `${d.slice(0, 3)}-${d.slice(3)}`;
+  return `${d.slice(0, 3)}-${d.slice(3, 7)}-${d.slice(7, 11)}`;
+};
 
 const Page = () => {
+  const router = useRouter();
   const [birth, setBirth] = useState('');
   const [phone, setPhone] = useState('');
   const params = useSearchParams();
-  const router = useRouter();
 
   useEffect(() => {
     const accessToken = params.get('accessToken');
@@ -20,7 +30,37 @@ const Page = () => {
     }
   }, [params, router]);
 
+  const { mutate } = usePostMemberInfo();
+
+  const [showError, setShowError] = useState(false);
+
   const isAllFilled = birth.trim() !== '' && phone.trim() !== '';
+  const valid = birth.length === 8 && phone.length === 13;
+
+  const handleSubmit = () => {
+    if (!valid) {
+      setShowError(true);
+      return;
+    }
+    setShowError(false);
+
+    mutate(
+      {
+        body: {
+          birth: birth,
+          phoneNumber: phone, // 하이픈 포함
+        },
+      },
+      {
+        onSuccess: () => {
+          router.push('/complete');
+        },
+        onError: (error) => {
+          console.error(error);
+        },
+      }
+    );
+  };
 
   return (
     <Layout header={<Header />}>
@@ -37,10 +77,13 @@ const Page = () => {
                 생년월일을 입력하세요.
               </p>
               <Input
-                placeholder='6자리 숫자로 입력해주세요.'
+                placeholder='8자리 숫자로 입력해주세요.'
                 name='birth'
                 value={birth}
-                onChange={(e) => setBirth(e.target.value)}
+                inputMode='numeric'
+                maxLength={8}
+                autoComplete='bday'
+                onChange={(e) => setBirth(digits(e.target.value).slice(0, 8))}
               />
             </div>
 
@@ -53,18 +96,31 @@ const Page = () => {
                 placeholder='010-0000-0000'
                 name='phone'
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setPhone(formatPhone(e.target.value))
+                }
+                inputMode='numeric'
+                maxLength={13}
+                autoComplete='tel'
               />
             </div>
           </div>
 
           {/* 버튼 */}
-          <div className='mx-auto mt-auto flex w-full flex-col items-end gap-[2.5rem]'>
+          <div className='mx-auto mt-auto flex w-full flex-col gap-[2.5rem]'>
+            {showError && (
+              <div className='mb-[1.2rem] flex justify-center'>
+                <ErrorMessage align='text-center'>
+                  각 항목을 올바르게 입력해주세요.
+                </ErrorMessage>
+              </div>
+            )}
             <Button
               variant={isAllFilled ? 'green' : 'disabled'}
               sizeType='lg'
               type='button'
               disabled={!isAllFilled}
+              onClick={handleSubmit}
             >
               확인
             </Button>

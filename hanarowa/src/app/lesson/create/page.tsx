@@ -1,5 +1,6 @@
 'use client';
 
+import { usePostLesson } from '@/apis/lesson';
 import { IcImageUpload, IcUsers } from '@/assets/svg';
 import {
   Layout,
@@ -9,6 +10,7 @@ import {
   Button,
   Dropdown,
 } from '@/components';
+import { CATEGORY_META } from '@/constants/category';
 import {
   categoryOptions,
   dayOptions,
@@ -16,9 +18,17 @@ import {
   startDateOptions,
   timeOptions,
 } from '@/constants/lesson-options';
+import { useBranch } from '@/hooks';
+import { components } from '@/types/api';
 import React, { useState, useRef } from 'react';
 
+export type CreateLessonRequest =
+  components['schemas']['CreateLessonRequestDTO'];
+
 const Page = () => {
+  const { mutate: createLesson, isPending } = usePostLesson();
+  const { myBranch } = useBranch();
+
   const [formData, setFormData] = useState({
     title: '',
     instructorIntro: '',
@@ -66,8 +76,69 @@ const Page = () => {
   };
 
   const handleSubmit = () => {
-    console.log('강좌 개설 데이터:', formData);
-    // API 호출 로직 구현
+    if (!myBranch.branchId) {
+      alert('지점 정보를 찾을 수 없습니다. 다시 로그인해주세요.');
+      return;
+    }
+
+    // 카테고리 매핑 (OpenAPI enum과 일치)
+    const categoryMap: Record<string, CreateLessonRequest['category']> = {
+      [CATEGORY_META.digital.title]: 'DIGITAL',
+      [CATEGORY_META.language.title]: 'LANGUAGE',
+      [CATEGORY_META.trend.title]: 'TREND',
+      [CATEGORY_META.others.title]: 'OTHERS',
+      [CATEGORY_META.finance.title]: 'FINANCE',
+      [CATEGORY_META.health.title]: 'HEALTH',
+      [CATEGORY_META.culture.title]: 'CULTURE',
+    };
+
+    const fd = new FormData();
+
+    // 상위 필드
+    fd.append('lessonName', formData.title);
+    fd.append('instructor', formData.instructorIntro);
+    fd.append('instruction', formData.instructorIntro);
+    fd.append('description', formData.lessonIntro);
+    fd.append('category', categoryMap[formData.category] || 'OTHERS');
+    fd.append('branchId', String(myBranch.branchId));
+
+    // 단일 기수 예시 (i = 0)
+    const i = 0;
+    const capacity = parseInt(formData.expectedParticipants || '0', 10) || 20;
+    const lessonFee = parseInt(formData.fee || '0', 10) || 0;
+    const duration = `${formData.startDate} ~ ${formData.endDate} ${formData.days} ${formData.time}`;
+    const lessonRoomId = 1;
+
+    fd.append(`lessonGisus[${i}].capacity`, String(capacity));
+    fd.append(`lessonGisus[${i}].lessonFee`, String(lessonFee));
+    fd.append(`lessonGisus[${i}].duration`, duration);
+    fd.append(`lessonGisus[${i}].lessonRoomId`, String(lessonRoomId));
+
+    const curriculums = [
+      { content: formData.lessonDescription },
+      ...formData.additionalContents
+        .filter((c) => c.trim() !== '')
+        .map((c) => ({ content: c })),
+    ];
+
+    curriculums.forEach((c, j) => {
+      fd.append(`lessonGisus[${i}].curriculums[${j}].content`, c.content);
+    });
+
+    // 파일
+    if (formData.lessonImage) {
+      fd.append('lessonImg', formData.lessonImage, formData.lessonImage.name);
+    }
+
+    /* === 중요: 혹시 남아있을지 모를 잘못된 키 제거 === */
+    fd.delete('lessonGisus'); // JSON 문자열로 넣던 흔적 제거
+    fd.delete('lessonGisus[0]'); // 인덱스만 있는 잘못된 키 제거
+
+    // 전송 직전 실제 페어 확인
+    for (const [k, v] of fd.entries()) console.log(k, v);
+
+    // 전송
+    createLesson(fd);
   };
 
   const handleRemoveImage = () => {
@@ -217,7 +288,6 @@ const Page = () => {
             />
             {formData.lessonImage ? (
               <div className='relative'>
-                {/* 나중에 Next Image로 바꾸세요. */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={URL.createObjectURL(formData.lessonImage)}
@@ -286,6 +356,7 @@ const Page = () => {
             />
           </div>
         ))}
+
         {/* + 버튼 */}
         <div className='w-full'>
           <Button
@@ -317,19 +388,17 @@ const Page = () => {
           </div>
         </div>
       </div>
+
       {/* 강좌 개설하기 버튼 */}
       <Button
         onClick={handleSubmit}
         variant='green'
         sizeType='lg'
         className='h-[6.3rem] text-center font-bold text-white'
-        style={{
-          fontFamily: 'Inter',
-          fontSize: '22px',
-          lineHeight: '21.6px',
-        }}
+        disabled={isPending}
+        style={{ fontFamily: 'Inter', fontSize: '22px', lineHeight: '21.6px' }}
       >
-        강좌 개설하기
+        {isPending ? '강좌 개설 중...' : '강좌 개설하기'}
       </Button>
     </Layout>
   );

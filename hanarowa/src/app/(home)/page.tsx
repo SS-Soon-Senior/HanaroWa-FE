@@ -42,11 +42,14 @@ const reservationMenu = [
 ];
 
 const Page = () => {
-  const { location, branch } = useBranch();
+  const { myBranch } = useBranch();
 
   return (
     <Layout footer={<BottomNavigation />}>
-      <BranchSelectHeader location={location} title={branch} />
+      <BranchSelectHeader
+        location={myBranch.locationName ?? ''}
+        title={myBranch.branchName ?? ''}
+      />
       <MenuSection title='강좌' items={lectureMenu} />
       <MenuSection title='예약 하기' items={reservationMenu} />
       <LessonSection />

@@ -98,6 +98,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/lesson/create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 강좌 개설
+         * @description 사용자가 새로운 강좌를 개설합니다.
+         */
+        post: operations["createLesson"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/facility/reservation": {
         parameters: {
             query?: never;
@@ -461,6 +481,66 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/signin/naver": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Naver 소셜 로그인
+         * @description Naver 계정으로 로그인
+         */
+        get: operations["naverLogin"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/signin/kakao": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Kakao 소셜 로그인
+         * @description Kakao 계정으로 로그인
+         */
+        get: operations["kakaoLogin"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/signin/google": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Google 소셜 로그인
+         * @description Google 계정으로 로그인
+         */
+        get: operations["googleLogin"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/admin/member": {
         parameters: {
             query?: never;
@@ -584,6 +664,32 @@ export interface components {
             rating: number;
             reviewTxt: string;
         };
+        CreateCurriculumRequestDTO: {
+            content: string;
+        };
+        CreateLessonGisuRequestDTO: {
+            /** Format: int32 */
+            capacity: number;
+            /** Format: int32 */
+            lessonFee: number;
+            duration: string;
+            /** Format: int64 */
+            lessonRoomId: number;
+            curriculums: components["schemas"]["CreateCurriculumRequestDTO"][];
+        };
+        CreateLessonRequestDTO: {
+            lessonName: string;
+            instructor: string;
+            instruction: string;
+            description: string;
+            /** @enum {string} */
+            category: "DIGITAL" | "LANGUAGE" | "TREND" | "OTHERS" | "FINANCE" | "HEALTH" | "CULTURE";
+            /** Format: binary */
+            lessonImg?: string;
+            /** Format: int64 */
+            branchId: number;
+            lessonGisus: components["schemas"]["CreateLessonGisuRequestDTO"][];
+        };
         FacilityReservationDTO: {
             /** Format: int64 */
             facilityId?: number;
@@ -601,9 +707,20 @@ export interface components {
             message?: string;
             result?: components["schemas"]["LoginResponseDTO"];
         };
+        BranchResponseDTO: {
+            /** Format: int64 */
+            branchId?: number;
+            locationName?: string;
+            branchName?: string;
+        };
         LoginResponseDTO: {
             url?: string;
             tokens?: components["schemas"]["TokenResponseDTO"];
+            branch?: components["schemas"]["BranchResponseDTO"];
+            name?: string;
+            /** Format: date */
+            birth?: string;
+            phoneNumber?: string;
         };
         TokenResponseDTO: {
             email?: string;
@@ -626,24 +743,24 @@ export interface components {
              */
             experience?: string;
         };
-        ApiResponseJobRecResponseDto: {
+        ApiResponseRecResponseDto: {
             isSuccess?: boolean;
             code?: string;
             message?: string;
-            result?: components["schemas"]["JobRecResponseDto"];
+            result?: components["schemas"]["RecResponseDto"];
         };
-        /** @description AI 직업 추천 응답 DTO */
-        JobRecResponseDto: {
-            /** @description AI가 추천한 직업 목록 */
-            recommendations?: components["schemas"]["JobRecommendation"][];
+        /** @description AI 추천 응답 DTO */
+        RecResponseDto: {
+            /** @description AI가 추천한 강좌 목록 */
+            recommendations?: components["schemas"]["Recommendation"][];
         };
-        /** @description AI 추천 직업 상세 정보 */
-        JobRecommendation: {
-            /** @description 추천된 직업명 */
-            jobName?: string;
-            /** @description 직업에 대한 설명 */
+        /** @description AI 추천 상세 정보 */
+        Recommendation: {
+            /** @description 추천 타이틀 */
+            name?: string;
+            /** @description 해당되는 설명 */
             description?: string;
-            /** @description 해당 직업이 시니어에게 적합한 이유 */
+            /** @description 추천하는 이유 */
             reason?: string;
         };
         /** @description AI 강좌 추천 요청 DTO */
@@ -653,24 +770,6 @@ export interface components {
              * @example 스마트폰 활용
              */
             interest?: string;
-        };
-        ApiResponseCourseRecResponseDto: {
-            isSuccess?: boolean;
-            code?: string;
-            message?: string;
-            result?: components["schemas"]["CourseRecResponseDto"];
-        };
-        /** @description AI 강좌 추천 응답 DTO */
-        CourseRecResponseDto: {
-            /** @description AI가 추천한 강좌 목록 */
-            recommendations?: components["schemas"]["CourseRecommendation"][];
-        };
-        /** @description AI 추천 강좌 상세 정보 */
-        CourseRecommendation: {
-            /** @description 추천된 강좌명 */
-            courseName?: string;
-            /** @description 해당 강좌를 추천하는 이유 */
-            reason?: string;
         };
         ApiResponseMemberInfoRequestDTO: {
             isSuccess?: boolean;
@@ -951,12 +1050,6 @@ export interface components {
             message?: string;
             result?: components["schemas"]["BranchResponseDTO"][];
         };
-        BranchResponseDTO: {
-            /** Format: int64 */
-            branchId?: number;
-            locationName?: string;
-            branchName?: string;
-        };
         ApiResponseListMemberListResponseDTO: {
             isSuccess?: boolean;
             code?: string;
@@ -1143,6 +1236,30 @@ export interface operations {
             };
         };
     };
+    createLesson: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "multipart/form-data": components["schemas"]["CreateLessonRequestDTO"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseVoid"];
+                };
+            };
+        };
+    };
     reservateFacility: {
         parameters: {
             query?: never;
@@ -1254,7 +1371,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseJobRecResponseDto"];
+                    "*/*": components["schemas"]["ApiResponseRecResponseDto"];
                 };
             };
         };
@@ -1278,7 +1395,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCourseRecResponseDto"];
+                    "*/*": components["schemas"]["ApiResponseRecResponseDto"];
                 };
             };
         };
@@ -1616,6 +1733,60 @@ export interface operations {
                 content: {
                     "*/*": components["schemas"]["ApiResponseListBranchResponseDTO"];
                 };
+            };
+        };
+    };
+    naverLogin: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    kakaoLogin: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    googleLogin: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
