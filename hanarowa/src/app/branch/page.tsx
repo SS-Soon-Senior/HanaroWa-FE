@@ -2,16 +2,18 @@
 
 import { IcPlayByeoldol } from '@/assets/svg';
 import { BranchButton, Layout } from '@/components';
-import { branches } from '@/components/atoms/modals/BranchSelectModal';
 import { useBranch } from '@/hooks';
+import { components } from '@/types/api';
 import { useRouter } from 'next/navigation';
 
+type Branch = components['schemas']['BranchResponseDTO'];
+
 const Page = () => {
-  const { setLocation } = useBranch();
+  const { updateMyBranch, brancheSet } = useBranch();
   const router = useRouter();
 
-  const onClickBranch = (location: string, branch: string) => {
-    setLocation(location, branch);
+  const onClickBranch = (branch: Branch) => {
+    updateMyBranch(branch);
     router.push('/');
   };
 
@@ -26,12 +28,14 @@ const Page = () => {
       </div>
       <div className='overflow-scroll overflow-y-auto'>
         <div className='grid grid-cols-2 gap-x-[1.5rem] gap-y-[2.4rem] pb-12'>
-          {branches.map(({ id, location, branch }) => (
+          {brancheSet.map(({ branchId, locationName, branchName }) => (
             <BranchButton
-              key={id}
-              location={location}
-              branch={branch}
-              onClick={() => onClickBranch(location, branch)}
+              key={branchId}
+              location={locationName ?? ''}
+              branch={branchName ?? ''}
+              onClick={() =>
+                onClickBranch({ branchId, locationName, branchName })
+              }
             />
           ))}
         </div>
