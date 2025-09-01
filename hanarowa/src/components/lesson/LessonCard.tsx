@@ -1,5 +1,6 @@
 import { IcUsers } from '@/assets/svg';
 import { components } from '@/types/api';
+import { formatDuration, formatPrice } from '@/utils/formater';
 import Image from 'next/image';
 
 type LessonCardProps = components['schemas']['LessonInfoResponseDTO'];
@@ -27,7 +28,7 @@ const LessonCard = ({
       <div className='flex flex-col gap-[0.6rem]'>
         <p className='font-bold-20 text-black'>{lessonName}</p>
         <p className='font-medium-16 text-gray4a9'>
-          {instructor} · {duration}
+          {instructor} · {formatDuration(duration)}
         </p>
         <div className='flex items-center justify-between'>
           <div className='font-bold-16 text-main flex items-center gap-[0.6rem]'>
@@ -37,7 +38,9 @@ const LessonCard = ({
             </span>
           </div>
         </div>
-        <p className='font-bold-18 text-black'>{lessonFee}원</p>
+        <p className='font-bold-18 text-black'>
+          월 {formatPrice(lessonFee!)}원
+        </p>
       </div>
     </div>
   );

@@ -2,17 +2,23 @@
 
 import { useBranch } from '@/hooks';
 import { components } from '@/types/api';
+import { on } from 'events';
 import { useEffect } from 'react';
 import BranchButton from '../buttons/BranchButton';
 
 type BranchSelectModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  onSelect?: (branch: Branch) => void;
 };
 
 type Branch = components['schemas']['BranchResponseDTO'];
 
-const BranchSelectModal = ({ isOpen, onClose }: BranchSelectModalProps) => {
+const BranchSelectModal = ({
+  isOpen,
+  onClose,
+  onSelect,
+}: BranchSelectModalProps) => {
   const { updateMyBranch, brancheSet } = useBranch();
 
   useEffect(() => {
@@ -28,6 +34,10 @@ const BranchSelectModal = ({ isOpen, onClose }: BranchSelectModalProps) => {
   }, [isOpen]);
 
   const handleBranchSelect = (branch: Branch) => {
+    if (!!onSelect) {
+      onSelect(branch);
+      return;
+    }
     updateMyBranch(branch);
     onClose();
   };

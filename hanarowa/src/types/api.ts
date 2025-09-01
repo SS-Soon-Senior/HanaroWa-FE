@@ -389,8 +389,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * 지점별 카테고리별 강좌 목록 가져오기
-         * @description 사용자가 지점별 카테고리별 강좌 목록 최신순으로 가져오기 조회합니다.
+         * 지점별 강좌 목록 가져오기
+         * @description 사용자가 지점별 강좌 목록 최신순으로 가져오기 조회합니다.
          */
         get: operations["getLessonListByBranchId"];
         put?: never;
@@ -684,7 +684,6 @@ export interface components {
             description: string;
             /** @enum {string} */
             category: "DIGITAL" | "LANGUAGE" | "TREND" | "OTHERS" | "FINANCE" | "HEALTH" | "CULTURE";
-            /** Format: binary */
             lessonImg?: string;
             /** Format: int64 */
             branchId: number;
@@ -1261,9 +1260,9 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody?: {
+        requestBody: {
             content: {
-                "multipart/form-data": components["schemas"]["CreateLessonRequestDTO"];
+                "application/json": components["schemas"]["CreateLessonRequestDTO"];
             };
         };
         responses: {
@@ -1648,9 +1647,7 @@ export interface operations {
     };
     getLessonListByBranchId: {
         parameters: {
-            query?: {
-                categories?: string[];
-            };
+            query?: never;
             header?: never;
             path: {
                 branchId: number;
