@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  getAccessToken,
-  getRefreshToken,
-  setAccessToken,
-  logout,
-} from '@/utils/common/auth';
+import { getAccessToken, setAccessToken, logout } from '@/utils/common/auth';
 import { Middleware } from 'openapi-fetch';
 import postRefreshToken from './auth/postRefreshToken';
 

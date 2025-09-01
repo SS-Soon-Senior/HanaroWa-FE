@@ -3,8 +3,9 @@
 import usePostMemberInfo from '@/apis/member/usePostMemberInfo';
 import { IcSignupFace } from '@/assets/svg';
 import { Layout, Header, Input, Button, ErrorMessage } from '@/components';
-import { useRouter } from 'next/navigation';
-import { ChangeEvent, useState } from 'react';
+import { setAccessToken } from '@/utils/common/auth';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 const digits = (s: string) => s.replace(/\D/g, '');
 
@@ -19,6 +20,16 @@ const Page = () => {
   const router = useRouter();
   const [birth, setBirth] = useState('');
   const [phone, setPhone] = useState('');
+  const params = useSearchParams();
+
+  useEffect(() => {
+    const accessToken = params.get('accessToken');
+    if (accessToken) {
+      setAccessToken(accessToken);
+      router.replace('/auth/signup/info');
+    }
+  }, [params, router]);
+
   const { mutate } = usePostMemberInfo();
 
   const [showError, setShowError] = useState(false);
