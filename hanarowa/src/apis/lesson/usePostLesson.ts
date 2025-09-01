@@ -1,8 +1,12 @@
+'use client';
+
 import { components } from '@/types/api';
+import { getAccessToken } from '@/utils/common/auth';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 
 const usePostLesson = () => {
   const queryClient = useQueryClient();
+  const accessToken = getAccessToken();
 
   return useMutation({
     mutationFn: async (formData: FormData) => {
@@ -18,7 +22,9 @@ const usePostLesson = () => {
         {
           method: 'POST',
           body: formData,
-          // Content-Type은 자동으로 설정됨 (multipart/form-data boundary 포함)
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       );
 

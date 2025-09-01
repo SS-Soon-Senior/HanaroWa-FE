@@ -81,7 +81,7 @@ const Page = () => {
       return;
     }
 
-    // 카테고리 값을 API에서 요구하는 형식으로 매핑
+    // 카테고리 매핑 (OpenAPI enum과 일치)
     const categoryMap: Record<string, CreateLessonRequest['category']> = {
       [CATEGORY_META.digital.title]: 'DIGITAL',
       [CATEGORY_META.language.title]: 'LANGUAGE',
@@ -92,46 +92,53 @@ const Page = () => {
       [CATEGORY_META.culture.title]: 'CULTURE',
     };
 
-    // 강좌 내용들을 커리큘럼 형태로 변환
+    const fd = new FormData();
+
+    // 상위 필드
+    fd.append('lessonName', formData.title);
+    fd.append('instructor', formData.instructorIntro);
+    fd.append('instruction', formData.instructorIntro);
+    fd.append('description', formData.lessonIntro);
+    fd.append('category', categoryMap[formData.category] || 'OTHERS');
+    fd.append('branchId', String(myBranch.branchId));
+
+    // 단일 기수 예시 (i = 0)
+    const i = 0;
+    const capacity = parseInt(formData.expectedParticipants || '0', 10) || 20;
+    const lessonFee = parseInt(formData.fee || '0', 10) || 0;
+    const duration = `${formData.startDate} ~ ${formData.endDate} ${formData.days} ${formData.time}`;
+    const lessonRoomId = 1;
+
+    fd.append(`lessonGisus[${i}].capacity`, String(capacity));
+    fd.append(`lessonGisus[${i}].lessonFee`, String(lessonFee));
+    fd.append(`lessonGisus[${i}].duration`, duration);
+    fd.append(`lessonGisus[${i}].lessonRoomId`, String(lessonRoomId));
+
     const curriculums = [
       { content: formData.lessonDescription },
-      ...formData.additionalContents.map((content) => ({ content })),
-    ].filter((curriculum) => curriculum.content.trim() !== '');
-
-    // FormData 생성하여 multipart/form-data로 전송
-    const formDataToSend = new FormData();
-
-    // 각 필드를 개별적으로 FormData에 추가
-    formDataToSend.append('lessonName', formData.title);
-    formDataToSend.append('instructor', formData.instructorIntro);
-    formDataToSend.append('instruction', formData.instructorIntro);
-    formDataToSend.append('description', formData.lessonIntro);
-    formDataToSend.append(
-      'category',
-      categoryMap[formData.category] || 'OTHERS'
-    );
-    formDataToSend.append('branchId', myBranch.branchId.toString());
-
-    // lessonGisus 배열을 JSON 문자열로 변환하여 추가
-    const lessonGisusData = [
-      {
-        capacity: parseInt(formData.expectedParticipants) || 20,
-        lessonFee: parseInt(formData.fee) || 0,
-        duration: `${formData.startDate} ~ ${formData.endDate} ${formData.days} ${formData.time}`,
-        lessonRoomId: 1, // TODO: 실제 강의실 선택 기능 추가 필요
-        curriculums: curriculums,
-      },
+      ...formData.additionalContents
+        .filter((c) => c.trim() !== '')
+        .map((c) => ({ content: c })),
     ];
-    formDataToSend.append('lessonGisus', JSON.stringify(lessonGisusData));
 
-    // 이미지 파일을 lessonImg 필드로 추가
+    curriculums.forEach((c, j) => {
+      fd.append(`lessonGisus[${i}].curriculums[${j}].content`, c.content);
+    });
+
+    // 파일
     if (formData.lessonImage) {
-      formDataToSend.append('lessonImg', formData.lessonImage);
+      fd.append('lessonImg', formData.lessonImage, formData.lessonImage.name);
     }
 
-    console.log('전송할 FormData:', formDataToSend);
+    /* === 중요: 혹시 남아있을지 모를 잘못된 키 제거 === */
+    fd.delete('lessonGisus'); // JSON 문자열로 넣던 흔적 제거
+    fd.delete('lessonGisus[0]'); // 인덱스만 있는 잘못된 키 제거
 
-    createLesson(formDataToSend);
+    // 전송 직전 실제 페어 확인
+    for (const [k, v] of fd.entries()) console.log(k, v);
+
+    // 전송
+    createLesson(fd);
   };
 
   const handleRemoveImage = () => {
@@ -281,7 +288,6 @@ const Page = () => {
             />
             {formData.lessonImage ? (
               <div className='relative'>
-                {/* 나중에 Next Image로 바꾸세요. */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={URL.createObjectURL(formData.lessonImage)}
@@ -350,6 +356,7 @@ const Page = () => {
             />
           </div>
         ))}
+
         {/* + 버튼 */}
         <div className='w-full'>
           <Button
@@ -381,6 +388,7 @@ const Page = () => {
           </div>
         </div>
       </div>
+
       {/* 강좌 개설하기 버튼 */}
       <Button
         onClick={handleSubmit}
@@ -388,11 +396,7 @@ const Page = () => {
         sizeType='lg'
         className='h-[6.3rem] text-center font-bold text-white'
         disabled={isPending}
-        style={{
-          fontFamily: 'Inter',
-          fontSize: '22px',
-          lineHeight: '21.6px',
-        }}
+        style={{ fontFamily: 'Inter', fontSize: '22px', lineHeight: '21.6px' }}
       >
         {isPending ? '강좌 개설 중...' : '강좌 개설하기'}
       </Button>
