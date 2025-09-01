@@ -33,18 +33,6 @@ export const timeOptions = [
   { value: '19:00-20:00', label: '19:00 ~ 20:00' },
 ];
 
-export const startDateOptions = [
-  { value: '2025-08-18', label: '2025-08-18' },
-  { value: '2025-08-19', label: '2025-08-19' },
-  { value: '2025-08-20', label: '2025-08-20' },
-];
-
-export const endDateOptions = [
-  { value: '2025-08-30', label: '2025-08-30' },
-  { value: '2025-08-31', label: '2025-08-31' },
-  { value: '2025-09-01', label: '2025-09-01' },
-];
-
 export const MOCK_LESSONS: Record<string, Lesson> = {
   '1': {
     title: '디지털 카메라 기초 완성',

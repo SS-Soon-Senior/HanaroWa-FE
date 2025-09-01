@@ -1,6 +1,6 @@
 'use client';
 
-import useGetFacilityDetail from '@/apis/facility/useGetFacilityDetail';
+import { useGetFacilityDetail, usePostReserveFacility } from '@/apis/facility';
 import {
   Layout,
   Header,
@@ -13,27 +13,36 @@ import {
 } from '@/components';
 import { components } from '@/types/api';
 import createFacilityDate from '@/utils/facility';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-type MemberRegistRequest = components['schemas']['FacilityDetailResponseDTO'];
-
+type FacilityDetailResponse =
+  components['schemas']['FacilityDetailResponseDTO'];
+export type FacilityReservation =
+  components['schemas']['FacilityReservationDTO'];
+const TIMES = [
+  '09:00',
+  '10:00',
+  '11:00',
+  '12:00',
+  '13:00',
+  '14:00',
+  '15:00',
+  '16:00',
+  '17:00',
+];
 const Page = () => {
   const { formatDate, tomorrow, today } = createFacilityDate();
 
+  const facilityId = useParams<{ facilityId: string }>().facilityId;
+
+  const router = useRouter();
+  const { data, isLoading, isError } = useGetFacilityDetail(facilityId);
+  const { mutate } = usePostReserveFacility();
   const [selectedDate, setSelectedDate] = useState<string | null>(
     formatDate(tomorrow)
   );
   const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
-  const facilityId = useParams<{ facilityId: string }>().facilityId;
-
-  const { data, isLoading, isError } = useGetFacilityDetail(facilityId);
-
-  const ImgSrc = [
-    '/imgs/IMG_7675.png',
-    '/imgs/cinemaroom.png',
-    '/imgs/stardolilogo.png',
-  ];
 
   if (isLoading) {
     return (
@@ -56,7 +65,7 @@ const Page = () => {
     facilityDescription = '시설 설명 없음',
     facilityImages = [],
     facilityTimes = {},
-  }: MemberRegistRequest = data.result;
+  }: FacilityDetailResponse = data.result;
 
   const bookedTimesForSelectedDate = selectedDate
     ? facilityTimes[selectedDate] || []
@@ -92,7 +101,7 @@ const Page = () => {
     setSelectedTimes(newSelection);
   };
 
-  // 모레, 글피 날짜 생성 (내일은 이미 위에서 생성됨)
+  // 모레, 글피 날짜 생성
   const dayAfterTomorrow = new Date(today);
   dayAfterTomorrow.setDate(today.getDate() + 2);
   const threeDaysLater = new Date(today);
@@ -102,18 +111,6 @@ const Page = () => {
     formatDate(tomorrow),
     formatDate(dayAfterTomorrow),
     formatDate(threeDaysLater),
-  ];
-
-  const times = [
-    '09:00',
-    '10:00',
-    '11:00',
-    '12:00',
-    '13:00',
-    '14:00',
-    '15:00',
-    '16:00',
-    '17:00',
   ];
 
   const sortedSelectedTimes = [...selectedTimes].sort();
@@ -128,11 +125,36 @@ const Page = () => {
     return `${y}년 ${parseInt(m, 10)}월 ${parseInt(d, 10)}일`;
   };
 
+  const handleSubmit = () => {
+    if (!selectedDate || selectedTimes.length === 0 || !facilityId) {
+      alert('날짜와 시간을 모두 선택해주세요.');
+      return;
+    }
+    mutate(
+      {
+        body: {
+          facilityId: Number(facilityId),
+          reservationDate: selectedDate,
+          startTime: startTime,
+          endTime: endTime,
+        },
+      },
+      {
+        onSuccess: () => {
+          console.log('시설 예약 성공');
+          router.push('/complete');
+        },
+        onError: (error) => {
+          console.error('시설 예약 실패:', error);
+        },
+      }
+    );
+  };
+
   return (
     <Layout header={<Header showBackButton={true} title='예약하기' />}>
       <FacilityImageCarousel
-        // images={facilityImages.map((img) => img.imgUrl || '')}
-        images={ImgSrc}
+        images={facilityImages.map((img) => img.imgUrl || '')}
       />
 
       <FacilityInfo roomname={facilityName} roomtext={facilityDescription} />
@@ -144,7 +166,7 @@ const Page = () => {
       />
 
       <TimeSelector
-        times={times}
+        times={TIMES}
         selectedTimes={selectedTimes}
         bookedTimes={bookedTimesForSelectedDate}
         onTimeSelect={handleTimeSelect}
@@ -158,7 +180,11 @@ const Page = () => {
         toKoreanDate={toKoreanDate}
       />
 
-      <Button variant={duration === 0 ? 'disabled' : 'green'} sizeType='lg'>
+      <Button
+        variant={duration === 0 ? 'disabled' : 'green'}
+        sizeType='lg'
+        onClick={handleSubmit}
+      >
         예약하기
       </Button>
     </Layout>

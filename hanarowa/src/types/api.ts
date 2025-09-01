@@ -685,7 +685,6 @@ export interface components {
             description: string;
             /** @enum {string} */
             category: "DIGITAL" | "LANGUAGE" | "TREND" | "OTHERS" | "FINANCE" | "HEALTH" | "CULTURE";
-            /** Format: binary */
             lessonImg?: string;
             /** Format: int64 */
             branchId: number;
@@ -744,24 +743,24 @@ export interface components {
              */
             experience?: string;
         };
-        ApiResponseJobRecResponseDto: {
+        ApiResponseRecResponseDto: {
             isSuccess?: boolean;
             code?: string;
             message?: string;
-            result?: components["schemas"]["JobRecResponseDto"];
+            result?: components["schemas"]["RecResponseDto"];
         };
-        /** @description AI 직업 추천 응답 DTO */
-        JobRecResponseDto: {
-            /** @description AI가 추천한 직업 목록 */
-            recommendations?: components["schemas"]["JobRecommendation"][];
+        /** @description AI 추천 응답 DTO */
+        RecResponseDto: {
+            /** @description AI가 추천한 강좌 목록 */
+            recommendations?: components["schemas"]["Recommendation"][];
         };
-        /** @description AI 추천 직업 상세 정보 */
-        JobRecommendation: {
-            /** @description 추천된 직업명 */
-            jobName?: string;
-            /** @description 직업에 대한 설명 */
+        /** @description AI 추천 상세 정보 */
+        Recommendation: {
+            /** @description 추천 타이틀 */
+            name?: string;
+            /** @description 해당되는 설명 */
             description?: string;
-            /** @description 해당 직업이 시니어에게 적합한 이유 */
+            /** @description 추천하는 이유 */
             reason?: string;
         };
         /** @description AI 강좌 추천 요청 DTO */
@@ -771,24 +770,6 @@ export interface components {
              * @example 스마트폰 활용
              */
             interest?: string;
-        };
-        ApiResponseCourseRecResponseDto: {
-            isSuccess?: boolean;
-            code?: string;
-            message?: string;
-            result?: components["schemas"]["CourseRecResponseDto"];
-        };
-        /** @description AI 강좌 추천 응답 DTO */
-        CourseRecResponseDto: {
-            /** @description AI가 추천한 강좌 목록 */
-            recommendations?: components["schemas"]["CourseRecommendation"][];
-        };
-        /** @description AI 추천 강좌 상세 정보 */
-        CourseRecommendation: {
-            /** @description 추천된 강좌명 */
-            courseName?: string;
-            /** @description 해당 강좌를 추천하는 이유 */
-            reason?: string;
         };
         ApiResponseMemberInfoRequestDTO: {
             isSuccess?: boolean;
@@ -1274,9 +1255,9 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody?: {
+        requestBody: {
             content: {
-                "multipart/form-data": components["schemas"]["CreateLessonRequestDTO"];
+                "application/json": components["schemas"]["CreateLessonRequestDTO"];
             };
         };
         responses: {
@@ -1402,7 +1383,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseJobRecResponseDto"];
+                    "*/*": components["schemas"]["ApiResponseRecResponseDto"];
                 };
             };
         };
@@ -1426,7 +1407,27 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCourseRecResponseDto"];
+                    "*/*": components["schemas"]["ApiResponseRecResponseDto"];
+                };
+            };
+        };
+    };
+    getInfo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseMemberInfoResponseDTO"];
                 };
             };
         };

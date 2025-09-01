@@ -2,9 +2,10 @@
 
 import usePostMemberInfo from '@/apis/member/usePostMemberInfo';
 import { IcSignupFace } from '@/assets/svg';
-import { Layout, Header, Input, Button, ErrorMessage } from '@/components';
-import { useRouter } from 'next/navigation';
-import { ChangeEvent, useState } from 'react';
+import { Layout, Header, Input, Button, ErrorMessage, DatePicker } from '@/components';
+import { setAccessToken } from '@/utils/common/auth';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 const digits = (s: string) => s.replace(/\D/g, '');
 
@@ -15,16 +16,37 @@ const formatPhone = (v: string) => {
   return `${d.slice(0, 3)}-${d.slice(3, 7)}-${d.slice(7, 11)}`;
 };
 
+// YYYYMMDD -> YYYY-MM-DD 변환
+const formatDateToISO = (dateStr: string) => {
+  if (!dateStr || dateStr.length !== 8) return '';
+  return `${dateStr.slice(0, 4)}-${dateStr.slice(4, 6)}-${dateStr.slice(6, 8)}`;
+};
+
+// YYYY-MM-DD -> YYYYMMDD 변환
+const formatDateFromISO = (isoDate: string) => {
+  return isoDate.replace(/\D/g, '');
+};
+
 const Page = () => {
   const router = useRouter();
   const [birth, setBirth] = useState('');
   const [phone, setPhone] = useState('');
+  const params = useSearchParams();
+
+  useEffect(() => {
+    const accessToken = params.get('accessToken');
+    if (accessToken) {
+      setAccessToken(accessToken);
+      router.replace('/auth/signup/info');
+    }
+  }, [params, router]);
+
   const { mutate } = usePostMemberInfo();
 
   const [showError, setShowError] = useState(false);
 
   const isAllFilled = birth.trim() !== '' && phone.trim() !== '';
-  const valid = birth.length === 8 && phone.length === 13;
+  const valid = birth.replace(/\D/g, '').length === 8 && phone.length === 13;
 
   const handleSubmit = () => {
     if (!valid) {
@@ -36,7 +58,7 @@ const Page = () => {
     mutate(
       {
         body: {
-          birth: birth,
+          birth: birth.replace(/\D/g, ''), // YYYYMMDD 형식으로 변환
           phoneNumber: phone, // 하이픈 포함
         },
       },
@@ -65,14 +87,11 @@ const Page = () => {
               <p className='font-medium-20 text-black'>
                 생년월일을 입력하세요.
               </p>
-              <Input
-                placeholder='8자리 숫자로 입력해주세요.'
-                name='birth'
-                value={birth}
-                inputMode='numeric'
-                maxLength={8}
-                autoComplete='bday'
-                onChange={(e) => setBirth(digits(e.target.value).slice(0, 8))}
+              <DatePicker
+                value={birth ? formatDateToISO(birth) : ''}
+                onChange={(value) => setBirth(formatDateFromISO(value))}
+                placeholder='생년월일을 선택하세요'
+                maxDate={new Date().toISOString().split('T')[0]}
               />
             </div>
 
