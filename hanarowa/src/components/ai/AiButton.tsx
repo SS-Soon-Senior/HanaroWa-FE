@@ -8,7 +8,7 @@ type AiButtonProps = {
   onClick?: () => void;
   leftContent?: ReactNode;
   title?: string;
-  content: string;
+  content?: string;
 };
 
 const AiButton = ({ onClick, leftContent, title, content }: AiButtonProps) => {
@@ -22,7 +22,7 @@ const AiButton = ({ onClick, leftContent, title, content }: AiButtonProps) => {
         {title && <p className='font-bold-20 text-black'>{title}</p>}
         <p
           className={cn(
-            'font-medium-18',
+            'font-medium-18 flex w-full text-left',
             title ? 'text-gray3af' : 'text-black'
           )}
         >
