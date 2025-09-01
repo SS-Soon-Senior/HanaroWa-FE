@@ -1,4 +1,5 @@
 import { BaseInputProps } from '@/types/input';
+import { cn } from '@/utils/utils';
 import clsx from 'clsx';
 import * as React from 'react';
 import { useId, forwardRef } from 'react';
@@ -21,7 +22,7 @@ export const Input = forwardRef<HTMLInputElement, BaseInputProps>(
 
     return (
       <div
-        className={clsx(
+        className={cn(
           'border-gray7eb flex rounded-[1.6rem] border-[0.2rem] bg-white px-[2rem] py-[1.7rem]',
           fullWidth && 'w-full',
           containerClassName
