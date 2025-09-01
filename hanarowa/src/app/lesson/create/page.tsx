@@ -9,14 +9,13 @@ import {
   Textarea,
   Button,
   Dropdown,
+  DatePicker,
   Modal,
 } from '@/components';
 import { CATEGORY_META } from '@/constants/category';
 import {
   categoryOptions,
   dayOptions,
-  endDateOptions,
-  startDateOptions,
   timeOptions,
 } from '@/constants/lesson-options';
 import { useBranch } from '@/hooks';
@@ -233,24 +232,24 @@ const Page = () => {
         {/* 강의 시작일 */}
         <div className='w-full'>
           <h2 className='font-medium-20 mb-[1.2rem] text-black'>강의 시작일</h2>
-          <Dropdown
-            options={startDateOptions}
+          <DatePicker
             value={formData.startDate}
-            placeholder='2025-08-18'
             onChange={(value) => handleInputChange('startDate', value)}
+            placeholder='시작일을 선택하세요'
             className='!h-[5.6rem] !px-[2rem] !py-0'
+            minDate={new Date().toISOString().split('T')[0]}
           />
         </div>
 
         {/* 강의 종료일 */}
         <div className='w-full'>
           <h2 className='font-medium-20 mb-[1.2rem] text-black'>강의 종료일</h2>
-          <Dropdown
-            options={endDateOptions}
+          <DatePicker
             value={formData.endDate}
-            placeholder='2025-08-30'
             onChange={(value) => handleInputChange('endDate', value)}
+            placeholder='종료일을 선택하세요'
             className='!h-[5.6rem] !px-[2rem] !py-0'
+            minDate={formData.startDate || new Date().toISOString().split('T')[0]}
           />
         </div>
 
