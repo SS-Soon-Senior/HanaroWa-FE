@@ -43,11 +43,15 @@ const secondMenu = [
 ];
 
 const Page = () => {
-  const { location, branch } = useBranch();
+  const { myBranch } = useBranch();
   return (
     <Layout
       header={
-        <BranchSelectHeader location={location} title={branch} admin={true} />
+        <BranchSelectHeader
+          location={myBranch.locationName ?? ''}
+          title={myBranch.branchName ?? ''}
+          admin={true}
+        />
       }
     >
       <div className='flex flex-col items-center justify-center pt-[15rem]'>
