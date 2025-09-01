@@ -24,6 +24,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   disabled = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showYearPicker, setShowYearPicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(
     value ? new Date(value) : null
   );
@@ -34,6 +35,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
     setSelectedDate(date);
     onChange(formattedDate);
     setIsOpen(false);
+    setShowYearPicker(false);
   };
 
   const formatDisplayDate = (dateString: string) => {
@@ -44,6 +46,84 @@ const DatePicker: React.FC<DatePickerProps> = ({
       month: 'long',
       day: 'numeric',
     });
+  };
+
+  // 년도 선택 렌더링
+  const renderYearPicker = () => {
+    const currentYear = (selectedDate || new Date()).getFullYear();
+    const startYear = Math.floor(currentYear / 10) * 10;
+    const years = Array.from({ length: 12 }, (_, i) => startYear - 1 + i);
+
+    return (
+      <div className='border-gray7eb rounded-16 absolute top-full left-0 z-50 mt-1 w-full border-[0.2rem] bg-white p-4 shadow-lg'>
+        {/* 헤더 */}
+        <div className='mb-4 flex items-center justify-between'>
+          <button
+            type='button'
+            onClick={() => {
+              const newStartYear = startYear - 10;
+              const newDate = new Date(selectedDate || new Date());
+              newDate.setFullYear(newStartYear);
+              setSelectedDate(newDate);
+            }}
+            className='font-medium-20 rounded p-2 hover:bg-gray-100'
+          >
+            ‹
+          </button>
+          <h3 className='font-medium-20 font-semibold'>
+            {startYear - 1} - {startYear + 10}
+          </h3>
+          <button
+            type='button'
+            onClick={() => {
+              const newStartYear = startYear + 10;
+              const newDate = new Date(selectedDate || new Date());
+              newDate.setFullYear(newStartYear);
+              setSelectedDate(newDate);
+            }}
+            className='font-medium-20 rounded p-2 hover:bg-gray-100'
+          >
+            ›
+          </button>
+        </div>
+
+        {/* 년도 그리드 */}
+        <div className='grid grid-cols-3 gap-2'>
+          {years.map((year) => {
+            const isCurrentYear = year === new Date().getFullYear();
+            const isSelectedYear =
+              selectedDate && year === selectedDate.getFullYear();
+
+            return (
+              <button
+                key={year}
+                type='button'
+                onClick={() => {
+                  const newDate = new Date(selectedDate || new Date());
+                  newDate.setFullYear(year);
+                  setSelectedDate(newDate);
+                  setShowYearPicker(false);
+                }}
+                className={`font-medium-16 rounded p-3 transition-colors hover:bg-gray-100 ${isCurrentYear ? 'bg-blue-100 text-blue-600' : 'text-gray-900'} ${isSelectedYear ? 'hover:bg-main bg-main text-white' : ''} `}
+              >
+                {year}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* 취소 버튼 */}
+        <div className='mt-4 flex justify-center'>
+          <button
+            type='button'
+            onClick={() => setShowYearPicker(false)}
+            className='font-medium-14 px-4 py-2 text-gray-500 hover:text-gray-700'
+          >
+            취소
+          </button>
+        </div>
+      </div>
+    );
   };
 
   // 달력 그리기
@@ -102,20 +182,24 @@ const DatePicker: React.FC<DatePickerProps> = ({
               const prevMonth = new Date(year, month - 1, 1);
               setSelectedDate(prevMonth);
             }}
-            className='rounded p-2 font-medium-20 hover:bg-gray-100'
+            className='font-medium-20 rounded p-2 hover:bg-gray-100'
           >
             ‹
           </button>
-          <h3 className='font-medium-20 font-semibold'>
+          <button
+            type='button'
+            onClick={() => setShowYearPicker(true)}
+            className='font-medium-20 hover:text-main font-semibold transition-colors'
+          >
             {year}년 {month + 1}월
-          </h3>
+          </button>
           <button
             type='button'
             onClick={() => {
               const nextMonth = new Date(year, month + 1, 1);
               setSelectedDate(nextMonth);
             }}
-            className='rounded p-2 font-medium-20 hover:bg-gray-100'
+            className='font-medium-20 rounded p-2 hover:bg-gray-100'
           >
             ›
           </button>
@@ -126,7 +210,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
           {['일', '월', '화', '수', '목', '금', '토'].map((day) => (
             <div
               key={day}
-              className='p-2 text-center font-medium-16 text-gray-500'
+              className='font-medium-16 p-2 text-center text-gray-500'
             >
               {day}
             </div>
@@ -144,7 +228,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
                   !dayData.isDisabled && handleDateSelect(dayData.date)
                 }
                 disabled={!!dayData.isDisabled}
-                className={`rounded p-2 font-medium-16 transition-colors hover:bg-gray-100 ${!dayData.isCurrentMonth ? 'text-gray-300' : 'text-gray-900'} ${dayData.isToday ? 'bg-blue-100 text-blue-600' : ''} ${dayData.isSelected ? 'bg-green-500 text-white hover:bg-green-600' : ''} ${dayData.isDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} `}
+                className={`font-medium-16 rounded p-2 transition-colors hover:bg-gray-100 ${!dayData.isCurrentMonth ? 'text-gray-300' : 'text-gray-900'} ${dayData.isToday ? 'bg-blue-100 text-blue-600' : ''} ${dayData.isSelected ? 'bg-main hover:main text-white' : ''} ${dayData.isDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} `}
               >
                 {dayData.date.getDate()}
               </button>
@@ -163,6 +247,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
         !containerRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
+        setShowYearPicker(false);
       }
     };
 
@@ -194,7 +279,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
         <IcCalendar width={20} height={20} />
       </div>
 
-      {isOpen && renderCalendar()}
+      {isOpen && (showYearPicker ? renderYearPicker() : renderCalendar())}
     </div>
   );
 };
