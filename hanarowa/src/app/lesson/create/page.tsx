@@ -32,14 +32,24 @@ const Page = () => {
   const { mutate: createLesson, isPending } = usePostLesson();
   const { myBranch } = useBranch();
 
+  // 오늘 날짜를 한국어 형식으로 포맷
+  const getTodayFormatted = () => {
+    const today = new Date();
+    return today.toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  };
+
   const [formData, setFormData] = useState({
     title: '',
     instructorIntro: '',
     lessonIntro: '',
     fee: '',
     category: '',
-    startDate: '2025-08-18',
-    endDate: '2025-08-30',
+    startDate: '',
+    endDate: '',
     days: '월, 수',
     time: '11:00 ~ 13:00',
     lessonImage: null as File | null,
@@ -235,7 +245,7 @@ const Page = () => {
           <DatePicker
             value={formData.startDate}
             onChange={(value) => handleInputChange('startDate', value)}
-            placeholder='시작일을 선택하세요'
+            placeholder={getTodayFormatted()}
             className='!h-[5.6rem] !px-[2rem] !py-0'
             minDate={new Date().toISOString().split('T')[0]}
           />
@@ -247,7 +257,7 @@ const Page = () => {
           <DatePicker
             value={formData.endDate}
             onChange={(value) => handleInputChange('endDate', value)}
-            placeholder='종료일을 선택하세요'
+            placeholder={getTodayFormatted()}
             className='!h-[5.6rem] !px-[2rem] !py-0'
             minDate={formData.startDate || new Date().toISOString().split('T')[0]}
           />
