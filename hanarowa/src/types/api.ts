@@ -231,7 +231,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** 멤버 정보 반환 */
+        get: operations["getInfo"];
         put?: never;
         post?: never;
         delete?: never;
@@ -877,6 +878,18 @@ export interface components {
             lessonGisuId?: number;
             lessonState?: string;
         };
+        ApiResponseMemberInfoResponseDTO: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: components["schemas"]["MemberInfoResponseDTO"];
+        };
+        MemberInfoResponseDTO: {
+            name?: string;
+            phone?: string;
+            /** Format: date */
+            birth?: string;
+        };
         ApiResponseLessonMoreDetailResponseDTO: {
             isSuccess?: boolean;
             code?: string;
@@ -1414,6 +1427,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiResponseCourseRecResponseDto"];
+                };
+            };
+        };
+    };
+    getInfo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseMemberInfoResponseDTO"];
                 };
             };
         };

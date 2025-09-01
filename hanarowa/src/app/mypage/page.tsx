@@ -3,7 +3,7 @@
 import { IcMyMember, IcMyPassword, IcMyLogout, IcMyUnsub } from '@/assets/svg';
 import { Header, BottomNavigation, Layout, Modal } from '@/components';
 import { useModal } from '@/hooks';
-import { useGetMemberInfo } from '@apis';
+import { useGetMemberInfo, usePatchMember } from '@apis';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -17,9 +17,22 @@ const Page = () => {
   const { data } = useGetMemberInfo();
 
   const router = useRouter();
+  const { mutate } = usePatchMember();
 
   //탈퇴 api 구현 필요
   const handleUnsubscribe = async () => {
+    mutate(
+      {},
+      {
+        onSuccess: () => {
+          openModal();
+        },
+
+        onError: (error) => {
+          console.error(error);
+        },
+      }
+    );
     closeModal();
     router.replace('/'); // 혹은 로그인 페이지 등으로 이동
   };
