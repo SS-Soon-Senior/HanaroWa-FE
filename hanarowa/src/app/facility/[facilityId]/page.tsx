@@ -58,6 +58,7 @@ const Page = () => {
     facilityTimes = {},
   }: MemberRegistRequest = data.result;
 
+  console.log(facilityImages[1]);
   const bookedTimesForSelectedDate = selectedDate
     ? facilityTimes[selectedDate] || []
     : [];
@@ -131,8 +132,7 @@ const Page = () => {
   return (
     <Layout header={<Header showBackButton={true} title='예약하기' />}>
       <FacilityImageCarousel
-        // images={facilityImages.map((img) => img.imgUrl || '')}
-        images={ImgSrc}
+        images={facilityImages.map((img) => img.imgUrl || '')}
       />
 
       <FacilityInfo roomname={facilityName} roomtext={facilityDescription} />
