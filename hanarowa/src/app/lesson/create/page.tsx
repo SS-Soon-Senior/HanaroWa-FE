@@ -18,6 +18,7 @@ import {
   startDateOptions,
   timeOptions,
 } from '@/constants/lesson-options';
+import { useBranch } from '@/hooks';
 import { components } from '@/types/api';
 import React, { useState, useRef } from 'react';
 
@@ -25,6 +26,7 @@ type CreateLessonRequest = components['schemas']['CreateLessonRequestDTO'];
 
 const Page = () => {
   const { mutate: createLesson, isPending } = usePostLesson();
+  const { branchId } = useBranch();
 
   const [formData, setFormData] = useState({
     title: '',
@@ -73,13 +75,10 @@ const Page = () => {
   };
 
   const handleSubmit = () => {
-    // localStorage에서 branchId 가져오기
-    const branchId = localStorage.getItem('branchId');
-
-    // if (!branchId) {
-    //   alert('지점 정보를 찾을 수 없습니다. 다시 로그인해주세요.');
-    //   return;
-    // }
+    if (!branchId) {
+      alert('지점 정보를 찾을 수 없습니다. 다시 로그인해주세요.');
+      return;
+    }
 
     // 카테고리 값을 API에서 요구하는 형식으로 매핑
     const categoryMap: Record<string, CreateLessonRequest['category']> = {
@@ -107,7 +106,7 @@ const Page = () => {
       lessonImg: formData.lessonImage
         ? URL.createObjectURL(formData.lessonImage)
         : undefined,
-      branchId: parseInt('3'), //localstorage 수정해야함 branchId
+      branchId: branchId,
       lessonGisus: [
         {
           capacity: parseInt(formData.expectedParticipants) || 20,
