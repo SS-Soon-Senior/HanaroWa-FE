@@ -9,12 +9,14 @@ import {
   CategoryFilter,
   LessonCard,
 } from '@components';
+import { useBranch } from '@hooks';
 import { useState } from 'react';
 
 const Page = () => {
   const [selectedCategories, setSelectedCategories] = useState<CategoryKey[]>(
     []
   );
+  const { myBranch } = useBranch();
 
   const handleCategoryChange = (categories: CategoryKey[]) => {
     setSelectedCategories(categories);
@@ -22,7 +24,7 @@ const Page = () => {
 
   return (
     <Layout header={<Header title='강좌 목록' showSearchButton />}>
-      <BranchFilter branchName='춘천 컬쳐뱅크' onChangeBranch={() => {}} />
+      <BranchFilter branchName={myBranch.branchName} />
       <CategoryFilter
         selectedCategories={selectedCategories}
         onChange={handleCategoryChange}
