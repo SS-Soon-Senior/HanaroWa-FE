@@ -11,8 +11,16 @@ import {
 } from '@/components';
 import { LessonCurriculumItem } from '@/components/lesson/detail/LessonCurriculum';
 import Image from 'next/image';
+import { use } from 'react';
 
-const Page = () => {
+type Props = {
+  params: Promise<{
+    lessonId: string; // 폴더명 [lessonId]와 일치해야 합니다.
+  }>;
+};
+
+const Page = ({ params }: Props) => {
+  const { lessonId } = use(params);
   const lessonData = {
     instructorInfo: {
       name: '홍길동',
