@@ -707,9 +707,20 @@ export interface components {
             message?: string;
             result?: components["schemas"]["LoginResponseDTO"];
         };
+        BranchResponseDTO: {
+            /** Format: int64 */
+            branchId?: number;
+            locationName?: string;
+            branchName?: string;
+        };
         LoginResponseDTO: {
             url?: string;
             tokens?: components["schemas"]["TokenResponseDTO"];
+            branch?: components["schemas"]["BranchResponseDTO"];
+            name?: string;
+            /** Format: date */
+            birth?: string;
+            phoneNumber?: string;
         };
         TokenResponseDTO: {
             email?: string;
@@ -1068,12 +1079,6 @@ export interface components {
             code?: string;
             message?: string;
             result?: components["schemas"]["BranchResponseDTO"][];
-        };
-        BranchResponseDTO: {
-            /** Format: int64 */
-            branchId?: number;
-            locationName?: string;
-            branchName?: string;
         };
         ApiResponseListMemberListResponseDTO: {
             isSuccess?: boolean;
