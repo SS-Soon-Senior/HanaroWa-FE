@@ -3,6 +3,7 @@
 import { IcMyMember, IcMyPassword, IcMyLogout, IcMyUnsub } from '@/assets/svg';
 import { Header, BottomNavigation, Layout, Modal } from '@/components';
 import { useModal } from '@/hooks';
+import { logout } from '@/utils/common/auth';
 import { useGetMemberInfo, usePatchMember } from '@apis';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -25,7 +26,9 @@ const Page = () => {
       {},
       {
         onSuccess: () => {
-          openModal();
+          logout();
+          closeModal();
+          router.replace('/');
         },
 
         onError: (error) => {
@@ -33,8 +36,6 @@ const Page = () => {
         },
       }
     );
-    closeModal();
-    router.replace('/'); // 혹은 로그인 페이지 등으로 이동
   };
 
   useEffect(() => {
