@@ -685,7 +685,6 @@ export interface components {
             description: string;
             /** @enum {string} */
             category: "DIGITAL" | "LANGUAGE" | "TREND" | "OTHERS" | "FINANCE" | "HEALTH" | "CULTURE";
-            /** Format: binary */
             lessonImg?: string;
             /** Format: int64 */
             branchId: number;
@@ -1256,9 +1255,9 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody?: {
+        requestBody: {
             content: {
-                "multipart/form-data": components["schemas"]["CreateLessonRequestDTO"];
+                "application/json": components["schemas"]["CreateLessonRequestDTO"];
             };
         };
         responses: {

@@ -3,7 +3,7 @@
 import postSignin from '@/apis/auth/postSignin';
 import { IcBookByeoldol } from '@/assets/svg';
 import { Header, Input, ErrorMessage, Button, Layout } from '@/components';
-import { setAccessToken, setRefreshToken } from '@/utils/common/auth';
+import { setAccessToken } from '@/utils/common/auth';
 import { useBranch } from '@hooks';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -29,15 +29,12 @@ const Page = () => {
       }
 
       const accessToken = data?.result?.tokens?.accessToken;
-      const refreshToken = data?.result?.tokens?.refreshToken;
       const branch = data?.result?.branch;
 
       if (accessToken) {
         setAccessToken(accessToken);
       }
-      if (refreshToken) {
-        setRefreshToken(refreshToken);
-      }
+
       updateMyBranch({ ...branch });
       router.push('/');
     } catch (err) {
