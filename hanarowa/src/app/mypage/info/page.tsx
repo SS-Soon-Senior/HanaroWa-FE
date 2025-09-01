@@ -53,14 +53,12 @@ const Page = () => {
   }, [data]);
 
   const handleSubmit = () => {
-    // 1) 최종 값 합성: 사용자가 입력했으면 입력값, 아니면 초기값
     const finalBirth =
       birth && birth.trim() !== '' ? birth : (initialBirth ?? '');
 
     const finalPhone =
       phone && phone.trim() !== '' ? phone : (initialPhone ?? '');
 
-    // 2) 검증 (8자리 생일, 11자리 폰)
     const valid = finalBirth.length === 8 && finalPhone.length === 13;
 
     if (!valid) {
@@ -69,7 +67,6 @@ const Page = () => {
     }
     setShowError(false);
 
-    // 3) 전송
     mutate(
       {
         body: {
