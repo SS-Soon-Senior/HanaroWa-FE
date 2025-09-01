@@ -91,10 +91,9 @@ const Page = () => {
       <div className='flex flex-col gap-[1rem] px-[1rem]'>
         {recs?.map((rec, index) => (
           <div key={index} className='flex flex-col gap-[0.6rem]'>
-            <p className='font-heavy-18 text-gray280 gap-[0.4rem]'>
-              {rec.name}
-            </p>
-            <p>{rec.reason}</p>
+            <p className='font-bold-20 text-gray280 gap-[0.4rem]'>{rec.name}</p>
+            <p className='font-medium-18 text-gray3af'>{rec.description}</p>
+            <p className='font-regular-18'>{rec.reason}</p>
           </div>
         ))}
       </div>

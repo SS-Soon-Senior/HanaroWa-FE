@@ -16,7 +16,9 @@ const AiChat = ({ title, children, isLoading }: PropsWithChildren<Props>) => {
         {isLoading ? (
           <div className='flex items-center justify-center gap-2'>
             <ClipLoader color='#00847B' size={20} />{' '}
-            <span>AI가 답변을 생성하고 있어요...</span>
+            <span className='font-medium-18'>
+              AI가 답변을 생성하고 있어요...
+            </span>
           </div>
         ) : (
           <div className='font-medium-18 text-gray280 flex flex-col items-start justify-start whitespace-pre-wrap'>
