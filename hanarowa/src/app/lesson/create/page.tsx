@@ -22,11 +22,12 @@ import { useBranch } from '@/hooks';
 import { components } from '@/types/api';
 import React, { useState, useRef } from 'react';
 
-type CreateLessonRequest = components['schemas']['CreateLessonRequestDTO'];
+export type CreateLessonRequest =
+  components['schemas']['CreateLessonRequestDTO'];
 
 const Page = () => {
   const { mutate: createLesson, isPending } = usePostLesson();
-  const { branchId } = useBranch();
+  const { myBranch } = useBranch();
 
   const [formData, setFormData] = useState({
     title: '',
@@ -75,7 +76,7 @@ const Page = () => {
   };
 
   const handleSubmit = () => {
-    if (!branchId) {
+    if (!myBranch.branchId) {
       alert('지점 정보를 찾을 수 없습니다. 다시 로그인해주세요.');
       return;
     }
@@ -97,31 +98,40 @@ const Page = () => {
       ...formData.additionalContents.map((content) => ({ content })),
     ].filter((curriculum) => curriculum.content.trim() !== '');
 
-    const requestData: CreateLessonRequest = {
-      lessonName: formData.title,
-      instructor: formData.instructorIntro,
-      instruction: formData.instructorIntro,
-      description: formData.lessonIntro,
-      category: categoryMap[formData.category] || 'OTHERS',
-      lessonImg: formData.lessonImage
-        ? URL.createObjectURL(formData.lessonImage)
-        : undefined,
-      branchId: branchId,
-      lessonGisus: [
-        {
-          capacity: parseInt(formData.expectedParticipants) || 20,
-          lessonFee: parseInt(formData.fee) || 0,
-          duration: `${formData.startDate} ~ ${formData.endDate} ${formData.days} ${formData.time}`,
-          lessonRoomId: 1, // TODO: 실제 강의실 선택 기능 추가 필요
-          curriculums: curriculums,
-        },
-      ],
-    };
+    // FormData 생성하여 multipart/form-data로 전송
+    const formDataToSend = new FormData();
 
-    console.log('강좌 개설 데이터:', requestData);
-    createLesson({
-      body: requestData,
-    });
+    // 각 필드를 개별적으로 FormData에 추가
+    formDataToSend.append('lessonName', formData.title);
+    formDataToSend.append('instructor', formData.instructorIntro);
+    formDataToSend.append('instruction', formData.instructorIntro);
+    formDataToSend.append('description', formData.lessonIntro);
+    formDataToSend.append(
+      'category',
+      categoryMap[formData.category] || 'OTHERS'
+    );
+    formDataToSend.append('branchId', myBranch.branchId.toString());
+
+    // lessonGisus 배열을 JSON 문자열로 변환하여 추가
+    const lessonGisusData = [
+      {
+        capacity: parseInt(formData.expectedParticipants) || 20,
+        lessonFee: parseInt(formData.fee) || 0,
+        duration: `${formData.startDate} ~ ${formData.endDate} ${formData.days} ${formData.time}`,
+        lessonRoomId: 1, // TODO: 실제 강의실 선택 기능 추가 필요
+        curriculums: curriculums,
+      },
+    ];
+    formDataToSend.append('lessonGisus', JSON.stringify(lessonGisusData));
+
+    // 이미지 파일을 lessonImg 필드로 추가
+    if (formData.lessonImage) {
+      formDataToSend.append('lessonImg', formData.lessonImage);
+    }
+
+    console.log('전송할 FormData:', formDataToSend);
+
+    createLesson(formDataToSend);
   };
 
   const handleRemoveImage = () => {
