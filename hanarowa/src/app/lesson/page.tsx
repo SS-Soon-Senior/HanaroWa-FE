@@ -1,7 +1,7 @@
 'use client';
 
+import useGetFilterLessonList from '@/apis/lesson/useGetFilterLessonList';
 import { CategoryKey } from '@/constants/category';
-import { Lessons } from '@/data/lessons';
 import {
   Layout,
   Header,
@@ -22,6 +22,12 @@ const Page = () => {
     setSelectedCategories(categories);
   };
 
+  const response = useGetFilterLessonList(1, ['DIGITAL']);
+  if (!response?.isSuccess) {
+    return null;
+  }
+  const lessons = response.result?.lessons ? response.result.lessons : [];
+
   return (
     <Layout header={<Header title='강좌 목록' showSearchButton />}>
       <BranchFilter branchName={myBranch.branchName} />
@@ -30,8 +36,8 @@ const Page = () => {
         onChange={handleCategoryChange}
       />
       <div className='grid w-full grid-cols-2 gap-[2.5rem]'>
-        {Lessons.map(({ id, ...cardProps }) => (
-          <LessonCard key={id} {...cardProps} />
+        {lessons.map(({ lessonId, ...cardProps }) => (
+          <LessonCard key={lessonId} {...cardProps} />
         ))}
       </div>
     </Layout>
