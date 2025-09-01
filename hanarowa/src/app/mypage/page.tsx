@@ -20,7 +20,6 @@ const Page = () => {
   const router = useRouter();
   const { mutate } = usePatchMember();
 
-  //탈퇴 api 구현 필요
   const handleUnsubscribe = async () => {
     mutate(
       {},
