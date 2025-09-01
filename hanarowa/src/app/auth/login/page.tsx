@@ -3,7 +3,7 @@
 import postSignin from '@/apis/auth/postSignin';
 import { IcBookByeoldol } from '@/assets/svg';
 import { Header, Input, ErrorMessage, Button, Layout } from '@/components';
-import { setAccessToken, setRefreshToken } from '@/utils/common/auth';
+import { setAccessToken } from '@/utils/common/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
@@ -27,13 +27,9 @@ const Page = () => {
       }
 
       const accessToken = data?.result?.tokens?.accessToken;
-      const refreshToken = data?.result?.tokens?.refreshToken;
 
       if (accessToken) {
         setAccessToken(accessToken);
-      }
-      if (refreshToken) {
-        setRefreshToken(refreshToken);
       }
 
       router.push('/');

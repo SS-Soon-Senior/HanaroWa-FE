@@ -2,11 +2,23 @@
 
 import { IcSignupFace } from '@/assets/svg';
 import { Layout, Header, Input, Button } from '@/components';
-import { useState } from 'react';
+import { setAccessToken } from '@/utils/common/auth';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const Page = () => {
   const [birth, setBirth] = useState('');
   const [phone, setPhone] = useState('');
+  const params = useSearchParams();
+  const router = useRouter();
+
+  useEffect(() => {
+    const accessToken = params.get('accessToken');
+    if (accessToken) {
+      setAccessToken(accessToken);
+      router.replace('/auth/signup/info');
+    }
+  }, [params, router]);
 
   const isAllFilled = birth.trim() !== '' && phone.trim() !== '';
 
