@@ -9,6 +9,7 @@ import {
   Textarea,
   Button,
   Dropdown,
+  Modal,
 } from '@/components';
 import { CATEGORY_META } from '@/constants/category';
 import {
@@ -20,12 +21,15 @@ import {
 } from '@/constants/lesson-options';
 import { useBranch } from '@/hooks';
 import { components } from '@/types/api';
+import { useRouter } from 'next/navigation';
 import React, { useState, useRef } from 'react';
 
 export type CreateLessonRequest =
   components['schemas']['CreateLessonRequestDTO'];
 
 const Page = () => {
+  const router = useRouter();
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const { mutate: createLesson, isPending } = usePostLesson();
   const { myBranch } = useBranch();
 
@@ -83,13 +87,13 @@ const Page = () => {
 
     // 카테고리 매핑 (OpenAPI enum과 일치)
     const categoryMap: Record<string, CreateLessonRequest['category']> = {
-      [CATEGORY_META.digital.title]: 'DIGITAL',
-      [CATEGORY_META.language.title]: 'LANGUAGE',
-      [CATEGORY_META.trend.title]: 'TREND',
-      [CATEGORY_META.others.title]: 'OTHERS',
-      [CATEGORY_META.finance.title]: 'FINANCE',
-      [CATEGORY_META.health.title]: 'HEALTH',
-      [CATEGORY_META.culture.title]: 'CULTURE',
+      'digital': 'DIGITAL',
+      'language': 'LANGUAGE',
+      'trend': 'TREND',
+      'others': 'OTHERS',
+      'finance': 'FINANCE',
+      'health': 'HEALTH',
+      'culture': 'CULTURE',
     };
 
     const fd = new FormData();
@@ -99,7 +103,7 @@ const Page = () => {
     fd.append('instructor', formData.instructorIntro);
     fd.append('instruction', formData.instructorIntro);
     fd.append('description', formData.lessonIntro);
-    fd.append('category', categoryMap[formData.category] || 'OTHERS');
+    fd.append('category', categoryMap[formData.category]);
     fd.append('branchId', String(myBranch.branchId));
 
     // 단일 기수 예시 (i = 0)
@@ -138,7 +142,15 @@ const Page = () => {
     for (const [k, v] of fd.entries()) console.log(k, v);
 
     // 전송
-    createLesson(fd);
+    createLesson(fd, {
+      onSuccess: () => {
+        setShowSuccessModal(true);
+      },
+      onError: (error) => {
+        console.error('강좌 개설 실패:', error);
+        alert('강좌 개설에 실패했습니다. 다시 시도해주세요.');
+      },
+    });
   };
 
   const handleRemoveImage = () => {
@@ -400,6 +412,17 @@ const Page = () => {
       >
         {isPending ? '강좌 개설 중...' : '강좌 개설하기'}
       </Button>
+
+      {showSuccessModal && (
+        <Modal
+          title='신청이 완료되었습니다'
+          greenButtonText='확인'
+          onClickGreenButton={() => {
+            setShowSuccessModal(false);
+            router.push('/reservation/lesson');
+          }}
+        />
+      )}
     </Layout>
   );
 };
