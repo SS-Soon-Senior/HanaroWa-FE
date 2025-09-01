@@ -1,9 +1,18 @@
 'use client';
 
 import usePostMemberInfo from '@/apis/member/usePostMemberInfo';
-import { Header, Layout, Input, Button, ErrorMessage } from '@/components';
+import {
+  Header,
+  Layout,
+  Input,
+  Button,
+  ErrorMessage,
+  Modal,
+} from '@/components';
 import { useGetMemberInfo } from '@apis';
-import { useState, useEffect } from 'react';
+import { useModal } from '@hooks';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect, ChangeEvent } from 'react';
 
 const digits = (s: string) => s.replace(/\D/g, '');
 
@@ -19,6 +28,9 @@ const Page = () => {
   const { data } = useGetMemberInfo();
   const [initialBirth, setInitialBirth] = useState(data?.result?.birth);
   const [initialPhone, setInitialPhone] = useState(data?.result?.phone);
+  const { isOpen, openModal, closeModal } = useModal();
+
+  const router = useRouter();
 
   // 사용자가 실제로 입력하는 값
   const [birth, setBirth] = useState('');
@@ -41,14 +53,12 @@ const Page = () => {
   }, [data]);
 
   const handleSubmit = () => {
-    // 1) 최종 값 합성: 사용자가 입력했으면 입력값, 아니면 초기값
     const finalBirth =
       birth && birth.trim() !== '' ? birth : (initialBirth ?? '');
 
     const finalPhone =
       phone && phone.trim() !== '' ? phone : (initialPhone ?? '');
 
-    // 2) 검증 (8자리 생일, 11자리 폰)
     const valid = finalBirth.length === 8 && finalPhone.length === 13;
 
     if (!valid) {
@@ -57,13 +67,23 @@ const Page = () => {
     }
     setShowError(false);
 
-    // 3) 전송
-    mutate({
-      body: {
-        birth: finalBirth, // "YYYYMMDD" 8자리
-        phoneNumber: finalPhone,
+    mutate(
+      {
+        body: {
+          birth: finalBirth, // "YYYYMMDD" 8자리
+          phoneNumber: finalPhone,
+        },
       },
-    });
+      {
+        onSuccess: () => {
+          openModal();
+        },
+
+        onError: (error) => {
+          console.error(error);
+        },
+      }
+    );
   };
 
   return (
@@ -94,7 +114,7 @@ const Page = () => {
           <Input
             placeholder={initialBirth || '00000000'}
             value={birth}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setBirth(digits(e.target.value).slice(0, 8))
             }
             inputMode='numeric'
@@ -119,6 +139,17 @@ const Page = () => {
             fullWidth
           />
         </div>
+
+        {isOpen && (
+          <Modal
+            title='회원 정보 수정 완료'
+            greenButtonText='확인'
+            onClickGreenButton={() => {
+              closeModal();
+              router.push('/mypage');
+            }}
+          />
+        )}
       </div>
     </Layout>
   );
