@@ -141,6 +141,10 @@
     @apply font-hana text-[2.0rem] leading-[150%] font-[700];
   }
 
+  .font-heavy-18 {
+    @apply font-hana text-[1.8rem] leading-[150%] font-[700];
+  }
+
   /* Bold font styles */
   .font-bold-30 {
     @apply font-hana text-[3.0rem] leading-[150%] font-[600];
