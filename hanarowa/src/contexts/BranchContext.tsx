@@ -1,7 +1,7 @@
 'use client';
 
 import { components } from '@/types/api';
-import { useGetBranch } from '@apis';
+import { useGetBranch, postBranch } from '@apis';
 import { createContext, useState, ReactNode } from 'react';
 
 type Branch = components['schemas']['BranchResponseDTO'];
@@ -22,9 +22,17 @@ export const BranchProvider = ({ children }: { children: ReactNode }) => {
     locationName: '',
     branchName: '',
   });
+  const { mutate: mutationPostBranch } = postBranch();
 
   const updateMyBranch = (branch: Branch) => {
     setMyBranch({ ...branch });
+    mutationPostBranch({
+      params: {
+        path: {
+          branchId: branch.branchId ?? 0,
+        },
+      },
+    });
   };
 
   return (
