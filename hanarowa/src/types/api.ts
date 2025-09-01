@@ -685,6 +685,7 @@ export interface components {
             description: string;
             /** @enum {string} */
             category: "DIGITAL" | "LANGUAGE" | "TREND" | "OTHERS" | "FINANCE" | "HEALTH" | "CULTURE";
+            /** Format: binary */
             lessonImg?: string;
             /** Format: int64 */
             branchId: number;
@@ -1077,10 +1078,18 @@ export interface components {
             birth?: string;
         };
         AdminLessonListResponseDTO: {
+            /** Format: int64 */
+            id?: number;
             lessonName?: string;
             instructor?: string;
-            instruction?: string;
             lessonImg?: string;
+            duration?: string;
+            /** Format: int32 */
+            participants?: number;
+            /** Format: int32 */
+            capacity?: number;
+            /** Format: int32 */
+            lessonFee?: number;
         };
         ApiResponseListAdminLessonListResponseDTO: {
             isSuccess?: boolean;
@@ -1255,9 +1264,9 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody: {
+        requestBody?: {
             content: {
-                "application/json": components["schemas"]["CreateLessonRequestDTO"];
+                "multipart/form-data": components["schemas"]["CreateLessonRequestDTO"];
             };
         };
         responses: {
@@ -1322,14 +1331,14 @@ export interface operations {
     };
     refresh: {
         parameters: {
-            query: {
-                refreshToken: string;
-            };
+            query?: never;
             header: {
                 Authorization: string;
             };
             path?: never;
-            cookie?: never;
+            cookie?: {
+                refreshToken?: string;
+            };
         };
         requestBody?: never;
         responses: {
