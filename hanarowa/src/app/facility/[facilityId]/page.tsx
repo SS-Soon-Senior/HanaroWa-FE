@@ -142,7 +142,7 @@ const Page = () => {
       {
         onSuccess: () => {
           console.log('시설 예약 성공');
-          router.push('/');
+          router.push('/complete');
         },
         onError: (error) => {
           console.error('시설 예약 실패:', error);
