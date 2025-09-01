@@ -2,10 +2,12 @@ import { IcUsers } from '@/assets/svg';
 import { components } from '@/types/api';
 import { formatDuration, formatPrice } from '@/utils/formater';
 import Image from 'next/image';
+import Link from 'next/link';
 
 type LessonCardProps = components['schemas']['LessonInfoResponseDTO'];
 
 const LessonCard = ({
+  lessonId,
   lessonName = '',
   instructor = '',
   lessonImg,
@@ -15,7 +17,10 @@ const LessonCard = ({
   capacity,
 }: LessonCardProps) => {
   return (
-    <div className='flex w-full flex-col gap-[1.7rem] overflow-hidden'>
+    <Link
+      href={`/lesson/${lessonId}`}
+      className='flex w-full flex-col gap-[1.7rem] overflow-hidden'
+    >
       <div className='relative aspect-square'>
         <Image
           src={lessonImg!}
@@ -42,7 +47,7 @@ const LessonCard = ({
           월 {formatPrice(lessonFee!)}원
         </p>
       </div>
-    </div>
+    </Link>
   );
 };
 
