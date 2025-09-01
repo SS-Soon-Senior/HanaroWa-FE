@@ -98,6 +98,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/lesson/create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 강좌 개설
+         * @description 사용자가 새로운 강좌를 개설합니다.
+         */
+        post: operations["createLesson"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/facility/reservation": {
         parameters: {
             query?: never;
@@ -211,7 +231,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** 멤버 정보 반환 */
+        get: operations["getInfo"];
         put?: never;
         post?: never;
         delete?: never;
@@ -461,6 +482,66 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/signin/naver": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Naver 소셜 로그인
+         * @description Naver 계정으로 로그인
+         */
+        get: operations["naverLogin"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/signin/kakao": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Kakao 소셜 로그인
+         * @description Kakao 계정으로 로그인
+         */
+        get: operations["kakaoLogin"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/signin/google": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Google 소셜 로그인
+         * @description Google 계정으로 로그인
+         */
+        get: operations["googleLogin"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/admin/member": {
         parameters: {
             query?: never;
@@ -584,6 +665,31 @@ export interface components {
             rating: number;
             reviewTxt: string;
         };
+        CreateCurriculumRequestDTO: {
+            content: string;
+        };
+        CreateLessonGisuRequestDTO: {
+            /** Format: int32 */
+            capacity: number;
+            /** Format: int32 */
+            lessonFee: number;
+            duration: string;
+            /** Format: int64 */
+            lessonRoomId: number;
+            curriculums: components["schemas"]["CreateCurriculumRequestDTO"][];
+        };
+        CreateLessonRequestDTO: {
+            lessonName: string;
+            instructor: string;
+            instruction: string;
+            description: string;
+            /** @enum {string} */
+            category: "DIGITAL" | "LANGUAGE" | "TREND" | "OTHERS" | "FINANCE" | "HEALTH" | "CULTURE";
+            lessonImg?: string;
+            /** Format: int64 */
+            branchId: number;
+            lessonGisus: components["schemas"]["CreateLessonGisuRequestDTO"][];
+        };
         FacilityReservationDTO: {
             /** Format: int64 */
             facilityId?: number;
@@ -601,9 +707,20 @@ export interface components {
             message?: string;
             result?: components["schemas"]["LoginResponseDTO"];
         };
+        BranchResponseDTO: {
+            /** Format: int64 */
+            branchId?: number;
+            locationName?: string;
+            branchName?: string;
+        };
         LoginResponseDTO: {
             url?: string;
             tokens?: components["schemas"]["TokenResponseDTO"];
+            branch?: components["schemas"]["BranchResponseDTO"];
+            name?: string;
+            /** Format: date */
+            birth?: string;
+            phoneNumber?: string;
         };
         TokenResponseDTO: {
             email?: string;
@@ -759,6 +876,18 @@ export interface components {
             /** Format: int64 */
             lessonGisuId?: number;
             lessonState?: string;
+        };
+        ApiResponseMemberInfoResponseDTO: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: components["schemas"]["MemberInfoResponseDTO"];
+        };
+        MemberInfoResponseDTO: {
+            name?: string;
+            phone?: string;
+            /** Format: date */
+            birth?: string;
         };
         ApiResponseLessonMoreDetailResponseDTO: {
             isSuccess?: boolean;
@@ -951,12 +1080,6 @@ export interface components {
             message?: string;
             result?: components["schemas"]["BranchResponseDTO"][];
         };
-        BranchResponseDTO: {
-            /** Format: int64 */
-            branchId?: number;
-            locationName?: string;
-            branchName?: string;
-        };
         ApiResponseListMemberListResponseDTO: {
             isSuccess?: boolean;
             code?: string;
@@ -1143,6 +1266,30 @@ export interface operations {
             };
         };
     };
+    createLesson: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateLessonRequestDTO"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseVoid"];
+                };
+            };
+        };
+    };
     reservateFacility: {
         parameters: {
             query?: never;
@@ -1279,6 +1426,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiResponseCourseRecResponseDto"];
+                };
+            };
+        };
+    };
+    getInfo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseMemberInfoResponseDTO"];
                 };
             };
         };
@@ -1616,6 +1783,60 @@ export interface operations {
                 content: {
                     "*/*": components["schemas"]["ApiResponseListBranchResponseDTO"];
                 };
+            };
+        };
+    };
+    naverLogin: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    kakaoLogin: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    googleLogin: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

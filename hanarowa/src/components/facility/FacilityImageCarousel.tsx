@@ -21,30 +21,30 @@ const FacilityImageCarousel = ({ images }: FacilityImageCarouselProps) => {
 
   return (
     <>
-      <div className='relative h-[22.9rem] w-full pt-[2.6rem]'>
+      <div className='relative min-h-[23rem] w-full pt-[2.6rem]'>
         <Image
           src={images[imageIndex]}
           alt='Facility Image'
           fill
-          objectFit='cover'
+          objectFit='contain'
         />
+        {imageIndex < images.length - 1 && (
+          <div
+            onClick={handleImageIndex}
+            className='bg-opacity-30 absolute top-1/2 right-[2.8rem] flex h-[3.6rem] w-[3.6rem] -translate-y-1/2 transform cursor-pointer items-center justify-center rounded-full bg-black'
+          >
+            <IcWhitearrow />
+          </div>
+        )}
+        {imageIndex > 0 && (
+          <div
+            onClick={handleImageIndexMinus}
+            className='bg-opacity-30 absolute top-1/2 left-[2.8rem] flex h-[3.6rem] w-[3.6rem] -translate-y-1/2 transform cursor-pointer items-center justify-center rounded-full bg-black'
+          >
+            <IcWhitearrowreverse />
+          </div>
+        )}
       </div>
-      {imageIndex < images.length - 1 && (
-        <div
-          onClick={handleImageIndex}
-          className='bg-opacity-30 absolute top-[15.5rem] right-[2.8rem] flex h-[3.6rem] w-[3.6rem] cursor-pointer items-center justify-center rounded-full bg-black'
-        >
-          <IcWhitearrow />
-        </div>
-      )}
-      {imageIndex > 0 && (
-        <div
-          onClick={handleImageIndexMinus}
-          className='bg-opacity-30 absolute top-[15.5rem] left-[2.8rem] flex h-[3.6rem] w-[3.6rem] cursor-pointer items-center justify-center rounded-full bg-black'
-        >
-          <IcWhitearrowreverse />
-        </div>
-      )}
     </>
   );
 };

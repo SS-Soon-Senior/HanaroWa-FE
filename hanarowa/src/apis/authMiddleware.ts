@@ -10,12 +10,7 @@ import {
 import { Middleware } from 'openapi-fetch';
 import postRefreshToken from './auth/postRefreshToken';
 
-const UNPROTECTED_ROUTES = [
-  '/auth/signin',
-  '/auth/reissue',
-  '/member/regist',
-  '/member/info',
-];
+const UNPROTECTED_ROUTES = ['/auth/signin', '/auth/reissue', '/member/regist'];
 
 const reissueToken = async (): Promise<string | null> => {
   const refreshToken = getRefreshToken();
