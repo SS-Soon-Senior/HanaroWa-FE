@@ -1,5 +1,6 @@
 'use client';
 
+import useGetFacilityDetail from '@/apis/facility/useGetFacilityDetail';
 import {
   Layout,
   Header,
@@ -10,31 +11,56 @@ import {
   TimeSelector,
   ReservationSummary,
 } from '@/components';
+import { components } from '@/types/api';
+import createFacilityDate from '@/utils/facility';
+import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
-type Schedule = Record<string, string[]>;
-
-const DUMMY_SCHEDULE: Schedule = {
-  '2025-08-19': ['09:00'],
-  '2025-08-20': ['10:00'],
-  '2025-08-21': ['11:00'],
-};
+type MemberRegistRequest = components['schemas']['FacilityDetailResponseDTO'];
 
 const Page = () => {
-  const [selectedDate, setSelectedDate] = useState<string | null>('2025-08-19');
-  const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
+  const { formatDate, tomorrow, today } = createFacilityDate();
 
-  const bookedTimesForSelectedDate = selectedDate
-    ? DUMMY_SCHEDULE[selectedDate] || []
-    : [];
+  const [selectedDate, setSelectedDate] = useState<string | null>(
+    formatDate(tomorrow)
+  );
+  const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
+  const facilityId = useParams<{ facilityId: string }>().facilityId;
+
+  const { data, isLoading, isError } = useGetFacilityDetail(facilityId);
 
   const ImgSrc = [
     '/imgs/IMG_7675.png',
     '/imgs/cinemaroom.png',
     '/imgs/stardolilogo.png',
   ];
-  const roomname = '화이트보드룸';
-  const roomtext = '편안하게 영화를 볼 수 있는 공간';
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <div>로딩 중...</div>
+      </Layout>
+    );
+  }
+
+  if (isError || !data?.result) {
+    return (
+      <Layout>
+        <div>데이터를 불러오는 데 실패했습니다.</div>
+      </Layout>
+    );
+  }
+
+  const {
+    facilityName = '시설 정보 없음',
+    facilityDescription = '시설 설명 없음',
+    facilityImages = [],
+    facilityTimes = {},
+  }: MemberRegistRequest = data.result;
+
+  const bookedTimesForSelectedDate = selectedDate
+    ? facilityTimes[selectedDate] || []
+    : [];
 
   const handleDateSelect = (date: string): void => {
     setSelectedDate(date);
@@ -66,7 +92,18 @@ const Page = () => {
     setSelectedTimes(newSelection);
   };
 
-  const dates = ['2025-08-19', '2025-08-20', '2025-08-21'];
+  // 모레, 글피 날짜 생성 (내일은 이미 위에서 생성됨)
+  const dayAfterTomorrow = new Date(today);
+  dayAfterTomorrow.setDate(today.getDate() + 2);
+  const threeDaysLater = new Date(today);
+  threeDaysLater.setDate(today.getDate() + 3);
+
+  const dates = [
+    formatDate(tomorrow),
+    formatDate(dayAfterTomorrow),
+    formatDate(threeDaysLater),
+  ];
+
   const times = [
     '09:00',
     '10:00',
@@ -78,6 +115,7 @@ const Page = () => {
     '16:00',
     '17:00',
   ];
+
   const sortedSelectedTimes = [...selectedTimes].sort();
   const startTime = sortedSelectedTimes[0];
   const duration = sortedSelectedTimes.length;
@@ -92,9 +130,12 @@ const Page = () => {
 
   return (
     <Layout header={<Header showBackButton={true} title='예약하기' />}>
-      <FacilityImageCarousel images={ImgSrc} />
+      <FacilityImageCarousel
+        // images={facilityImages.map((img) => img.imgUrl || '')}
+        images={ImgSrc}
+      />
 
-      <FacilityInfo roomname={roomname} roomtext={roomtext} />
+      <FacilityInfo roomname={facilityName} roomtext={facilityDescription} />
 
       <DateSelector
         dates={dates}
