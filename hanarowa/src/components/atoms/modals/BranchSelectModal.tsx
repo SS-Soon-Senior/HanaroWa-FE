@@ -1,7 +1,7 @@
 'use client';
 
-import { Branch } from '@/contexts/BranchContext';
 import { useBranch } from '@/hooks';
+import { components } from '@/types/api';
 import { useEffect } from 'react';
 import BranchButton from '../buttons/BranchButton';
 
@@ -10,8 +10,10 @@ type BranchSelectModalProps = {
   onClose: () => void;
 };
 
+type Branch = components['schemas']['BranchResponseDTO'];
+
 const BranchSelectModal = ({ isOpen, onClose }: BranchSelectModalProps) => {
-  const { setLocation, branches } = useBranch();
+  const { updateMyBranch, brancheSet } = useBranch();
 
   useEffect(() => {
     if (isOpen) {
@@ -26,7 +28,7 @@ const BranchSelectModal = ({ isOpen, onClose }: BranchSelectModalProps) => {
   }, [isOpen]);
 
   const handleBranchSelect = (branch: Branch) => {
-    setLocation(branch.locationName, branch.branchName);
+    updateMyBranch(branch);
     onClose();
   };
 
@@ -42,11 +44,11 @@ const BranchSelectModal = ({ isOpen, onClose }: BranchSelectModalProps) => {
       </h1>
       <div className='overflow-scroll overflow-y-auto'>
         <div className='grid grid-cols-2 gap-x-[1.5rem] gap-y-[2.4rem] pb-12'>
-          {branches.map(({ branchId, locationName, branchName }) => (
+          {brancheSet.map(({ branchId, locationName, branchName }) => (
             <BranchButton
               key={branchId}
-              location={locationName}
-              branch={branchName}
+              location={locationName ?? ''}
+              branch={branchName ?? ''}
               onClick={() =>
                 handleBranchSelect({ branchId, locationName, branchName })
               }
