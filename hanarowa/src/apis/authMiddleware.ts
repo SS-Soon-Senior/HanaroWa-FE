@@ -4,7 +4,6 @@ import {
   getAccessToken,
   getRefreshToken,
   setAccessToken,
-  setRefreshToken,
   logout,
 } from '@/utils/common/auth';
 import { Middleware } from 'openapi-fetch';
@@ -18,15 +17,6 @@ const UNPROTECTED_ROUTES = [
 ];
 
 const reissueToken = async (): Promise<string | null> => {
-  const refreshToken = getRefreshToken();
-
-  if (!refreshToken) {
-    console.warn('No refresh token available');
-    logout();
-    window.location.href = '/auth/login';
-    return null;
-  }
-
   try {
     const result = await postRefreshToken();
 
@@ -37,16 +27,14 @@ const reissueToken = async (): Promise<string | null> => {
       return null;
     }
 
-    const { accessToken, refreshToken: newRefreshToken } = result.data;
+    const { accessToken } = result.data;
 
     if (accessToken) {
       setAccessToken(accessToken);
-    }
-    if (newRefreshToken) {
-      setRefreshToken(newRefreshToken);
+      return accessToken;
     }
 
-    return accessToken || null;
+    return null;
   } catch (error) {
     console.error('Token reissue error:', error);
     logout();
@@ -56,13 +44,7 @@ const reissueToken = async (): Promise<string | null> => {
 };
 
 const authMiddleware: Middleware = {
-  async onRequest({
-    schemaPath,
-    request,
-  }: {
-    schemaPath: string;
-    request: Request;
-  }) {
+  async onRequest({ schemaPath, request }) {
     if (UNPROTECTED_ROUTES.some((route) => schemaPath.startsWith(route))) {
       return request;
     }
