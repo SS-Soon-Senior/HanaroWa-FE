@@ -58,7 +58,6 @@ const Page = () => {
     facilityTimes = {},
   }: MemberRegistRequest = data.result;
 
-  console.log(facilityImages[1]);
   const bookedTimesForSelectedDate = selectedDate
     ? facilityTimes[selectedDate] || []
     : [];
