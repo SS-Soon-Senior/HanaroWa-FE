@@ -1432,6 +1432,26 @@ export interface operations {
             };
         };
     };
+    getInfo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseMemberInfoResponseDTO"];
+                };
+            };
+        };
+    };
     modifyInfo: {
         parameters: {
             query?: never;

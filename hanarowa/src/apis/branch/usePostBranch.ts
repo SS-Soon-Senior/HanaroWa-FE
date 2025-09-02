@@ -1,6 +1,6 @@
 import { TanstackQueryClient } from '../client';
 
-const postBranch = () => {
+const usePostBranch = () => {
   return TanstackQueryClient.useMutation('post', `/member/branch/{branchId}`, {
     onSuccess: () => {
       console.log('지점 선택 성공');
@@ -11,4 +11,4 @@ const postBranch = () => {
   });
 };
 
-export default postBranch;
+export default usePostBranch;
