@@ -1,12 +1,16 @@
 'use client';
 
-import { IcSignupFace } from '@/assets/svg';
+import { IcCloseeye, IcOpeneye, IcSignupFace } from '@/assets/svg';
 import { Header, Input, ErrorMessage, Button, Layout } from '@/components';
-import { useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useActionState } from 'react';
 import { signup, SignupErrorState } from './action';
 
 const Page = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showCheckPassword, setShowCheckPassword] = useState(false);
+  const [showError, setShowError] = useState(false);
+
   const [signupState, signupAction] = useActionState<
     SignupErrorState,
     FormData
@@ -26,9 +30,14 @@ const Page = () => {
     confirmPassword: '',
   });
 
+  useEffect(() => {
+    setShowError(!signupState.success && Boolean(signupState.message));
+  }, [signupState]);
+
   const handleChange =
-    (field: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    (field: keyof typeof form) => (e: ChangeEvent<HTMLInputElement>) => {
       setForm({ ...form, [field]: e.target.value });
+      if (showError) setShowError(false);
     };
 
   const isAllFilled = Object.values(form).every((v) => v.trim() !== '');
@@ -58,9 +67,9 @@ const Page = () => {
             </div>
 
             <div className={`${fieldBaseClass} pt-[2rem]`}>
-              <p className='font-medium-20 text-black'>아이디</p>
+              <p className='font-medium-20 text-black'>이메일</p>
               <Input
-                placeholder='아이디를 입력해주세요.'
+                placeholder='이메일을 입력해주세요.'
                 name='id'
                 value={form.id}
                 onChange={handleChange('id')}
@@ -72,9 +81,19 @@ const Page = () => {
               <Input
                 placeholder='비밀번호를 입력해주세요.'
                 name='password'
-                type='password'
+                type={showPassword ? 'text' : 'password'}
                 value={form.password}
                 onChange={handleChange('password')}
+                rightContent={
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowPassword(!showPassword);
+                    }}
+                  >
+                    {showPassword ? <IcOpeneye /> : <IcCloseeye />}
+                  </button>
+                }
               />
             </div>
 
@@ -82,15 +101,25 @@ const Page = () => {
               <Input
                 placeholder='비밀번호 확인'
                 name='confirmPassword'
-                type='password'
+                type={showCheckPassword ? 'text' : 'password'}
                 value={form.confirmPassword}
                 onChange={handleChange('confirmPassword')}
+                rightContent={
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowCheckPassword(!showCheckPassword);
+                    }}
+                  >
+                    {showCheckPassword ? <IcOpeneye /> : <IcCloseeye />}
+                  </button>
+                }
               />
             </div>
 
-            {!signupState.success && (
-              <ErrorMessage>{signupState.message}</ErrorMessage>
-            )}
+            <div className='flex justify-center'>
+              {showError && <ErrorMessage>{signupState.message}</ErrorMessage>}
+            </div>
           </div>
 
           <Button
