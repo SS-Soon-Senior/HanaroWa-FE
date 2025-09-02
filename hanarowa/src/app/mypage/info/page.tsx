@@ -1,6 +1,5 @@
 'use client';
 
-import usePostMemberInfo from '@/apis/member/usePostMemberInfo';
 import {
   Header,
   Layout,
@@ -10,10 +9,10 @@ import {
   Modal,
   DatePicker,
 } from '@/components';
-import { useGetMemberInfo } from '@apis';
+import { useGetMemberInfo, useModifyInfo } from '@apis';
 import { useModal } from '@hooks';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useState, ChangeEvent } from 'react';
 
 const digits = (s: string) => s.replace(/\D/g, '');
 
@@ -38,9 +37,9 @@ const formatDateFromISO = (isoDate: string) => {
 const Page = () => {
   // 서버에서 가져온 값
   const { data } = useGetMemberInfo();
-  const [initialBirth, setInitialBirth] = useState(data?.result?.birth);
-  const [initialPhone, setInitialPhone] = useState(data?.result?.phone);
   const { isOpen, openModal, closeModal } = useModal();
+  const serverBirth = data?.result?.birth;
+  const serverPhone = data?.result?.phone;
 
   const router = useRouter();
 
@@ -53,23 +52,16 @@ const Page = () => {
 
   const isDirty = birth !== '' || phone !== '';
 
-  const isValid =
-    (birth === '' || (birth ?? '').replace(/\D/g, '').length === 8) &&
-    (phone === '' || digits(phone ?? '').length === 13);
-
-  const { mutate } = usePostMemberInfo();
-
-  useEffect(() => {
-    setInitialBirth(data?.result?.birth);
-    setInitialPhone(data?.result?.phone);
-  }, [data]);
+  const { mutate } = useModifyInfo();
 
   const handleSubmit = () => {
     const finalBirth =
-      birth && birth.trim() !== '' ? birth.replace(/\D/g, '') : (initialBirth ?? '');
+      birth && birth.trim() !== ''
+        ? birth.replace(/\D/g, '')
+        : (serverBirth ?? '');
 
     const finalPhone =
-      phone && phone.trim() !== '' ? phone : (initialPhone ?? '');
+      phone && phone.trim() !== '' ? phone : (serverPhone ?? '');
 
     const valid = finalBirth.length === 8 && finalPhone.length === 13;
 
@@ -124,9 +116,15 @@ const Page = () => {
         <div className='flex flex-col gap-[1.6rem]'>
           <p className='font-medium-20'>생년월일</p>
           <DatePicker
-            value={birth ? formatDateToISO(birth) : (initialBirth ? formatDateToISO(initialBirth) : '')}
+            value={
+              birth
+                ? formatDateToISO(birth)
+                : serverBirth
+                  ? formatDateToISO(serverBirth)
+                  : ''
+            }
             onChange={(value) => setBirth(formatDateFromISO(value))}
-            placeholder='생년월일을 선택하세요'
+            placeholder={serverBirth}
             maxDate={new Date().toISOString().split('T')[0]}
           />
         </div>
@@ -134,10 +132,10 @@ const Page = () => {
           <p className='font-medium-20'>전화번호</p>
           <Input
             placeholder={
-              initialPhone ? formatPhone(initialPhone) : '010-0000-0000'
+              serverPhone ? formatPhone(serverPhone) : '010-0000-0000'
             }
             value={phone}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setPhone(formatPhone(e.target.value))
             }
             inputMode='numeric'
