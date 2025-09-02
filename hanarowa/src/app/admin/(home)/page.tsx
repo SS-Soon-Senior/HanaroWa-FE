@@ -25,7 +25,7 @@ const firstMenu = [
   {
     icon: <IcCalendar />,
     title: '강좌 관리',
-    href: '/admin/lesson',
+    href: '/admin/lesson/manage',
   },
 ];
 

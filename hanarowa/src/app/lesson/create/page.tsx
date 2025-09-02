@@ -12,7 +12,6 @@ import {
   DatePicker,
   Modal,
 } from '@/components';
-import { CATEGORY_META } from '@/constants/category';
 import {
   categoryOptions,
   dayOptions,
@@ -96,13 +95,13 @@ const Page = () => {
 
     // 카테고리 매핑 (OpenAPI enum과 일치)
     const categoryMap: Record<string, CreateLessonRequest['category']> = {
-      'digital': 'DIGITAL',
-      'language': 'LANGUAGE',
-      'trend': 'TREND',
-      'others': 'OTHERS',
-      'finance': 'FINANCE',
-      'health': 'HEALTH',
-      'culture': 'CULTURE',
+      digital: 'DIGITAL',
+      language: 'LANGUAGE',
+      trend: 'TREND',
+      others: 'OTHERS',
+      finance: 'FINANCE',
+      health: 'HEALTH',
+      culture: 'CULTURE',
     };
 
     const fd = new FormData();
@@ -259,7 +258,9 @@ const Page = () => {
             onChange={(value) => handleInputChange('endDate', value)}
             placeholder={getTodayFormatted()}
             className='!h-[5.6rem] !px-[2rem] !py-0'
-            minDate={formData.startDate || new Date().toISOString().split('T')[0]}
+            minDate={
+              formData.startDate || new Date().toISOString().split('T')[0]
+            }
           />
         </div>
 
