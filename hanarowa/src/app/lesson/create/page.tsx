@@ -20,6 +20,7 @@ import {
 import { useBranch } from '@/hooks';
 import { components } from '@/types/api';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import React, { useState, useRef } from 'react';
 
 export type CreateLessonRequest =
@@ -310,11 +311,13 @@ const Page = () => {
             />
             {formData.lessonImage ? (
               <div className='relative'>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={URL.createObjectURL(formData.lessonImage)}
                   alt='업로드된 이미지'
+                  width={480}
+                  height={320}
                   className='rounded-12 max-h-[20rem] w-full object-contain'
+                  unoptimized
                 />
                 <Button
                   onClick={handleRemoveImage}
