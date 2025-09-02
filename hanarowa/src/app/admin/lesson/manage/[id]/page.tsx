@@ -22,6 +22,7 @@ import {
   Button,
 } from '@components';
 import { useParams } from 'next/navigation';
+import Image from 'next/image';
 import { FormEventHandler } from 'react';
 
 const TXT = 'font-medium-16 placeholder:text-gray353';
@@ -58,6 +59,7 @@ function DetailForm() {
     removeAdditionalContent,
     removeImage,
     buildPayload,
+    updateLessonData,
   } = useLessonEditContext();
 
   if (loading && !initial) {
@@ -68,11 +70,9 @@ function DetailForm() {
     );
   }
 
-  const onSubmit: FormEventHandler = (e) => {
+  const onSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
-    const payload = buildPayload();
-    console.log('강좌 수정 payload:', payload);
-    // TODO: API 연동 시 PUT/POST 호출
+    await updateLessonData();
   };
 
   return (
@@ -241,12 +241,13 @@ function DetailForm() {
             />
             {formData.lessonImage ? (
               <div className='relative'>
-                {/* 나중에 Next Image로 바꾸세요. */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={URL.createObjectURL(formData.lessonImage)}
                   alt='업로드된 이미지'
+                  width={480}
+                  height={320}
                   className='rounded-12 max-h-[20rem] w-full object-contain'
+                  unoptimized
                 />
                 <Button
                   onClick={removeImage}
@@ -260,11 +261,11 @@ function DetailForm() {
               </div>
             ) : initial?.imageUrl ? (
               <div className='relative'>
-                {/* 나중에 Next Image로 바꾸세요. */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={initial.imageUrl}
                   alt='기존 이미지'
+                  width={480}
+                  height={320}
                   className='rounded-12 max-h-[20rem] w-full object-contain'
                 />
                 <label

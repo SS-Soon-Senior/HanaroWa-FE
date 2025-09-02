@@ -1,6 +1,6 @@
 'use client';
 
-import { getLessonDetail } from '@apis';
+import { getLessonDetail, updateLesson } from '@apis';
 import { components } from '@/types/api';
 import { Lesson, LessonFormData, LessonUpdatePayload } from '@/types/lesson';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -249,6 +249,23 @@ export function useLessonEdit(id: string | undefined) {
     return anyText || anyAdds || img;
   }, [formData]);
 
+  const updateLessonData = useCallback(async () => {
+    if (!id || !initial) return;
+    
+    try {
+      setLoading(true);
+      const payload = buildPayload();
+      await updateLesson(id, payload);
+      console.log('강좌 수정 성공');
+      // 성공 시 필요한 처리 (예: 리다이렉트, 알림 등)
+    } catch (error) {
+      console.error('강좌 수정 실패:', error);
+      // 에러 처리
+    } finally {
+      setLoading(false);
+    }
+  }, [id, initial]);
+
   const buildPayload = useCallback((): LessonUpdatePayload => {
     if (!initial) {
       return {
@@ -312,5 +329,6 @@ export function useLessonEdit(id: string | undefined) {
     removeAdditionalContent,
     removeImage,
     buildPayload,
+    updateLessonData,
   };
 }
