@@ -19,32 +19,6 @@ const AdminManageCard = ({
   onApprove,
   onReject,
 }: AdminManageCardProps) => {
-  const getTagType = (state?: string) => {
-    switch (state) {
-      case 'PENDING':
-        return 'warning';
-      case 'APPROVED':
-        return 'success';
-      case 'REJECTED':
-        return 'error';
-      default:
-        return 'warning';
-    }
-  };
-
-  const getStateText = (state?: string) => {
-    switch (state) {
-      case 'PENDING':
-        return '대기중';
-      case 'APPROVED':
-        return '승인';
-      case 'REJECTED':
-        return '반려';
-      default:
-        return '대기중';
-    }
-  };
-
   const renderActionButtons = () => {
     if (state === 'PENDING') {
       return (

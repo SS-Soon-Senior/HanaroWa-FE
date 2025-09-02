@@ -1,5 +1,3 @@
-import { StatusKey } from '@/constants/status';
-
 type AdminStatusTagProps = {
   status: 'PENDING' | 'APPROVED' | 'REJECTED';
 };
