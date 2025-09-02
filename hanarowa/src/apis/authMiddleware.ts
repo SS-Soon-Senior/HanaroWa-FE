@@ -12,7 +12,7 @@ const reissueToken = async (): Promise<string | null> => {
 
     if (!result.isSuccess || !result.data) {
       console.warn('Reissue failed, redirecting to login page.');
-      // logout();
+      logout();
       window.location.href = '/auth/login';
       return null;
     }
@@ -20,7 +20,7 @@ const reissueToken = async (): Promise<string | null> => {
     return result.data.result.accessToken;
   } catch (error) {
     console.error('Token reissue error:', error);
-    // await cookieStore.reo('accessToken');
+    logout();
     window.location.href = '/auth/login';
     return null;
   }
