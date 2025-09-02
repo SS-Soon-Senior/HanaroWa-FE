@@ -593,6 +593,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/lesson/manage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 관리자 강좌 관리 목록 */
+        get: operations["getManageLessons"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/admin/facility": {
         parameters: {
             query?: never;
@@ -1110,6 +1127,22 @@ export interface components {
             email?: string;
             /** Format: date */
             birth?: string;
+        };
+        AdminManageLessonResponseDTO: {
+            /** Format: int64 */
+            id?: number;
+            lessonName?: string;
+            instructor?: string;
+            description?: string;
+            duration?: string;
+            /** @enum {string} */
+            state?: "PENDING" | "APPROVED" | "REJECTED";
+        };
+        ApiResponseListAdminManageLessonResponseDTO: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: components["schemas"]["AdminManageLessonResponseDTO"][];
         };
         AdminFacilityResponseDTO: {
             /** Format: int64 */
@@ -1889,6 +1922,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiResponseListLessonMemberResponseDTO"];
+                };
+            };
+        };
+    };
+    getManageLessons: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseListAdminManageLessonResponseDTO"];
                 };
             };
         };

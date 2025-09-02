@@ -1,9 +1,7 @@
 import { client } from '@apis';
 
-type Opts = { headers?: Record<string, string> };
-
-const getLessons = (opts?: Opts) => {
-  return client.GET('/admin/lesson', opts);
+const getLessons = () => {
+  return client.GET('/admin/lesson');
 };
 
 export default getLessons;
