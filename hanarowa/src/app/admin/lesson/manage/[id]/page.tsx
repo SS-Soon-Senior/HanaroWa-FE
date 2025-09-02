@@ -21,8 +21,9 @@ import {
   DatePicker,
   Button,
 } from '@components';
-import { useParams } from 'next/navigation';
-import { FormEventHandler } from 'react';
+import Image from 'next/image';
+import { useParams, useRouter } from 'next/navigation';
+import { FormEventHandler, useRef } from 'react';
 
 const TXT = 'font-medium-16 placeholder:text-gray353';
 const INPUT_BOX = '!h-[5.6rem] !px-[2rem] !py-0';
@@ -50,15 +51,21 @@ function DetailForm() {
     initial,
     loading,
     formData,
-    fileInputRef,
     isDirty,
     handleInputChange,
     handleAddContent,
     handleAdditionalContentChange,
     removeAdditionalContent,
-    removeImage,
-    buildPayload,
+    updateLessonData,
   } = useLessonEditContext();
+
+  const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const removeImage = () => {
+    handleInputChange('lessonImage', null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
 
   if (loading && !initial) {
     return (
@@ -68,11 +75,12 @@ function DetailForm() {
     );
   }
 
-  const onSubmit: FormEventHandler = (e) => {
+  const onSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
-    const payload = buildPayload();
-    console.log('강좌 수정 payload:', payload);
-    // TODO: API 연동 시 PUT/POST 호출
+    const success = await updateLessonData();
+    if (success) {
+      router.push('/admin/lesson/manage');
+    }
   };
 
   return (
@@ -169,8 +177,10 @@ function DetailForm() {
           <DatePicker
             value={formData.startDate}
             onChange={(value) => handleInputChange('startDate', value)}
-            placeholder='시작일을 선택하세요'
+            placeholder={initial?.startDate ?? '시작일을 선택하세요'}
             className={DROPDOWN_BOX}
+            labelClassName='font-medium-16'
+            placeholderClassName='text-gray353'
             minDate={new Date().toISOString().split('T')[0]}
           />
         </section>
@@ -180,9 +190,13 @@ function DetailForm() {
           <DatePicker
             value={formData.endDate}
             onChange={(value) => handleInputChange('endDate', value)}
-            placeholder='종료일을 선택하세요'
+            placeholder={initial?.endDate ?? '종료일을 선택하세요'}
             className={DROPDOWN_BOX}
-            minDate={formData.startDate || new Date().toISOString().split('T')[0]}
+            labelClassName='font-medium-16'
+            placeholderClassName='text-gray353'
+            minDate={
+              formData.startDate || new Date().toISOString().split('T')[0]
+            }
           />
         </section>
 
@@ -235,12 +249,13 @@ function DetailForm() {
             />
             {formData.lessonImage ? (
               <div className='relative'>
-                {/* 나중에 Next Image로 바꾸세요. */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={URL.createObjectURL(formData.lessonImage)}
                   alt='업로드된 이미지'
+                  width={480}
+                  height={320}
                   className='rounded-12 max-h-[20rem] w-full object-contain'
+                  unoptimized
                 />
                 <Button
                   onClick={removeImage}
@@ -254,11 +269,11 @@ function DetailForm() {
               </div>
             ) : initial?.imageUrl ? (
               <div className='relative'>
-                {/* 나중에 Next Image로 바꾸세요. */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={initial.imageUrl}
                   alt='기존 이미지'
+                  width={480}
+                  height={320}
                   className='rounded-12 max-h-[20rem] w-full object-contain'
                 />
                 <label
