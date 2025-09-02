@@ -1,6 +1,5 @@
 'use client';
 
-import usePostMemberInfo from '@/apis/member/usePostMemberInfo';
 import {
   Header,
   Layout,
@@ -10,10 +9,10 @@ import {
   Modal,
   DatePicker,
 } from '@/components';
-import { useGetMemberInfo } from '@apis';
+import { useGetMemberInfo, useModifyInfo } from '@apis';
 import { useModal } from '@hooks';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useState, useEffect } from 'react';
 
 const digits = (s: string) => s.replace(/\D/g, '');
 
@@ -53,11 +52,7 @@ const Page = () => {
 
   const isDirty = birth !== '' || phone !== '';
 
-  const isValid =
-    (birth === '' || (birth ?? '').replace(/\D/g, '').length === 8) &&
-    (phone === '' || digits(phone ?? '').length === 13);
-
-  const { mutate } = usePostMemberInfo();
+  const { mutate } = useModifyInfo();
 
   useEffect(() => {
     setInitialBirth(data?.result?.birth);
@@ -66,7 +61,9 @@ const Page = () => {
 
   const handleSubmit = () => {
     const finalBirth =
-      birth && birth.trim() !== '' ? birth.replace(/\D/g, '') : (initialBirth ?? '');
+      birth && birth.trim() !== ''
+        ? birth.replace(/\D/g, '')
+        : (initialBirth ?? '');
 
     const finalPhone =
       phone && phone.trim() !== '' ? phone : (initialPhone ?? '');
@@ -124,7 +121,13 @@ const Page = () => {
         <div className='flex flex-col gap-[1.6rem]'>
           <p className='font-medium-20'>생년월일</p>
           <DatePicker
-            value={birth ? formatDateToISO(birth) : (initialBirth ? formatDateToISO(initialBirth) : '')}
+            value={
+              birth
+                ? formatDateToISO(birth)
+                : initialBirth
+                  ? formatDateToISO(initialBirth)
+                  : ''
+            }
             onChange={(value) => setBirth(formatDateFromISO(value))}
             placeholder='생년월일을 선택하세요'
             maxDate={new Date().toISOString().split('T')[0]}
