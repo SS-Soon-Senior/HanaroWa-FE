@@ -4,7 +4,7 @@ import { IcMyMember, IcMyPassword, IcMyLogout, IcMyUnsub } from '@/assets/svg';
 import { Header, BottomNavigation, Layout, Modal } from '@/components';
 import { useModal } from '@/hooks';
 import { logout } from '@/utils/common/auth';
-import { useGetMemberInfo, usePatchMember } from '@apis';
+import { useGetMemberInfo, useWithdrawMember } from '@apis';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -18,7 +18,7 @@ const Page = () => {
   const { data } = useGetMemberInfo();
 
   const router = useRouter();
-  const { mutate } = usePatchMember();
+  const { mutate } = useWithdrawMember();
 
   const handleUnsubscribe = async () => {
     mutate(

@@ -1,5 +1,15 @@
 import useGetMemberInfo from './useGetMemberInfo';
-import usePatchMember from './usePatchMember';
+import {
+  useWithdrawMember,
+  usePatchPassword,
+  useModifyInfo,
+} from './usePatchMember';
 import usePostMemberInfo from './usePostMemberInfo';
 
-export { useGetMemberInfo, usePostMemberInfo, usePatchMember };
+export {
+  useGetMemberInfo,
+  usePostMemberInfo,
+  useWithdrawMember,
+  usePatchPassword,
+  useModifyInfo,
+};

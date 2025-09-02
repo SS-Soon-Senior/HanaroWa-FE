@@ -1,7 +1,13 @@
 import { TanstackQueryClient } from '../client';
 
-const usePatchMember = () => {
+export const useWithdrawMember = () => {
   return TanstackQueryClient.useMutation('patch', '/member/withdraw');
 };
 
-export default usePatchMember;
+export const usePatchPassword = () => {
+  return TanstackQueryClient.useMutation('patch', '/member/password');
+};
+
+export const useModifyInfo = () => {
+  return TanstackQueryClient.useMutation('patch', '/member');
+};
