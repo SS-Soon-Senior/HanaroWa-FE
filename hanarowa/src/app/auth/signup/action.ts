@@ -30,6 +30,19 @@ export async function signup(
     };
   }
 
+  // 이메일 형식 체크 (ASCII 기준, 일반적인 패턴)
+  const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+  if (!emailRegex.test(id)) {
+    return {
+      success: false,
+      message: '올바른 이메일 주소를 입력해주세요.',
+      name,
+      id,
+      password,
+      confirmPassword,
+    };
+  }
+
   // 중복 아이디 체크 <<<<< 여기 지금 test로 고정해놨는데 나중에 수정해야 합니다..
   if (id === 'test') {
     return {
@@ -42,12 +55,13 @@ export async function signup(
     };
   }
 
-  // 아이디, 비밀번호 영문+숫자 포함 체크
-  const regex = /^(?=.*[a-zA-Z])(?=.*[0-9]).+$/;
-  if (!regex.test(id) || !regex.test(password)) {
+  // 비밀번호 영문+숫자 포함 체크
+  const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,20}$/;
+  if (!regex.test(password)) {
     return {
       success: false,
-      message: '영문자, 숫자를 모두 입력해야합니다.',
+      message:
+        '비밀번호는 6~20자 사이이며 영문, 숫자를 각각 최소 1개 포함해야 합니다.',
       name,
       id,
       password,
