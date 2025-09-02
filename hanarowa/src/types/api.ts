@@ -685,6 +685,7 @@ export interface components {
             description: string;
             /** @enum {string} */
             category: "DIGITAL" | "LANGUAGE" | "TREND" | "OTHERS" | "FINANCE" | "HEALTH" | "CULTURE";
+            /** Format: binary */
             lessonImg?: string;
             /** Format: int64 */
             branchId: number;
@@ -780,7 +781,6 @@ export interface components {
         ModifyPasswdRequestDTO: {
             currentPassword?: string;
             newPassword?: string;
-            checkNewPassword?: string;
         };
         UpdateCurriculumDTO: {
             /** Format: int64 */
@@ -1255,9 +1255,9 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody: {
+        requestBody?: {
             content: {
-                "application/json": components["schemas"]["CreateLessonRequestDTO"];
+                "multipart/form-data": components["schemas"]["CreateLessonRequestDTO"];
             };
         };
         responses: {
@@ -1322,14 +1322,14 @@ export interface operations {
     };
     refresh: {
         parameters: {
-            query: {
-                refreshToken: string;
-            };
+            query?: never;
             header: {
                 Authorization: string;
             };
             path?: never;
-            cookie?: never;
+            cookie?: {
+                refreshToken?: string;
+            };
         };
         requestBody?: never;
         responses: {
@@ -1408,26 +1408,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiResponseRecResponseDto"];
-                };
-            };
-        };
-    };
-    getInfo: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ApiResponseMemberInfoResponseDTO"];
                 };
             };
         };
