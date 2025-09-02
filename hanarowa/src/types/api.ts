@@ -332,32 +332,15 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/lesson/reservation/offered": {
+    "/lesson/reservation": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** 개설 강좌 목록 보기 */
+        /** 내 예약 목록 가져오기 */
         get: operations["getAllOfferedLessons"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/lesson/reservation/applied": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** 신청 강좌 목록 보기 */
-        get: operations["getAllAppliedLessons"];
         put?: never;
         post?: never;
         delete?: never;
@@ -903,6 +886,12 @@ export interface components {
             /** Format: int64 */
             lessonGisuId?: number;
         };
+        ApiResponseMyReservationPageResponseDTO: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: components["schemas"]["MyReservationPageResponseDTO"];
+        };
         LessonListResponseDTO: {
             /** Format: int64 */
             lessonId?: number;
@@ -915,12 +904,26 @@ export interface components {
             instructorName?: string;
             duration?: string;
             lessonRoomName?: string;
+            reservedAt?: string;
+            inProgress?: boolean;
+            reviewed?: boolean;
         };
-        OfferedLessonListResponseDTO: {
-            offeredLessonList?: components["schemas"]["LessonListResponseDTO"][];
+        MyOpenLessonListResponseDTO: {
+            /** Format: int64 */
+            lessonId?: number;
+            /** Format: int64 */
+            lessonGisuId?: number;
+            /** @enum {string} */
+            lessonState?: "PENDING" | "APPROVED" | "REJECTED";
+            startedAt?: string;
+            lessonName?: string;
+            instructorName?: string;
+            lessonRoomName?: string;
+            openedAt?: string;
         };
-        AppliedLessonListResponseDTO: {
-            appliedLessonList?: components["schemas"]["LessonListResponseDTO"][];
+        MyReservationPageResponseDTO: {
+            myOpenLessonList?: components["schemas"]["MyOpenLessonListResponseDTO"][];
+            lessonList?: components["schemas"]["LessonListResponseDTO"][];
         };
         ApiResponseListLessonListSearchResponseDTO: {
             isSuccess?: boolean;
@@ -1654,27 +1657,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["OfferedLessonListResponseDTO"];
-                };
-            };
-        };
-    };
-    getAllAppliedLessons: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["AppliedLessonListResponseDTO"];
+                    "*/*": components["schemas"]["ApiResponseMyReservationPageResponseDTO"];
                 };
             };
         };

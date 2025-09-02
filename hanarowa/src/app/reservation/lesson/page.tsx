@@ -1,5 +1,6 @@
 'use client';
 
+import getManageLessons from '@/apis/lesson/getMyLesson';
 import {
   Header,
   Layout,
@@ -10,15 +11,6 @@ import {
 import { useState } from 'react';
 
 const myLessons = [
-  {
-    lessonName: '최면 기초 완성',
-    reserveHanDate: '2024.03.15',
-    reservationDate: '4월 5일 (금) 오후 2:00',
-    location: '종로구 문화센터 301호',
-    instructor: '정소은',
-    isReviewed: false,
-    isInProgress: true,
-  },
   {
     lessonName: '스마트폰 활용법 입문',
     reserveHanDate: '2024.03.15',
@@ -45,14 +37,6 @@ const myLessons = [
     instructor: 'test',
     isInProgress: true,
   },
-  {
-    lessonName: '스마트폰 활용법 입문',
-    reserveHanDate: '2024.03.15',
-    reservationDate: '3월 20일 (수) 오전 10:00',
-    location: '강남구 복지센터 강의실',
-    instructor: 'test',
-    isInProgress: false,
-  },
 ];
 
 const tabs = [
@@ -60,18 +44,22 @@ const tabs = [
   { key: 'opened', label: '개설 강좌' },
 ];
 
-const Page = () => {
+const Page = async () => {
   const [activeTab, setActiveTab] = useState('applied');
 
   const currentUser = 'test'; // 임시 유저
 
+  const { data } = await getManageLessons();
+
+  const appliedLessons = data?.result?.myOpenLessonList || [];
+  const openedLessons = data?.result?.lessonList || [];
   // 수강 강좌
-  const appliedLessons = myLessons.filter((c) => c.instructor !== currentUser);
+  // const appliedLessons = myLessons.filter((c) => c.instructor !== currentUser);
   const reservations = appliedLessons.filter((c) => c.isInProgress);
   const completes = appliedLessons.filter((c) => !c.isInProgress);
 
   // 개설 강좌
-  const openedLessons = myLessons.filter((c) => c.instructor === currentUser);
+  // const openedLessons = myLessons.filter((c) => c.instructor === currentUser);
 
   return (
     <Layout header={<Header title='내 강좌' />}>
