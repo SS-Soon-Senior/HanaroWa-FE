@@ -1,5 +1,5 @@
 import getBranch from './getBranch';
-import usePostBranch from './postBranch';
 import useGetBranch from './useGetBranch';
+import usePostBranch from './usePostBranch';
 
-export { useGetBranch, usePostBranch as postBranch, getBranch };
+export { useGetBranch, usePostBranch, getBranch };
