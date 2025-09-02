@@ -12,7 +12,7 @@ const AdminStatusTag = ({ status }: AdminStatusTagProps) => {
       case 'APPROVED':
         return '승인';
       case 'REJECTED':
-        return '반료';
+        return '반려';
       default:
         return '대기중';
     }
@@ -33,7 +33,7 @@ const AdminStatusTag = ({ status }: AdminStatusTagProps) => {
 
   return (
     <span
-      className={`flex h-[2.4rem] w-[6rem] flex-col items-center justify-center rounded-12 text-12 font-medium ${getStatusColor(status)}`}
+      className={`rounded-12 text-12 flex h-[2.4rem] w-[6rem] flex-col items-center justify-center font-medium ${getStatusColor(status)}`}
     >
       {getStatusText(status)}
     </span>
