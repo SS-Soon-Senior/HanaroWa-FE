@@ -231,7 +231,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** 멤버 정보 반환 */
+        get: operations["getInfo"];
         put?: never;
         post?: never;
         delete?: never;
@@ -592,6 +593,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/lesson/manage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 관리자 강좌 관리 목록 */
+        get: operations["getManageLessons"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/admin/facility": {
         parameters: {
             query?: never;
@@ -684,6 +702,7 @@ export interface components {
             description: string;
             /** @enum {string} */
             category: "DIGITAL" | "LANGUAGE" | "TREND" | "OTHERS" | "FINANCE" | "HEALTH" | "CULTURE";
+            /** Format: binary */
             lessonImg?: string;
             /** Format: int64 */
             branchId: number;
@@ -779,7 +798,6 @@ export interface components {
         ModifyPasswdRequestDTO: {
             currentPassword?: string;
             newPassword?: string;
-            checkNewPassword?: string;
         };
         UpdateCurriculumDTO: {
             /** Format: int64 */
@@ -857,6 +875,18 @@ export interface components {
             /** Format: int64 */
             lessonGisuId?: number;
             lessonState?: string;
+        };
+        ApiResponseMemberInfoResponseDTO: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: components["schemas"]["MemberInfoResponseDTO"];
+        };
+        MemberInfoResponseDTO: {
+            name?: string;
+            phone?: string;
+            /** Format: date */
+            birth?: string;
         };
         ApiResponseLessonMoreDetailResponseDTO: {
             isSuccess?: boolean;
@@ -1064,10 +1094,18 @@ export interface components {
             birth?: string;
         };
         AdminLessonListResponseDTO: {
+            /** Format: int64 */
+            id?: number;
             lessonName?: string;
             instructor?: string;
-            instruction?: string;
             lessonImg?: string;
+            duration?: string;
+            /** Format: int32 */
+            participants?: number;
+            /** Format: int32 */
+            capacity?: number;
+            /** Format: int32 */
+            lessonFee?: number;
         };
         ApiResponseListAdminLessonListResponseDTO: {
             isSuccess?: boolean;
@@ -1088,6 +1126,22 @@ export interface components {
             email?: string;
             /** Format: date */
             birth?: string;
+        };
+        AdminManageLessonResponseDTO: {
+            /** Format: int64 */
+            id?: number;
+            lessonName?: string;
+            instructor?: string;
+            description?: string;
+            duration?: string;
+            /** @enum {string} */
+            state?: "PENDING" | "APPROVED" | "REJECTED";
+        };
+        ApiResponseListAdminManageLessonResponseDTO: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: components["schemas"]["AdminManageLessonResponseDTO"][];
         };
         AdminFacilityResponseDTO: {
             /** Format: int64 */
@@ -1242,9 +1296,9 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody: {
+        requestBody?: {
             content: {
-                "application/json": components["schemas"]["CreateLessonRequestDTO"];
+                "multipart/form-data": components["schemas"]["CreateLessonRequestDTO"];
             };
         };
         responses: {
@@ -1309,14 +1363,14 @@ export interface operations {
     };
     refresh: {
         parameters: {
-            query: {
-                refreshToken: string;
-            };
+            query?: never;
             header: {
                 Authorization: string;
             };
             path?: never;
-            cookie?: never;
+            cookie?: {
+                refreshToken?: string;
+            };
         };
         requestBody?: never;
         responses: {
@@ -1395,6 +1449,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiResponseRecResponseDto"];
+                };
+            };
+        };
+    };
+    getInfo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseMemberInfoResponseDTO"];
                 };
             };
         };
@@ -1847,6 +1921,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiResponseListLessonMemberResponseDTO"];
+                };
+            };
+        };
+    };
+    getManageLessons: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseListAdminManageLessonResponseDTO"];
                 };
             };
         };

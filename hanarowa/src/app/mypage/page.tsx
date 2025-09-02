@@ -3,7 +3,8 @@
 import { IcMyMember, IcMyPassword, IcMyLogout, IcMyUnsub } from '@/assets/svg';
 import { Header, BottomNavigation, Layout, Modal } from '@/components';
 import { useModal } from '@/hooks';
-import { useGetMemberInfo } from '@apis';
+import { logout } from '@/utils/common/auth';
+import { useGetMemberInfo, useWithdrawMember } from '@apis';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -17,11 +18,23 @@ const Page = () => {
   const { data } = useGetMemberInfo();
 
   const router = useRouter();
+  const { mutate } = useWithdrawMember();
 
-  //탈퇴 api 구현 필요
   const handleUnsubscribe = async () => {
-    closeModal();
-    router.replace('/'); // 혹은 로그인 페이지 등으로 이동
+    mutate(
+      {},
+      {
+        onSuccess: () => {
+          logout();
+          closeModal();
+          router.replace('/');
+        },
+
+        onError: (error) => {
+          console.error(error);
+        },
+      }
+    );
   };
 
   useEffect(() => {
@@ -51,7 +64,7 @@ const Page = () => {
         </Link>
 
         {/* 로그아웃 기능 구현 필요*/}
-        <Link href='/auth/login/social' className={divStyle}>
+        <Link href='/auth/login/social' className={divStyle} onClick={logout}>
           <IcMyLogout />
           <h1 className={textStyle}>로그아웃</h1>
         </Link>

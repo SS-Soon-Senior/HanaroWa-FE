@@ -1,17 +1,38 @@
 'use client';
 
-import { Lessons } from '@/data/lessons';
-import { Header, Layout, LessonCard } from '@components';
-import Link from 'next/link';
+import { getLessons } from '@/apis/lesson';
+import { components } from '@/types/api';
+import { Header, Layout } from '@components';
+import AdminLessonCard from '@/components/lesson/AdminLessonCard';
+import { useEffect, useState } from 'react';
+
+export type AdminLesson = components['schemas']['AdminLessonListResponseDTO'];
+type ApiListEnvelope<T> = {
+  isSuccess?: boolean;
+  code?: string;
+  message?: string;
+  result?: T[];
+};
 
 const Page = () => {
+  const [lessons, setLessons] = useState<AdminLesson[]>([]);
+
+  useEffect(() => {
+    const fetchLessons = async () => {
+      const { data } = await getLessons();
+      const lessonData: AdminLesson[] =
+        (data as ApiListEnvelope<AdminLesson> | undefined)?.result ?? [];
+      setLessons(lessonData);
+    };
+
+    fetchLessons();
+  }, []);
+
   return (
     <Layout header={<Header title='강좌 목록' showSearchButton />}>
       <div className='grid w-full grid-cols-2 gap-[2.5rem]'>
-        {Lessons.map(({ id, ...cardProps }) => (
-          <Link key={id} href={`/admin/lesson/${id}/member`}>
-            <LessonCard {...cardProps} />
-          </Link>
+        {lessons.map((l, index) => (
+          <AdminLessonCard key={l.id || `lesson-${index}`} {...l} />
         ))}
       </div>
     </Layout>

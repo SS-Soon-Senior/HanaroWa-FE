@@ -1,39 +1,20 @@
+import Cookies from 'js-cookie';
+
 const getAccessToken = () => {
-  if (typeof window !== 'undefined') {
-    return localStorage.getItem('accessToken');
-  }
-  return null;
+  return Cookies.get('accessToken') || null;
 };
 
-const setAccessToken = (accessToken: string) => {
-  if (typeof window !== 'undefined') {
-    localStorage.setItem('accessToken', accessToken);
-  }
+const setAccessToken = (token: string) => {
+  Cookies.set('accessToken', token, { path: '/' });
 };
 
-const getRefreshToken = () => {
-  if (typeof window !== 'undefined') {
-    return localStorage.getItem('refreshToken');
-  }
-  return null;
-};
-
-const setRefreshToken = (refreshToken: string) => {
-  if (typeof window !== 'undefined') {
-    localStorage.setItem('refreshToken', refreshToken);
-  }
+const clearAccessToken = () => {
+  Cookies.remove('accessToken');
 };
 
 const logout = () => {
-  if (typeof window !== 'undefined') {
-    localStorage.clear();
-  }
+  Cookies.remove('accessToken');
+  Cookies.remove('refreshToken');
 };
 
-export {
-  getAccessToken,
-  setAccessToken,
-  getRefreshToken,
-  setRefreshToken,
-  logout,
-};
+export { getAccessToken, setAccessToken, clearAccessToken, logout };

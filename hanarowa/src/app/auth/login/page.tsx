@@ -3,7 +3,7 @@
 import postSignin from '@/apis/auth/postSignin';
 import { IcBookByeoldol } from '@/assets/svg';
 import { Header, Input, ErrorMessage, Button, Layout } from '@/components';
-import { setAccessToken, setRefreshToken } from '@/utils/common/auth';
+import { setAccessToken } from '@/utils/common/auth';
 import { useBranch } from '@hooks';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -21,23 +21,26 @@ const Page = () => {
     setError('');
 
     try {
-      const { data } = await postSignin({ email, password });
+      const { data, response } = await postSignin({ email, password });
 
-      if (data?.code == 'MEMBER400') {
-        setError('아이디 또는 비밀번호를 확인해주세요.');
+      if (!response.ok) {
+        const msg =
+          response.status === 400
+            ? '아이디 또는 비밀번호를 확인해주세요.'
+            : response.status === 404
+              ? '탈퇴한 회원입니다.'
+              : '로그인 실패';
+        setError(msg);
         return;
       }
 
       const accessToken = data?.result?.tokens?.accessToken;
-      const refreshToken = data?.result?.tokens?.refreshToken;
       const branch = data?.result?.branch;
 
       if (accessToken) {
         setAccessToken(accessToken);
       }
-      if (refreshToken) {
-        setRefreshToken(refreshToken);
-      }
+
       updateMyBranch({ ...branch });
       router.push('/');
     } catch (err) {

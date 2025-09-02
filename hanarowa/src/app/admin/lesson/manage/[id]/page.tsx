@@ -3,8 +3,6 @@
 import { IcImageUpload, IcUsers } from '@/assets/svg';
 import {
   categoryOptions,
-  startDateOptions,
-  endDateOptions,
   dayOptions,
   timeOptions,
 } from '@/constants/lesson-options';
@@ -20,6 +18,7 @@ import {
   Input,
   Textarea,
   Dropdown,
+  DatePicker,
   Button,
 } from '@components';
 import { useParams } from 'next/navigation';
@@ -167,29 +166,23 @@ function DetailForm() {
         {/* 강의 시작/종료/요일/시간 */}
         <section>
           <h2 className='font-medium-16 mb-[2.0rem] text-black'>강의 시작일</h2>
-          <Dropdown
-            options={startDateOptions}
+          <DatePicker
             value={formData.startDate}
-            placeholder={initial?.startDate ?? '2025-08-18'}
-            onChange={(v) => handleInputChange('startDate', v)}
-            containerClassName={DROPDOWN_W}
+            onChange={(value) => handleInputChange('startDate', value)}
+            placeholder='시작일을 선택하세요'
             className={DROPDOWN_BOX}
-            labelClassName='font-medium-16'
-            placeholderClassName='text-gray353'
+            minDate={new Date().toISOString().split('T')[0]}
           />
         </section>
 
         <section>
           <h2 className='font-medium-16 mb-[2.0rem] text-black'>강의 종료일</h2>
-          <Dropdown
-            options={endDateOptions}
+          <DatePicker
             value={formData.endDate}
-            placeholder={initial?.endDate ?? '2025-08-30'}
-            onChange={(v) => handleInputChange('endDate', v)}
-            containerClassName={DROPDOWN_W}
+            onChange={(value) => handleInputChange('endDate', value)}
+            placeholder='종료일을 선택하세요'
             className={DROPDOWN_BOX}
-            labelClassName='font-medium-16'
-            placeholderClassName='text-gray353'
+            minDate={formData.startDate || new Date().toISOString().split('T')[0]}
           />
         </section>
 

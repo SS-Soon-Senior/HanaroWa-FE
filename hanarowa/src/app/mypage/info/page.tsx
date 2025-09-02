@@ -8,6 +8,7 @@ import {
   Button,
   ErrorMessage,
   Modal,
+  DatePicker,
 } from '@/components';
 import { useGetMemberInfo } from '@apis';
 import { useModal } from '@hooks';
@@ -21,6 +22,17 @@ const formatPhone = (v: string) => {
   if (d.length <= 3) return d;
   if (d.length <= 7) return `${d.slice(0, 3)}-${d.slice(3)}`;
   return `${d.slice(0, 3)}-${d.slice(3, 7)}-${d.slice(7, 11)}`;
+};
+
+// YYYYMMDD -> YYYY-MM-DD 변환
+const formatDateToISO = (dateStr: string) => {
+  if (!dateStr || dateStr.length !== 8) return '';
+  return `${dateStr.slice(0, 4)}-${dateStr.slice(4, 6)}-${dateStr.slice(6, 8)}`;
+};
+
+// YYYY-MM-DD -> YYYYMMDD 변환
+const formatDateFromISO = (isoDate: string) => {
+  return isoDate.replace(/\D/g, '');
 };
 
 const Page = () => {
@@ -42,7 +54,7 @@ const Page = () => {
   const isDirty = birth !== '' || phone !== '';
 
   const isValid =
-    (birth === '' || (birth ?? '').length === 8) &&
+    (birth === '' || (birth ?? '').replace(/\D/g, '').length === 8) &&
     (phone === '' || digits(phone ?? '').length === 13);
 
   const { mutate } = usePostMemberInfo();
@@ -54,7 +66,7 @@ const Page = () => {
 
   const handleSubmit = () => {
     const finalBirth =
-      birth && birth.trim() !== '' ? birth : (initialBirth ?? '');
+      birth && birth.trim() !== '' ? birth.replace(/\D/g, '') : (initialBirth ?? '');
 
     const finalPhone =
       phone && phone.trim() !== '' ? phone : (initialPhone ?? '');
@@ -111,16 +123,11 @@ const Page = () => {
       <div className='flex w-full flex-col gap-[3rem] pt-[9rem]'>
         <div className='flex flex-col gap-[1.6rem]'>
           <p className='font-medium-20'>생년월일</p>
-          <Input
-            placeholder={initialBirth || '00000000'}
-            value={birth}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setBirth(digits(e.target.value).slice(0, 8))
-            }
-            inputMode='numeric'
-            maxLength={8}
-            autoComplete='bday'
-            fullWidth
+          <DatePicker
+            value={birth ? formatDateToISO(birth) : (initialBirth ? formatDateToISO(initialBirth) : '')}
+            onChange={(value) => setBirth(formatDateFromISO(value))}
+            placeholder='생년월일을 선택하세요'
+            maxDate={new Date().toISOString().split('T')[0]}
           />
         </div>
         <div className='flex flex-col gap-[1.6rem]'>
