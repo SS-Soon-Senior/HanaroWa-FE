@@ -12,22 +12,15 @@ const reissueToken = async (): Promise<string | null> => {
 
     if (!result.isSuccess || !result.data) {
       console.warn('Reissue failed, redirecting to login page.');
-      logout();
+      // logout();
       window.location.href = '/auth/login';
       return null;
     }
 
-    const { accessToken } = result.data;
-
-    if (accessToken) {
-      setAccessToken(accessToken);
-      return accessToken;
-    }
-
-    return null;
+    return result.data.result.accessToken;
   } catch (error) {
     console.error('Token reissue error:', error);
-    logout();
+    // await cookieStore.reo('accessToken');
     window.location.href = '/auth/login';
     return null;
   }
@@ -39,7 +32,8 @@ const authMiddleware: Middleware = {
       return request;
     }
 
-    const accessToken = getAccessToken();
+    const cookie = await cookieStore.get('accessToken');
+    const accessToken = cookie?.value;
 
     if (accessToken) {
       request.headers.set('Authorization', `Bearer ${accessToken}`);
@@ -54,11 +48,7 @@ const authMiddleware: Middleware = {
       !UNPROTECTED_ROUTES.some((route) => schemaPath.startsWith(route))
     ) {
       const newAccessToken = await reissueToken();
-
-      if (!newAccessToken) {
-        return response;
-      }
-
+      console.log('New Access Token after reissue:', newAccessToken);
       const clonedRequest = request.clone();
       clonedRequest.headers.set('Authorization', `Bearer ${newAccessToken}`);
 
