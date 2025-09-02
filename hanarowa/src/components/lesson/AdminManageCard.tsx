@@ -47,7 +47,7 @@ const AdminManageCard = ({
 
     if (state === 'APPROVED' || state === 'REJECTED') {
       return (
-        <Link href={`/admin/lesson/${id}/edit`}>
+        <Link href={`/admin/lesson/manage/${id}`}>
           <button className='rounded-6 bg-gray4f6 text-12 flex h-[2.8rem] w-[5rem] flex-col items-center justify-center font-medium text-gray-600 transition-colors hover:bg-gray-300'>
             수정
           </button>

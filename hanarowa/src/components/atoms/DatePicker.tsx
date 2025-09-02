@@ -9,6 +9,8 @@ interface DatePickerProps {
   onChange: (date: string) => void;
   placeholder?: string;
   className?: string;
+  placeholderClassName?: string;
+  labelClassName?: string;
   minDate?: string;
   maxDate?: string;
   disabled?: boolean;
@@ -19,6 +21,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
   onChange,
   placeholder = '날짜를 선택하세요',
   className = '',
+  placeholderClassName = 'text-gray3af',
+  labelClassName = 'font-medium-18',
   minDate,
   maxDate,
   disabled = false,
@@ -270,8 +274,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
       >
         <span
           className={clsx(
-            'font-medium-18',
-            value ? 'text-black' : 'text-gray3af'
+            labelClassName,
+            value ? 'text-black' : placeholderClassName
           )}
         >
           {value ? formatDisplayDate(value) : placeholder}

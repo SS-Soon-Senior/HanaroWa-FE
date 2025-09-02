@@ -169,8 +169,10 @@ function DetailForm() {
           <DatePicker
             value={formData.startDate}
             onChange={(value) => handleInputChange('startDate', value)}
-            placeholder='시작일을 선택하세요'
+            placeholder={initial?.startDate ?? '시작일을 선택하세요'}
             className={DROPDOWN_BOX}
+            labelClassName='font-medium-16'
+            placeholderClassName='text-gray353'
             minDate={new Date().toISOString().split('T')[0]}
           />
         </section>
@@ -180,9 +182,13 @@ function DetailForm() {
           <DatePicker
             value={formData.endDate}
             onChange={(value) => handleInputChange('endDate', value)}
-            placeholder='종료일을 선택하세요'
+            placeholder={initial?.endDate ?? '종료일을 선택하세요'}
             className={DROPDOWN_BOX}
-            minDate={formData.startDate || new Date().toISOString().split('T')[0]}
+            labelClassName='font-medium-16'
+            placeholderClassName='text-gray353'
+            minDate={
+              formData.startDate || new Date().toISOString().split('T')[0]
+            }
           />
         </section>
 
