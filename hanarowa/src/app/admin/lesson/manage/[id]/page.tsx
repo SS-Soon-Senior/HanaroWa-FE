@@ -21,9 +21,9 @@ import {
   DatePicker,
   Button,
 } from '@components';
-import { useParams } from 'next/navigation';
 import Image from 'next/image';
-import { FormEventHandler } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { FormEventHandler, useRef } from 'react';
 
 const TXT = 'font-medium-16 placeholder:text-gray353';
 const INPUT_BOX = '!h-[5.6rem] !px-[2rem] !py-0';
@@ -51,16 +51,21 @@ function DetailForm() {
     initial,
     loading,
     formData,
-    fileInputRef,
     isDirty,
     handleInputChange,
     handleAddContent,
     handleAdditionalContentChange,
     removeAdditionalContent,
-    removeImage,
-    buildPayload,
     updateLessonData,
   } = useLessonEditContext();
+
+  const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const removeImage = () => {
+    handleInputChange('lessonImage', null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
 
   if (loading && !initial) {
     return (
@@ -72,7 +77,10 @@ function DetailForm() {
 
   const onSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
-    await updateLessonData();
+    const success = await updateLessonData();
+    if (success) {
+      router.push('/admin/lesson/manage');
+    }
   };
 
   return (
