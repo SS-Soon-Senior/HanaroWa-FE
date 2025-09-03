@@ -19,9 +19,16 @@ interface CheckAvailabilityResponse {
   timeSlots: TimeSlot[];
 }
 
+interface ApiResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: CheckAvailabilityResponse;
+}
+
 export const useCheckAvailability = () => {
   return useMutation<
-    CheckAvailabilityResponse,
+    ApiResponse,
     Error,
     CheckAvailabilityRequest
   >({
@@ -34,7 +41,7 @@ export const useCheckAvailability = () => {
         throw new Error('Failed to check availability');
       }
 
-      return response.data as CheckAvailabilityResponse;
+      return response.data as ApiResponse;
     },
   });
 };

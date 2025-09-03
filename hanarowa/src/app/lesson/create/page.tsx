@@ -19,8 +19,8 @@ import {
 } from '@/constants/lesson-options';
 import { useBranch } from '@/hooks';
 import { components } from '@/types/api';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React, { useState, useRef, useEffect } from 'react';
 
 export type CreateLessonRequest =
@@ -30,7 +30,11 @@ const Page = () => {
   const router = useRouter();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const { mutate: createLesson, isPending } = usePostLesson();
-  const { mutate: checkAvailability, data: availabilityData, isPending: isCheckingAvailability } = useCheckAvailability();
+  const {
+    mutate: checkAvailability,
+    data: availabilityData,
+    isPending: isCheckingAvailability,
+  } = useCheckAvailability();
   const { myBranch } = useBranch();
   const [disabledTimeSlots, setDisabledTimeSlots] = useState<string[]>([]);
 
@@ -52,8 +56,8 @@ const Page = () => {
     category: '',
     startDate: '',
     endDate: '',
-    days: 'mon-wed',
-    time: '11:00-13:00',
+    days: '',
+    time: '',
     lessonImage: null as File | null,
     lessonDescription: '',
     expectedParticipants: '20',
@@ -71,53 +75,77 @@ const Page = () => {
   };
 
   const checkTimeAvailability = async () => {
-    if (formData.startDate && formData.endDate && formData.days && myBranch.branchId) {
+    if (
+      formData.startDate &&
+      formData.endDate &&
+      formData.days &&
+      myBranch.branchId
+    ) {
       const unavailableSlots: string[] = [];
-      
+
       // 모든 시간대를 순차적으로 체크
       for (const timeOption of timeOptions) {
         const duration = `${formData.startDate} ~ ${formData.endDate} ${formData.days} ${timeOption.value}`;
-        
+
         try {
           const result = await new Promise<{
-            available: boolean;
-            availableRoomsCount: number;
-            timeSlots: Array<{
-              startTime: string;
-              endTime: string;
+            isSuccess: boolean;
+            code: string;
+            message: string;
+            result: {
               available: boolean;
               availableRoomsCount: number;
-            }>;
+              timeSlots: Array<{
+                startTime: string;
+                endTime: string;
+                available: boolean;
+                availableRoomsCount: number;
+              }>;
+            };
           }>((resolve, reject) => {
-            checkAvailability({
-              branchId: myBranch.branchId!,
-              duration
-            }, {
-              onSuccess: resolve,
-              onError: reject
-            });
+            checkAvailability(
+              {
+                branchId: myBranch.branchId!,
+                duration,
+              },
+              {
+                onSuccess: resolve,
+                onError: reject,
+              }
+            );
           });
-          
+
           // 사용 불가능한 시간대인지 확인
-          if (!result?.available || result?.availableRoomsCount === 0) {
+          if (
+            !result?.result?.available ||
+            result?.result?.availableRoomsCount === 0
+          ) {
             unavailableSlots.push(timeOption.value);
           }
         } catch (error) {
           // 에러가 발생한 시간대는 사용 불가로 처리
           unavailableSlots.push(timeOption.value);
         }
-        
+
         // API 부하 방지를 위한 짧은 딜레이
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, 100));
       }
-      
+
       setDisabledTimeSlots(unavailableSlots);
     }
   };
 
   useEffect(() => {
-    if (formData.startDate && formData.endDate && formData.days) {
+    if (
+      formData.startDate &&
+      formData.endDate &&
+      formData.days &&
+      formData.days !== ''
+    ) {
       checkTimeAvailability();
+    } else {
+      // 조건이 충족되지 않으면 비활성화 상태 초기화
+      setDisabledTimeSlots([]);
     }
   }, [formData.startDate, formData.endDate, formData.days, myBranch.branchId]);
 
@@ -334,9 +362,9 @@ const Page = () => {
         <div className='w-full'>
           <h2 className='font-medium-20 mb-[1.2rem] text-black'>강의 시간</h2>
           <Dropdown
-            options={timeOptions.map(option => ({
+            options={timeOptions.map((option) => ({
               ...option,
-              disabled: disabledTimeSlots.includes(option.value)
+              disabled: disabledTimeSlots.includes(option.value),
             }))}
             value={formData.time}
             placeholder='11:00 ~ 13:00'
@@ -345,11 +373,6 @@ const Page = () => {
           />
           {isCheckingAvailability && (
             <p className='mt-2 text-sm text-gray-500'>시간대 확인 중...</p>
-          )}
-          {disabledTimeSlots.length > 0 && (
-            <p className='mt-2 text-sm text-red-500'>
-              일부 시간대는 이용할 수 있는 강의실이 없습니다.
-            </p>
           )}
         </div>
 
