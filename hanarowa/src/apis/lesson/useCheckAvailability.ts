@@ -26,12 +26,8 @@ interface ApiResponse {
   result: CheckAvailabilityResponse;
 }
 
-export const useCheckAvailability = () => {
-  return useMutation<
-    ApiResponse,
-    Error,
-    CheckAvailabilityRequest
-  >({
+const useCheckAvailability = () => {
+  return useMutation<ApiResponse, Error, CheckAvailabilityRequest>({
     mutationFn: async (data: CheckAvailabilityRequest) => {
       const response = await client.POST('/lesson/check/availability', {
         body: data,
@@ -45,3 +41,5 @@ export const useCheckAvailability = () => {
     },
   });
 };
+
+export default useCheckAvailability;

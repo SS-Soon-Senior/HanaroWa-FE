@@ -872,6 +872,7 @@ export interface components {
             duration?: string;
             /** @enum {string} */
             lessonState?: "PENDING" | "APPROVED" | "REJECTED";
+            lessonRoom?: string;
             /** Format: int32 */
             currentEnrollment?: number;
             curriculums?: components["schemas"]["CurriculumResponseDTO"][];
