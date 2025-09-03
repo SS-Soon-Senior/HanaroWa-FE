@@ -17,6 +17,7 @@ const tabs = [
 
 const Page = () => {
   const { data } = useGetMyLesson();
+
   const [activeTab, setActiveTab] = useState('applied');
 
   const appliedLessons = data?.result?.lessonList || [];
@@ -38,6 +39,7 @@ const Page = () => {
               {reservations.map((cls, idx) => (
                 <LessonReservationCard
                   key={`reservation-${idx}`}
+                  lessonGisuId={cls.lessonGisuId ?? 0}
                   lessonName={cls.lessonName ?? ''}
                   reserveHanDate={cls.startedAt ?? ''}
                   reservationDate={cls.reservedAt ?? ''}
@@ -61,6 +63,7 @@ const Page = () => {
               {completes.map((cls, idx) => (
                 <LessonReservationCard
                   key={`complete-${idx}`}
+                  lessonGisuId={cls.lessonGisuId ?? 0}
                   lessonName={cls.lessonName ?? ''}
                   reserveHanDate={cls.startedAt ?? ''}
                   reservationDate={cls.reservedAt ?? ''}
@@ -87,6 +90,7 @@ const Page = () => {
                 .map((cls, idx) => (
                   <LessonReservationCard
                     key={`teaching-${idx}`}
+                    lessonGisuId={cls.lessonGisuId ?? 0}
                     lessonName={cls.lessonName ?? ''}
                     reserveHanDate={cls.openedAt ?? ''}
                     reservationDate={cls.startedAt ?? ''}
@@ -110,6 +114,7 @@ const Page = () => {
                 .map((cls, idx) => (
                   <LessonReservationCard
                     key={`complete-${idx}`}
+                    lessonGisuId={cls.lessonGisuId ?? 0}
                     lessonName={cls.lessonName ?? ''}
                     reserveHanDate={cls.openedAt ?? ''}
                     reservationDate={cls.startedAt ?? ''}

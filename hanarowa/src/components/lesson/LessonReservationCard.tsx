@@ -34,7 +34,7 @@ const LessonReservationCard = ({
     mutate({
       params: {
         path: {
-          lessonGisuId: lessonGisuId,
+          lessonGisuId,
         },
       },
     });

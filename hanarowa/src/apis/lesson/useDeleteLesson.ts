@@ -10,3 +10,5 @@ const useDeleteLesson = () => {
     },
   });
 };
+
+export default useDeleteLesson;
