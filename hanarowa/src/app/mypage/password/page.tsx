@@ -16,7 +16,7 @@ import { useState, ChangeEvent } from 'react';
 
 const hasLetterAndNumber = (s: string) => /[A-Za-z]/.test(s) && /\d/.test(s);
 const isValidPassword = (s: string) =>
-  /^(?=.*[가-힣A-Za-z])(?=.*\d)[가-힣A-Za-z\d]{6,20}$/.test(s);
+  /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,20}$/.test(s);
 
 const Page = () => {
   const [password, setPassword] = useState('');

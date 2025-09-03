@@ -8,6 +8,7 @@ export type Lesson = {
   category: string;
   startDate: string;
   endDate: string;
+  duration?: string; // 계산된 기간
   days: string;
   time: string;
   imageUrl?: string;
