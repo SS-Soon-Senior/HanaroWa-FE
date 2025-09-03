@@ -2,23 +2,27 @@
 
 import { IcCalendar } from '@/assets/svg';
 import clsx from 'clsx';
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, FC } from 'react';
 
 interface DatePickerProps {
   value: string;
   onChange: (date: string) => void;
   placeholder?: string;
   className?: string;
+  placeholderClassName?: string;
+  labelClassName?: string;
   minDate?: string;
   maxDate?: string;
   disabled?: boolean;
 }
 
-const DatePicker: React.FC<DatePickerProps> = ({
+const DatePicker: FC<DatePickerProps> = ({
   value,
   onChange,
   placeholder = '날짜를 선택하세요',
   className = '',
+  placeholderClassName = 'text-gray3af',
+  labelClassName = 'font-medium-18',
   minDate,
   maxDate,
   disabled = false,
@@ -31,7 +35,11 @@ const DatePicker: React.FC<DatePickerProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleDateSelect = (date: Date) => {
-    const formattedDate = date.toISOString().split('T')[0];
+    const correctedDate = new Date(
+      date.getTime() - date.getTimezoneOffset() * 60000
+    );
+
+    const formattedDate = correctedDate.toISOString().split('T')[0];
     setSelectedDate(date);
     onChange(formattedDate);
     setIsOpen(false);
@@ -135,13 +143,12 @@ const DatePicker: React.FC<DatePickerProps> = ({
 
     // 해당 월의 첫 번째 날과 마지막 날
     const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
     const startDate = new Date(firstDay);
     startDate.setDate(startDate.getDate() - firstDay.getDay()); // 주 시작을 일요일로
 
     const weeks = [];
     let currentWeek = [];
-    let currentDate = new Date(startDate);
+    const currentDate = new Date(startDate);
 
     // 6주치 달력 생성
     for (let i = 0; i < 42; i++) {
@@ -270,13 +277,15 @@ const DatePicker: React.FC<DatePickerProps> = ({
       >
         <span
           className={clsx(
-            'font-medium-18',
-            value ? 'text-black' : 'text-gray3af'
+            labelClassName,
+            value ? 'text-black' : placeholderClassName
           )}
         >
           {value ? formatDisplayDate(value) : placeholder}
         </span>
-        <IcCalendar width={20} height={20} />
+        <div>
+          <IcCalendar width={30} height={30} viewBox='0 0 36 36' />
+        </div>
       </div>
 
       {isOpen && (showYearPicker ? renderYearPicker() : renderCalendar())}

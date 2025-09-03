@@ -19,32 +19,6 @@ const AdminManageCard = ({
   onApprove,
   onReject,
 }: AdminManageCardProps) => {
-  const getTagType = (state?: string) => {
-    switch (state) {
-      case 'PENDING':
-        return 'warning';
-      case 'APPROVED':
-        return 'success';
-      case 'REJECTED':
-        return 'error';
-      default:
-        return 'warning';
-    }
-  };
-
-  const getStateText = (state?: string) => {
-    switch (state) {
-      case 'PENDING':
-        return '대기중';
-      case 'APPROVED':
-        return '승인';
-      case 'REJECTED':
-        return '반려';
-      default:
-        return '대기중';
-    }
-  };
-
   const renderActionButtons = () => {
     if (state === 'PENDING') {
       return (
@@ -73,7 +47,7 @@ const AdminManageCard = ({
 
     if (state === 'APPROVED' || state === 'REJECTED') {
       return (
-        <Link href={`/admin/lesson/${id}/edit`}>
+        <Link href={`/admin/lesson/manage/${id}`}>
           <button className='rounded-6 bg-gray4f6 text-12 flex h-[2.8rem] w-[5rem] flex-col items-center justify-center font-medium text-gray-600 transition-colors hover:bg-gray-300'>
             수정
           </button>

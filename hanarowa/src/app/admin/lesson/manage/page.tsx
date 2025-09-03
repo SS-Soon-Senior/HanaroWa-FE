@@ -7,12 +7,6 @@ import { getManageLessons, updateLessonState } from '@apis';
 import { useEffect, useState } from 'react';
 
 type AdminManageLesson = components['schemas']['AdminManageLessonResponseDTO'];
-type ApiListEnvelope<T> = {
-  isSuccess?: boolean;
-  code?: string;
-  message?: string;
-  result?: T[];
-};
 
 const Page = () => {
   const [lessons, setLessons] = useState<AdminManageLesson[]>([]);

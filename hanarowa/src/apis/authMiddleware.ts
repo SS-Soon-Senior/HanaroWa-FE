@@ -4,7 +4,7 @@ import { getAccessToken, setAccessToken, logout } from '@/utils/common/auth';
 import { Middleware } from 'openapi-fetch';
 import postRefreshToken from './auth/postRefreshToken';
 
-const UNPROTECTED_ROUTES = ['/auth/signin', '/auth/reissue', '/member/regist'];
+const UNPROTECTED_ROUTES = ['/auth/signin', '/auth/reissue', '/auth/signup'];
 
 const reissueToken = async (): Promise<string | null> => {
   try {

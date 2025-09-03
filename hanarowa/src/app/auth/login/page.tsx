@@ -1,6 +1,6 @@
 'use client';
 
-import postSignin from '@/apis/auth/postSignin';
+import { postSignin } from '@/apis/auth/postAuth';
 import { IcBookByeoldol } from '@/assets/svg';
 import { Header, Input, ErrorMessage, Button, Layout } from '@/components';
 import { setAccessToken } from '@/utils/common/auth';
