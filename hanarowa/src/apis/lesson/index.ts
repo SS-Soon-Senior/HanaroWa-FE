@@ -1,10 +1,10 @@
+import getLessonDetail from './admin/getLessonDetail';
+import getLessons from './admin/getLessons';
+import getManageLessons from './admin/getManageLessons';
+import updateLesson from './admin/updateLesson';
+import updateLessonState from './admin/updateLessonState';
 import getLessonMember from './admin/useLessonMember';
-import getLessonDetail from './getLessonDetail';
-import getLessons from './getLessons';
-import getManageLessons from './getManageLessons';
-import updateLesson from './updateLesson';
-import updateLessonState from './updateLessonState';
-import { useCheckAvailability } from './useCheckAvailability';
+import useCheckAvailability from './useCheckAvailability';
 import useDeleteLesson from './useDeleteLesson';
 import useGetLessonDetail from './useGetLessonDetail';
 import useGetMyLesson from './useGetMyLesson';
