@@ -112,12 +112,14 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
                 variant={value === option.value ? 'lightgray' : 'line'}
                 sizeType='xs'
                 onClick={() => handleSelect(option.value)}
+                disabled={option.disabled}
                 className={clsx(
                   'hover:bg-gray4f6 focus:bg-gray4f6 ml-[1.5rem] justify-start border-none bg-transparent text-left',
                   value === option.value && 'text-main bg-gray4f6',
                   index === 0 && 'rounded-14',
                   index === options.length - 1 && 'rounded-14',
-                  'rounded-none'
+                  'rounded-none',
+                  option.disabled && 'cursor-not-allowed opacity-50 hover:bg-transparent'
                 )}
               >
                 {option.label}

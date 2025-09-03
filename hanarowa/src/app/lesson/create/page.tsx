@@ -1,6 +1,6 @@
 'use client';
 
-import { usePostLesson } from '@/apis/lesson';
+import { usePostLesson, useCheckAvailability } from '@/apis/lesson';
 import { IcImageUpload, IcUsers } from '@/assets/svg';
 import {
   Layout,
@@ -21,7 +21,7 @@ import { useBranch } from '@/hooks';
 import { components } from '@/types/api';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 export type CreateLessonRequest =
   components['schemas']['CreateLessonRequestDTO'];
@@ -30,7 +30,9 @@ const Page = () => {
   const router = useRouter();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const { mutate: createLesson, isPending } = usePostLesson();
+  const { mutate: checkAvailability, data: availabilityData, isPending: isCheckingAvailability } = useCheckAvailability();
   const { myBranch } = useBranch();
+  const [disabledTimeSlots, setDisabledTimeSlots] = useState<string[]>([]);
 
   // 오늘 날짜를 한국어 형식으로 포맷
   const getTodayFormatted = () => {
@@ -50,8 +52,8 @@ const Page = () => {
     category: '',
     startDate: '',
     endDate: '',
-    days: '월, 수',
-    time: '11:00 ~ 13:00',
+    days: 'mon-wed',
+    time: '11:00-13:00',
     lessonImage: null as File | null,
     lessonDescription: '',
     expectedParticipants: '20',
@@ -67,6 +69,66 @@ const Page = () => {
       [field]: value,
     }));
   };
+
+  const checkTimeAvailability = async () => {
+    if (formData.startDate && formData.endDate && formData.days && myBranch.branchId) {
+      console.log('🚀 Checking all time slots availability...');
+      
+      const unavailableSlots: string[] = [];
+      
+      // 모든 시간대를 순차적으로 체크
+      for (const timeOption of timeOptions) {
+        const duration = `${formData.startDate} ~ ${formData.endDate} ${formData.days} ${timeOption.value}`;
+        
+        try {
+          const result = await new Promise<{
+            available: boolean;
+            availableRoomsCount: number;
+            timeSlots: Array<{
+              startTime: string;
+              endTime: string;
+              available: boolean;
+              availableRoomsCount: number;
+            }>;
+          }>((resolve, reject) => {
+            checkAvailability({
+              branchId: myBranch.branchId!,
+              duration
+            }, {
+              onSuccess: resolve,
+              onError: reject
+            });
+          });
+          
+          console.log(`🔍 ${timeOption.value}:`, result);
+          
+          // 사용 불가능한 시간대인지 확인
+          if (!result?.available || result?.availableRoomsCount === 0) {
+            unavailableSlots.push(timeOption.value);
+            console.log(`❌ ${timeOption.value} - Unavailable (available: ${result?.available}, rooms: ${result?.availableRoomsCount})`);
+          } else {
+            console.log(`✅ ${timeOption.value} - Available (available: ${result?.available}, rooms: ${result?.availableRoomsCount})`);
+          }
+        } catch (error) {
+          console.error(`Failed to check ${timeOption.value}:`, error);
+          // 에러가 발생한 시간대는 사용 불가로 처리
+          unavailableSlots.push(timeOption.value);
+        }
+        
+        // API 부하 방지를 위한 짧은 딜레이
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+      
+      console.log('🔍 Final unavailable time slots:', unavailableSlots);
+      setDisabledTimeSlots(unavailableSlots);
+    }
+  };
+
+  useEffect(() => {
+    if (formData.startDate && formData.endDate && formData.days) {
+      checkTimeAvailability();
+    }
+  }, [formData.startDate, formData.endDate, formData.days, myBranch.branchId]);
 
   const handleAddContent = () => {
     setFormData((prev) => ({
@@ -281,12 +343,23 @@ const Page = () => {
         <div className='w-full'>
           <h2 className='font-medium-20 mb-[1.2rem] text-black'>강의 시간</h2>
           <Dropdown
-            options={timeOptions}
+            options={timeOptions.map(option => ({
+              ...option,
+              disabled: disabledTimeSlots.includes(option.value)
+            }))}
             value={formData.time}
             placeholder='11:00 ~ 13:00'
             onChange={(value) => handleInputChange('time', value)}
             className='!h-[5.6rem] !px-[2rem] !py-0'
           />
+          {isCheckingAvailability && (
+            <p className='mt-2 text-sm text-gray-500'>시간대 확인 중...</p>
+          )}
+          {disabledTimeSlots.length > 0 && (
+            <p className='mt-2 text-sm text-red-500'>
+              일부 시간대는 이용할 수 있는 강의실이 없습니다.
+            </p>
+          )}
         </div>
 
         {/* 강의 사진 등록 */}
