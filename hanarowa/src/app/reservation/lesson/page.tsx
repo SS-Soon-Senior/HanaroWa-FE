@@ -1,6 +1,7 @@
 'use client';
 
-import getManageLessons from '@/apis/lesson/getMyLesson';
+import useGetMyLesson from '@/apis/lesson/useGetMyLesson';
+import getManageLessons from '@/apis/lesson/useGetMyLesson';
 import {
   Header,
   Layout,
@@ -10,56 +11,20 @@ import {
 } from '@/components';
 import { useState } from 'react';
 
-const myLessons = [
-  {
-    lessonName: '스마트폰 활용법 입문',
-    reserveHanDate: '2024.03.15',
-    reservationDate: '3월 20일 (수) 오전 10:00',
-    location: '강남구 복지센터 강의실',
-    instructor: '시코코',
-    isReviewed: false,
-    isInProgress: true,
-  },
-  {
-    lessonName: '스마트폰 활용법 입문',
-    reserveHanDate: '2024.03.15',
-    reservationDate: '3월 20일 (수) 오전 10:00',
-    location: '강남구 복지센터 강의실',
-    instructor: '시코코',
-    isReviewed: true,
-    isInProgress: false,
-  },
-  {
-    lessonName: '스마트폰 활용법 입문',
-    reserveHanDate: '2024.03.15',
-    reservationDate: '3월 20일 (수) 오전 10:00',
-    location: '강남구 복지센터 강의실',
-    instructor: 'test',
-    isInProgress: true,
-  },
-];
-
 const tabs = [
   { key: 'applied', label: '수강 강좌' },
   { key: 'opened', label: '개설 강좌' },
 ];
 
-const Page = async () => {
+const Page = () => {
+  const { data } = useGetMyLesson();
   const [activeTab, setActiveTab] = useState('applied');
 
-  const currentUser = 'test'; // 임시 유저
-
-  const { data } = await getManageLessons();
-
-  const appliedLessons = data?.result?.myOpenLessonList || [];
-  const openedLessons = data?.result?.lessonList || [];
+  const appliedLessons = data?.result?.lessonList || [];
+  const openedLessons = data?.result?.myOpenLessonList || [];
   // 수강 강좌
-  // const appliedLessons = myLessons.filter((c) => c.instructor !== currentUser);
-  const reservations = appliedLessons.filter((c) => c.isInProgress);
-  const completes = appliedLessons.filter((c) => !c.isInProgress);
-
-  // 개설 강좌
-  // const openedLessons = myLessons.filter((c) => c.instructor === currentUser);
+  const reservations = appliedLessons.filter((c) => c.inProgress);
+  const completes = appliedLessons.filter((c) => !c.inProgress);
 
   return (
     <Layout header={<Header title='내 강좌' />}>
@@ -74,8 +39,14 @@ const Page = async () => {
               {reservations.map((cls, idx) => (
                 <LessonReservationCard
                   key={`reservation-${idx}`}
-                  {...cls}
-                  isOpened={false}
+                  lessonName={cls.lessonName ?? ''}
+                  reserveHanDate={cls.startedAt ?? ''}
+                  reservationDate={cls.reservedAt ?? ''}
+                  location={cls.lessonRoomName ?? ''}
+                  instructor={cls.instructorName ?? ''}
+                  isReviewed={cls.reviewed ?? false}
+                  isInProgress={cls.notStarted ?? false}
+                  isOpened={!cls.inProgress}
                 />
               ))}
             </div>
@@ -91,8 +62,14 @@ const Page = async () => {
               {completes.map((cls, idx) => (
                 <LessonReservationCard
                   key={`complete-${idx}`}
-                  {...cls}
-                  isOpened={false}
+                  lessonName={cls.lessonName ?? ''}
+                  reserveHanDate={cls.startedAt ?? ''}
+                  reservationDate={cls.reservedAt ?? ''}
+                  location={cls.lessonRoomName ?? ''}
+                  instructor={cls.instructorName ?? ''}
+                  isReviewed={cls.reviewed ?? false}
+                  isInProgress={cls.notStarted ?? false}
+                  isOpened={cls.inProgress ?? false}
                 />
               ))}
             </div>
@@ -103,36 +80,42 @@ const Page = async () => {
       {/* 개설 강좌 */}
       {activeTab === 'opened' && (
         <div className='flex w-full flex-col gap-8 p-4'>
-          {openedLessons.filter((c) => c.isInProgress).length > 0 && (
+          {openedLessons.filter((c) => c.inProgress).length > 0 && (
             <div className='space-y-4'>
               <StatusTag status='teaching' />
               {openedLessons
-                .filter((c) => c.isInProgress)
+                .filter((c) => c.inProgress)
                 .map((cls, idx) => (
                   <LessonReservationCard
                     key={`teaching-${idx}`}
-                    {...cls}
-                    isOpened
+                    lessonName={cls.lessonName ?? ''}
+                    reserveHanDate={cls.openedAt ?? ''}
+                    reservationDate={cls.startedAt ?? ''}
+                    location={cls.lessonRoomName ?? ''}
+                    instructor={cls.instructorName ?? ''}
                   />
                 ))}
             </div>
           )}
 
-          {openedLessons.filter((c) => c.isInProgress).length > 0 &&
-            openedLessons.filter((c) => !c.isInProgress).length > 0 && (
+          {openedLessons.filter((c) => c.inProgress).length > 0 &&
+            openedLessons.filter((c) => !c.inProgress).length > 0 && (
               <hr className='my-4 border-t border-gray-200' />
             )}
 
-          {openedLessons.filter((c) => !c.isInProgress).length > 0 && (
+          {openedLessons.filter((c) => !c.inProgress).length > 0 && (
             <div className='space-y-4'>
               <StatusTag status='complete' />
               {openedLessons
-                .filter((c) => !c.isInProgress)
+                .filter((c) => !c.inProgress)
                 .map((cls, idx) => (
                   <LessonReservationCard
                     key={`complete-${idx}`}
-                    {...cls}
-                    isOpened
+                    lessonName={cls.lessonName ?? ''}
+                    reserveHanDate={cls.openedAt ?? ''}
+                    reservationDate={cls.startedAt ?? ''}
+                    location={cls.lessonRoomName ?? ''}
+                    instructor={cls.instructorName ?? ''}
                   />
                 ))}
             </div>

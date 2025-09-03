@@ -4,23 +4,6 @@
  */
 
 export interface paths {
-    "/member/regist": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** 일반 회원가입 */
-        post: operations["regist"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/member/info": {
         parameters: {
             query?: never;
@@ -30,7 +13,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** 전화번호, 생일등록 */
+        /** 전화번호, 생일등록(회원가입 중) */
         post: operations["info"];
         delete?: never;
         options?: never;
@@ -142,6 +125,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/signup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 일반 회원가입 */
+        post: operations["signup"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/auth/signin": {
         parameters: {
             query?: never;
@@ -242,7 +242,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        /** 회원 정보 수정 */
+        /** 회원 정보 수정(회원가입 후) */
         patch: operations["modifyInfo"];
         trace?: never;
     };
@@ -377,8 +377,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * 지점별 강좌 목록 가져오기
-         * @description 사용자가 지점별 강좌 목록 최신순으로 가져오기 조회합니다.
+         * 지점별 카테고리별 강좌 목록 가져오기
+         * @description 사용자가 지점별 카테고리별 강좌 목록 최신순으로 가져오기 조회합니다.
          */
         get: operations["getLessonListByBranchId"];
         put?: never;
@@ -621,19 +621,6 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        MemberRegistRequestDTO: {
-            name?: string;
-            email: string;
-            password: string;
-            /** @enum {string} */
-            role?: "ADMIN" | "USERS";
-        };
-        ApiResponseString: {
-            isSuccess?: boolean;
-            code?: string;
-            message?: string;
-            result?: string;
-        };
         MemberInfoRequestDTO: {
             birth?: string;
             phoneNumber?: string;
@@ -643,6 +630,12 @@ export interface components {
             code?: string;
             message?: string;
             result?: unknown;
+        };
+        ApiResponseString: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: string;
         };
         ReviewRequestDTO: {
             /** Format: int32 */
@@ -681,6 +674,11 @@ export interface components {
             reservationDate?: string;
             startTime?: string;
             endTime?: string;
+        };
+        MemberRegistRequestDTO: {
+            name?: string;
+            email: string;
+            password: string;
         };
         LoginRequestDTO: {
             email: string;
@@ -907,6 +905,7 @@ export interface components {
             reservedAt?: string;
             inProgress?: boolean;
             reviewed?: boolean;
+            notStarted?: boolean;
         };
         MyOpenLessonListResponseDTO: {
             /** Format: int64 */
@@ -920,6 +919,7 @@ export interface components {
             instructorName?: string;
             lessonRoomName?: string;
             openedAt?: string;
+            inProgress?: boolean;
         };
         MyReservationPageResponseDTO: {
             myOpenLessonList?: components["schemas"]["MyOpenLessonListResponseDTO"][];
@@ -1158,30 +1158,6 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    regist: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["MemberRegistRequestDTO"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ApiResponseString"];
-                };
-            };
-        };
-    };
     info: {
         parameters: {
             query?: never;
@@ -1340,6 +1316,30 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiResponseVoid"];
+                };
+            };
+        };
+    };
+    signup: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MemberRegistRequestDTO"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseString"];
                 };
             };
         };
@@ -1686,7 +1686,9 @@ export interface operations {
     };
     getLessonListByBranchId: {
         parameters: {
-            query?: never;
+            query?: {
+                categories?: string[];
+            };
             header?: never;
             path: {
                 branchId: number;

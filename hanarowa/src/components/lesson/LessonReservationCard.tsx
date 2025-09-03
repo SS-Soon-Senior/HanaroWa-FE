@@ -1,4 +1,5 @@
 import { IcBlackcalendar, IcLocation, IcUser } from '@/assets/svg';
+import { components } from '@/types/api';
 import React from 'react';
 import { Button } from '../atoms';
 
@@ -14,14 +15,14 @@ type LessonReservationCardProps = {
 };
 
 const LessonReservationCard = ({
-  lessonName: lessonName,
+  lessonName,
   reserveHanDate,
   reservationDate,
   location,
   instructor,
-  isReviewed = false,
+  isReviewed = true,
   isInProgress,
-  isOpened,
+  isOpened = true,
 }: LessonReservationCardProps) => {
   return (
     <div className='rounded-8 flex w-full flex-col bg-white'>
