@@ -20,7 +20,7 @@ const LessonInfo = ({
   price,
 }: LessonInfoProps) => {
   return (
-    <div className='flex flex-col gap-[2.7rem] py-[2.5rem]'>
+    <div className='flex w-full flex-col gap-[2.7rem] py-[2.5rem]'>
       <div className='flex flex-col gap-[1.2rem]'>
         <CategoryTag category={category} />
         <p className='font-bold-26 text-black'>{title}</p>
