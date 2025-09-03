@@ -1,7 +1,6 @@
 'use client';
 
 import useGetMyLesson from '@/apis/lesson/useGetMyLesson';
-import getManageLessons from '@/apis/lesson/useGetMyLesson';
 import {
   Header,
   Layout,

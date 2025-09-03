@@ -1,9 +1,13 @@
+'use client';
+
 import { IcBlackcalendar, IcLocation, IcUser } from '@/assets/svg';
-import { components } from '@/types/api';
+import { useDeleteLesson } from '@apis';
+import Link from 'next/link';
 import React from 'react';
 import { Button } from '../atoms';
 
 type LessonReservationCardProps = {
+  lessonGisuId: number;
   lessonName: string;
   reserveHanDate: string;
   reservationDate: string;
@@ -15,6 +19,7 @@ type LessonReservationCardProps = {
 };
 
 const LessonReservationCard = ({
+  lessonGisuId,
   lessonName,
   reserveHanDate,
   reservationDate,
@@ -24,6 +29,16 @@ const LessonReservationCard = ({
   isInProgress,
   isOpened = true,
 }: LessonReservationCardProps) => {
+  const { mutate } = useDeleteLesson();
+  const cancelLesson = () => {
+    mutate({
+      params: {
+        path: {
+          lessonGisuId: lessonGisuId,
+        },
+      },
+    });
+  };
   return (
     <div className='rounded-8 flex w-full flex-col bg-white'>
       <div className='flex flex-col gap-[2rem] p-[2.4rem]'>
@@ -49,16 +64,20 @@ const LessonReservationCard = ({
         {/* 임시로 강사 test일때로 해놨습니다 !! */}
         {!isOpened &&
           (isInProgress ? (
-            <Button variant='lightgray' sizeType='reserve'>
+            <Button
+              variant='lightgray'
+              sizeType='reserve'
+              onClick={cancelLesson}
+            >
               취소하기
             </Button>
           ) : isReviewed ? (
-            <Button variant='disabled' sizeType='reserve' disabled>
+            <Button variant='disabled' sizeType='reserve'>
               리뷰작성완료
             </Button>
           ) : (
             <Button variant='green' sizeType='reserve'>
-              리뷰작성하기
+              <Link href='/review/create'>리뷰작성하기</Link>
             </Button>
           ))}
       </div>

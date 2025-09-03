@@ -55,7 +55,11 @@ export interface paths {
          * @description 사용자가 특정 강좌 기수에 대한 수강을 신청합니다.
          */
         post: operations["applyForLesson"];
-        delete?: never;
+        /**
+         * 강의 예약 취소
+         * @description 강의 예약을 취소합니다.
+         */
+        delete: operations["deleteLessonReservation"];
         options?: never;
         head?: never;
         patch?: never;
@@ -95,6 +99,26 @@ export interface paths {
          * @description 사용자가 새로운 강좌를 개설합니다.
          */
         post: operations["createLesson"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/lesson/check/availability": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 시간대 사용 가능 여부 확인
+         * @description 강좌 개설 전 해당 시간대에 사용 가능한 강의실이 있는지 확인합니다.
+         */
+        post: operations["checkTimeAvailability"];
         delete?: never;
         options?: never;
         head?: never;
@@ -668,6 +692,32 @@ export interface components {
             branchId: number;
             lessonGisus: components["schemas"]["CreateLessonGisuRequestDTO"][];
         };
+        TimeAvailabilityRequestDTO: {
+            /** Format: int64 */
+            branchId: number;
+            duration: string;
+        };
+        ApiResponseTimeAvailabilityResponseDTO: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: components["schemas"]["TimeAvailabilityResponseDTO"];
+        };
+        TimeAvailabilityResponseDTO: {
+            available?: boolean;
+            /** Format: int32 */
+            availableRoomsCount?: number;
+            timeSlots?: components["schemas"]["TimeSlotAvailability"][];
+        };
+        TimeSlotAvailability: {
+            /** Format: date-time */
+            startTime?: string;
+            /** Format: date-time */
+            endTime?: string;
+            available?: boolean;
+            /** Format: int32 */
+            availableRoomsCount?: number;
+        };
         FacilityReservationDTO: {
             /** Format: int64 */
             facilityId?: number;
@@ -1226,6 +1276,28 @@ export interface operations {
             };
         };
     };
+    deleteLessonReservation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lessonGisuId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseVoid"];
+                };
+            };
+        };
+    };
     createReview: {
         parameters: {
             query?: never;
@@ -1272,6 +1344,30 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiResponseVoid"];
+                };
+            };
+        };
+    };
+    checkTimeAvailability: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TimeAvailabilityRequestDTO"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseTimeAvailabilityResponseDTO"];
                 };
             };
         };
