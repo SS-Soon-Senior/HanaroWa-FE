@@ -1,27 +1,16 @@
 'use client';
 
+import { postSignup } from '@/apis/auth/postAuth';
 import { IcCloseeye, IcOpeneye, IcSignupFace } from '@/assets/svg';
 import { Header, Input, ErrorMessage, Button, Layout } from '@/components';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { useActionState } from 'react';
-import { signup, SignupErrorState } from './action';
+import { useRouter } from 'next/navigation';
+import { ChangeEvent, useState } from 'react';
 
 const Page = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showCheckPassword, setShowCheckPassword] = useState(false);
-  const [showError, setShowError] = useState(false);
-
-  const [signupState, signupAction] = useActionState<
-    SignupErrorState,
-    FormData
-  >(signup, {
-    success: true,
-    message: '',
-    name: '',
-    id: '',
-    password: '',
-    confirmPassword: '',
-  });
+  const [showError, setShowError] = useState('');
+  const router = useRouter();
 
   const [form, setForm] = useState({
     name: '',
@@ -30,19 +19,55 @@ const Page = () => {
     confirmPassword: '',
   });
 
-  useEffect(() => {
-    setShowError(!signupState.success && Boolean(signupState.message));
-  }, [signupState]);
-
   const handleChange =
     (field: keyof typeof form) => (e: ChangeEvent<HTMLInputElement>) => {
       setForm({ ...form, [field]: e.target.value });
-      if (showError) setShowError(false);
+      if (showError) setShowError('');
     };
 
   const isAllFilled = Object.values(form).every((v) => v.trim() !== '');
 
   const fieldBaseClass = 'flex flex-col justify-start gap-[1.5rem]';
+
+  const handleSubmit = async () => {
+    //이메일 유효성 확인
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    if (!emailRegex.test(form.id)) {
+      setShowError('유효한 이메일 주소를 입력해주세요.');
+      return;
+    }
+
+    // 비밀번호 영문+숫자 포함 체크
+    const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,20}$/;
+    if (!regex.test(form.password)) {
+      setShowError(
+        '비밀번호는 6~20자 사이이며 영문, 숫자를 각각 최소 1개 포함해야 합니다.'
+      );
+      return;
+    }
+
+    if (form.password !== form.confirmPassword) {
+      setShowError('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+
+    const { response } = await postSignup({
+      name: form.name,
+      email: form.id,
+      password: form.password,
+    });
+
+    if (!response.ok) {
+      const msg =
+        response.status === 409
+          ? '이미 사용 중인 이메일입니다.'
+          : '회원가입에 실패했습니다. 다시 시도해주세요.';
+      setShowError(msg);
+      return;
+    }
+
+    router.push('/auth/signup/info');
+  };
 
   return (
     <Layout header={<Header />}>
@@ -52,7 +77,7 @@ const Page = () => {
         </div>
 
         <form
-          action={signupAction}
+          action={handleSubmit}
           className='flex w-full flex-1 flex-col justify-between'
         >
           <div className='items-center pt-[1rem]'>
@@ -118,7 +143,7 @@ const Page = () => {
             </div>
 
             <div className='flex justify-center'>
-              {showError && <ErrorMessage>{signupState.message}</ErrorMessage>}
+              {showError && <ErrorMessage>{showError}</ErrorMessage>}
             </div>
           </div>
 
