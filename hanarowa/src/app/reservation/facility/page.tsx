@@ -1,11 +1,41 @@
-import getMyFacility from '@/apis/facility/getMyFacility';
-import { Header, Layout, StatusTag, RoomReservationCard } from '@/components';
+'use client';
 
-const Page = async () => {
-  const { data: myfacilities } = await getMyFacility();
+import { getMyFacility } from '@/apis/facility';
+import { Header, Layout, StatusTag, RoomReservationCard } from '@/components';
+import { components } from '@/types/api';
+import { useEffect, useState } from 'react';
+
+type FacilityReservationResponse =
+  components['schemas']['ApiResponseListFacilityReservationResponseDTO'];
+
+const Page = () => {
+  const [myfacilities, setMyfacilities] =
+    useState<FacilityReservationResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await getMyFacility();
+        if (data) {
+          setMyfacilities(data);
+        }
+      } catch (error) {
+        console.error('Error fetching facilities:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) return <div>로딩중...</div>;
   if (!myfacilities) return <div>예약 내역이 없습니다.</div>;
+
   const reservations = myfacilities.result?.filter((f) => !f.isUsed) ?? [];
   const completes = myfacilities.result?.filter((f) => f.isUsed) ?? [];
+
   return (
     <Layout header={<Header title='내 예약 내역' />}>
       <div className='flex w-full flex-col gap-8 p-4'>

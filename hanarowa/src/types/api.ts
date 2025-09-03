@@ -955,8 +955,8 @@ export interface components {
             lessonRoomName?: string;
             reservedAt?: string;
             inProgress?: boolean;
-            reviewed?: boolean;
             notStarted?: boolean;
+            reviewed?: boolean;
         };
         MyOpenLessonListResponseDTO: {
             /** Format: int64 */

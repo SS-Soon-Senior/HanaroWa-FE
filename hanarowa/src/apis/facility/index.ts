@@ -1,11 +1,5 @@
-import getFacilities from './getFacilities';
-import { useGetFacilities } from './useGetFacilities';
+import getMyFacility from './getMyFacility';
 import useGetFacilityDetail from './useGetFacilityDetail';
 import usePostReserveFacility from './usePostReserveFacility';
 
-export {
-  usePostReserveFacility,
-  useGetFacilityDetail,
-  getFacilities,
-  useGetFacilities,
-};
+export { usePostReserveFacility, useGetFacilityDetail, getMyFacility };
