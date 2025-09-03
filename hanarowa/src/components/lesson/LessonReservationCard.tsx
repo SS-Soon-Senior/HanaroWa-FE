@@ -3,7 +3,7 @@
 import { IcBlackcalendar, IcLocation, IcUser } from '@/assets/svg';
 import { useDeleteLesson } from '@apis';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '../atoms';
 
 type LessonReservationCardProps = {
@@ -16,6 +16,7 @@ type LessonReservationCardProps = {
   isReviewed?: boolean;
   isInProgress?: boolean;
   isOpened?: boolean;
+  refetch: () => void;
 };
 
 const LessonReservationCard = ({
@@ -28,16 +29,29 @@ const LessonReservationCard = ({
   isReviewed = true,
   isInProgress,
   isOpened = true,
+  refetch,
 }: LessonReservationCardProps) => {
   const { mutate } = useDeleteLesson();
+  const [canceling, setCanceling] = useState(false);
+
   const cancelLesson = () => {
-    mutate({
-      params: {
-        path: {
-          lessonGisuId,
+    setCanceling(true);
+    mutate(
+      {
+        params: {
+          path: { lessonGisuId },
         },
       },
-    });
+      {
+        onSuccess: () => {
+          refetch();
+        },
+        onError: () => {
+          setCanceling(false);
+          refetch();
+        },
+      }
+    );
   };
   return (
     <div className='rounded-8 flex w-full flex-col bg-white'>
@@ -61,13 +75,13 @@ const LessonReservationCard = ({
           </div>
         </div>
 
-        {/* 임시로 강사 test일때로 해놨습니다 !! */}
         {!isOpened &&
           (isInProgress ? (
             <Button
               variant='lightgray'
               sizeType='reserve'
               onClick={cancelLesson}
+              disabled={canceling}
             >
               취소하기
             </Button>
