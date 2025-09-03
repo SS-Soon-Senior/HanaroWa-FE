@@ -1,5 +1,4 @@
-import { IcBlackcalendar, IcLocation } from '@/assets/svg';
-import { components } from '@/types/api';
+import { IcBlackcalendar, IcLocation, IcUsers } from '@/assets/svg';
 import React from 'react';
 import { Button } from '../atoms';
 
@@ -9,14 +8,17 @@ type RoomReservationCardProps = {
   placeName?: string | null; //위치
   reservedAt?: string | null; // 예약한시간
   isUsed?: boolean | null;
+  userName?: string | null;
+  onClick?: () => void; //취소 버튼 눌렀을 때의 액션
 };
 
 const RoomReservationCard = ({
-  facilityName,
   reservedAt,
   startedAt,
   placeName,
   isUsed,
+  userName,
+  onClick,
 }: RoomReservationCardProps) => {
   return (
     <div className='rounded-16 border-gray7eb flex w-full flex-col border bg-white'>
@@ -35,6 +37,14 @@ const RoomReservationCard = ({
 
               <p className='font-medium-20 text-gray353'>{placeName}</p>
             </div>
+
+            {userName && (
+              <div className='flex flex-row items-center gap-[1.2rem]'>
+                <IcUsers className='h-[2rem] w-[2rem]' />
+
+                <p className='font-medium-20 text-gray353'>{userName}</p>
+              </div>
+            )}
           </div>
         </div>
         {!isUsed ? (
@@ -43,6 +53,7 @@ const RoomReservationCard = ({
               variant='lightgray'
               sizeType='reserve'
               className='font-gray280 font-medium-18'
+              onClick={onClick}
             >
               취소하기
             </Button>
