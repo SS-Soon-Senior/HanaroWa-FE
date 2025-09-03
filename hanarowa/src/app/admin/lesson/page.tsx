@@ -1,9 +1,9 @@
 'use client';
 
 import { getLessons } from '@/apis/lesson';
+import AdminLessonCard from '@/components/lesson/AdminLessonCard';
 import { components } from '@/types/api';
 import { Header, Layout } from '@components';
-import AdminLessonCard from '@/components/lesson/AdminLessonCard';
 import { useEffect, useState } from 'react';
 
 export type AdminLesson = components['schemas']['AdminLessonListResponseDTO'];
@@ -21,7 +21,7 @@ const Page = () => {
     const fetchLessons = async () => {
       const { data } = await getLessons();
       const lessonData: AdminLesson[] =
-        (data as ApiListEnvelope<AdminLesson> | undefined)?.result ?? [];
+        (data as ApiListEnvelope<AdminLesson>)?.result ?? [];
       setLessons(lessonData);
     };
 

@@ -4,7 +4,7 @@ import { getAccessToken, setAccessToken, logout } from '@/utils/common/auth';
 import { Middleware } from 'openapi-fetch';
 import postRefreshToken from './auth/postRefreshToken';
 
-const UNPROTECTED_ROUTES = ['/auth/signin', '/auth/reissue', '/auth/signup'];
+const UNPROTECTED_ROUTES = ['/auth/login', '/auth/reissue', '/auth/signup'];
 
 const reissueToken = async (): Promise<string | null> => {
   try {
@@ -49,6 +49,18 @@ const authMiddleware: Middleware = {
   },
 
   async onResponse({ request, response, schemaPath }) {
+    // 권한 없을 때 (403 에러)
+    if (response.status === 403) {
+      if (typeof window !== 'undefined') {
+        if (schemaPath.startsWith('/admin')) {
+          //로그아웃시키면서 auth/login 페이지로 넘김
+          window.location.replace('/auth/login');
+          logout();
+        }
+      }
+      return response;
+    }
+
     if (
       response.status === 401 &&
       !UNPROTECTED_ROUTES.some((route) => schemaPath.startsWith(route))

@@ -1,9 +1,12 @@
 import { components } from '@/types/api';
-import { client } from '../client';
+import { client } from '../../client';
 
-type LessonDetailResponse = components['schemas']['ApiResponseLessonDetailResponseDTO'];
+type LessonDetailResponse =
+  components['schemas']['ApiResponseLessonDetailResponseDTO'];
 
-const getLessonDetail = async (lessonId: number): Promise<LessonDetailResponse> => {
+const getLessonDetail = async (
+  lessonId: number
+): Promise<LessonDetailResponse> => {
   const { data, error } = await client.GET('/admin/lesson/{lessonId}', {
     params: {
       path: { lessonId },
