@@ -1,58 +1,25 @@
 'use client';
 
+import { useGetFacilities } from '@/apis/facility';
 import { BranchFilter, FacilityCard, Header, Layout } from '@/components';
 
-// 더미 <<< 작업할 때 날려주세욥
-const facilities = [
-  {
-    imageUrl: '@/assets/svg/IcSignupFace.svg',
-    facilityName: '시네마룸',
-    description: '편안하게 영화를 볼 수 있는 공간',
-    height: 200,
-  },
-  {
-    imageUrl: '@/assets/svg/IcSignupFace.svg',
-    facilityName: '스터디룸',
-    description: '조용하게 공부할 수 있는 공간',
-    height: 200,
-  },
-  {
-    imageUrl: '@/assets/svg/IcSignupFace.svg',
-    facilityName: '피트니스룸',
-    description: '운동을 할 수 있는 공간',
-    height: 200,
-  },
-  {
-    imageUrl: '@/assets/svg/IcSignupFace.svg',
-    facilityName: '피트니스룸',
-    description: '운동을 할 수 있는 공간',
-    height: 200,
-  },
-  {
-    imageUrl: '@/assets/svg/IcSignupFace.svg',
-    facilityName: '피트니스룸',
-    description: '운동을 할 수 있는 공간',
-    height: 200,
-  },
-];
-
 const Page = () => {
+  const { facilities, branchName } = useGetFacilities();
+
   return (
     <Layout header={<Header title='시설 예약하기' />}>
       <div className='flex w-full flex-col gap-7 p-4'>
-        <BranchFilter branchName='춘천 컬쳐뱅크' onChangeBranch={() => {}} />
-        {facilities.map(
-          ({ imageUrl, facilityName, description, height }, index) => (
-            <FacilityCard
-              key={index}
-              imageUrl={imageUrl}
-              facilityName={facilityName}
-              description={description}
-              height={height}
-              onClick={() => console.log(`${facilityName} 클릭`)} // 여기 수정해야 합니다.
-            />
-          )
-        )}
+        <BranchFilter branchName={branchName} onChangeBranch={() => {}} />
+        {facilities.map((facility) => (
+          <FacilityCard
+            key={facility.facilityId}
+            imageUrl={facility.mainImage?.imageUrl ?? '/default.png'}
+            facilityName={facility.facilityName ?? ''}
+            description={facility.facilityDescription ?? ''}
+            height={200}
+            onClick={() => console.log(`${facility.facilityName} 클릭`)}
+          />
+        ))}
       </div>
     </Layout>
   );
