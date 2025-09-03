@@ -1,8 +1,13 @@
+'use client';
+
 import { IcBlackcalendar, IcLocation, IcUser } from '@/assets/svg';
-import React from 'react';
+import { useDeleteLesson } from '@apis';
+import Link from 'next/link';
+import React, { useState } from 'react';
 import { Button } from '../atoms';
 
 type LessonReservationCardProps = {
+  lessonGisuId: number;
   lessonName: string;
   reserveHanDate: string;
   reservationDate: string;
@@ -11,18 +16,43 @@ type LessonReservationCardProps = {
   isReviewed?: boolean;
   isInProgress?: boolean;
   isOpened?: boolean;
+  refetch: () => void;
 };
 
 const LessonReservationCard = ({
-  lessonName: lessonName,
+  lessonGisuId,
+  lessonName,
   reserveHanDate,
   reservationDate,
   location,
   instructor,
-  isReviewed = false,
+  isReviewed = true,
   isInProgress,
-  isOpened,
+  isOpened = true,
+  refetch,
 }: LessonReservationCardProps) => {
+  const { mutate } = useDeleteLesson();
+  const [canceling, setCanceling] = useState(false);
+
+  const cancelLesson = () => {
+    setCanceling(true);
+    mutate(
+      {
+        params: {
+          path: { lessonGisuId },
+        },
+      },
+      {
+        onSuccess: () => {
+          refetch();
+        },
+        onError: () => {
+          setCanceling(false);
+          refetch();
+        },
+      }
+    );
+  };
   return (
     <div className='rounded-8 flex w-full flex-col bg-white'>
       <div className='flex flex-col gap-[2rem] p-[2.4rem]'>
@@ -45,19 +75,23 @@ const LessonReservationCard = ({
           </div>
         </div>
 
-        {/* 임시로 강사 test일때로 해놨습니다 !! */}
         {!isOpened &&
           (isInProgress ? (
-            <Button variant='lightgray' sizeType='reserve'>
+            <Button
+              variant='lightgray'
+              sizeType='reserve'
+              onClick={cancelLesson}
+              disabled={canceling}
+            >
               취소하기
             </Button>
           ) : isReviewed ? (
-            <Button variant='disabled' sizeType='reserve' disabled>
+            <Button variant='disabled' sizeType='reserve'>
               리뷰작성완료
             </Button>
           ) : (
             <Button variant='green' sizeType='reserve'>
-              리뷰작성하기
+              <Link href='/review/create'>리뷰작성하기</Link>
             </Button>
           ))}
       </div>

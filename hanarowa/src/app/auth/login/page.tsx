@@ -1,6 +1,6 @@
 'use client';
 
-import postSignin from '@/apis/auth/postSignin';
+import { postSignin } from '@/apis/auth/postAuth';
 import { IcBookByeoldol } from '@/assets/svg';
 import { Header, Input, ErrorMessage, Button, Layout } from '@/components';
 import { setAccessToken } from '@/utils/common/auth';
@@ -36,13 +36,14 @@ const Page = () => {
 
       const accessToken = data?.result?.tokens?.accessToken;
       const branch = data?.result?.branch;
+      const url = data?.result?.url;
 
       if (accessToken) {
         setAccessToken(accessToken);
       }
 
       updateMyBranch({ ...branch });
-      router.push('/');
+      router.push(`${url}`);
     } catch (err) {
       console.error(err);
       setError('로그인 중 오류가 발생했습니다. 다시 시도해주세요.');

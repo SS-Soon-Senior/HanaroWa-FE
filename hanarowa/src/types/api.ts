@@ -4,23 +4,6 @@
  */
 
 export interface paths {
-    "/member/regist": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** 일반 회원가입 */
-        post: operations["regist"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/member/info": {
         parameters: {
             query?: never;
@@ -72,7 +55,11 @@ export interface paths {
          * @description 사용자가 특정 강좌 기수에 대한 수강을 신청합니다.
          */
         post: operations["applyForLesson"];
-        delete?: never;
+        /**
+         * 강의 예약 취소
+         * @description 강의 예약을 취소합니다.
+         */
+        delete: operations["deleteLessonReservation"];
         options?: never;
         head?: never;
         patch?: never;
@@ -118,6 +105,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/lesson/check/availability": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 시간대 사용 가능 여부 확인
+         * @description 강좌 개설 전 해당 시간대에 사용 가능한 강의실이 있는지 확인합니다.
+         */
+        post: operations["checkTimeAvailability"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/facility/reservation": {
         parameters: {
             query?: never;
@@ -136,6 +143,23 @@ export interface paths {
          * @description 시설을 예약합니다.
          */
         post: operations["reservateFacility"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/signup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 일반 회원가입 */
+        post: operations["signup"];
         delete?: never;
         options?: never;
         head?: never;
@@ -332,32 +356,15 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/lesson/reservation/offered": {
+    "/lesson/reservation": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** 개설 강좌 목록 보기 */
+        /** 내 예약 목록 가져오기 */
         get: operations["getAllOfferedLessons"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/lesson/reservation/applied": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** 신청 강좌 목록 보기 */
-        get: operations["getAllAppliedLessons"];
         put?: never;
         post?: never;
         delete?: never;
@@ -394,8 +401,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * 지점별 강좌 목록 가져오기
-         * @description 사용자가 지점별 강좌 목록 최신순으로 가져오기 조회합니다.
+         * 지점별 카테고리별 강좌 목록 가져오기
+         * @description 사용자가 지점별 카테고리별 강좌 목록 최신순으로 가져오기 조회합니다.
          */
         get: operations["getLessonListByBranchId"];
         put?: never;
@@ -406,7 +413,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/facility/{branchId}": {
+    "/facility": {
         parameters: {
             query?: never;
             header?: never;
@@ -414,8 +421,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * 시설 리스트 목록 API
-         * @description 시설 리스트 목록을 조회합니다.
+         * 내 지점 시설 목록 API
+         * @description 로그인한 멤버의 branchId로 시설 목록을 조회합니다.
          */
         get: operations["getFacilityByBranchId"];
         put?: never;
@@ -638,19 +645,6 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        MemberRegistRequestDTO: {
-            name?: string;
-            email: string;
-            password: string;
-            /** @enum {string} */
-            role?: "ADMIN" | "USERS";
-        };
-        ApiResponseString: {
-            isSuccess?: boolean;
-            code?: string;
-            message?: string;
-            result?: string;
-        };
         MemberInfoRequestDTO: {
             birth?: string;
             phoneNumber?: string;
@@ -660,6 +654,12 @@ export interface components {
             code?: string;
             message?: string;
             result?: unknown;
+        };
+        ApiResponseString: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: string;
         };
         ReviewRequestDTO: {
             /** Format: int32 */
@@ -692,12 +692,43 @@ export interface components {
             branchId: number;
             lessonGisus: components["schemas"]["CreateLessonGisuRequestDTO"][];
         };
+        TimeAvailabilityRequestDTO: {
+            /** Format: int64 */
+            branchId: number;
+            duration: string;
+        };
+        ApiResponseTimeAvailabilityResponseDTO: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: components["schemas"]["TimeAvailabilityResponseDTO"];
+        };
+        TimeAvailabilityResponseDTO: {
+            available?: boolean;
+            /** Format: int32 */
+            availableRoomsCount?: number;
+            timeSlots?: components["schemas"]["TimeSlotAvailability"][];
+        };
+        TimeSlotAvailability: {
+            /** Format: date-time */
+            startTime?: string;
+            /** Format: date-time */
+            endTime?: string;
+            available?: boolean;
+            /** Format: int32 */
+            availableRoomsCount?: number;
+        };
         FacilityReservationDTO: {
             /** Format: int64 */
             facilityId?: number;
             reservationDate?: string;
             startTime?: string;
             endTime?: string;
+        };
+        MemberRegistRequestDTO: {
+            name?: string;
+            email: string;
+            password: string;
         };
         LoginRequestDTO: {
             email: string;
@@ -841,6 +872,7 @@ export interface components {
             duration?: string;
             /** @enum {string} */
             lessonState?: "PENDING" | "APPROVED" | "REJECTED";
+            lessonRoom?: string;
             /** Format: int32 */
             currentEnrollment?: number;
             curriculums?: components["schemas"]["CurriculumResponseDTO"][];
@@ -903,24 +935,11 @@ export interface components {
             /** Format: int64 */
             lessonGisuId?: number;
         };
-        MyOpenLessonListResponseDTO: {
-            /** Format: int64 */
-            lessonId?: number;
-            /** Format: int64 */
-            lessonGisuId?: number;
-            /** @enum {string} */
-            lessonState?: "PENDING" | "APPROVED" | "REJECTED";
-            startedAt?: string;
-            lessonName?: string;
-            instructorName?: string;
-            lessonRoomName?: string;
-            openedAt?: string;
-        };
-        OfferedLessonListResponseDTO: {
-            offeredLessonList?: components["schemas"]["MyOpenLessonListResponseDTO"][];
-        };
-        AppliedLessonListResponseDTO: {
-            appliedLessonList?: components["schemas"]["LessonListResponseDTO"][];
+        ApiResponseMyReservationPageResponseDTO: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: components["schemas"]["MyReservationPageResponseDTO"];
         };
         LessonListResponseDTO: {
             /** Format: int64 */
@@ -935,6 +954,27 @@ export interface components {
             duration?: string;
             lessonRoomName?: string;
             reservedAt?: string;
+            inProgress?: boolean;
+            reviewed?: boolean;
+            notStarted?: boolean;
+        };
+        MyOpenLessonListResponseDTO: {
+            /** Format: int64 */
+            lessonId?: number;
+            /** Format: int64 */
+            lessonGisuId?: number;
+            /** @enum {string} */
+            lessonState?: "PENDING" | "APPROVED" | "REJECTED";
+            startedAt?: string;
+            lessonName?: string;
+            instructorName?: string;
+            lessonRoomName?: string;
+            openedAt?: string;
+            inProgress?: boolean;
+        };
+        MyReservationPageResponseDTO: {
+            myOpenLessonList?: components["schemas"]["MyOpenLessonListResponseDTO"][];
+            lessonList?: components["schemas"]["LessonListResponseDTO"][];
         };
         ApiResponseListLessonListSearchResponseDTO: {
             isSuccess?: boolean;
@@ -993,11 +1033,11 @@ export interface components {
             branchName?: string;
             lessons?: components["schemas"]["LessonInfoResponseDTO"][];
         };
-        ApiResponseListFacilityResponseDTO: {
+        ApiResponseFacilityListResponseDTO: {
             isSuccess?: boolean;
             code?: string;
             message?: string;
-            result?: components["schemas"]["FacilityResponseDTO"][];
+            result?: components["schemas"]["FacilityListResponseDTO"];
         };
         Branch: {
             /** Format: int64 */
@@ -1020,6 +1060,10 @@ export interface components {
             id?: number;
             facilityImage?: string;
             facility?: components["schemas"]["Facility"];
+        };
+        FacilityListResponseDTO: {
+            facilityName?: string;
+            facilities?: components["schemas"]["FacilityResponseDTO"][];
         };
         FacilityResponseDTO: {
             /** Format: int64 */
@@ -1169,30 +1213,6 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    regist: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["MemberRegistRequestDTO"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ApiResponseString"];
-                };
-            };
-        };
-    };
     info: {
         parameters: {
             query?: never;
@@ -1261,6 +1281,28 @@ export interface operations {
             };
         };
     };
+    deleteLessonReservation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lessonGisuId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseVoid"];
+                };
+            };
+        };
+    };
     createReview: {
         parameters: {
             query?: never;
@@ -1311,6 +1353,30 @@ export interface operations {
             };
         };
     };
+    checkTimeAvailability: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TimeAvailabilityRequestDTO"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseTimeAvailabilityResponseDTO"];
+                };
+            };
+        };
+    };
     getAllMyFacilityReservations: {
         parameters: {
             query?: never;
@@ -1351,6 +1417,30 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiResponseVoid"];
+                };
+            };
+        };
+    };
+    signup: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MemberRegistRequestDTO"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseString"];
                 };
             };
         };
@@ -1668,27 +1758,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["OfferedLessonListResponseDTO"];
-                };
-            };
-        };
-    };
-    getAllAppliedLessons: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["AppliedLessonListResponseDTO"];
+                    "*/*": components["schemas"]["ApiResponseMyReservationPageResponseDTO"];
                 };
             };
         };
@@ -1717,7 +1787,9 @@ export interface operations {
     };
     getLessonListByBranchId: {
         parameters: {
-            query?: never;
+            query?: {
+                categories?: string[];
+            };
             header?: never;
             path: {
                 branchId: number;
@@ -1741,9 +1813,7 @@ export interface operations {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                branchId: number;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
@@ -1754,7 +1824,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseListFacilityResponseDTO"];
+                    "*/*": components["schemas"]["ApiResponseFacilityListResponseDTO"];
                 };
             };
         };
