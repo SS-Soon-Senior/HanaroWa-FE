@@ -5,6 +5,7 @@ import updateLesson from './updateLesson';
 import updateLessonState from './updateLessonState';
 import useGetLessonDetail from './useGetLessonDetail';
 import usePostLesson from './usePostLesson';
+import { useCheckAvailability } from './useCheckAvailability';
 
 export {
   usePostLesson,

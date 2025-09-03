@@ -1,3 +1,4 @@
+import useAdminGetMemberlist from './admin/useAdminGet';
 import useGetMemberInfo from './useGetMemberInfo';
 import {
   useWithdrawMember,
@@ -12,4 +13,5 @@ export {
   useWithdrawMember,
   usePatchPassword,
   useModifyInfo,
+  useAdminGetMemberlist,
 };
