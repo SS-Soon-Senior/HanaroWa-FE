@@ -13,6 +13,7 @@ type RoomReservationCardProps = {
 };
 
 const RoomReservationCard = ({
+  facilityName,
   reservedAt,
   startedAt,
   placeName,
@@ -25,7 +26,7 @@ const RoomReservationCard = ({
       <div className='flex flex-col gap-[2rem] p-[2.4rem]'>
         <p className='font-medium-18 text-gray3af'>{reservedAt}</p>
         <div className='flex flex-col gap-[1.2rem]'>
-          <p className='font-bold-24 text-black'>{placeName}</p>
+          <p className='font-bold-24 text-black'>{facilityName}</p>
           <div className='flex flex-col gap-[0.8rem]'>
             <div className='flex flex-row items-center gap-[1.2rem]'>
               <IcBlackcalendar className='h-[2rem] w-[2rem]' />

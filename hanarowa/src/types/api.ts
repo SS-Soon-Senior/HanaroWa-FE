@@ -413,7 +413,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/facility/{branchId}": {
+    "/facility": {
         parameters: {
             query?: never;
             header?: never;
@@ -421,8 +421,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * 시설 리스트 목록 API
-         * @description 시설 리스트 목록을 조회합니다.
+         * 내 지점 시설 목록 API
+         * @description 로그인한 멤버의 branchId로 시설 목록을 조회합니다.
          */
         get: operations["getFacilityByBranchId"];
         put?: never;
@@ -974,9 +974,9 @@ export interface components {
             duration?: string;
             lessonRoomName?: string;
             reservedAt?: string;
-            notStarted?: boolean;
-            inProgress?: boolean;
             reviewed?: boolean;
+            inProgress?: boolean;
+            notStarted?: boolean;
         };
         MyOpenLessonListResponseDTO: {
             /** Format: int64 */
@@ -1053,11 +1053,11 @@ export interface components {
             branchName?: string;
             lessons?: components["schemas"]["LessonInfoResponseDTO"][];
         };
-        ApiResponseListFacilityResponseDTO: {
+        ApiResponseFacilityListResponseDTO: {
             isSuccess?: boolean;
             code?: string;
             message?: string;
-            result?: components["schemas"]["FacilityResponseDTO"][];
+            result?: components["schemas"]["FacilityListResponseDTO"];
         };
         Branch: {
             /** Format: int64 */
@@ -1080,6 +1080,10 @@ export interface components {
             id?: number;
             facilityImage?: string;
             facility?: components["schemas"]["Facility"];
+        };
+        FacilityListResponseDTO: {
+            facilityName?: string;
+            facilities?: components["schemas"]["FacilityResponseDTO"][];
         };
         FacilityResponseDTO: {
             /** Format: int64 */
@@ -1206,13 +1210,10 @@ export interface components {
             reservationId?: number;
             facilityName?: string;
             memberName?: string;
-            memberEmail?: string;
             branchName?: string;
-            locationName?: string;
-            /** Format: date-time */
             startedAt?: string;
-            /** Format: date-time */
-            endedAt?: string;
+            reservedAt?: string;
+            isUsed?: boolean;
         };
         ApiResponseListAdminFacilityResponseDTO: {
             isSuccess?: boolean;
@@ -1829,9 +1830,7 @@ export interface operations {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                branchId: number;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
@@ -1842,7 +1841,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseListFacilityResponseDTO"];
+                    "*/*": components["schemas"]["ApiResponseFacilityListResponseDTO"];
                 };
             };
         };
