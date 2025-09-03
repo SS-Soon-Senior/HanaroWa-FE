@@ -1,5 +1,6 @@
 'use client';
 
+import { usePostLessonReview } from '@/apis/lesson';
 import {
   Button,
   ErrorMessage,
@@ -8,17 +9,42 @@ import {
   Textarea,
   StarRating,
 } from '@/components';
+import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 const Page = () => {
+  const router = useRouter();
+  const { lessonId } = useParams<{ lessonId: string }>();
   const [starCount, setStarCount] = useState(0);
   const [reviewContent, setReviewContent] = useState('');
+  const { mutate, isPending } = usePostLessonReview();
 
   const isFormValid = starCount > 0 && reviewContent.trim() !== '';
   const DivStyle = 'flex flex-col gap-[1.2rem]';
 
-  // form 로직 필요
-
+  const onClickSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (!lessonId) return;
+    mutate(
+      {
+        params: {
+          path: { lessonGisuId: Number(lessonId) },
+        },
+        body: {
+          rating: starCount,
+          reviewTxt: reviewContent,
+        },
+      },
+      {
+        onSuccess: () => {
+          router.push(`/complete`);
+        },
+        onError: () => {
+          alert('리뷰 작성에 실패했습니다. 다시 시도해주세요.');
+        },
+      }
+    );
+  };
   return (
     <Layout header={<Header title='리뷰 작성하기' />}>
       <form className='flex w-full flex-1 flex-col'>
@@ -48,13 +74,14 @@ const Page = () => {
             </ErrorMessage>
           )}
           <Button
-            variant={isFormValid ? 'green' : 'disabled'}
+            variant={isFormValid && !isPending ? 'green' : 'disabled'}
             sizeType='lg'
             className='mt-4'
             type='submit'
-            disabled={!isFormValid}
+            disabled={!isFormValid || isPending}
+            onClick={onClickSubmit}
           >
-            작성완료
+            {isPending ? '작성 중' : '작성완료'}
           </Button>
         </div>
       </form>
