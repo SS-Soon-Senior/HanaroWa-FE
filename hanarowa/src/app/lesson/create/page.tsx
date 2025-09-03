@@ -81,9 +81,65 @@ const Page = () => {
       formData.days &&
       myBranch.branchId
     ) {
+      // 먼저 시간 없이 한번 호출해서 timeSlots 배열 확인
+      const durationWithoutTime = `${formData.startDate} ~ ${formData.endDate} ${formData.days}`;
+      
+      try {
+        const result = await new Promise<{
+          isSuccess: boolean;
+          code: string;
+          message: string;
+          result: {
+            available: boolean;
+            availableRoomsCount: number;
+            timeSlots: Array<{
+              startTime: string;
+              endTime: string;
+              available: boolean;
+              availableRoomsCount: number;
+            }>;
+          };
+        }>((resolve, reject) => {
+          checkAvailability(
+            {
+              branchId: myBranch.branchId!,
+              duration: durationWithoutTime,
+            },
+            {
+              onSuccess: resolve,
+              onError: reject,
+            }
+          );
+        });
+        
+        // timeSlots 배열이 있고 여러 시간대 정보를 포함하고 있으면 한번 호출로 처리
+        if (result?.result?.timeSlots && result.result.timeSlots.length > 1) {
+          const unavailableSlots = result.result.timeSlots
+            .filter((slot) => !slot.available || slot.availableRoomsCount === 0)
+            .map((slot) => {
+              const startTime = new Date(slot.startTime).toLocaleTimeString('ko-KR', { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                hour12: false 
+              });
+              const endTime = new Date(slot.endTime).toLocaleTimeString('ko-KR', { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                hour12: false 
+              });
+              return `${startTime}-${endTime}`;
+            });
+          
+          setDisabledTimeSlots(unavailableSlots);
+          return;
+        }
+        
+      } catch (error) {
+        // Single call 실패시 fallback
+      }
       const unavailableSlots: string[] = [];
 
-      // 모든 시간대를 순차적으로 체크
+      // Fallback: 기존 방식으로 모든 시간대를 순차적으로 체크
       for (const timeOption of timeOptions) {
         const duration = `${formData.startDate} ~ ${formData.endDate} ${formData.days} ${timeOption.value}`;
 
