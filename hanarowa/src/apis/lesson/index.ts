@@ -1,3 +1,4 @@
+import getLessonMember from './admin/useLessonMember';
 import getLessonDetail from './getLessonDetail';
 import getLessons from './getLessons';
 import getManageLessons from './getManageLessons';
@@ -20,4 +21,5 @@ export {
   useGetMyLesson,
   useCheckAvailability,
   useGetLessonDetail,
+  getLessonMember,
 };
