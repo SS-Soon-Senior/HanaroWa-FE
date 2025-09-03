@@ -4,5 +4,6 @@ import getManageLessons from './getManageLessons';
 import updateLessonState from './updateLessonState';
 import updateLesson from './updateLesson';
 import usePostLesson from './usePostLesson';
+import { useCheckAvailability } from './useCheckAvailability';
 
-export { usePostLesson, getLessons, getLessonDetail, getManageLessons, updateLessonState, updateLesson };
+export { usePostLesson, getLessons, getLessonDetail, getManageLessons, updateLessonState, updateLesson, useCheckAvailability };
