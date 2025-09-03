@@ -394,8 +394,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * 지점별 강좌 목록 가져오기
-         * @description 사용자가 지점별 강좌 목록 최신순으로 가져오기 조회합니다.
+         * 지점별 카테고리별 강좌 목록 가져오기
+         * @description 사용자가 지점별 카테고리별 강좌 목록 최신순으로 가져오기 조회합니다.
          */
         get: operations["getLessonListByBranchId"];
         put?: never;
@@ -1715,7 +1715,9 @@ export interface operations {
     };
     getLessonListByBranchId: {
         parameters: {
-            query?: never;
+            query?: {
+                categories?: string[];
+            };
             header?: never;
             path: {
                 branchId: number;
