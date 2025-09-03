@@ -16,7 +16,7 @@ const tabs = [
 ];
 
 const Page = () => {
-  const { data } = useGetMyLesson();
+  const { data, refetch } = useGetMyLesson();
   const [activeTab, setActiveTab] = useState('applied');
 
   const appliedLessons = data?.result?.lessonList || [];
@@ -38,6 +38,7 @@ const Page = () => {
               {reservations.map((cls, idx) => (
                 <LessonReservationCard
                   key={`reservation-${idx}`}
+                  refetch={refetch}
                   lessonGisuId={cls.lessonGisuId ?? 0}
                   lessonName={cls.lessonName ?? ''}
                   reserveHanDate={cls.startedAt ?? ''}
@@ -62,6 +63,7 @@ const Page = () => {
               {completes.map((cls, idx) => (
                 <LessonReservationCard
                   key={`complete-${idx}`}
+                  refetch={refetch}
                   lessonGisuId={cls.lessonGisuId ?? 0}
                   lessonName={cls.lessonName ?? ''}
                   reserveHanDate={cls.startedAt ?? ''}
@@ -89,6 +91,7 @@ const Page = () => {
                 .map((cls, idx) => (
                   <LessonReservationCard
                     key={`teaching-${idx}`}
+                    refetch={refetch}
                     lessonGisuId={cls.lessonGisuId ?? 0}
                     lessonName={cls.lessonName ?? ''}
                     reserveHanDate={cls.openedAt ?? ''}
@@ -113,6 +116,7 @@ const Page = () => {
                 .map((cls, idx) => (
                   <LessonReservationCard
                     key={`complete-${idx}`}
+                    refetch={refetch}
                     lessonGisuId={cls.lessonGisuId ?? 0}
                     lessonName={cls.lessonName ?? ''}
                     reserveHanDate={cls.openedAt ?? ''}

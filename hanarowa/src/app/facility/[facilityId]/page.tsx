@@ -43,6 +43,7 @@ const Page = () => {
     formatDate(tomorrow)
   );
   const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
+  const [clicked, setClicked] = useState(false);
 
   if (isLoading) {
     return (
@@ -130,6 +131,9 @@ const Page = () => {
       alert('날짜와 시간을 모두 선택해주세요.');
       return;
     }
+    if (clicked) return;
+
+    setClicked(true);
     mutate(
       {
         body: {
@@ -181,11 +185,12 @@ const Page = () => {
       />
 
       <Button
-        variant={duration === 0 ? 'disabled' : 'green'}
+        variant={clicked || duration === 0 ? 'disabled' : 'green'}
         sizeType='lg'
         onClick={handleSubmit}
+        disabled={clicked || duration === 0}
       >
-        예약하기
+        {clicked ? '예약 중...' : '예약하기'}
       </Button>
     </Layout>
   );
