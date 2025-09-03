@@ -83,7 +83,7 @@ const Page = () => {
     ) {
       // 먼저 시간 없이 한번 호출해서 timeSlots 배열 확인
       const durationWithoutTime = `${formData.startDate} ~ ${formData.endDate} ${formData.days}`;
-      
+
       try {
         const result = await new Promise<{
           isSuccess: boolean;
@@ -111,29 +111,34 @@ const Page = () => {
             }
           );
         });
-        
+
         // timeSlots 배열이 있고 여러 시간대 정보를 포함하고 있으면 한번 호출로 처리
         if (result?.result?.timeSlots && result.result.timeSlots.length > 1) {
           const unavailableSlots = result.result.timeSlots
             .filter((slot) => !slot.available || slot.availableRoomsCount === 0)
             .map((slot) => {
-              const startTime = new Date(slot.startTime).toLocaleTimeString('ko-KR', { 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                hour12: false 
-              });
-              const endTime = new Date(slot.endTime).toLocaleTimeString('ko-KR', { 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                hour12: false 
-              });
+              const startTime = new Date(slot.startTime).toLocaleTimeString(
+                'ko-KR',
+                {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: false,
+                }
+              );
+              const endTime = new Date(slot.endTime).toLocaleTimeString(
+                'ko-KR',
+                {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: false,
+                }
+              );
               return `${startTime}-${endTime}`;
             });
-          
+
           setDisabledTimeSlots(unavailableSlots);
           return;
         }
-        
       } catch (error) {
         // Single call 실패시 fallback
       }
