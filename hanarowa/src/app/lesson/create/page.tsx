@@ -72,8 +72,6 @@ const Page = () => {
 
   const checkTimeAvailability = async () => {
     if (formData.startDate && formData.endDate && formData.days && myBranch.branchId) {
-      console.log('🚀 Checking all time slots availability...');
-      
       const unavailableSlots: string[] = [];
       
       // 모든 시간대를 순차적으로 체크
@@ -100,17 +98,11 @@ const Page = () => {
             });
           });
           
-          console.log(`🔍 ${timeOption.value}:`, result);
-          
           // 사용 불가능한 시간대인지 확인
           if (!result?.available || result?.availableRoomsCount === 0) {
             unavailableSlots.push(timeOption.value);
-            console.log(`❌ ${timeOption.value} - Unavailable (available: ${result?.available}, rooms: ${result?.availableRoomsCount})`);
-          } else {
-            console.log(`✅ ${timeOption.value} - Available (available: ${result?.available}, rooms: ${result?.availableRoomsCount})`);
           }
         } catch (error) {
-          console.error(`Failed to check ${timeOption.value}:`, error);
           // 에러가 발생한 시간대는 사용 불가로 처리
           unavailableSlots.push(timeOption.value);
         }
@@ -119,7 +111,6 @@ const Page = () => {
         await new Promise(resolve => setTimeout(resolve, 100));
       }
       
-      console.log('🔍 Final unavailable time slots:', unavailableSlots);
       setDisabledTimeSlots(unavailableSlots);
     }
   };
