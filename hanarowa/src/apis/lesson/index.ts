@@ -4,7 +4,8 @@ import getManageLessons from './admin/getManageLessons';
 import updateLesson from './admin/updateLesson';
 import updateLessonState from './admin/updateLessonState';
 import getLessonMember from './admin/useLessonMember';
-import { useCheckAvailability } from './useCheckAvailability';
+import useCheckAvailability from './useCheckAvailability';
+import useGetLessonDetail from './useGetLessonDetail';
 import usePostLesson from './usePostLesson';
 
 export {
@@ -16,4 +17,5 @@ export {
   updateLessonState,
   updateLesson,
   useCheckAvailability,
+  useGetLessonDetail,
 };
