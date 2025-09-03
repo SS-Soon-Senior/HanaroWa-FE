@@ -17,7 +17,6 @@ const tabs = [
 
 const Page = () => {
   const { data } = useGetMyLesson();
-
   const [activeTab, setActiveTab] = useState('applied');
 
   const appliedLessons = data?.result?.lessonList || [];
