@@ -261,7 +261,7 @@ const Page = () => {
     const i = 0;
     const capacity = parseInt(formData.expectedParticipants || '0', 10) || 20;
     const lessonFee = parseInt(formData.fee || '0', 10) || 0;
-    const duration = `${formData.startDate} ~ ${formData.endDate} ${formData.days} ${formData.time}`;
+    const duration = `${formData.startDate}~${formData.endDate} ${formData.days} ${formData.time}`;
     const lessonRoomId = 1;
 
     fd.append(`lessonGisus[${i}].capacity`, String(capacity));

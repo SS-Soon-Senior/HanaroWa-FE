@@ -55,7 +55,11 @@ export interface paths {
          * @description 사용자가 특정 강좌 기수에 대한 수강을 신청합니다.
          */
         post: operations["applyForLesson"];
-        delete?: never;
+        /**
+         * 강의 예약 취소
+         * @description 강의 예약을 취소합니다.
+         */
+        delete: operations["deleteLessonReservation"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1269,6 +1273,28 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiResponseString"];
+                };
+            };
+        };
+    };
+    deleteLessonReservation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lessonGisuId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseVoid"];
                 };
             };
         };
