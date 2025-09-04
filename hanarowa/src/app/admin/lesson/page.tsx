@@ -1,7 +1,6 @@
-import AdminLessonCard from '@/components/lesson/AdminLessonCard';
 import { components } from '@/types/api';
 import { getLessons } from '@apis';
-import { Header, Layout } from '@components';
+import { Header, Layout, AdminLessonCard } from '@components';
 import { use } from 'react';
 
 export type AdminLesson = components['schemas']['AdminLessonListResponseDTO'];

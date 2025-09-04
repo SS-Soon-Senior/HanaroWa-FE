@@ -1,7 +1,6 @@
 'use client';
 
-import { Header, Layout } from '@/components';
-import AdminManageCard from '@/components/lesson/AdminManageCard';
+import { Header, Layout, AdminManageCard } from '@/components';
 import { components } from '@/types/api';
 import { getManageLessons, updateLessonState } from '@apis';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';

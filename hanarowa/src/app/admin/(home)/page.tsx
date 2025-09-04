@@ -51,7 +51,7 @@ const Page = () => {
           </h1>
         </div>
         <MenuSection items={firstMenu} />
-        <MenuSection items={secondMenu} />
+        <MenuSection items={secondMenu} className='mt-[-1rem]' />
       </div>
     </Layout>
   );

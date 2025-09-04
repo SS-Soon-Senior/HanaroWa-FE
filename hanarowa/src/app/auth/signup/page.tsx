@@ -1,6 +1,6 @@
 'use client';
 
-import { postSignup } from '@/apis/auth/postAuth';
+import { postSignup } from '@/apis';
 import { IcCloseeye, IcOpeneye, IcSignupFace } from '@/assets/svg';
 import { Header, Input, ErrorMessage, Button, Layout } from '@/components';
 import { useRouter } from 'next/navigation';

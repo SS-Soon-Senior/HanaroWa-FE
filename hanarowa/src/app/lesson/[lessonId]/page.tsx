@@ -28,7 +28,6 @@ const Page = ({ params }: Props) => {
   const { lessonId } = use(params);
   const { data } = use(getLessonDetail(Number(lessonId)));
   const lessonData = data?.result;
-
   const startDate = formatStartDate(
     lessonData?.lessonGisus?.[0].duration ?? ''
   ); // "2025년 1월 1일"
@@ -77,6 +76,7 @@ const Page = ({ params }: Props) => {
           }
           maxApplicants={lessonData?.lessonGisus?.[0].capacity ?? 0}
           price={lessonData?.lessonGisus?.[0].lessonFee ?? 0}
+          lessonGisuId={lessonData?.lessonGisus?.[0].id ?? 0}
         />
         <Devider />
         <InstructorInfo

@@ -2,8 +2,8 @@
 
 import { IcGraysearch } from '@/assets/svg';
 import { Header, InputUnderline, Layout, LessonCard } from '@/components';
-import { useDebounce } from '@/hooks/useDebounce';
 import { useGetSearchLessonList } from '@apis';
+import { useDebounce } from '@hooks';
 import { useState } from 'react';
 
 const Page = () => {
