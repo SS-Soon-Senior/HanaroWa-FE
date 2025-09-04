@@ -6,9 +6,10 @@ import {
   IcBell,
   IcBookByeoldol,
 } from '@/assets/svg';
+import type { MenuItem } from '@/components/home/MenuSection';
 import { Layout, MenuSection } from '@components';
 
-const firstMenu = [
+const firstMenu: MenuItem[] = [
   {
     icon: <IcSofa />,
     title: '시설 예약',
@@ -26,7 +27,7 @@ const firstMenu = [
   },
 ];
 
-const secondMenu = [
+const secondMenu: MenuItem[] = [
   {
     icon: <IcBook />,
     title: '강좌 목록',
@@ -50,7 +51,7 @@ const Page = () => {
           </h1>
         </div>
         <MenuSection items={firstMenu} />
-        <MenuSection items={secondMenu} className='mt-[-1rem]' />
+        <MenuSection items={secondMenu} />
       </div>
     </Layout>
   );
