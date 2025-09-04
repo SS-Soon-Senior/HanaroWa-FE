@@ -1,10 +1,9 @@
-'use client';
-
 import { Header, Layout, MemberCard } from '@/components';
 import { useAdminGetMemberlist } from '@apis';
+import { use } from 'react';
 
 const Page = () => {
-  const { data } = useAdminGetMemberlist();
+  const { data } = use(useAdminGetMemberlist());
 
   const memberlist = data?.result;
 
