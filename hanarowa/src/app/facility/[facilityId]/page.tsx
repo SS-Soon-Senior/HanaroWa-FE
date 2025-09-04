@@ -1,6 +1,6 @@
 'use client';
 
-import { useGetFacilityDetail, usePostReserveFacility } from '@/apis/facility';
+import { useGetFacilityDetail, usePostReserveFacility } from '@/apis';
 import {
   Layout,
   Header,
@@ -158,7 +158,9 @@ const Page = () => {
   return (
     <Layout header={<Header showBackButton={true} title='예약하기' />}>
       <FacilityImageCarousel
-        images={facilityImages.map((img) => img.imgUrl || '')}
+        images={facilityImages.map((img) =>
+          img.imgUrl && img.imgUrl.trim() !== '' ? img.imgUrl : '/default.png'
+        )}
       />
 
       <FacilityInfo roomname={facilityName} roomtext={facilityDescription} />

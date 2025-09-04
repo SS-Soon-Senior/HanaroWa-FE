@@ -1,5 +1,5 @@
 import { IcCheck } from '@/assets/svg';
-import { Button, Layout } from '@/components/atoms';
+import { Button, Layout } from '@/components';
 import Link from 'next/link';
 
 const Page = () => {

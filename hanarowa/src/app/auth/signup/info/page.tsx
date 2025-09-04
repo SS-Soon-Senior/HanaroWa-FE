@@ -1,6 +1,5 @@
 'use client';
 
-import usePostMemberInfo from '@/apis/member/usePostMemberInfo';
 import { IcSignupFace } from '@/assets/svg';
 import {
   Layout,
@@ -15,6 +14,7 @@ import {
   formatDateToISO,
   formatPhone,
 } from '@/utils/formatter';
+import { usePostMemberInfo } from '@apis';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
 

@@ -1,9 +1,8 @@
 'use client';
 
-import getLessonDetail from '@/apis/lesson/admin/getLessonDetail';
 import { components } from '@/types/api';
 import { Lesson, LessonFormData } from '@/types/lesson';
-import { updateLesson } from '@apis';
+import { updateLesson, getLessonDetail } from '@apis';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 type LessonDetailResponseDTO = components['schemas']['LessonDetailResponseDTO'];

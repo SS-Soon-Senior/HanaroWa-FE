@@ -1,7 +1,10 @@
 import { client } from '@apis';
 
-const getFacilities = () => {
-  return client.GET('/facility', {
+const getFacilities = (branchId: number) => {
+  return client.GET('/facility/branch/{branchId}', {
+    params: {
+      path: { branchId },
+    },
     credentials: 'include',
   });
 };

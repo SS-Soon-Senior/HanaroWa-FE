@@ -1,7 +1,7 @@
 'use client';
 
-import { useLessonEdit } from '@/hooks/useLessonEdit';
-import React, { createContext, useContext } from 'react';
+import { useLessonEdit } from '@/hooks';
+import { createContext, ReactNode, useContext } from 'react';
 
 type Ctx = ReturnType<typeof useLessonEdit>;
 const LessonEditContext = createContext<Ctx | null>(null);
@@ -11,7 +11,7 @@ export function LessonEditProvider({
   children,
 }: {
   id: string | undefined;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   const value = useLessonEdit(id);
   return (

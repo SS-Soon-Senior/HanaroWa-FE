@@ -1,7 +1,10 @@
-import { TanstackQueryClient } from '@apis';
+'use server';
 
-const useAdminGetMemberlist = () => {
-  return TanstackQueryClient.useQuery('get', '/admin/member');
+import { createServerClient } from '@/apis/serverClient';
+
+const useAdminGetMemberlist = async () => {
+  const client = await createServerClient();
+  return client.GET(`/admin/member`);
 };
 
 export default useAdminGetMemberlist;
