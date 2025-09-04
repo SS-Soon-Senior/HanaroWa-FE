@@ -56,7 +56,7 @@ const Page = () => {
       },
       {
         onSuccess: () => {
-          router.push('/complete');
+          router.push('/branch');
         },
         onError: (error) => {
           console.error(error);
