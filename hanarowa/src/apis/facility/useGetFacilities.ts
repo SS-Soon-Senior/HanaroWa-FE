@@ -22,15 +22,18 @@ interface FacilityListResponse {
   };
 }
 
-export const useGetFacilities = () => {
+export const useGetFacilities = (branchId?: number) => {
   const [facilities, setFacilities] = useState<Facility[]>([]);
   const [branchName, setBranchName] = useState<string>('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!branchId) return;
+
     const fetchFacilities = async () => {
+      setLoading(true);
       try {
-        const res = await getFacilities();
+        const res = await getFacilities(branchId);
         const data = res.data as unknown as FacilityListResponse;
 
         if (data?.isSuccess) {
@@ -47,7 +50,7 @@ export const useGetFacilities = () => {
     };
 
     fetchFacilities();
-  }, []);
+  }, [branchId]);
 
   return { facilities, branchName, loading };
 };
