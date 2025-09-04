@@ -1,5 +1,6 @@
 'use client';
 
+import useReservationCountWS from '@/apis/lesson/useReservationCountWs';
 import {
   InstructorInfo,
   LessonCurriculum,
@@ -25,7 +26,7 @@ const Page = () => {
   const { data } = useGetLessonDetail(Number(lessonId) ?? 0);
   console.log(data);
   const lessonData = data?.result;
-
+  const count = useReservationCountWS(lessonData?.lessonGisus?.[0].id ?? 0);
   const startDate = formatStartDate(
     lessonData?.lessonGisus?.[0].duration ?? ''
   ); // "2025년 1월 1일"
@@ -38,6 +39,9 @@ const Page = () => {
 
   return (
     <Layout header={<Header title='강좌 상세' showBackButton />}>
+      <div className='text-sm text-gray-600'>
+        현재 예약 {count ? `${count.reserved} / ${count.capacity}` : '…'}
+      </div>
       <div className='relative -mx-[2rem] h-[28rem] w-[calc(100%+4rem)]'>
         <Image
           src={lessonData?.lessonImg ?? '/images/lesson/sample-lesson.png'}
