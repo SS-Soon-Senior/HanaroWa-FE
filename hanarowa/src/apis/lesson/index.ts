@@ -1,12 +1,13 @@
-import getLessonDetail from './admin/getLessonDetail';
 import getLessons from './admin/getLessons';
 import getManageLessons from './admin/getManageLessons';
 import updateLesson from './admin/updateLesson';
 import updateLessonState from './admin/updateLessonState';
 import getLessonMember from './admin/useLessonMember';
+import getLessonDetailInfo from './getLessonDetailInfo';
+import usePostLessonApply from './postLessonApply';
+import postLessonApply from './postLessonApply';
 import useCheckAvailability from './useCheckAvailability';
 import useDeleteLesson from './useDeleteLesson';
-import useGetLessonDetail from './useGetLessonDetail';
 import useGetMyLesson from './useGetMyLesson';
 import useGetSearchLessonList from './useGetSearchLesson';
 import usePostLesson from './usePostLesson';
@@ -17,13 +18,14 @@ export {
   usePostLessonReview,
   usePostLesson,
   getLessons,
-  getLessonDetail,
+  getLessonDetailInfo,
   getManageLessons,
   updateLessonState,
   updateLesson,
   useDeleteLesson,
   useGetMyLesson,
   useCheckAvailability,
-  useGetLessonDetail,
   getLessonMember,
+  usePostLessonApply,
+  postLessonApply,
 };

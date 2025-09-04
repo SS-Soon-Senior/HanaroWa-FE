@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 
 import { useDeleteFacilityTime, useFacilitylist } from '@/apis/facility';
 import {
@@ -105,4 +105,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+// export default Page;
