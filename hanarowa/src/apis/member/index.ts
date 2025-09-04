@@ -1,4 +1,5 @@
 import useAdminGetMemberlist from './admin/useAdminGet';
+import useGetMemberBranch from './useGetMemberBranch';
 import useGetMemberInfo from './useGetMemberInfo';
 import {
   useWithdrawMember,
@@ -8,6 +9,7 @@ import {
 import usePostMemberInfo from './usePostMemberInfo';
 
 export {
+  useGetMemberBranch,
   useGetMemberInfo,
   usePostMemberInfo,
   useWithdrawMember,

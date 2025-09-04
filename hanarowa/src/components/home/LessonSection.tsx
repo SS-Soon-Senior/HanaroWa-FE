@@ -1,13 +1,14 @@
 'use client';
 
 import useGetFilterLessonList from '@/apis/lesson/useGetFilterLessonList';
-import { useBranch } from '@hooks';
+import { useGetMemberBranch } from '@apis';
 import Link from 'next/link';
 import { LessonCard } from '../lesson';
 
 const LessonSection = () => {
-  const { myBranch } = useBranch();
-  const response = useGetFilterLessonList(myBranch.branchId!);
+  const myBranchResponse = useGetMemberBranch();
+  const myBranch = myBranchResponse.data?.result;
+  const response = useGetFilterLessonList(myBranch?.branchId || 1);
   if (!response?.isSuccess) {
     return null;
   }
