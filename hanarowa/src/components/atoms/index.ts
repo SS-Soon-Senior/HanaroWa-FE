@@ -11,4 +11,11 @@ export * from './inputs';
 export * from './modals';
 export * from './tags';
 
-export { BottomNavigation, DatePicker, Layout, ErrorMessage, Devider, MemberCard };
+export {
+  BottomNavigation,
+  DatePicker,
+  Layout,
+  ErrorMessage,
+  Devider,
+  MemberCard,
+};

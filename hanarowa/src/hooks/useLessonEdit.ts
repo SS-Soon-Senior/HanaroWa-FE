@@ -1,16 +1,14 @@
 'use client';
 
+import getLessonDetail from '@/apis/lesson/admin/getLessonDetail';
 import { components } from '@/types/api';
 import { Lesson, LessonFormData } from '@/types/lesson';
-import { getLessonDetail, updateLesson } from '@apis';
+import { updateLesson } from '@apis';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 type LessonDetailResponseDTO = components['schemas']['LessonDetailResponseDTO'];
-type LessonGisuResponseDTO = components['schemas']['LessonGisuResponseDTO'];
 type UpdateLessonDetailRequestDTO =
   components['schemas']['UpdateLessonDetailRequestDTO'];
-type UpdateLessonGisuDTO = components['schemas']['UpdateLessonGisuDTO'];
-type UpdateCurriculumDTO = components['schemas']['UpdateCurriculumDTO'];
 
 // API 카테고리를 한글 라벨로 매핑
 const categoryMapping: Record<string, string> = {
@@ -101,30 +99,6 @@ function convertToLesson(dto: LessonDetailResponseDTO): Lesson | null {
           ? '반려'
           : '대기중',
   };
-}
-
-// 두 날짜 사이의 기간을 계산하는 함수
-function calculateDuration(startDate: string, endDate: string): string {
-  if (!startDate || !endDate) return '';
-
-  const start = new Date(startDate);
-  const end = new Date(endDate);
-  const diffTime = Math.abs(end.getTime() - start.getTime());
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // 시작일도 포함
-
-  if (diffDays < 7) {
-    return `${diffDays}일`;
-  } else if (diffDays < 30) {
-    const weeks = Math.floor(diffDays / 7);
-    const remainingDays = diffDays % 7;
-    return remainingDays > 0 ? `${weeks}주 ${remainingDays}일` : `${weeks}주`;
-  } else {
-    const months = Math.floor(diffDays / 30);
-    const remainingDays = diffDays % 30;
-    return remainingDays > 0
-      ? `${months}개월 ${remainingDays}일`
-      : `${months}개월`;
-  }
 }
 
 export function useLessonEdit(id: string | undefined) {
