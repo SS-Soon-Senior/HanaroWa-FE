@@ -1,8 +1,7 @@
 'use client';
 
-import { useBranch } from '@/hooks';
 import { components } from '@/types/api';
-import { on } from 'events';
+import { usePostBranch, useGetBranch } from '@apis';
 import { useEffect } from 'react';
 import BranchButton from '../buttons/BranchButton';
 
@@ -19,7 +18,9 @@ const BranchSelectModal = ({
   onClose,
   onSelect,
 }: BranchSelectModalProps) => {
-  const { updateMyBranch, brancheSet } = useBranch();
+  const response = useGetBranch();
+  const brancheSet = response.data?.result || [];
+  const { mutate: updateMyBranch } = usePostBranch();
 
   useEffect(() => {
     if (isOpen) {
@@ -38,7 +39,13 @@ const BranchSelectModal = ({
       onSelect(branch);
       return;
     }
-    updateMyBranch(branch);
+    updateMyBranch({
+      params: {
+        path: {
+          branchId: branch.branchId!,
+        },
+      },
+    });
     onClose();
   };
 

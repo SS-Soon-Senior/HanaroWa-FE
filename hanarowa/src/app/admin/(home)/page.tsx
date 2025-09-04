@@ -1,5 +1,6 @@
 'use client';
 
+import useGetMemberBranch from '@/apis/member/useGetMemberBranch';
 import {
   IcSofa,
   IcAdminUsers,
@@ -9,8 +10,8 @@ import {
   IcBookByeoldol,
 } from '@/assets/svg';
 import { getAccessToken, logout } from '@/utils/common/auth';
+import { useGetBranch } from '@apis';
 import { Layout, BranchSelectHeader, MenuSection } from '@components';
-import { useBranch } from '@hooks';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -62,7 +63,8 @@ const secondMenu = [
 const Page = () => {
   const router = useRouter();
   const [ok, setOk] = useState(false);
-  const { myBranch } = useBranch();
+  const response = useGetBranch();
+  const brancheSet = response.data?.result || [];
 
   useEffect(() => {
     const token = getAccessToken();
@@ -90,8 +92,8 @@ const Page = () => {
     <Layout
       header={
         <BranchSelectHeader
-          location={myBranch.locationName ?? ''}
-          title={myBranch.branchName ?? ''}
+          location={brancheSet[0]?.locationName ?? ''}
+          title={brancheSet[0]?.branchName ?? ''}
           admin={true}
         />
       }

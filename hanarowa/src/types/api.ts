@@ -339,6 +339,26 @@ export interface paths {
         patch: operations["updateLessonState"];
         trace?: never;
     };
+    "/member/branch": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 자신의 지점 조회 API
+         * @description 로그인한 회원의 지점 정보를 조회합니다.
+         */
+        get: operations["getMyBranch"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/lesson/{lessonId}": {
         parameters: {
             query?: never;
@@ -924,6 +944,12 @@ export interface components {
             /** Format: date */
             birth?: string;
         };
+        ApiResponseBranchResponseDTO: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: components["schemas"]["BranchResponseDTO"];
+        };
         ApiResponseLessonMoreDetailResponseDTO: {
             isSuccess?: boolean;
             code?: string;
@@ -974,8 +1000,8 @@ export interface components {
             duration?: string;
             lessonRoomName?: string;
             reservedAt?: string;
-            reviewed?: boolean;
             inProgress?: boolean;
+            reviewed?: boolean;
             notStarted?: boolean;
         };
         MyOpenLessonListResponseDTO: {
@@ -1735,6 +1761,26 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiResponseLessonGisuStateUpdateResponseDto"];
+                };
+            };
+        };
+    };
+    getMyBranch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseBranchResponseDTO"];
                 };
             };
         };

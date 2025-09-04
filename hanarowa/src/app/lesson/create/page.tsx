@@ -17,8 +17,8 @@ import {
   dayOptions,
   timeOptions,
 } from '@/constants/lesson-options';
-import { useBranch } from '@/hooks';
 import { components } from '@/types/api';
+import { useGetMemberBranch } from '@apis';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useState, useRef, useEffect } from 'react';
@@ -35,7 +35,8 @@ const Page = () => {
     data: availabilityData,
     isPending: isCheckingAvailability,
   } = useCheckAvailability();
-  const { myBranch } = useBranch();
+  const response = useGetMemberBranch();
+  const myBranch = response.data?.result;
   const [disabledTimeSlots, setDisabledTimeSlots] = useState<string[]>([]);
 
   // 오늘 날짜를 한국어 형식으로 포맷
@@ -79,7 +80,7 @@ const Page = () => {
       formData.startDate &&
       formData.endDate &&
       formData.days &&
-      myBranch.branchId
+      myBranch!.branchId
     ) {
       // 먼저 시간 없이 한번 호출해서 timeSlots 배열 확인
       const durationWithoutTime = `${formData.startDate} ~ ${formData.endDate} ${formData.days}`;
@@ -102,7 +103,7 @@ const Page = () => {
         }>((resolve, reject) => {
           checkAvailability(
             {
-              branchId: myBranch.branchId!,
+              branchId: myBranch!.branchId!,
               duration: durationWithoutTime,
             },
             {
@@ -166,7 +167,7 @@ const Page = () => {
           }>((resolve, reject) => {
             checkAvailability(
               {
-                branchId: myBranch.branchId!,
+                branchId: myBranch!.branchId!,
                 duration,
               },
               {
@@ -208,7 +209,7 @@ const Page = () => {
       // 조건이 충족되지 않으면 비활성화 상태 초기화
       setDisabledTimeSlots([]);
     }
-  }, [formData.startDate, formData.endDate, formData.days, myBranch.branchId]);
+  }, [formData.startDate, formData.endDate, formData.days, myBranch!.branchId]);
 
   const handleAddContent = () => {
     setFormData((prev) => ({
@@ -231,7 +232,7 @@ const Page = () => {
   };
 
   const handleSubmit = () => {
-    if (!myBranch.branchId) {
+    if (!myBranch!.branchId) {
       alert('지점 정보를 찾을 수 없습니다. 다시 로그인해주세요.');
       return;
     }
@@ -255,7 +256,7 @@ const Page = () => {
     fd.append('instruction', formData.instructorIntro);
     fd.append('description', formData.lessonIntro);
     fd.append('category', categoryMap[formData.category]);
-    fd.append('branchId', String(myBranch.branchId));
+    fd.append('branchId', String(myBranch!.branchId));
 
     // 단일 기수 예시 (i = 0)
     const i = 0;
