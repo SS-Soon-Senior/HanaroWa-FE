@@ -1,6 +1,6 @@
 'use client';
 
-import { useGetFacilityDetail, usePostReserveFacility } from '@/apis/facility';
+import { useGetFacilityDetail, usePostReserveFacility } from '@/apis';
 import {
   Layout,
   Header,

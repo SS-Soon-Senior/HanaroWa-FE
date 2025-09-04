@@ -1,3 +1,5 @@
+import AdminLessonCard from './AdminLessonCard';
+import AdminManageCard from './AdminManageCard';
 import CategoryFilter from './CategoryFilter';
 import Dropdown from './Dropdown';
 import LessonCard from './LessonCard';
@@ -9,6 +11,8 @@ import StatusTab from './StatusTab';
 export * from './detail';
 
 export {
+  AdminLessonCard,
+  AdminManageCard,
   LessonCard,
   LessonContent,
   LessonReservationCard,

@@ -1,6 +1,6 @@
 'use client';
 
-import { useGetFacilities } from '@/apis/facility';
+import { useGetFacilities } from '@/apis';
 import { BranchFilter, FacilityCard, Header, Layout } from '@/components';
 
 const Page = () => {

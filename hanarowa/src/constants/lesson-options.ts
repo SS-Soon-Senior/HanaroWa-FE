@@ -1,5 +1,3 @@
-import { Lesson } from '@/types/lesson';
-
 // 드롭다운 옵션들
 export const categoryOptions = [
   { value: 'digital', label: '디지털/IT' },

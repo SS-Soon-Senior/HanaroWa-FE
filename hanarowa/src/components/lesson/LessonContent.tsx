@@ -1,9 +1,8 @@
 'use client';
 
-import useGetFilterLessonList from '@/apis/lesson/useGetFilterLessonList';
 import { CategoryKey } from '@/constants/category';
 import { components } from '@/types/api';
-import { useGetMemberBranch } from '@apis';
+import { useGetMemberBranch, useGetFilterLessonList } from '@apis';
 import {
   BranchFilter,
   CategoryFilter,
