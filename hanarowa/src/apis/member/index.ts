@@ -1,4 +1,5 @@
 import useAdminGetMemberlist from './admin/useAdminGet';
+import getMemberBranch from './getMemberBranch';
 import useGetMemberBranch from './useGetMemberBranch';
 import useGetMemberInfo from './useGetMemberInfo';
 import {
@@ -9,6 +10,7 @@ import {
 import usePostMemberInfo from './usePostMemberInfo';
 
 export {
+  getMemberBranch,
   useGetMemberBranch,
   useGetMemberInfo,
   usePostMemberInfo,
