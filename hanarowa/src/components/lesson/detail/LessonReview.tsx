@@ -13,9 +13,9 @@ const LessonReview = ({ reviews }: Props) => {
         <div key={review.id} className='flex flex-col gap-[1.4rem]'>
           <div className='flex items-center justify-between'>
             <p className='font-bold-20 text-black'>{review.memberName}</p>
-            <p className='font-bold-18 text-black'>
+            <div className='font-bold-18 text-black'>
               <StarRating readOnly={true} starCount={review.rating ?? 0} />
-            </p>
+            </div>
           </div>
           <p className='font-medium-18 text-gray353'>
             {review.reviewTxt ?? ''}
