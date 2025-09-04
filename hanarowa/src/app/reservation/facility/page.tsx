@@ -1,12 +1,42 @@
 'use client';
 
+import useDeleteMyFacilityReservation from '@/apis/facility/useDeleteMyFacilityReservation';
 import useGetMyFacility from '@/apis/facility/useGetMyFacility';
-import { Header, Layout, StatusTag, RoomReservationCard } from '@/components';
+import {
+  Header,
+  Layout,
+  StatusTag,
+  RoomReservationCard,
+  Modal,
+} from '@/components';
+import { useModal } from '@hooks';
+import { useState } from 'react';
 
 const Page = () => {
   const { data, refetch } = useGetMyFacility();
+  const { mutate } = useDeleteMyFacilityReservation();
+  const { isOpen, openModal, closeModal } = useModal();
+  const [reservationId, setReservationId] = useState<number | null>(null);
+
   const reservations = data?.result?.filter((f) => !f.isUsed) ?? [];
   const completes = data?.result?.filter((f) => f.isUsed) ?? [];
+
+  const onClickDelete = (reservationId: number | null) => {
+    console.log(reservationId);
+    if (reservationId) {
+      mutate(
+        {
+          params: { path: { reservationId } },
+        },
+        {
+          onSuccess: () => {
+            refetch();
+            closeModal();
+          },
+        }
+      );
+    }
+  };
 
   return (
     <Layout header={<Header title='내 예약 내역' />}>
@@ -18,8 +48,15 @@ const Page = () => {
             {reservations.map((facility, index) => (
               <RoomReservationCard
                 key={`reservation-${index}`}
-                {...facility}
-                refetch={refetch}
+                startedAt={facility.startedAt}
+                reservedAt={facility.reservedAt}
+                placeName={facility.branchName}
+                facilityName={facility.facilityName}
+                isUsed={false}
+                onClick={() => {
+                  setReservationId(facility.reservationId || 0);
+                  openModal();
+                }}
               />
             ))}
           </div>
@@ -36,13 +73,27 @@ const Page = () => {
             {completes.map((facility, index) => (
               <RoomReservationCard
                 key={`complete-${index}`}
-                {...facility}
-                refetch={refetch}
+                startedAt={facility.startedAt}
+                reservedAt={facility.reservedAt}
+                placeName={facility.branchName}
+                facilityName={facility.facilityName}
+                isUsed={true}
               />
             ))}
           </div>
         )}
       </div>
+
+      {isOpen && (
+        <Modal
+          title='예약을 취소하시겠습니까?'
+          description='취소는 되돌릴 수 없습니다.'
+          greenButtonText='확인'
+          onClickGreenButton={() => {
+            onClickDelete(reservationId);
+          }}
+        />
+      )}
     </Layout>
   );
 };

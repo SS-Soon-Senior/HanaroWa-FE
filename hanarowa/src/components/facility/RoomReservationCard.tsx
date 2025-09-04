@@ -1,51 +1,26 @@
-import useDeleteMyFacilityReservation from '@/apis/facility/useDeleteMyFacilityReservation';
 import { IcBlackcalendar, IcLocation, IcUsers } from '@/assets/svg';
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '../atoms';
 
 type RoomReservationCardProps = {
-  reservationId?: number;
   facilityName?: string | null;
   startedAt?: string | null;
   placeName?: string | null; //위치
   reservedAt?: string | null; // 예약한시간
   isUsed?: boolean | null;
   userName?: string | null;
-  refetch: () => void;
+  onClick?: () => void;
 };
 
 const RoomReservationCard = ({
-  reservationId = 0,
   facilityName,
   reservedAt,
   startedAt,
   placeName,
   isUsed,
   userName,
-  refetch,
+  onClick,
 }: RoomReservationCardProps) => {
-  const { mutate } = useDeleteMyFacilityReservation();
-  const [canceling, setCanceling] = useState(false);
-
-  const cancelReservation = () => {
-    setCanceling(true);
-    mutate(
-      {
-        params: {
-          path: { reservationId },
-        },
-      },
-      {
-        onSuccess: () => {
-          refetch();
-        },
-        onError: () => {
-          setCanceling(false);
-          refetch();
-        },
-      }
-    );
-  };
   return (
     <div className='rounded-16 border-gray7eb flex w-full flex-col border bg-white'>
       <div className='flex flex-col gap-[2rem] p-[2.4rem]'>
@@ -79,8 +54,7 @@ const RoomReservationCard = ({
               variant='lightgray'
               sizeType='reserve'
               className='font-gray280 font-medium-18'
-              onClick={cancelReservation}
-              disabled={canceling}
+              onClick={onClick}
             >
               취소하기
             </Button>
