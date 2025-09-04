@@ -2,15 +2,16 @@
 
 import { IcArrowDown, IcByeoldol } from '@/assets/svg';
 import useModal from '@/hooks/useModal';
+import { useGetMemberBranch } from '@apis';
 import { BranchSelectModal } from '../modals';
 
 type Props = {
-  location: string;
-  title: string;
   admin?: boolean;
 };
 
-const BranchSelectHeader = ({ location, title, admin = false }: Props) => {
+const BranchSelectHeader = ({ admin = false }: Props) => {
+  const response = useGetMemberBranch();
+  const myBranch = response.data?.result;
   const { isOpen, openModal, closeModal } = useModal();
 
   return (
@@ -24,7 +25,7 @@ const BranchSelectHeader = ({ location, title, admin = false }: Props) => {
             <div className='flex items-end gap-[1rem]'>
               <IcByeoldol className='mb-[-0.4rem]' />
               <h1 className='font-bold-24 text-black'>
-                {location} {title}
+                {myBranch?.locationName} {myBranch?.branchName}
               </h1>
             </div>
             <IcArrowDown />
@@ -44,7 +45,7 @@ const BranchSelectHeader = ({ location, title, admin = false }: Props) => {
             </div>
             <div className='flex items-center gap-[1rem]'>
               <h1 className='font-bold-24 text-black'>
-                {location} {title}
+                {myBranch?.locationName} {myBranch?.branchName}
               </h1>
               <IcArrowDown />
             </div>
