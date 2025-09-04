@@ -10,12 +10,10 @@ type FacilityCardProps = {
   facilityName: string;
   description: string;
   height: number;
-  onClick?: () => void;
 };
 
 const FacilityCard = (props: FacilityCardProps) => {
-  const { facilityId, imageUrl, facilityName, description, height, onClick } =
-    props;
+  const { facilityId, imageUrl, facilityName, description, height } = props;
   const router = useRouter();
 
   const handleClick = () => {
