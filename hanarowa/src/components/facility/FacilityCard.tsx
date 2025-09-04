@@ -1,21 +1,29 @@
+'use client';
+
 import { IcImgArrow } from '@/assets/svg';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 type FacilityCardProps = {
+  facilityId: number;
   imageUrl: string;
   facilityName: string;
   description: string;
   height: number;
-  onClick?: () => void;
 };
 
 const FacilityCard = (props: FacilityCardProps) => {
-  const { imageUrl, facilityName, description, height, onClick } = props;
+  const { facilityId, imageUrl, facilityName, description, height } = props;
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/facility/${facilityId}`);
+  };
 
   return (
     <div
       className='rounded-16 flex flex-col overflow-hidden bg-white shadow-sm ring-1 ring-black/5'
-      onClick={onClick}
+      onClick={handleClick}
     >
       <div className='relative' style={{ height: height * 0.6 }}>
         <Image

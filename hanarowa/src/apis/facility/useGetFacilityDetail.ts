@@ -3,7 +3,7 @@ import { TanstackQueryClient } from '@apis';
 //클라이언트 컴포넌트에서 사용하는 경우
 
 const useGetFacilityDetail = (facilityId: string) => {
-  return TanstackQueryClient.useQuery('get', '/facility/detail/{facilityId}', {
+  return TanstackQueryClient.useQuery('get', '/facility/{facilityId}', {
     params: {
       path: {
         facilityId: Number(facilityId),

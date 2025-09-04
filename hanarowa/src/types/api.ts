@@ -433,27 +433,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/facility": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 내 지점 시설 목록 API
-         * @description 로그인한 멤버의 branchId로 시설 목록을 조회합니다.
-         */
-        get: operations["getFacilityByBranchId"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/facility/detail/{facilityId}": {
+    "/facility/{facilityId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -465,6 +445,26 @@ export interface paths {
          * @description 시설 상세를 조회합니다.
          */
         get: operations["getDetailFacility"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/facility/branch/{branchId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 지점별 시설 목록 API
+         * @description 선택한 branchId로 시설 목록을 조회합니다.
+         */
+        get: operations["getFacilityByBranchId"];
         put?: never;
         post?: never;
         delete?: never;
@@ -993,8 +993,8 @@ export interface components {
             lessonRoomName?: string;
             reservedAt?: string;
             inProgress?: boolean;
-            reviewed?: boolean;
             notStarted?: boolean;
+            reviewed?: boolean;
         };
         MyOpenLessonListResponseDTO: {
             /** Format: int64 */
@@ -1071,6 +1071,42 @@ export interface components {
             branchName?: string;
             lessons?: components["schemas"]["LessonInfoResponseDTO"][];
         };
+        ApiResponseFacilityDetailResponseDTO: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: components["schemas"]["FacilityDetailResponseDTO"];
+        };
+        FacilityDetailResponseDTO: {
+            /** Format: int64 */
+            facilityId?: number;
+            facilityName?: string;
+            facilityDescription?: string;
+            facilityImages?: components["schemas"]["FacilityImageResponseDTO"][];
+            facilityTimes?: {
+                [key: string]: string[];
+            };
+        };
+        FacilityImageResponseDTO: {
+            /** Format: int64 */
+            facilityImgId?: number;
+            imgUrl?: string;
+        };
+        ApiResponseListFacilityReservationResponseDTO: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: components["schemas"]["FacilityReservationResponseDTO"][];
+        };
+        FacilityReservationResponseDTO: {
+            /** Format: int64 */
+            reservationId?: number;
+            facilityName?: string;
+            branchName?: string;
+            startedAt?: string;
+            reservedAt?: string;
+            isUsed?: boolean;
+        };
         ApiResponseFacilityListResponseDTO: {
             isSuccess?: boolean;
             code?: string;
@@ -1116,6 +1152,8 @@ export interface components {
             name?: string;
             branches?: components["schemas"]["Branch"][];
         };
+<<<<<<< HEAD
+=======
         ApiResponseListFacilityReservationResponseDTO: {
             isSuccess?: boolean;
             code?: string;
@@ -1152,6 +1190,7 @@ export interface components {
             facilityImgId?: number;
             imgUrl?: string;
         };
+>>>>>>> b19db1968c183ccd3e24d4bbfd4ecd1c58b62701
         ApiResponseListBranchResponseDTO: {
             isSuccess?: boolean;
             code?: string;
@@ -1544,6 +1583,29 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiResponseVoid"];
+<<<<<<< HEAD
+                };
+            };
+        };
+    };
+    logout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseString"];
+=======
+>>>>>>> b19db1968c183ccd3e24d4bbfd4ecd1c58b62701
                 };
             };
         };
@@ -1864,26 +1926,6 @@ export interface operations {
             };
         };
     };
-    getFacilityByBranchId: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ApiResponseFacilityListResponseDTO"];
-                };
-            };
-        };
-    };
     getDetailFacility: {
         parameters: {
             query?: never;
@@ -1906,6 +1948,31 @@ export interface operations {
             };
         };
     };
+<<<<<<< HEAD
+    getFacilityByBranchId: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                branchId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseFacilityListResponseDTO"];
+                };
+            };
+        };
+    };
+=======
+>>>>>>> b19db1968c183ccd3e24d4bbfd4ecd1c58b62701
     getBranches: {
         parameters: {
             query?: never;
