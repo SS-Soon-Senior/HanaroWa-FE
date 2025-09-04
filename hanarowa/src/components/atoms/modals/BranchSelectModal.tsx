@@ -2,7 +2,6 @@
 
 import { components } from '@/types/api';
 import { usePostBranch, useGetBranch } from '@apis';
-import { useEffect } from 'react';
 import BranchButton from '../buttons/BranchButton';
 
 type BranchSelectModalProps = {

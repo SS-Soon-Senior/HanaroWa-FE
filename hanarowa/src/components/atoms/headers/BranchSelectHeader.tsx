@@ -6,9 +6,14 @@ import { useGetMemberBranch } from '@apis';
 import { BranchSelectModal } from '../modals';
 
 const BranchSelectHeader = () => {
-  const response = useGetMemberBranch();
-  const myBranch = response.data?.result;
+  const { data, refetch } = useGetMemberBranch();
+  const myBranch = data?.result;
   const { isOpen, openModal, closeModal } = useModal();
+
+  const handleCloseModal = () => {
+    refetch();
+    closeModal();
+  };
 
   return (
     <>
@@ -29,7 +34,7 @@ const BranchSelectHeader = () => {
           </div>
         </header>
 
-        <BranchSelectModal isOpen={isOpen} onClose={closeModal} />
+        <BranchSelectModal isOpen={isOpen} onClose={handleCloseModal} />
       </div>
     </>
   );
