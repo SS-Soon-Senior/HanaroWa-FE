@@ -25,14 +25,17 @@ const LessonInfo = ({
   lessonGisuId,
 }: LessonInfoProps) => {
   const { data: count, isConnected } = useReservationCountWS(lessonGisuId);
-  
+
   const displayedCurrentApplicants = count?.reserved ?? currentApplicants;
   const displayedMaxApplicants = count?.capacity ?? maxApplicants;
-  
+
   return (
     <div className='flex w-full flex-col gap-[2.7rem] py-[2.5rem]'>
       <div className='text-sm text-gray-600'>
-        현재 예약 {count ? `${count.reserved} / ${count.capacity}` : '…'}
+        현재 예약{' '}
+        {displayedCurrentApplicants
+          ? `${displayedCurrentApplicants} / ${displayedMaxApplicants}`
+          : '…'}
         {isConnected && <span className='ml-2 text-green-500'>●</span>}
       </div>
       <div className='flex flex-col gap-[1.2rem]'>
