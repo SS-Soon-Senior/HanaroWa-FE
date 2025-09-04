@@ -16,7 +16,6 @@ import {
   formatLessonTime,
   formatStartDate,
 } from '@/utils/formatter';
-import { useGetLessonDetail } from '@apis';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import { use } from 'react';

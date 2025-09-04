@@ -119,7 +119,8 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
                   index === 0 && 'rounded-14',
                   index === options.length - 1 && 'rounded-14',
                   'rounded-none',
-                  option.disabled && 'cursor-not-allowed opacity-50 hover:bg-transparent'
+                  option.disabled &&
+                    'cursor-not-allowed opacity-50 hover:bg-transparent'
                 )}
               >
                 {option.label}

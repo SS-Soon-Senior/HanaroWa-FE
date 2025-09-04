@@ -39,7 +39,7 @@ export const Disabled: Story = {
 };
 
 export const WithRightContent: Story = {
-  render: (args) => (
+  render: () => (
     <Input
       placeholder='입력하세요'
       rightContent={
