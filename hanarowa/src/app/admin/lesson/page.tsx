@@ -1,4 +1,3 @@
-import { createServerClient } from '@/apis/serverClient';
 import AdminLessonCard from '@/components/lesson/AdminLessonCard';
 import { components } from '@/types/api';
 import { getLessons } from '@apis';
