@@ -8,11 +8,15 @@ import isValidToken from './utils/is-valid-token';
 export async function middleware(request: NextRequest) {
   const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const loginUrl = new URL('/auth/login/social', request.url);
+  console.log('미들웨어 실행:', request.url);
 
   // 1. 동기적으로 쿠키를 가져옵니다 (await 제거)
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken');
   const refreshToken = cookieStore.get('refreshToken');
+
+  console.log('현재 쿠키 - accessToken:', accessToken);
+  console.log('현재 쿠키 - refreshToken:', refreshToken);
 
   // 리프레시 토큰조차 없으면 무조건 로그인 페이지로 보냅니다.
   if (!refreshToken?.value) {
@@ -31,6 +35,7 @@ export async function middleware(request: NextRequest) {
 
   // 액세스 토큰이 만료되었거나 없을 경우, 재발급을 시도합니다.
   try {
+    console.log('액세스 토큰 만료, 재발급 시도');
     const response = await fetch(`${API_URL}/auth/reissue`, {
       method: 'POST',
       headers: {
