@@ -1,6 +1,6 @@
 import { IcUsers } from '@/assets/svg';
 import { components } from '@/types/api';
-import { formatDuration, formatPrice } from '@/utils/formater';
+import { formatDuration, formatPrice } from '@/utils/formatter';
 import Image from 'next/image';
 import Link from 'next/link';
 
