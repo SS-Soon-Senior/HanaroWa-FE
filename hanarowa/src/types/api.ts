@@ -641,6 +641,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/facility/{reservationId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * 시설 예약 내역 취소 API
+         * @description 시설 예약 내역을 관리자가 취소합니다.
+         */
+        delete: operations["deleteAdminFacilityTime"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1192,11 +1212,9 @@ export interface components {
             memberName?: string;
             memberEmail?: string;
             branchName?: string;
-            locationName?: string;
-            /** Format: date-time */
             startedAt?: string;
-            /** Format: date-time */
-            endedAt?: string;
+            reservedAt?: string;
+            isUsed?: boolean;
         };
         ApiResponseListAdminFacilityResponseDTO: {
             isSuccess?: boolean;
@@ -2028,6 +2046,28 @@ export interface operations {
         };
     };
     deleteFacilityReservation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                reservationId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseVoid"];
+                };
+            };
+        };
+    };
+    deleteAdminFacilityTime: {
         parameters: {
             query?: never;
             header?: never;

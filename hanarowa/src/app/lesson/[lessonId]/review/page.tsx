@@ -10,21 +10,23 @@ import {
   StarRating,
 } from '@/components';
 import { useParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 const Page = () => {
   const router = useRouter();
   const { lessonId } = useParams<{ lessonId: string }>();
   const [starCount, setStarCount] = useState(0);
   const [reviewContent, setReviewContent] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const { mutate, isPending } = usePostLessonReview();
 
   const isFormValid = starCount > 0 && reviewContent.trim() !== '';
   const DivStyle = 'flex flex-col gap-[1.2rem]';
 
-  const onClickSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+  const onClickSubmit = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!lessonId) return;
+    setErrorMessage('');
     mutate(
       {
         params: {
@@ -39,8 +41,10 @@ const Page = () => {
         onSuccess: () => {
           router.push(`/complete`);
         },
-        onError: () => {
-          alert('리뷰 작성에 실패했습니다. 다시 시도해주세요.');
+        onError: (error: { message: string }) => {
+          const message =
+            error?.message || '리뷰 작성에 실패했습니다. 다시 시도해주세요.';
+          setErrorMessage(message);
         },
       }
     );
@@ -68,7 +72,10 @@ const Page = () => {
           </div>
         </div>
         <div className='mx-auto mt-auto flex w-full flex-col items-center justify-center'>
-          {!isFormValid && (
+          {errorMessage && (
+            <ErrorMessage align='text-center'>{errorMessage}</ErrorMessage>
+          )}
+          {!isFormValid && !errorMessage && (
             <ErrorMessage align='text-center'>
               내용을 입력해주세요.
             </ErrorMessage>
