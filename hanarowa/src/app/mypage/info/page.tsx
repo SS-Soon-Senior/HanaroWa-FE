@@ -40,10 +40,7 @@ const Page = () => {
   const { mutate } = useModifyInfo();
 
   const handleSubmit = () => {
-    const finalBirth =
-      birth && birth.trim() !== ''
-        ? birth.replace(/\D/g, '')
-        : (serverBirth ?? '');
+    const finalBirth = birth ? birth : formatDateFromISO(serverBirth || '');
 
     const finalPhone =
       phone && phone.trim() !== '' ? phone : (serverPhone ?? '');
@@ -59,7 +56,7 @@ const Page = () => {
     mutate(
       {
         body: {
-          birth: finalBirth, // "YYYYMMDD" 8자리
+          birth: finalBirth, // "YYYYMMDD" 8자리로 보내야함
           phoneNumber: finalPhone,
         },
       },
