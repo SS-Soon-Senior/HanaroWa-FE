@@ -1,3 +1,4 @@
+import AdminFacilitySection from './AdminFacilitySection';
 import DateSelector from './DateSelector';
 import FacilityCard from './FacilityCard';
 import FacilityImageCarousel from './FacilityImageCarousel';
@@ -7,6 +8,7 @@ import RoomReservationCard from './RoomReservationCard';
 import TimeSelector from './TimeSelector';
 
 export {
+  AdminFacilitySection,
   FacilityCard,
   RoomReservationCard,
   FacilityImageCarousel,
