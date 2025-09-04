@@ -1106,11 +1106,11 @@ export interface components {
         };
         FacilityReservationResponseDTO: {
             /** Format: int64 */
-            facilityId?: number;
+            reservationId?: number;
             facilityName?: string;
+            memberName?: string;
+            branchName?: string;
             startedAt?: string;
-            duration?: string;
-            placeName?: string;
             reservedAt?: string;
             isUsed?: boolean;
         };
@@ -1210,6 +1210,7 @@ export interface components {
             reservationId?: number;
             facilityName?: string;
             memberName?: string;
+            memberEmail?: string;
             branchName?: string;
             startedAt?: string;
             reservedAt?: string;
