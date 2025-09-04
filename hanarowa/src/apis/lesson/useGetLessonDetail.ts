@@ -1,9 +1,20 @@
-import { TanstackQueryClient } from '../client';
+'use server';
 
-const useGetLessonDetail = (lessonId: number) => {
-  return TanstackQueryClient.useQuery('get', `/lesson/{lessonId}`, {
+import { ServerComponentClient } from '../serverClient';
+
+// const useGetLessonDetail = (lessonId: number) => {
+//   return TanstackQueryClient.useQuery('get', `/lesson/{lessonId}`, {
+//     params: { path: { lessonId } },
+//   });
+// };
+
+// export default useGetLessonDetail;
+
+const getLessonDetail = async (lessonId: number) => {
+  const client = await ServerComponentClient();
+  return client.GET(`/lesson/{lessonId}`, {
     params: { path: { lessonId } },
   });
 };
 
-export default useGetLessonDetail;
+export default getLessonDetail;

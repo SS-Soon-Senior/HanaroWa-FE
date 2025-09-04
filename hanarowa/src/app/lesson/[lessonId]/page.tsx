@@ -1,5 +1,4 @@
-'use client';
-
+import getLessonDetail from '@/apis/lesson/useGetLessonDetail';
 import {
   InstructorInfo,
   LessonCurriculum,
@@ -11,30 +10,60 @@ import {
   Header,
   Layout,
 } from '@/components';
+import { components } from '@/types/api';
+import BaseApiResponse from '@/types/baseApiResponse';
 import {
   calculateDurationInWeeks,
   formatLessonTime,
   formatStartDate,
 } from '@/utils/formater';
-import { useGetLessonDetail } from '@apis';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
+import { use } from 'react';
 
-const Page = () => {
-  const { lessonId } = useParams();
-  const { data } = useGetLessonDetail(Number(lessonId) ?? 0);
-  console.log(data);
+type Props = {
+  params: Promise<{ lessonId: string }>;
+};
+
+const Page = ({ params }: Props) => {
+  const { lessonId } = use(params);
+  const { data, error } = use(getLessonDetail(Number(lessonId)));
+  // const { mutate: applyLesson } = usePostLessonApply();
   const lessonData = data?.result;
+  console.log('lessonData', error, lessonData);
 
   const startDate = formatStartDate(
     lessonData?.lessonGisus?.[0].duration ?? ''
   ); // "2025년 1월 1일"
   const lessonTime = formatLessonTime(
     lessonData?.lessonGisus?.[0].duration ?? ''
-  ); // "월, 화, 수, 목, 금 17:00-18:00"
+  ); // "월-금 17:00-18:00"
   const duration = calculateDurationInWeeks(
     lessonData?.lessonGisus?.[0].duration ?? ''
   ); // "8주"
+
+  // const handleApply = () => {
+  //   const lessonGisuId = lessonData?.lessonGisus?.[0].id;
+  //   if (!lessonGisuId) {
+  //     alert('유효하지 않은 강좌입니다.');
+  //     return;
+  //   }
+
+  //   applyLesson(
+  //     {
+  //       params: { path: { lessonGisuId } },
+  //     },
+  //     {
+  //       onSuccess: () => {
+  //         alert('강좌 신청이 완료되었습니다.');
+  //       },
+  //       onError: (
+  //         e: BaseApiResponse<components['schemas']['ApiResponseString']>
+  //       ) => {
+  //         alert(e.message);
+  //       },
+  //     }
+  //   );
+  // };
 
   return (
     <Layout header={<Header title='강좌 상세' showBackButton />}>

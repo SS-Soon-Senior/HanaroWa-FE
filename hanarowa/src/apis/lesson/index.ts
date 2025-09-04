@@ -9,6 +9,7 @@ import useDeleteLesson from './useDeleteLesson';
 import useGetLessonDetail from './useGetLessonDetail';
 import useGetMyLesson from './useGetMyLesson';
 import usePostLesson from './usePostLesson';
+import usePostLessonApply from './usePostLessonApply';
 import usePostLessonReview from './usePostLessonReview';
 
 export {
@@ -24,4 +25,5 @@ export {
   useCheckAvailability,
   useGetLessonDetail,
   getLessonMember,
+  usePostLessonApply,
 };
