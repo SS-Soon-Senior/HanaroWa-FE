@@ -145,8 +145,8 @@ const Page = () => {
       },
       {
         onSuccess: () => {
-          console.log('시설 예약 성공');
-          router.push('/complete');
+          const message = encodeURIComponent('시설 예약이');
+          router.push(`/complete?state=${message}`);
         },
         onError: (error) => {
           console.error('시설 예약 실패:', error);

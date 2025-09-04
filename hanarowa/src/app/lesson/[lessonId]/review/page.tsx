@@ -39,7 +39,8 @@ const Page = () => {
       },
       {
         onSuccess: () => {
-          router.push(`/complete`);
+          const message = encodeURIComponent('리뷰 작성이');
+          router.push(`/complete?state=${message}`);
         },
         onError: (error: { message: string }) => {
           const message =

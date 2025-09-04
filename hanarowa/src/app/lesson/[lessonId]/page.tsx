@@ -46,9 +46,8 @@ const Page = ({ params }: Props) => {
 
     const { data, error } = await postLessonApply(Number(lessonGisuId));
     if (data?.isSuccess && !error) {
-      console.log('강좌 신청 성공:', data.message);
-      // 신청 성공 시, 원하는 경로로 리디렉션 (예: 마이페이지)
-      redirect('/complete');
+      const message = encodeURIComponent('강좌 신청이');
+      redirect(`/complete?state=${message}`);
     }
 
     if (error) {
