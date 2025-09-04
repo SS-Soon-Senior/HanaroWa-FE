@@ -1,7 +1,5 @@
-'use client';
-
 import { IcSearch, IcBell, IcBook, IcSofa, IcCalendar } from '@/assets/svg';
-import { useGetMemberBranch } from '@apis';
+import { getMemberBranch } from '@apis';
 import {
   Layout,
   BottomNavigation,
@@ -9,10 +7,11 @@ import {
   MenuSection,
   LessonSection,
 } from '@components';
+import { use } from 'react';
 
 const Page = () => {
-  const { data: branchData } = useGetMemberBranch();
-  const myBranch = branchData?.result;
+  const { data } = use(getMemberBranch());
+  const myBranch = data?.result;
 
   const lectureMenu = [
     {
