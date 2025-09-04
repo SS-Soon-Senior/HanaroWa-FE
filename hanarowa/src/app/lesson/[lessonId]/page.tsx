@@ -15,7 +15,7 @@ import {
   calculateDurationInWeeks,
   formatLessonTime,
   formatStartDate,
-} from '@/utils/formater';
+} from '@/utils/formatter';
 import { useGetLessonDetail } from '@apis';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';

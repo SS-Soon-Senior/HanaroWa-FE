@@ -2,30 +2,22 @@
 
 import usePostMemberInfo from '@/apis/member/usePostMemberInfo';
 import { IcSignupFace } from '@/assets/svg';
-import { Layout, Header, Input, Button, ErrorMessage, DatePicker } from '@/components';
+import {
+  Layout,
+  Header,
+  Input,
+  Button,
+  ErrorMessage,
+  DatePicker,
+} from '@/components';
 import { setAccessToken } from '@/utils/common/auth';
+import {
+  formatDateFromISO,
+  formatDateToISO,
+  formatPhone,
+} from '@/utils/formatter';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ChangeEvent, useEffect, useState } from 'react';
-
-const digits = (s: string) => s.replace(/\D/g, '');
-
-const formatPhone = (v: string) => {
-  const d = digits(v).slice(0, 11);
-  if (d.length <= 3) return d;
-  if (d.length <= 7) return `${d.slice(0, 3)}-${d.slice(3)}`;
-  return `${d.slice(0, 3)}-${d.slice(3, 7)}-${d.slice(7, 11)}`;
-};
-
-// YYYYMMDD -> YYYY-MM-DD 변환
-const formatDateToISO = (dateStr: string) => {
-  if (!dateStr || dateStr.length !== 8) return '';
-  return `${dateStr.slice(0, 4)}-${dateStr.slice(4, 6)}-${dateStr.slice(6, 8)}`;
-};
-
-// YYYY-MM-DD -> YYYYMMDD 변환
-const formatDateFromISO = (isoDate: string) => {
-  return isoDate.replace(/\D/g, '');
-};
 
 const Page = () => {
   const router = useRouter();

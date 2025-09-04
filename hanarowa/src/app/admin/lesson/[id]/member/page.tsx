@@ -12,9 +12,9 @@ const Page = () => {
   return (
     <Layout header={<Header title='수강 회원 목록' />}>
       <div className='flex w-full flex-col gap-[1.4rem] py-[1rem]'>
-        {result?.data?.result?.map((m, i = 0) => (
+        {result?.data?.result?.map((m, i) => (
           <MemberCard
-            key={i++}
+            key={`member-${i}`}
             name={m.name || ''}
             branch={m.branch || ''}
             phone={m.phone || ''}
