@@ -1,6 +1,10 @@
 'use client';
 
-import { usePostLesson, useCheckAvailability } from '@/apis/lesson';
+import {
+  usePostLesson,
+  useCheckAvailability,
+  useGetMemberBranch,
+} from '@/apis';
 import { IcImageUpload, IcUsers } from '@/assets/svg';
 import {
   Layout,
@@ -12,13 +16,8 @@ import {
   DatePicker,
   Modal,
 } from '@/components';
-import {
-  categoryOptions,
-  dayOptions,
-  timeOptions,
-} from '@/constants/lesson-options';
+import { categoryOptions, dayOptions, timeOptions } from '@/constants';
 import { components } from '@/types/api';
-import { useGetMemberBranch } from '@apis';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useState, useRef, useEffect } from 'react';

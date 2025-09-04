@@ -10,8 +10,4 @@ export const client = createFetchClient<paths>({
   },
 });
 
-export const anonymousclient = createFetchClient<paths>({
-  baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
-});
-
 export const TanstackQueryClient = createClient(client);

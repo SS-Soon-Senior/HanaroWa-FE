@@ -1,7 +1,7 @@
 'use client';
 
-import { useDeleteFacilityTime, useFacilitylist } from '@/apis/facility';
 import { Modal, RoomReservationCard, StatusTag } from '@/components';
+import { useDeleteFacilityTime, useFacilitylist } from '@apis';
 import { useModal } from '@hooks';
 import { useMemo, useState } from 'react';
 

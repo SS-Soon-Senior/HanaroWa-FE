@@ -1,4 +1,4 @@
-import AdminStatusTag from '@/components/atoms/tags/AdminStatusTag';
+import { AdminStatusTag } from '@/components';
 import { components } from '@/types/api';
 import { formatDuration } from '@/utils/formatter';
 import Link from 'next/link';
