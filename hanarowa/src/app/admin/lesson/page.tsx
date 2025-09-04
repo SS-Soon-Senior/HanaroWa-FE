@@ -10,7 +10,7 @@ const Page = () => {
   const { data } = use(getLessons());
   const lessons: AdminLesson[] = data?.result ?? [];
   return (
-    <Layout header={<Header title='강좌 목록' showSearchButton />}>
+    <Layout header={<Header title='강좌 목록' />}>
       <div className='grid w-full grid-cols-2 gap-[2.5rem]'>
         {lessons.map((l) => (
           <AdminLessonCard key={l.id} {...l} />
