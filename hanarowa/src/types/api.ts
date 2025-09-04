@@ -484,7 +484,7 @@ export interface paths {
          * 지점 목록 조회 API
          * @description 하나로와에서 이용할 수 있는 지점을 조회합니다.
          */
-        get: operations["getBranchs"];
+        get: operations["getBranches"];
         put?: never;
         post?: never;
         delete?: never;
@@ -800,14 +800,6 @@ export interface components {
             accessToken?: string;
             refreshToken?: string;
         };
-        ApiResponseMapStringObject: {
-            isSuccess?: boolean;
-            code?: string;
-            message?: string;
-            result?: {
-                [key: string]: unknown;
-            };
-        };
         /** @description AI 직업 추천 요청 DTO */
         JobRecRequestDto: {
             /**
@@ -1000,9 +992,9 @@ export interface components {
             duration?: string;
             lessonRoomName?: string;
             reservedAt?: string;
+            notStarted?: boolean;
             inProgress?: boolean;
             reviewed?: boolean;
-            notStarted?: boolean;
         };
         MyOpenLessonListResponseDTO: {
             /** Format: int64 */
@@ -1134,7 +1126,6 @@ export interface components {
             /** Format: int64 */
             reservationId?: number;
             facilityName?: string;
-            memberName?: string;
             branchName?: string;
             startedAt?: string;
             reservedAt?: string;
@@ -1236,7 +1227,6 @@ export interface components {
             reservationId?: number;
             facilityName?: string;
             memberName?: string;
-            memberEmail?: string;
             branchName?: string;
             startedAt?: string;
             reservedAt?: string;
@@ -1516,9 +1506,7 @@ export interface operations {
     refresh: {
         parameters: {
             query?: never;
-            header: {
-                Authorization: string;
-            };
+            header?: never;
             path?: never;
             cookie?: {
                 refreshToken?: string;
@@ -1532,7 +1520,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseMapStringObject"];
+                    "*/*": components["schemas"]["ApiResponseVoid"];
                 };
             };
         };
@@ -1915,7 +1903,7 @@ export interface operations {
             };
         };
     };
-    getBranchs: {
+    getBranches: {
         parameters: {
             query?: never;
             header?: never;
