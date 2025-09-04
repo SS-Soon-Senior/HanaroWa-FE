@@ -1,18 +1,19 @@
-'use client';
-
 import { Header, Layout, MemberCard } from '@/components';
 import { getLessonMember } from '@apis';
-import { useParams } from 'next/navigation';
+import { use } from 'react';
 
-const Page = () => {
-  const { id } = useParams<{ id: string }>();
-  const lessonGisuId = Number(id);
-  const result = getLessonMember(lessonGisuId);
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
+const Page = ({ params }: Props) => {
+  const { id } = use(params);
+  const { data } = use(getLessonMember(+id));
 
   return (
     <Layout header={<Header title='수강 회원 목록' />}>
       <div className='flex w-full flex-col gap-[1.4rem] py-[1rem]'>
-        {result?.data?.result?.map((m, i) => (
+        {data?.result?.map((m, i) => (
           <MemberCard
             key={`member-${i}`}
             name={m.name || ''}

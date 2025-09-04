@@ -1,17 +1,12 @@
-import { TanstackQueryClient } from '@apis';
+'use server';
 
-const useLessonMember = (lessonGisuId: number) => {
-  return TanstackQueryClient.useQuery(
-    'get',
-    '/admin/lesson/{lessonGisuId}/member',
-    {
-      params: {
-        path: {
-          lessonGisuId,
-        },
-      },
-    }
-  );
+import { createServerClient } from '@/apis/serverClient';
+
+const useLessonMember = async (lessonGisuId: number) => {
+  const client = await createServerClient();
+  return client.GET('/admin/lesson/{lessonGisuId}/member', {
+    params: { path: { lessonGisuId } },
+  });
 };
 
 export default useLessonMember;
