@@ -55,7 +55,6 @@ const Page = () => {
     // 모두 통과
     setError('');
 
-    // 서버 api 호출하는 코드 필요
     mutate(
       {
         body: {
