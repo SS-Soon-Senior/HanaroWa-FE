@@ -1,15 +1,19 @@
 'use client';
 
+import { getAccessToken } from '@/utils/common/auth';
+
 const postRefreshToken = async () => {
+  const accessToken = getAccessToken();
+
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/reissue`,
       {
         method: 'POST',
         credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: accessToken
+          ? { Authorization: `Bearer ${accessToken}` }
+          : undefined,
       }
     );
 

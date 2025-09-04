@@ -9,8 +9,10 @@ import useDeleteLesson from './useDeleteLesson';
 import useGetLessonDetail from './useGetLessonDetail';
 import useGetMyLesson from './useGetMyLesson';
 import usePostLesson from './usePostLesson';
+import usePostLessonReview from './usePostLessonReview';
 
 export {
+  usePostLessonReview,
   usePostLesson,
   getLessons,
   getLessonDetail,

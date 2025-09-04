@@ -413,7 +413,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/facility/{branchId}": {
+    "/facility": {
         parameters: {
             query?: never;
             header?: never;
@@ -421,8 +421,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * 시설 리스트 목록 API
-         * @description 시설 리스트 목록을 조회합니다.
+         * 내 지점 시설 목록 API
+         * @description 로그인한 멤버의 branchId로 시설 목록을 조회합니다.
          */
         get: operations["getFacilityByBranchId"];
         put?: never;
@@ -636,6 +636,26 @@ export interface paths {
          * @description 시설 예약을 취소합니다.
          */
         delete: operations["deleteFacilityReservation"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/facility/{reservationId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * 시설 예약 내역 취소 API
+         * @description 시설 예약 내역을 관리자가 취소합니다.
+         */
+        delete: operations["deleteAdminFacilityTime"];
         options?: never;
         head?: never;
         patch?: never;
@@ -954,8 +974,8 @@ export interface components {
             duration?: string;
             lessonRoomName?: string;
             reservedAt?: string;
-            inProgress?: boolean;
             reviewed?: boolean;
+            inProgress?: boolean;
             notStarted?: boolean;
         };
         MyOpenLessonListResponseDTO: {
@@ -1033,11 +1053,11 @@ export interface components {
             branchName?: string;
             lessons?: components["schemas"]["LessonInfoResponseDTO"][];
         };
-        ApiResponseListFacilityResponseDTO: {
+        ApiResponseFacilityListResponseDTO: {
             isSuccess?: boolean;
             code?: string;
             message?: string;
-            result?: components["schemas"]["FacilityResponseDTO"][];
+            result?: components["schemas"]["FacilityListResponseDTO"];
         };
         Branch: {
             /** Format: int64 */
@@ -1060,6 +1080,10 @@ export interface components {
             id?: number;
             facilityImage?: string;
             facility?: components["schemas"]["Facility"];
+        };
+        FacilityListResponseDTO: {
+            facilityName?: string;
+            facilities?: components["schemas"]["FacilityResponseDTO"][];
         };
         FacilityResponseDTO: {
             /** Format: int64 */
@@ -1186,13 +1210,10 @@ export interface components {
             reservationId?: number;
             facilityName?: string;
             memberName?: string;
-            memberEmail?: string;
             branchName?: string;
-            locationName?: string;
-            /** Format: date-time */
             startedAt?: string;
-            /** Format: date-time */
-            endedAt?: string;
+            reservedAt?: string;
+            isUsed?: boolean;
         };
         ApiResponseListAdminFacilityResponseDTO: {
             isSuccess?: boolean;
@@ -1809,9 +1830,7 @@ export interface operations {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                branchId: number;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
@@ -1822,7 +1841,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseListFacilityResponseDTO"];
+                    "*/*": components["schemas"]["ApiResponseFacilityListResponseDTO"];
                 };
             };
         };
@@ -2026,6 +2045,28 @@ export interface operations {
         };
     };
     deleteFacilityReservation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                reservationId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseVoid"];
+                };
+            };
+        };
+    };
+    deleteAdminFacilityTime: {
         parameters: {
             query?: never;
             header?: never;
