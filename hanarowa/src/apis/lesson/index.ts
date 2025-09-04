@@ -9,10 +9,12 @@ import postLessonApply from './postLessonApply';
 import useCheckAvailability from './useCheckAvailability';
 import useDeleteLesson from './useDeleteLesson';
 import useGetMyLesson from './useGetMyLesson';
+import useGetSearchLessonList from './useGetSearchLesson';
 import usePostLesson from './usePostLesson';
 import usePostLessonReview from './usePostLessonReview';
 
 export {
+  useGetSearchLessonList,
   usePostLessonReview,
   usePostLesson,
   getLessons,
