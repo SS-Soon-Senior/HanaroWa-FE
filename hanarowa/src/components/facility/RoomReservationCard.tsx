@@ -1,5 +1,4 @@
-import { IcBlackcalendar, IcLocation } from '@/assets/svg';
-import { components } from '@/types/api';
+import { IcBlackcalendar, IcLocation, IcUsers } from '@/assets/svg';
 import React from 'react';
 import { Button } from '../atoms';
 
@@ -9,6 +8,8 @@ type RoomReservationCardProps = {
   placeName?: string | null; //위치
   reservedAt?: string | null; // 예약한시간
   isUsed?: boolean | null;
+  userName?: string | null;
+  onClick?: () => void; //취소 버튼 눌렀을 때의 액션
 };
 
 const RoomReservationCard = ({
@@ -17,13 +18,15 @@ const RoomReservationCard = ({
   startedAt,
   placeName,
   isUsed,
+  userName,
+  onClick,
 }: RoomReservationCardProps) => {
   return (
     <div className='rounded-16 border-gray7eb flex w-full flex-col border bg-white'>
       <div className='flex flex-col gap-[2rem] p-[2.4rem]'>
         <p className='font-medium-18 text-gray3af'>{reservedAt}</p>
         <div className='flex flex-col gap-[1.2rem]'>
-          <p className='font-bold-24 text-black'>{placeName}</p>
+          <p className='font-bold-24 text-black'>{facilityName}</p>
           <div className='flex flex-col gap-[0.8rem]'>
             <div className='flex flex-row items-center gap-[1.2rem]'>
               <IcBlackcalendar className='h-[2rem] w-[2rem]' />
@@ -35,6 +38,14 @@ const RoomReservationCard = ({
 
               <p className='font-medium-20 text-gray353'>{placeName}</p>
             </div>
+
+            {userName && (
+              <div className='flex flex-row items-center gap-[1.2rem]'>
+                <IcUsers className='h-[2rem] w-[2rem]' />
+
+                <p className='font-medium-20 text-gray353'>{userName}</p>
+              </div>
+            )}
           </div>
         </div>
         {!isUsed ? (
@@ -43,6 +54,7 @@ const RoomReservationCard = ({
               variant='lightgray'
               sizeType='reserve'
               className='font-gray280 font-medium-18'
+              onClick={onClick}
             >
               취소하기
             </Button>
