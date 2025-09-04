@@ -22,18 +22,6 @@ const BranchSelectModal = ({
   const brancheSet = response.data?.result || [];
   const { mutate: updateMyBranch } = usePostBranch();
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen]);
-
   const handleBranchSelect = (branch: Branch) => {
     if (!!onSelect) {
       onSelect(branch);
