@@ -1,6 +1,5 @@
 'use client';
 
-import useGetMemberBranch from '@/apis/member/useGetMemberBranch';
 import {
   IcSofa,
   IcAdminUsers,
@@ -11,7 +10,7 @@ import {
 } from '@/assets/svg';
 import { getAccessToken, logout } from '@/utils/common/auth';
 import { useGetBranch } from '@apis';
-import { Layout, BranchSelectHeader, MenuSection } from '@components';
+import { Layout, MenuSection } from '@components';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -89,15 +88,7 @@ const Page = () => {
 
   if (!ok) return null;
   return (
-    <Layout
-      header={
-        <BranchSelectHeader
-          location={brancheSet[0]?.locationName ?? ''}
-          title={brancheSet[0]?.branchName ?? ''}
-          admin={true}
-        />
-      }
-    >
+    <Layout>
       <div className='flex flex-col items-center justify-center pt-[15rem]'>
         <div className='flex flex-col items-center justify-center'>
           <IcBookByeoldol />
