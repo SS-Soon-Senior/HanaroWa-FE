@@ -12,11 +12,6 @@ const clearAccessToken = () => {
   Cookies.remove('accessToken');
 };
 
-const logout = () => {
-  Cookies.remove('accessToken');
-  Cookies.remove('refreshToken');
-};
-
 const getBranch = () => {
   return Cookies.get('branchId');
 };
@@ -29,7 +24,6 @@ export {
   getAccessToken,
   setAccessToken,
   clearAccessToken,
-  logout,
   getBranch,
   setBranch,
 };

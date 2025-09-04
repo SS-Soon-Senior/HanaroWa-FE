@@ -1,5 +1,3 @@
-'use client';
-
 import {
   IcSofa,
   IcAdminUsers,
@@ -8,27 +6,10 @@ import {
   IcBell,
   IcBookByeoldol,
 } from '@/assets/svg';
-import { getAccessToken, logout } from '@/utils/common/auth';
-import { useGetBranch } from '@apis';
+import type { MenuItem } from '@/components/home/MenuSection';
 import { Layout, MenuSection } from '@components';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 
-type JWTPayload = { role?: string; exp?: number };
-
-const decodeJwt = (token: string): JWTPayload | null => {
-  try {
-    const b64 = token.split('.')[1] ?? '';
-    const b64url = b64.replace(/-/g, '+').replace(/_/g, '/');
-    const pad = b64url.length % 4 ? '='.repeat(4 - (b64url.length % 4)) : '';
-    const json = atob(b64url + pad);
-    return JSON.parse(json) as JWTPayload;
-  } catch {
-    return null;
-  }
-};
-
-const firstMenu = [
+const firstMenu: MenuItem[] = [
   {
     icon: <IcSofa />,
     title: '시설 예약',
@@ -46,7 +27,7 @@ const firstMenu = [
   },
 ];
 
-const secondMenu = [
+const secondMenu: MenuItem[] = [
   {
     icon: <IcBook />,
     title: '강좌 목록',
@@ -60,33 +41,6 @@ const secondMenu = [
 ];
 
 const Page = () => {
-  const router = useRouter();
-  const [ok, setOk] = useState(false);
-  const response = useGetBranch();
-  const brancheSet = response.data?.result || [];
-
-  useEffect(() => {
-    const token = getAccessToken();
-    if (!token) {
-      router.replace('/auth/login');
-      return;
-    }
-    const payload = decodeJwt(token);
-    const now = Math.floor(Date.now() / 1000);
-
-    if (!payload || (payload.exp && payload.exp <= now)) {
-      router.replace('/auth/login');
-      return;
-    }
-    if (payload.role !== 'ADMIN') {
-      logout();
-      router.replace('/auth/login');
-      return;
-    }
-    setOk(true);
-  }, [router]);
-
-  if (!ok) return null;
   return (
     <Layout>
       <div className='flex flex-col items-center justify-center pt-[15rem]'>

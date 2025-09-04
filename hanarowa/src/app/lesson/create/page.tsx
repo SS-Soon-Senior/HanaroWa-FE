@@ -1,6 +1,10 @@
 'use client';
 
-import { usePostLesson, useCheckAvailability } from '@/apis/lesson';
+import {
+  usePostLesson,
+  useCheckAvailability,
+  useGetMemberBranch,
+} from '@/apis';
 import { IcImageUpload, IcUsers } from '@/assets/svg';
 import {
   Layout,
@@ -12,13 +16,8 @@ import {
   DatePicker,
   Modal,
 } from '@/components';
-import {
-  categoryOptions,
-  dayOptions,
-  timeOptions,
-} from '@/constants/lesson-options';
+import { categoryOptions, dayOptions, timeOptions } from '@/constants';
 import { components } from '@/types/api';
-import { useGetMemberBranch } from '@apis';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useState, useRef, useEffect } from 'react';
@@ -30,11 +29,8 @@ const Page = () => {
   const router = useRouter();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const { mutate: createLesson, isPending } = usePostLesson();
-  const {
-    mutate: checkAvailability,
-    data: availabilityData,
-    isPending: isCheckingAvailability,
-  } = useCheckAvailability();
+  const { mutate: checkAvailability, isPending: isCheckingAvailability } =
+    useCheckAvailability();
   const response = useGetMemberBranch();
   const myBranch = response.data?.result;
   const [disabledTimeSlots, setDisabledTimeSlots] = useState<string[]>([]);
@@ -80,7 +76,7 @@ const Page = () => {
       formData.startDate &&
       formData.endDate &&
       formData.days &&
-      myBranch!.branchId
+      myBranch?.branchId
     ) {
       // 먼저 시간 없이 한번 호출해서 timeSlots 배열 확인
       const durationWithoutTime = `${formData.startDate} ~ ${formData.endDate} ${formData.days}`;
@@ -141,7 +137,7 @@ const Page = () => {
           return;
         }
       } catch (error) {
-        // Single call 실패시 fallback
+        console.error('시간대 확인 중 오류 발생:', error);
       }
       const unavailableSlots: string[] = [];
 
@@ -185,6 +181,7 @@ const Page = () => {
             unavailableSlots.push(timeOption.value);
           }
         } catch (error) {
+          console.error('시간대 확인 중 오류 발생:', error);
           // 에러가 발생한 시간대는 사용 불가로 처리
           unavailableSlots.push(timeOption.value);
         }
@@ -202,14 +199,16 @@ const Page = () => {
       formData.startDate &&
       formData.endDate &&
       formData.days &&
-      formData.days !== ''
+      formData.days !== '' &&
+      myBranch?.branchId
     ) {
       checkTimeAvailability();
     } else {
       // 조건이 충족되지 않으면 비활성화 상태 초기화
       setDisabledTimeSlots([]);
     }
-  }, [formData.startDate, formData.endDate, formData.days, myBranch!.branchId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData.startDate, formData.endDate, formData.days, myBranch?.branchId]);
 
   const handleAddContent = () => {
     setFormData((prev) => ({
@@ -232,7 +231,7 @@ const Page = () => {
   };
 
   const handleSubmit = () => {
-    if (!myBranch!.branchId) {
+    if (!myBranch?.branchId) {
       alert('지점 정보를 찾을 수 없습니다. 다시 로그인해주세요.');
       return;
     }

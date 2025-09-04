@@ -1,9 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useRef } from 'react';
 
-export const useDebounce = <
-  T extends (...args: Parameters<T>) => ReturnType<T>,
->(
+const useDebounce = <T extends (...args: Parameters<T>) => ReturnType<T>>(
   cb: T,
   delay: number,
   depArr: unknown[],
@@ -15,7 +13,7 @@ export const useDebounce = <
   }, depArr);
 };
 
-export const useTimeout = <T extends (...args: Parameters<T>) => ReturnType<T>>(
+const useTimeout = <T extends (...args: Parameters<T>) => ReturnType<T>>(
   cb: T,
   delay: number,
   depArr: unknown[] = [],
@@ -44,3 +42,5 @@ export const useTimeout = <T extends (...args: Parameters<T>) => ReturnType<T>>(
 
   return { reset, clear, ref: timerRef.current };
 };
+
+export default useDebounce;

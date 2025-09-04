@@ -1,9 +1,13 @@
-import { client } from '@apis';
 import { components } from '@/types/api';
+import { client } from '@apis';
 
-type UpdateLessonStateRequest = components['schemas']['LessonGisuStateUpdateRequestDto'];
+type UpdateLessonStateRequest =
+  components['schemas']['LessonGisuStateUpdateRequestDto'];
 
-const updateLessonState = (lessonGisuId: number, data: UpdateLessonStateRequest) => {
+const updateLessonState = (
+  lessonGisuId: number,
+  data: UpdateLessonStateRequest
+) => {
   return client.PATCH('/admin/lesson/{lessonGisuId}/state', {
     params: {
       path: {

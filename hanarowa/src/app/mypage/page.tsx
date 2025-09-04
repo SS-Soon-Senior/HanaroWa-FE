@@ -1,9 +1,9 @@
 'use client';
 
+import { usePostSignOut } from '@/apis/auth/postAuth';
 import { IcMyMember, IcMyPassword, IcMyLogout, IcMyUnsub } from '@/assets/svg';
 import { Header, BottomNavigation, Layout, Modal } from '@/components';
 import { useModal } from '@/hooks';
-import { logout } from '@/utils/common/auth';
 import { useGetMemberInfo, useWithdrawMember } from '@apis';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -16,18 +16,29 @@ const Page = () => {
   const [name, setName] = useState<string>('');
   const { isOpen, openModal, closeModal } = useModal();
   const { data } = useGetMemberInfo();
+  const { mutate: logout } = usePostSignOut();
 
   const router = useRouter();
   const { mutate } = useWithdrawMember();
+
+  const handleLogout = async () => {
+    logout(
+      {},
+      {
+        onSuccess: () => {
+          router.replace('/auth/login/social');
+        },
+      }
+    );
+  };
 
   const handleUnsubscribe = async () => {
     mutate(
       {},
       {
-        onSuccess: () => {
-          logout();
+        onSuccess: async () => {
           closeModal();
-          router.replace('/');
+          handleLogout();
         },
 
         onError: (error) => {
@@ -63,11 +74,12 @@ const Page = () => {
           <h1 className={textStyle}>비밀번호 변경</h1>
         </Link>
 
-        {/* 로그아웃 기능 구현 필요*/}
-        <Link href='/auth/login/social' className={divStyle} onClick={logout}>
+        <div className={divStyle}>
           <IcMyLogout />
-          <h1 className={textStyle}>로그아웃</h1>
-        </Link>
+          <button className={textStyle} onClick={handleLogout}>
+            로그아웃
+          </button>
+        </div>
 
         <div
           className='flex flex-row items-center gap-[1.1rem]'

@@ -1,6 +1,6 @@
 'use client';
 
-import { usePostLessonReview } from '@/apis/lesson';
+import { usePostLessonReview } from '@/apis';
 import {
   Button,
   ErrorMessage,

@@ -1,16 +1,9 @@
 'use client';
 
 import { IcImageUpload, IcUsers } from '@/assets/svg';
-import {
-  categoryOptions,
-  dayOptions,
-  timeOptions,
-} from '@/constants/lesson-options';
+import { categoryOptions, dayOptions, timeOptions } from '@/constants';
 import { StatusKey } from '@/constants/status';
-import {
-  useLessonEditContext,
-  LessonEditProvider,
-} from '@/contexts/LessonEditContext';
+import { useLessonEditContext, LessonEditProvider } from '@/contexts';
 import {
   Layout,
   Header,
