@@ -1,6 +1,5 @@
 'use client';
 
-import useGetMemberBranch from '@/apis/member/useGetMemberBranch';
 import {
   IcSofa,
   IcAdminUsers,
