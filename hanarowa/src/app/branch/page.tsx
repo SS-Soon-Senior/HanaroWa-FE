@@ -2,18 +2,26 @@
 
 import { IcPlayByeoldol } from '@/assets/svg';
 import { BranchButton, Layout } from '@/components';
-import { useBranch } from '@/hooks';
 import { components } from '@/types/api';
+import { useGetBranch, usePostBranch } from '@apis';
 import { useRouter } from 'next/navigation';
 
 type Branch = components['schemas']['BranchResponseDTO'];
 
 const Page = () => {
-  const { updateMyBranch, brancheSet } = useBranch();
+  const response = useGetBranch();
+  const brancheSet = response.data?.result || [];
+  const { mutate: updateMyBranch } = usePostBranch();
   const router = useRouter();
 
   const onClickBranch = (branch: Branch) => {
-    updateMyBranch(branch);
+    updateMyBranch({
+      params: {
+        path: {
+          branchId: branch.branchId!,
+        },
+      },
+    });
     router.push('/');
   };
 

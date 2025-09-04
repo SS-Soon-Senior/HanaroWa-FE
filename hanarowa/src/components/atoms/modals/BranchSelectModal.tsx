@@ -1,9 +1,7 @@
 'use client';
 
-import { useBranch } from '@/hooks';
 import { components } from '@/types/api';
-import { on } from 'events';
-import { useEffect } from 'react';
+import { usePostBranch, useGetBranch } from '@apis';
 import BranchButton from '../buttons/BranchButton';
 
 type BranchSelectModalProps = {
@@ -19,26 +17,22 @@ const BranchSelectModal = ({
   onClose,
   onSelect,
 }: BranchSelectModalProps) => {
-  const { updateMyBranch, brancheSet } = useBranch();
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen]);
+  const response = useGetBranch();
+  const brancheSet = response.data?.result || [];
+  const { mutate: updateMyBranch } = usePostBranch();
 
   const handleBranchSelect = (branch: Branch) => {
     if (!!onSelect) {
       onSelect(branch);
       return;
     }
-    updateMyBranch(branch);
+    updateMyBranch({
+      params: {
+        path: {
+          branchId: branch.branchId!,
+        },
+      },
+    });
     onClose();
   };
 

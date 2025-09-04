@@ -1,6 +1,6 @@
 import AdminStatusTag from '@/components/atoms/tags/AdminStatusTag';
 import { components } from '@/types/api';
-import { formatDuration } from '@/utils/formater';
+import { formatDuration } from '@/utils/formatter';
 import Link from 'next/link';
 
 type AdminManageCardProps =

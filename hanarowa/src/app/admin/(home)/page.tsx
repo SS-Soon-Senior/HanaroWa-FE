@@ -9,8 +9,8 @@ import {
   IcBookByeoldol,
 } from '@/assets/svg';
 import { getAccessToken, logout } from '@/utils/common/auth';
-import { Layout, BranchSelectHeader, MenuSection } from '@components';
-import { useBranch } from '@hooks';
+import { useGetBranch } from '@apis';
+import { Layout, MenuSection } from '@components';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -62,7 +62,8 @@ const secondMenu = [
 const Page = () => {
   const router = useRouter();
   const [ok, setOk] = useState(false);
-  const { myBranch } = useBranch();
+  const response = useGetBranch();
+  const brancheSet = response.data?.result || [];
 
   useEffect(() => {
     const token = getAccessToken();
@@ -87,15 +88,7 @@ const Page = () => {
 
   if (!ok) return null;
   return (
-    <Layout
-      header={
-        <BranchSelectHeader
-          location={myBranch.locationName ?? ''}
-          title={myBranch.branchName ?? ''}
-          admin={true}
-        />
-      }
-    >
+    <Layout>
       <div className='flex flex-col items-center justify-center pt-[15rem]'>
         <div className='flex flex-col items-center justify-center'>
           <IcBookByeoldol />

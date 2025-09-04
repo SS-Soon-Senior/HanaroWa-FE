@@ -101,3 +101,21 @@ export const calculateDurationInWeeks = (input: string): string => {
     return '기간 계산 오류';
   }
 };
+
+export const formatPhone = (v: string) => {
+  const d = v.replace(/\D/g, '').slice(0, 11);
+  if (d.length <= 3) return d;
+  if (d.length <= 7) return `${d.slice(0, 3)}-${d.slice(3)}`;
+  return `${d.slice(0, 3)}-${d.slice(3, 7)}-${d.slice(7, 11)}`;
+};
+
+// YYYYMMDD -> YYYY-MM-DD 변환
+export const formatDateToISO = (dateStr: string) => {
+  if (!dateStr || dateStr.length !== 8) return '';
+  return `${dateStr.slice(0, 4)}-${dateStr.slice(4, 6)}-${dateStr.slice(6, 8)}`;
+};
+
+// YYYY-MM-DD -> YYYYMMDD 변환
+export const formatDateFromISO = (isoDate: string) => {
+  return isoDate.replace(/\D/g, '');
+};
