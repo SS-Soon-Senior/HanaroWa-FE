@@ -1,11 +1,13 @@
-import getMyFacility from '@/apis/facility/getMyFacility';
+'use client';
+
+import useGetMyFacility from '@/apis/facility/useGetMyFacility';
 import { Header, Layout, StatusTag, RoomReservationCard } from '@/components';
 
-const Page = async () => {
-  const { data: myfacilities } = await getMyFacility();
-  if (!myfacilities) return <div>예약 내역이 없습니다.</div>;
-  const reservations = myfacilities.result?.filter((f) => !f.isUsed) ?? [];
-  const completes = myfacilities.result?.filter((f) => f.isUsed) ?? [];
+const Page = () => {
+  const { data, refetch } = useGetMyFacility();
+  const reservations = data?.result?.filter((f) => !f.isUsed) ?? [];
+  const completes = data?.result?.filter((f) => f.isUsed) ?? [];
+
   return (
     <Layout header={<Header title='내 예약 내역' />}>
       <div className='flex w-full flex-col gap-8 p-4'>
@@ -14,7 +16,11 @@ const Page = async () => {
           <div className='space-y-4'>
             <StatusTag status='reservation' />
             {reservations.map((facility, index) => (
-              <RoomReservationCard key={`reservation-${index}`} {...facility} />
+              <RoomReservationCard
+                key={`reservation-${index}`}
+                {...facility}
+                refetch={refetch}
+              />
             ))}
           </div>
         )}
@@ -28,7 +34,11 @@ const Page = async () => {
           <div className='space-y-4'>
             <StatusTag status='complete' />
             {completes.map((facility, index) => (
-              <RoomReservationCard key={`complete-${index}`} {...facility} />
+              <RoomReservationCard
+                key={`complete-${index}`}
+                {...facility}
+                refetch={refetch}
+              />
             ))}
           </div>
         )}
