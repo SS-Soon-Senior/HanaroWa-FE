@@ -1,7 +1,10 @@
-import { client } from '@apis';
+'use server';
 
-const getLessons = () => {
-  return client.GET('/admin/lesson');
+import { createServerClient } from '@/apis/serverClient';
+
+const getLessons = async () => {
+  const client = await createServerClient();
+  return client.GET(`/admin/lesson`);
 };
 
 export default getLessons;
