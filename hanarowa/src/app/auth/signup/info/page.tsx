@@ -10,28 +10,18 @@ import {
   ErrorMessage,
   DatePicker,
 } from '@/components';
-import { setAccessToken } from '@/utils/common/auth';
 import {
   formatDateFromISO,
   formatDateToISO,
   formatPhone,
 } from '@/utils/formatter';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { ChangeEvent, useState } from 'react';
 
 const Page = () => {
   const router = useRouter();
   const [birth, setBirth] = useState('');
   const [phone, setPhone] = useState('');
-  const params = useSearchParams();
-
-  useEffect(() => {
-    const accessToken = params.get('accessToken');
-    if (accessToken) {
-      setAccessToken(accessToken);
-      router.replace('/auth/signup/info');
-    }
-  }, [params, router]);
 
   const { mutate } = usePostMemberInfo();
 

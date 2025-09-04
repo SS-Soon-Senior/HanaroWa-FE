@@ -1,7 +1,8 @@
-import { client } from '@apis';
 import { components } from '@/types/api';
+import { client } from '@apis';
 
-type UpdateLessonDetailRequestDTO = components['schemas']['UpdateLessonDetailRequestDTO'];
+type UpdateLessonDetailRequestDTO =
+  components['schemas']['UpdateLessonDetailRequestDTO'];
 
 const updateLesson = (lessonId: string, data: UpdateLessonDetailRequestDTO) => {
   return client.PATCH('/admin/lesson/{lessonId}', {

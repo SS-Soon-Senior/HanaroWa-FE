@@ -166,6 +166,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/signout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 로그아웃
+         * @description 사용자 로그아웃 처리 및 쿠키 삭제
+         */
+        post: operations["logout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/auth/signin": {
         parameters: {
             query?: never;
@@ -192,26 +212,6 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["refresh"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/auth/logout": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * 로그아웃
-         * @description 사용자 로그아웃 및 refreshToken 삭제
-         */
-        post: operations["logout"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1152,6 +1152,45 @@ export interface components {
             name?: string;
             branches?: components["schemas"]["Branch"][];
         };
+<<<<<<< HEAD
+=======
+        ApiResponseListFacilityReservationResponseDTO: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: components["schemas"]["FacilityReservationResponseDTO"][];
+        };
+        FacilityReservationResponseDTO: {
+            /** Format: int64 */
+            reservationId?: number;
+            facilityName?: string;
+            branchName?: string;
+            startedAt?: string;
+            reservedAt?: string;
+            isUsed?: boolean;
+        };
+        ApiResponseFacilityDetailResponseDTO: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: components["schemas"]["FacilityDetailResponseDTO"];
+        };
+        FacilityDetailResponseDTO: {
+            /** Format: int64 */
+            facilityId?: number;
+            facilityName?: string;
+            facilityDescription?: string;
+            facilityImages?: components["schemas"]["FacilityImageResponseDTO"][];
+            facilityTimes?: {
+                [key: string]: string[];
+            };
+        };
+        FacilityImageResponseDTO: {
+            /** Format: int64 */
+            facilityImgId?: number;
+            imgUrl?: string;
+        };
+>>>>>>> b19db1968c183ccd3e24d4bbfd4ecd1c58b62701
         ApiResponseListBranchResponseDTO: {
             isSuccess?: boolean;
             code?: string;
@@ -1479,6 +1518,29 @@ export interface operations {
             };
         };
     };
+    logout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                accessToken?: string;
+                refreshToken?: string;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseString"];
+                };
+            };
+        };
+    };
     signin: {
         parameters: {
             query?: never;
@@ -1521,6 +1583,7 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiResponseVoid"];
+<<<<<<< HEAD
                 };
             };
         };
@@ -1541,6 +1604,8 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiResponseString"];
+=======
+>>>>>>> b19db1968c183ccd3e24d4bbfd4ecd1c58b62701
                 };
             };
         };
@@ -1883,6 +1948,7 @@ export interface operations {
             };
         };
     };
+<<<<<<< HEAD
     getFacilityByBranchId: {
         parameters: {
             query?: never;
@@ -1905,6 +1971,8 @@ export interface operations {
             };
         };
     };
+=======
+>>>>>>> b19db1968c183ccd3e24d4bbfd4ecd1c58b62701
     getBranches: {
         parameters: {
             query?: never;
