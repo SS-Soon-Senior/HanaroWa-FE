@@ -1,3 +1,6 @@
+'use client';
+
+import { useReservationCountWS } from '@/apis/lesson/useReservationCountWs';
 import { IcPeople } from '@/assets/svg';
 import { CategoryTag } from '@/components/atoms';
 import { CategoryKey } from '@/constants/category';
@@ -9,6 +12,7 @@ type LessonInfoProps = {
   currentApplicants: number;
   maxApplicants: number;
   price: number;
+  lessonGisuId: number;
 };
 
 const LessonInfo = ({
@@ -18,7 +22,13 @@ const LessonInfo = ({
   currentApplicants,
   maxApplicants,
   price,
+  lessonGisuId,
 }: LessonInfoProps) => {
+  const { data: count } = useReservationCountWS(lessonGisuId);
+
+  const displayedCurrentApplicants = count?.reserved ?? currentApplicants;
+  const displayedMaxApplicants = count?.capacity ?? maxApplicants;
+
   return (
     <div className='flex w-full flex-col gap-[2.7rem] py-[2.5rem]'>
       <div className='flex flex-col gap-[1.2rem]'>
@@ -33,7 +43,7 @@ const LessonInfo = ({
             <span className='text-gray280 font-medium-18'>현재신청자</span>
           </div>
           <span className='text-main font-heavy-20'>
-            {currentApplicants}/{maxApplicants}명
+            {displayedCurrentApplicants}/{displayedMaxApplicants}명
           </span>
         </div>
         <div className='flex items-center justify-between'>
