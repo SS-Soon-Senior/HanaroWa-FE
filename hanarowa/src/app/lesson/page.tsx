@@ -3,6 +3,7 @@
 import useGetFilterLessonList from '@/apis/lesson/useGetFilterLessonList';
 import { CategoryKey } from '@/constants/category';
 import { components } from '@/types/api';
+import { useGetMemberBranch } from '@apis';
 import {
   Layout,
   Header,
@@ -11,17 +12,20 @@ import {
   LessonCard,
   BranchSelectModal,
 } from '@components';
-import { useBranch, useModal } from '@hooks';
+import { useModal } from '@hooks';
 import { useState } from 'react';
 
 type Branch = components['schemas']['BranchResponseDTO'];
 
 const Page = () => {
-  const { myBranch } = useBranch();
+  const branchResponse = useGetMemberBranch();
+  const myBranch = branchResponse.data?.result;
   const [selectedCategories, setSelectedCategories] = useState<CategoryKey[]>(
     []
   );
-  const [selectedBranch, setSelectedBranch] = useState<Branch>(myBranch);
+  const [selectedBranch, setSelectedBranch] = useState<Branch>(
+    myBranch ?? { branchId: 1, branchName: '', locationName: '' }
+  );
 
   const handleCategoryChange = (categories: CategoryKey[]) => {
     setSelectedCategories(categories);

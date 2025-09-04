@@ -17,4 +17,19 @@ const logout = () => {
   Cookies.remove('refreshToken');
 };
 
-export { getAccessToken, setAccessToken, clearAccessToken, logout };
+const getBranch = () => {
+  return Cookies.get('branchId');
+};
+
+const setBranch = (branch: string) => {
+  Cookies.set('branchId', branch, { path: '/' });
+};
+
+export {
+  getAccessToken,
+  setAccessToken,
+  clearAccessToken,
+  logout,
+  getBranch,
+  setBranch,
+};

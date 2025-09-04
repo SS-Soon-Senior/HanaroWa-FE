@@ -1,6 +1,7 @@
 'use client';
 
 import { IcSearch, IcBell, IcBook, IcSofa, IcCalendar } from '@/assets/svg';
+import { useGetMemberBranch } from '@apis';
 import {
   Layout,
   BottomNavigation,
@@ -8,7 +9,6 @@ import {
   MenuSection,
   LessonSection,
 } from '@components';
-import { useBranch } from '@hooks';
 
 const lectureMenu = [
   {
@@ -42,13 +42,14 @@ const reservationMenu = [
 ];
 
 const Page = () => {
-  const { myBranch } = useBranch();
+  const response = useGetMemberBranch();
+  const myBranch = response.data?.result;
 
   return (
     <Layout footer={<BottomNavigation />}>
       <BranchSelectHeader
-        location={myBranch.locationName ?? ''}
-        title={myBranch.branchName ?? ''}
+        location={myBranch?.locationName ?? ''}
+        title={myBranch?.branchName ?? ''}
       />
       <MenuSection title='강좌' items={lectureMenu} />
       <MenuSection title='예약 하기' items={reservationMenu} />
