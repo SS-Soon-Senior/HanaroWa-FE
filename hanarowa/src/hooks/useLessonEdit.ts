@@ -126,8 +126,11 @@ export function useLessonEdit(id: string | undefined) {
 
     const fetchLessonGisuDetail = async () => {
       try {
+        console.log('📍 URL에서 받은 id:', id);
+        console.log('📍 lessonGisuId로 API 호출:', Number(id));
         setLoading(true);
         const response = await getLessonGisuDetail(Number(id));
+        console.log('📍 API 응답 데이터:', response.result);
         const lessonData = response.result
           ? convertToLesson(response.result)
           : null;
@@ -381,7 +384,7 @@ export function useLessonEdit(id: string | undefined) {
         })(),
         lessonState: originalData.lessonState || 'PENDING',
         curriculums: allCurriculumContent.map((content, index) => ({
-          id: originalCurriculums[index]?.id ?? index + 1,
+          id: originalCurriculums[index]?.id ?? -1, // 새로 추가되는 것은 -1로
           content,
         })),
       };
@@ -393,13 +396,17 @@ export function useLessonEdit(id: string | undefined) {
     if (!id || !initial) return;
 
     try {
+      console.log('🔄 업데이트 시작 - lessonGisuId:', id);
       setLoading(true);
       const response = await getLessonGisuDetail(Number(id));
       const originalData = response.result;
       if (!originalData) throw new Error('원본 데이터를 불러올 수 없습니다');
 
       const payload = buildPayload(originalData);
+      console.log('🔄 업데이트 payload:', payload);
+      console.log('🔄 updateLessonGisu 호출 - lessonGisuId:', Number(id).toString());
       await updateLessonGisu(Number(id).toString(), payload);
+      console.log('✅ 업데이트 성공');
       return true; // 성공 시 true 반환
     } catch (error) {
       console.error('강좌 기수 수정 실패:', error);
