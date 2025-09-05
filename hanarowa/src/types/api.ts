@@ -717,6 +717,8 @@ export interface components {
             duration: string;
             /** Format: int64 */
             lessonRoomId: number;
+            /** @enum {string} */
+            state?: "PENDING" | "APPROVED" | "REJECTED";
             curriculums: components["schemas"]["CreateCurriculumRequestDTO"][];
         };
         CreateLessonRequestDTO: {
@@ -992,8 +994,8 @@ export interface components {
             duration?: string;
             lessonRoomName?: string;
             reservedAt?: string;
-            notStarted?: boolean;
             inProgress?: boolean;
+            notStarted?: boolean;
             reviewed?: boolean;
         };
         MyOpenLessonListResponseDTO: {
