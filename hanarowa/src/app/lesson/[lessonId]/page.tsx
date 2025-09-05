@@ -16,6 +16,7 @@ import {
   formatLessonTime,
   formatStartDate,
 } from '@/utils/formatter';
+import { getValidImageUrl } from '@/utils/utils';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import { use } from 'react';
@@ -37,6 +38,9 @@ const Page = ({ params }: Props) => {
   const duration = calculateDurationInWeeks(
     lessonData?.lessonGisus?.[0].duration ?? ''
   ); // "8주"
+
+  // 유효한 이미지 URL 가져오기
+  const validImageUrl = getValidImageUrl(lessonData?.lessonImg);
 
   async function applyForLessonAction() {
     'use server';
@@ -61,7 +65,7 @@ const Page = ({ params }: Props) => {
       <form className='flex w-full flex-col' action={applyForLessonAction}>
         <div className='relative -mx-[2rem] h-[28rem] w-[calc(100%+4rem)]'>
           <Image
-            src={lessonData?.lessonImg ?? '/images/lesson/sample-lesson.png'}
+            src={validImageUrl}
             alt='lesson-detail-image'
             fill
             className='object-cover'

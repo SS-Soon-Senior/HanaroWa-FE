@@ -3,9 +3,15 @@
 import { IcHeaderArrow } from '@/assets/svg';
 import { useRouter } from 'next/navigation';
 
-const GoBackButton = () => {
+const GoBackButton = ({ backUrl }: { backUrl?: string }) => {
   const router = useRouter();
-  const handleGoBack = () => router.back();
+  const handleGoBack = () => {
+    if (backUrl) {
+      router.push(backUrl);
+    } else {
+      router.back();
+    }
+  };
 
   return <IcHeaderArrow onClick={handleGoBack} />;
 };
