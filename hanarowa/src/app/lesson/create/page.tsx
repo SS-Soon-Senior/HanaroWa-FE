@@ -20,7 +20,11 @@ import {
 } from '@/components';
 import { categoryOptions, dayOptions, timeOptions } from '@/constants';
 import { components } from '@/types/api';
-import { handleNumberKeyDown, handleNumberInput, createNumberChangeHandler } from '@/utils/numberInput';
+import {
+  handleNumberKeyDown,
+  handleNumberInput,
+  createNumberChangeHandler,
+} from '@/utils/numberInput';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useState, useRef, useEffect } from 'react';
@@ -573,7 +577,10 @@ const Page = () => {
               type='number'
               placeholder='20'
               value={formData.expectedParticipants}
-              onChange={createNumberChangeHandler('expectedParticipants', handleInputChange)}
+              onChange={createNumberChangeHandler(
+                'expectedParticipants',
+                handleInputChange
+              )}
               onKeyDown={handleNumberKeyDown}
               onInput={handleNumberInput}
               className='text-right'
