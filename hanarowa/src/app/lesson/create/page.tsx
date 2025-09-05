@@ -20,6 +20,7 @@ import {
 } from '@/components';
 import { categoryOptions, dayOptions, timeOptions } from '@/constants';
 import { components } from '@/types/api';
+import { handleNumberKeyDown, handleNumberInput, createNumberChangeHandler } from '@/utils/numberInput';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useState, useRef, useEffect } from 'react';
@@ -367,26 +368,9 @@ const Page = () => {
             type='number'
             placeholder='10,000'
             value={formData.fee}
-            onChange={(e) => {
-              const value = e.target.value;
-              if (value === '' || /^\d+$/.test(value)) {
-                handleInputChange('fee', value);
-              }
-            }}
-            onKeyDown={(e) => {
-              if (
-                !/[0-9]/.test(e.key) &&
-                ![
-                  'Backspace',
-                  'Delete',
-                  'ArrowLeft',
-                  'ArrowRight',
-                  'Tab',
-                ].includes(e.key)
-              ) {
-                e.preventDefault();
-              }
-            }}
+            onChange={createNumberChangeHandler('fee', handleInputChange)}
+            onKeyDown={handleNumberKeyDown}
+            onInput={handleNumberInput}
             fullWidth
             containerClassName='!h-[5.6rem] !px-[2rem] !py-0'
           />
@@ -589,9 +573,9 @@ const Page = () => {
               type='number'
               placeholder='20'
               value={formData.expectedParticipants}
-              onChange={(e) =>
-                handleInputChange('expectedParticipants', e.target.value)
-              }
+              onChange={createNumberChangeHandler('expectedParticipants', handleInputChange)}
+              onKeyDown={handleNumberKeyDown}
+              onInput={handleNumberInput}
               className='text-right'
               containerClassName='!border-none !bg-transparent !p-0 !rounded-none !h-auto'
             />
