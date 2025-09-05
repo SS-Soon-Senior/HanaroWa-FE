@@ -41,6 +41,11 @@ const Page = () => {
   return (
     <Layout header={<Header title='내 예약 내역' />}>
       <div className='flex w-full flex-col gap-8 p-4'>
+        {reservations.length === 0 && completes.length === 0 && (
+          <div className='text-gray666 border-gray4a9 h-screen rounded-2xl py-80 text-center text-3xl'>
+            예약 내역이 없습니다.
+          </div>
+        )}
         {/* 예약 중 섹션 */}
         {reservations.length > 0 && (
           <div className='space-y-4'>

@@ -13,6 +13,7 @@ import {
 } from '@/components';
 import { components } from '@/types/api';
 import createFacilityDate from '@/utils/facility';
+import { DEFAULT_IMAGE_URL } from '@/utils/imageUtils';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -145,8 +146,8 @@ const Page = () => {
       },
       {
         onSuccess: () => {
-          console.log('시설 예약 성공');
-          router.push('/complete');
+          const message = encodeURIComponent('시설 예약이');
+          router.push(`/complete?state=${message}`);
         },
         onError: (error) => {
           console.error('시설 예약 실패:', error);
@@ -159,7 +160,9 @@ const Page = () => {
     <Layout header={<Header showBackButton={true} title='예약하기' />}>
       <FacilityImageCarousel
         images={facilityImages.map((img) =>
-          img.imgUrl && img.imgUrl.trim() !== '' ? img.imgUrl : '/default.png'
+          img.imgUrl && img.imgUrl.trim() !== ''
+            ? img.imgUrl
+            : DEFAULT_IMAGE_URL
         )}
       />
 

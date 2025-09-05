@@ -1,6 +1,7 @@
 import { IcUsers } from '@/assets/svg';
 import { components } from '@/types/api';
 import { formatDuration, formatPrice } from '@/utils/formatter';
+import { getValidImageUrl } from '@/utils/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -16,6 +17,9 @@ const LessonCard = ({
   duration = '',
   capacity,
 }: LessonCardProps) => {
+  // 유효한 이미지 URL 가져오기
+  const validImageUrl = getValidImageUrl(lessonImg);
+
   return (
     <Link
       href={`/lesson/${lessonId}`}
@@ -23,7 +27,7 @@ const LessonCard = ({
     >
       <div className='relative aspect-square'>
         <Image
-          src={lessonImg!}
+          src={validImageUrl}
           alt={lessonName}
           fill
           className='rounded-8 object-cover'
@@ -43,9 +47,7 @@ const LessonCard = ({
             </span>
           </div>
         </div>
-        <p className='font-bold-18 text-black'>
-          월 {formatPrice(lessonFee!)}원
-        </p>
+        <p className='font-bold-18 text-black'>{formatPrice(lessonFee!)}원</p>
       </div>
     </Link>
   );

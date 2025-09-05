@@ -1,3 +1,4 @@
 import BranchFilter from './BranchFilter';
+import ToastProvider from './ToastProvider';
 
-export { BranchFilter };
+export { BranchFilter, ToastProvider };

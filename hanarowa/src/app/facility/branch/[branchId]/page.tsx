@@ -44,7 +44,10 @@ const Page = () => {
     <Layout header={<Header title='시설 예약하기' />}>
       <div className='flex w-full flex-col gap-7 p-4'>
         <BranchFilter
-          branchName={selectedBranch?.branchName || '지점 선택'}
+          branchName={
+            selectedBranch?.locationName + ' ' + selectedBranch?.branchName ||
+            '지점 선택'
+          }
           onChangeBranch={handleBranchChange}
         />
         {facilities.map(
@@ -52,10 +55,7 @@ const Page = () => {
             <FacilityCard
               key={facilityId}
               facilityId={facilityId!}
-              imageUrl={
-                mainImage?.facilityImage ??
-                'https://hanarowa-upload.s3.ap-northeast-2.amazonaws.com/uploads/hanabank.png'
-              }
+              imageUrl={mainImage?.facilityImage || ''}
               facilityName={facilityName ?? ''}
               description={facilityDescription ?? ''}
               height={200}
