@@ -37,7 +37,7 @@ const Page = () => {
         <div className='flex w-full flex-col gap-8 p-4'>
           {reservations.length === 0 && completes.length === 0 && (
             <div className='text-gray666 border-gray4a9 h-screen rounded-2xl py-80 text-center text-3xl'>
-              예약 내역이 없습니다.
+              수강 내역이 없습니다.
             </div>
           )}
           {reservations.length > 0 && (
@@ -93,7 +93,7 @@ const Page = () => {
         <div className='flex w-full flex-col gap-8 p-4'>
           {openLessons.length === 0 && completeLessons.length === 0 && (
             <div className='text-gray666 border-gray4a9 h-screen rounded-2xl py-80 text-center text-3xl'>
-              예약 내역이 없습니다.
+              개설 내역이 없습니다.
             </div>
           )}
           {openLessons.length > 0 && (
