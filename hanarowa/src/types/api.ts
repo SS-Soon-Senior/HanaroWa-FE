@@ -339,6 +339,24 @@ export interface paths {
         patch: operations["updateLessonState"];
         trace?: never;
     };
+    "/admin/lesson/gisu/{lessonGisuId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 관리자 기수 상세 조회 */
+        get: operations["getLessonGisuDetail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** 관리자 기수 정보 수정 */
+        patch: operations["updateLessonGisu"];
+        trace?: never;
+    };
     "/member/branch": {
         parameters: {
             query?: never;
@@ -717,6 +735,8 @@ export interface components {
             duration: string;
             /** Format: int64 */
             lessonRoomId: number;
+            /** @enum {string} */
+            state?: "PENDING" | "APPROVED" | "REJECTED";
             curriculums: components["schemas"]["CreateCurriculumRequestDTO"][];
         };
         CreateLessonRequestDTO: {
@@ -924,6 +944,45 @@ export interface components {
             lessonGisuId?: number;
             lessonState?: string;
         };
+        UpdateLessonGisuRequestDTO: {
+            lessonName: string;
+            instructor: string;
+            instruction: string;
+            description: string;
+            /** @enum {string} */
+            category: "DIGITAL" | "LANGUAGE" | "TREND" | "OTHERS" | "FINANCE" | "HEALTH" | "CULTURE";
+            lessonImg?: string;
+            /** Format: int32 */
+            capacity: number;
+            /** Format: int32 */
+            lessonFee: number;
+            duration: string;
+            /** @enum {string} */
+            lessonState: "PENDING" | "APPROVED" | "REJECTED";
+            curriculums?: components["schemas"]["UpdateCurriculumDTO"][];
+        };
+        ApiResponseLessonGisuDetailResponseDTO: {
+            isSuccess?: boolean;
+            code?: string;
+            message?: string;
+            result?: components["schemas"]["LessonGisuDetailResponseDTO"];
+        };
+        LessonGisuDetailResponseDTO: {
+            lessonName?: string;
+            instructor?: string;
+            instruction?: string;
+            description?: string;
+            category?: string;
+            lessonImg?: string;
+            /** Format: int32 */
+            capacity?: number;
+            /** Format: int32 */
+            lessonFee?: number;
+            duration?: string;
+            /** @enum {string} */
+            lessonState?: "PENDING" | "APPROVED" | "REJECTED";
+            curriculums?: components["schemas"]["CurriculumResponseDTO"][];
+        };
         ApiResponseMemberInfoResponseDTO: {
             isSuccess?: boolean;
             code?: string;
@@ -992,9 +1051,9 @@ export interface components {
             duration?: string;
             lessonRoomName?: string;
             reservedAt?: string;
+            notStarted?: boolean;
             inProgress?: boolean;
             reviewed?: boolean;
-            notStarted?: boolean;
         };
         MyOpenLessonListResponseDTO: {
             /** Format: int64 */
@@ -1752,6 +1811,54 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiResponseLessonGisuStateUpdateResponseDto"];
+                };
+            };
+        };
+    };
+    getLessonGisuDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lessonGisuId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseLessonGisuDetailResponseDTO"];
+                };
+            };
+        };
+    };
+    updateLessonGisu: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lessonGisuId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateLessonGisuRequestDTO"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseLessonGisuDetailResponseDTO"];
                 };
             };
         };

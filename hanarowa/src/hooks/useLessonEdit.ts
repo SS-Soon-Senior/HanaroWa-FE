@@ -1,10 +1,13 @@
 'use client';
 
 import { components } from '@/types/api';
-import { Lesson, LessonFormData, LessonUpdatePayload } from '@/types/lesson';
-import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
+import { Lesson, LessonFormData } from '@/types/lesson';
+import { getLessonGisuDetail, updateLessonGisu } from '@apis';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-type LessonDetailResponseDTO = components['schemas']['LessonDetailResponseDTO'];
+type LessonGisuDetailResponseDTO = components['schemas']['LessonGisuDetailResponseDTO'];
+type UpdateLessonGisuRequestDTO =
+  components['schemas']['UpdateLessonGisuRequestDTO'];
 
 // API 카테고리를 한글 라벨로 매핑
 const categoryMapping: Record<string, string> = {
@@ -39,7 +42,9 @@ function parseDuration(duration: string) {
   if (!duration) return result;
 
   // 날짜 범위 파싱 (YYYY-MM-DD ~ YYYY-MM-DD)
-  const dateMatch = duration.match(/(\d{4}-\d{2}-\d{2})~(\d{4}-\d{2}-\d{2})/);
+  const dateMatch = duration.match(
+    /(\d{4}-\d{2}-\d{2})\s*~\s*(\d{4}-\d{2}-\d{2})/
+  );
   if (dateMatch) {
     result.startDate = dateMatch[1];
     result.endDate = dateMatch[2];
@@ -56,42 +61,39 @@ function parseDuration(duration: string) {
   // 시간 파싱 (17:00-18:00)
   const timeMatch = duration.match(/(\d{2}:\d{2})-(\d{2}:\d{2})/);
   if (timeMatch) {
-    result.time = `${timeMatch[1]}~${timeMatch[2]}`;
+    result.time = `${timeMatch[1]} ~ ${timeMatch[2]}`;
   }
 
   return result;
 }
 
 // LessonDetailResponseDTO를 Lesson 타입으로 변환하는 함수
-function convertToLesson(dto: LessonDetailResponseDTO): Lesson | null {
+function convertToLesson(dto: LessonGisuDetailResponseDTO): Lesson | null {
   if (!dto) return null;
 
-  // 첫 번째 기수의 정보를 사용
-  const firstGisu = dto.lessonGisus?.[0];
-  if (!firstGisu) return null;
-
   // duration 파싱
-  const parsedDuration = parseDuration(firstGisu.duration || '');
+  const parsedDuration = parseDuration(dto.duration || '');
 
   return {
     title: dto.lessonName || '',
-    instructorIntro: dto.instructor || '',
-    lessonIntro: dto.instruction || '',
-    fee: firstGisu.lessonFee?.toString() || '',
+    instructorName: dto.instructor || '',
+    instructorIntro: dto.instruction || '',
+    lessonIntro: dto.description || '',
+    fee: dto.lessonFee?.toString() || '',
     category: categoryMapping[dto.category || ''] || dto.category || '',
     startDate: parsedDuration.startDate,
     endDate: parsedDuration.endDate,
     days: parsedDuration.days,
     time: parsedDuration.time,
     imageUrl: dto.lessonImg,
-    lessonDescription: dto.description || '',
-    expectedParticipants: firstGisu.capacity?.toString() || '',
+    lessonDescription: dto.curriculums?.[0]?.content || '',
+    expectedParticipants: dto.capacity?.toString() || '',
     additionalContents:
-      firstGisu.curriculums?.map((c) => c.content || '') || [],
+      dto.curriculums?.slice(1).map((c) => c.content || '') || [],
     status:
-      firstGisu.lessonState === 'APPROVED'
+      dto.lessonState === 'APPROVED'
         ? '승인'
-        : firstGisu.lessonState === 'REJECTED'
+        : dto.lessonState === 'REJECTED'
           ? '반려'
           : '대기중',
   };
@@ -103,6 +105,7 @@ export function useLessonEdit(id: string | undefined) {
 
   const [formData, setFormData] = useState<LessonFormData>({
     title: '',
+    instructorName: '',
     instructorIntro: '',
     lessonIntro: '',
     fee: '',
@@ -117,15 +120,55 @@ export function useLessonEdit(id: string | undefined) {
     additionalContents: [],
   });
 
+  // 실제 API 호출
   useEffect(() => {
-    if (!initial) return;
-    setFormData((prev) => ({
-      ...prev,
-      additionalContents: Array(initial.additionalContents?.length ?? 0).fill(
-        ''
-      ),
-    }));
-  }, [initial]);
+    if (!id) return;
+
+    const fetchLessonGisuDetail = async () => {
+      try {
+        console.log('📍 URL에서 받은 id:', id);
+        console.log('📍 lessonGisuId로 API 호출:', Number(id));
+        setLoading(true);
+        const response = await getLessonGisuDetail(Number(id));
+        console.log('📍 API 응답 데이터:', response.result);
+        const lessonData = response.result
+          ? convertToLesson(response.result)
+          : null;
+        setInitial(lessonData);
+      } catch (error) {
+        console.error('강좌 기수 상세 정보 가져오기 실패:', error);
+        setInitial(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLessonGisuDetail();
+  }, [id]);
+
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    if (!initial || isInitialized) return;
+
+    setFormData({
+      title: initial.title || '',
+      instructorName: initial.instructorName || '',
+      instructorIntro: initial.instructorIntro || '',
+      lessonIntro: initial.lessonIntro || '',
+      fee: initial.fee || '',
+      category: initial.category || '',
+      startDate: initial.startDate || '',
+      endDate: initial.endDate || '',
+      days: initial.days || '',
+      time: initial.time || '',
+      lessonImage: null,
+      lessonDescription: initial.lessonDescription || '',
+      expectedParticipants: initial.expectedParticipants || '',
+      additionalContents: initial.additionalContents || [],
+    });
+    setIsInitialized(true);
+  }, [initial, isInitialized]);
 
   const handleInputChange = useCallback(
     <K extends keyof LessonFormData>(field: K, value: LessonFormData[K]) => {
@@ -159,12 +202,6 @@ export function useLessonEdit(id: string | undefined) {
     }));
   }, []);
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const removeImage = useCallback(() => {
-    handleInputChange('lessonImage', null);
-    if (fileInputRef.current) fileInputRef.current.value = '';
-  }, [handleInputChange]);
-
   const additionalCount = useMemo(
     () =>
       Math.max(
@@ -175,8 +212,11 @@ export function useLessonEdit(id: string | undefined) {
   );
 
   const isDirty = useMemo(() => {
+    if (!initial) return false;
+
     const {
       title,
+      instructorName,
       instructorIntro,
       lessonIntro,
       fee,
@@ -191,89 +231,211 @@ export function useLessonEdit(id: string | undefined) {
       lessonImage,
     } = formData;
 
-    const anyText = [
-      title,
-      instructorIntro,
-      lessonIntro,
-      fee,
-      category,
-      startDate,
-      endDate,
-      days,
-      time,
-      lessonDescription,
-      expectedParticipants,
-    ].some((v) => (v ?? '').toString().trim() !== '');
-    const anyAdds =
-      (additionalContents?.length ?? 0) > 0 &&
-      additionalContents.some((v) => (v ?? '').toString().trim() !== '');
-    const img = !!lessonImage;
+    // 각 필드가 초기값과 다른지 체크
+    const isChanged = [
+      title !== (initial.title || ''),
+      instructorName !== (initial.instructorName || ''),
+      instructorIntro !== (initial.instructorIntro || ''),
+      lessonIntro !== (initial.lessonIntro || ''),
+      fee !== (initial.fee || ''),
+      category !== (initial.category || ''),
+      startDate !== (initial.startDate || ''),
+      endDate !== (initial.endDate || ''),
+      days !== (initial.days || ''),
+      time !== (initial.time || ''),
+      lessonDescription !== (initial.lessonDescription || ''),
+      expectedParticipants !== (initial.expectedParticipants || ''),
+    ].some(Boolean);
 
-    return anyText || anyAdds || img;
-  }, [formData]);
+    // additionalContents 배열이 변경되었는지 체크
+    const additionalChanged = 
+      additionalContents.length !== (initial.additionalContents?.length ?? 0) ||
+      additionalContents.some((content, index) => 
+        content !== (initial.additionalContents?.[index] || '')
+      );
 
-  const buildPayload = useCallback((): LessonUpdatePayload => {
-    if (!initial) {
-      return {
-        title: formData.title,
-        instructorIntro: formData.instructorIntro,
-        lessonIntro: formData.lessonIntro,
-        fee: formData.fee,
-        category: formData.category,
-        startDate: formData.startDate,
-        endDate: formData.endDate,
-        days: formData.days,
-        time: formData.time,
-        lessonDescription: formData.lessonDescription,
-        expectedParticipants: formData.expectedParticipants,
-        additionalContents: formData.additionalContents.filter(
-          (v) => v?.trim() !== ''
-        ),
-      };
-    }
+    // 이미지가 새로 선택되었는지 체크
+    const imageChanged = !!lessonImage;
 
-    const base = initial.additionalContents ?? [];
-    const edits = formData.additionalContents ?? [];
-
-    const mergedExisting = base.map((orig, idx) => {
-      const v = edits[idx];
-      return v && v.trim() !== '' ? v : orig;
-    });
-    const extras = edits.slice(base.length).filter((v) => v && v.trim() !== '');
-
-    return {
-      title: formData.title.trim() || initial.title,
-      instructorIntro:
-        formData.instructorIntro.trim() || initial.instructorIntro,
-      lessonIntro: formData.lessonIntro.trim() || initial.lessonIntro,
-      fee: formData.fee.trim() || initial.fee,
-      category: formData.category.trim() || initial.category,
-      startDate: formData.startDate.trim() || initial.startDate,
-      endDate: formData.endDate.trim() || initial.endDate,
-      days: formData.days.trim() || initial.days,
-      time: formData.time.trim() || initial.time,
-      lessonDescription:
-        formData.lessonDescription.trim() || initial.lessonDescription,
-      expectedParticipants:
-        formData.expectedParticipants.trim() || initial.expectedParticipants,
-      additionalContents: [...mergedExisting, ...extras],
-    };
+    return isChanged || additionalChanged || imageChanged;
   }, [formData, initial]);
+
+  const buildPayload = useCallback(
+    (originalData: LessonGisuDetailResponseDTO): UpdateLessonGisuRequestDTO => {
+      // API 스키마에 맞게 데이터 변환
+      const getCategoryKey = (categoryLabel: string) => {
+        const mapping: Record<string, string> = {
+          '디지털/IT': 'DIGITAL',
+          '문화/예술': 'CULTURE',
+          '어학/인문': 'LANGUAGE',
+          건강: 'HEALTH',
+          트렌드: 'TREND',
+          기타: 'OTHERS',
+          금융: 'FINANCE',
+        };
+        return mapping[categoryLabel] || categoryLabel || 'OTHERS';
+      };
+
+      const getDayKey = (dayLabel: string) => {
+        const mapping: Record<string, string> = {
+          '월, 화, 수, 목, 금': 'mon-fri',
+          '월, 수': 'mon-wed',
+          '화, 목': 'tue-thu',
+          '토, 일': 'weekend',
+          매일: 'daily',
+        };
+        return mapping[dayLabel] || 'mon-fri';
+      };
+
+      const formatDuration = (
+        startDate: string,
+        endDate: string,
+        days: string,
+        time: string
+      ) => {
+        if (!startDate || !endDate || !days || !time) return '';
+        const dayKey = getDayKey(days);
+        // 시간 형식 통일: ' ~ ' 또는 '-' 둘 다 '-'로 변환
+        const timeFormatted = time.replace(' ~ ', '-').replace(/\s+/g, '');
+        return `${startDate} ~ ${endDate} ${dayKey} ${timeFormatted}`;
+      };
+
+      // 기존 데이터와 수정된 데이터 병합
+      const base = initial?.additionalContents ?? [];
+      const edits = formData.additionalContents ?? [];
+
+      const mergedExisting = base.map((orig, idx) => {
+        const v = edits[idx];
+        return v && v.trim() !== '' ? v : orig;
+      });
+      const extras = edits
+        .slice(base.length)
+        .filter((v) => v && v.trim() !== '');
+      const allContents = [...mergedExisting, ...extras];
+
+      // 원본 기수 데이터의 커리큘럼 정보 사용
+      const originalCurriculums = originalData.curriculums ?? [];
+
+      // 첫 번째 커리큘럼은 lessonDescription, 나머지는 additionalContents
+      const firstContent = formData.lessonDescription.trim() || initial?.lessonDescription || originalCurriculums[0]?.content || '';
+      const additionalContent = allContents.filter(content => content.trim() !== '');
+      const allCurriculumContent = [firstContent, ...additionalContent];
+
+      return {
+        lessonName:
+          formData.title.trim() ||
+          initial?.title ||
+          originalData.lessonName ||
+          '',
+        instructor:
+          formData.instructorName.trim() ||
+          initial?.instructorName ||
+          originalData.instructor ||
+          '',
+        instruction:
+          formData.instructorIntro.trim() ||
+          initial?.instructorIntro ||
+          originalData.instruction ||
+          '',
+        description:
+          formData.lessonIntro.trim() ||
+          initial?.lessonIntro ||
+          originalData.description ||
+          '',
+        category: (formData.category.trim()
+          ? getCategoryKey(formData.category.trim())
+          : initial?.category
+            ? getCategoryKey(initial.category)
+            : originalData.category) as
+          | 'DIGITAL'
+          | 'LANGUAGE'
+          | 'TREND'
+          | 'OTHERS'
+          | 'FINANCE'
+          | 'HEALTH'
+          | 'CULTURE',
+        lessonImg: originalData.lessonImg,
+        capacity:
+          parseInt(
+            formData.expectedParticipants.trim() ||
+              initial?.expectedParticipants ||
+              originalData.capacity?.toString() ||
+              '0'
+          ) || 0,
+        lessonFee:
+          parseInt(
+            formData.fee.trim() ||
+              initial?.fee ||
+              originalData.lessonFee?.toString() ||
+              '0'
+          ) || 0,
+        duration: (() => {
+          const newStartDate =
+            formData.startDate.trim() || initial?.startDate || '';
+          const newEndDate =
+            formData.endDate.trim() || initial?.endDate || '';
+          const newDays = formData.days.trim() || initial?.days || '';
+          const newTime = formData.time.trim() || initial?.time || '';
+
+          const formattedDuration = formatDuration(
+            newStartDate,
+            newEndDate,
+            newDays,
+            newTime
+          );
+
+          // duration이 비어있으면 기존 값을 사용하거나 기본값을 설정
+          const finalDuration =
+            formattedDuration ||
+            originalData.duration ||
+            '2025-01-01 ~ 2025-01-31 mon-fri 09:00-10:00';
+          return finalDuration;
+        })(),
+        lessonState: originalData.lessonState || 'PENDING',
+        curriculums: allCurriculumContent.map((content, index) => ({
+          id: originalCurriculums[index]?.id ?? -1, // 새로 추가되는 것은 -1로
+          content,
+        })),
+      };
+    },
+    [formData, initial]
+  );
+
+  const updateLessonData = useCallback(async () => {
+    if (!id || !initial) return;
+
+    try {
+      console.log('🔄 업데이트 시작 - lessonGisuId:', id);
+      setLoading(true);
+      const response = await getLessonGisuDetail(Number(id));
+      const originalData = response.result;
+      if (!originalData) throw new Error('원본 데이터를 불러올 수 없습니다');
+
+      const payload = buildPayload(originalData);
+      console.log('🔄 업데이트 payload:', payload);
+      console.log('🔄 updateLessonGisu 호출 - lessonGisuId:', Number(id).toString());
+      await updateLessonGisu(Number(id).toString(), payload);
+      console.log('✅ 업데이트 성공');
+      return true; // 성공 시 true 반환
+    } catch (error) {
+      console.error('강좌 기수 수정 실패:', error);
+      return false; // 실패 시 false 반환
+    } finally {
+      setLoading(false);
+    }
+  }, [id, initial, buildPayload]);
 
   return {
     initial,
     loading,
     formData,
-    fileInputRef,
-
     isDirty,
     additionalCount,
-
     handleInputChange,
     handleAddContent,
     handleAdditionalContentChange,
     removeAdditionalContent,
-    removeImage,
     buildPayload,
+    updateLessonData,
   };
 }
