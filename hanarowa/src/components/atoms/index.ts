@@ -4,6 +4,7 @@ import Divider from './Divider';
 import ErrorMessage from './ErrorMessage';
 import Layout from './Layout';
 import MemberCard from './MemberCard';
+import StatusDropdown from './dropdown/StatusDropdown';
 
 export * from './headers';
 export * from './buttons';
@@ -14,6 +15,7 @@ export * from './tags';
 export {
   BottomNavigation,
   DatePicker,
+  StatusDropdown,
   Layout,
   ErrorMessage,
   Divider,
