@@ -302,7 +302,6 @@ const Page = () => {
       },
       onError: (error) => {
         console.error('강좌 개설 실패:', error);
-        alert('강좌 개설에 실패했습니다. 다시 시도해주세요.');
       },
     });
   };
@@ -366,7 +365,26 @@ const Page = () => {
             type='number'
             placeholder='10,000'
             value={formData.fee}
-            onChange={(e) => handleInputChange('fee', e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value === '' || /^\d+$/.test(value)) {
+                handleInputChange('fee', value);
+              }
+            }}
+            onKeyDown={(e) => {
+              if (
+                !/[0-9]/.test(e.key) &&
+                ![
+                  'Backspace',
+                  'Delete',
+                  'ArrowLeft',
+                  'ArrowRight',
+                  'Tab',
+                ].includes(e.key)
+              ) {
+                e.preventDefault();
+              }
+            }}
             fullWidth
             containerClassName='!h-[5.6rem] !px-[2rem] !py-0'
           />
