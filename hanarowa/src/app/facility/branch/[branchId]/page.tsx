@@ -1,6 +1,6 @@
 'use client';
 
-import { useGetFacilities } from '@/apis/facility';
+import { useGetFacility } from '@/apis/facility';
 import {
   BranchFilter,
   BranchSelectModal,
@@ -28,7 +28,8 @@ const Page = () => {
     }
   }, [myBranch]);
 
-  const { facilities } = useGetFacilities(selectedBranch?.branchId);
+  const { data: response } = useGetFacility(selectedBranch?.branchId || 1);
+  const facilities = response?.result?.facilities ?? [];
 
   const { isOpen, openModal, closeModal } = useModal();
   const router = useRouter();
@@ -43,23 +44,22 @@ const Page = () => {
     <Layout header={<Header title='시설 예약하기' />}>
       <div className='flex w-full flex-col gap-7 p-4'>
         <BranchFilter
-          branchName={
-            selectedBranch?.locationName + ' ' + selectedBranch?.branchName ||
-            '지점 선택'
-          }
+          branchName={selectedBranch?.branchName || '지점 선택'}
           onChangeBranch={handleBranchChange}
         />
-        {facilities.map((facility) => (
-          <FacilityCard
-            key={facility.facilityId}
-            facilityId={facility.facilityId!}
-            imageUrl={facility.mainImage?.imageUrl ?? '/default.png'}
-            facilityName={facility.facilityName ?? ''}
-            description={facility.facilityDescription ?? ''}
-            height={200}
-            onClick={() => router.push(`/facility/${facility.facilityId}`)}
-          />
-        ))}
+        {facilities.map(
+          ({ facilityId, facilityName, facilityDescription, mainImage }) => (
+            <FacilityCard
+              key={facilityId}
+              facilityId={facilityId!}
+              imageUrl={mainImage?.facilityImage ?? '/default.png'}
+              facilityName={facilityName ?? ''}
+              description={facilityDescription ?? ''}
+              height={200}
+              onClick={() => router.push(`/facility/${facilityId}`)}
+            />
+          )
+        )}
       </div>
       <BranchSelectModal
         isOpen={isOpen}

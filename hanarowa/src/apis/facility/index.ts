@@ -1,6 +1,5 @@
-import getFacilities from './getFacilities';
 import useDeleteMyFacilityReservation from './useDeleteMyFacilityReservation';
-import { useGetFacilities } from './useGetFacilities';
+import useGetFacility from './useGetFacility';
 import useGetFacilityDetail from './useGetFacilityDetail';
 import getMyFacility from './useGetMyFacility';
 import usePostReserveFacility from './usePostReserveFacility';
@@ -12,6 +11,5 @@ export {
   usePostReserveFacility,
   useGetFacilityDetail,
   getMyFacility,
-  useGetFacilities,
-  getFacilities,
+  useGetFacility,
 };
