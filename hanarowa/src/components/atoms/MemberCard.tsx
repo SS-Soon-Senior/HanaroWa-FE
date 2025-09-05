@@ -1,36 +1,33 @@
 import { IcLocation, IcPhone, IcEmail, IcCake } from '@/assets/svg';
+import { components } from '@/types/api';
 
-type Props = {
-  name: string;
-  branch: string;
-  phone: string;
-  email: string;
-  birth: string;
-  onClick?: () => void;
-};
+type MemberCardProps = components['schemas']['MemberListResponseDTO'];
 
-const MemberCard = ({ name, branch, phone, email, birth }: Props) => {
+const DivStyle =
+  'flex flex-row items-center gap-[1.2rem] font-medium-14 text-gray353';
+
+const MemberCard = ({ name, branch, phone, email, birth }: MemberCardProps) => {
   return (
     <div className='rounded-16 relative flex w-full flex-col bg-white shadow-sm ring-1 ring-black/5'>
       <div className='flex flex-col gap-[0.8rem] px-[2rem] py-[1.8rem]'>
-        <div className='flex flex-row'>
-          <p className='font-medium-14 text-gray353'>{name}</p>
+        <div className={DivStyle}>
+          <p>{name}</p>
         </div>
-        <div className='flex flex-row items-center gap-[1.2rem]'>
+        <div className={DivStyle}>
           <IcLocation />
-          <p className='font-medium-14 text-gray353'>{branch}</p>
+          <p>{branch}</p>
         </div>
-        <div className='flex flex-row items-center gap-[1.2rem]'>
+        <div className={DivStyle}>
           <IcPhone />
-          <p className='font-medium-14 text-gray353'>{phone}</p>
+          <p>{phone}</p>
         </div>
-        <div className='flex flex-row items-center gap-[1.2rem]'>
+        <div className={DivStyle}>
           <IcEmail />
-          <p className='font-medium-14 text-gray353'>{email}</p>
+          <p>{email}</p>
         </div>
-        <div className='flex flex-row items-center gap-[1.2rem]'>
+        <div className={DivStyle}>
           <IcCake />
-          <p className='font-medium-14 text-gray353'>{birth}</p>
+          <p>{birth}</p>
         </div>
       </div>
     </div>
