@@ -1,6 +1,6 @@
 import BottomNavigation from './BottomNavigation';
 import DatePicker from './DatePicker';
-import Devider from './Devider';
+import Divider from './Divider';
 import ErrorMessage from './ErrorMessage';
 import Layout from './Layout';
 import MemberCard from './MemberCard';
@@ -16,6 +16,6 @@ export {
   DatePicker,
   Layout,
   ErrorMessage,
-  Devider,
+  Divider,
   MemberCard,
 };

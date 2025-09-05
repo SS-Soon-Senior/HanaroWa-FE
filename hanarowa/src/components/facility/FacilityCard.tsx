@@ -13,9 +13,13 @@ type FacilityCardProps = {
   onClick?: () => void;
 };
 
-const FacilityCard = (props: FacilityCardProps) => {
-  const { imageUrl, facilityName, description, height, onClick } = props;
-
+const FacilityCard = ({
+  imageUrl,
+  facilityName,
+  description,
+  height,
+  onClick,
+}: FacilityCardProps) => {
   // 유효한 이미지 URL 가져오기
   const validImageUrl = getValidImageUrl(imageUrl);
 
