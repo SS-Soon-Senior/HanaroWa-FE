@@ -54,7 +54,10 @@ const LessonContent = () => {
   return (
     <>
       <BranchFilter
-        branchName={selectedBranch.branchName || '지점 선택'}
+        branchName={
+          selectedBranch.locationName + ' ' + selectedBranch.branchName ||
+          '지점 선택'
+        }
         onChangeBranch={handleBranchChange}
       />
       <CategoryFilter
