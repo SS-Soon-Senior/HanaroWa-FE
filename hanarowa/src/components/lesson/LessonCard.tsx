@@ -47,9 +47,7 @@ const LessonCard = ({
             </span>
           </div>
         </div>
-        <p className='font-bold-18 text-black'>
-          월 {formatPrice(lessonFee!)}원
-        </p>
+        <p className='font-bold-18 text-black'>{formatPrice(lessonFee!)}원</p>
       </div>
     </Link>
   );
