@@ -2,7 +2,7 @@
 
 import { IcCalendar } from '@/assets/svg';
 import clsx from 'clsx';
-import { useState, useRef, useEffect, FC } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 interface DatePickerProps {
   value: string;
@@ -16,7 +16,7 @@ interface DatePickerProps {
   disabled?: boolean;
 }
 
-const DatePicker: FC<DatePickerProps> = ({
+const DatePicker = ({
   value,
   onChange,
   placeholder = '날짜를 선택하세요',
@@ -26,7 +26,7 @@ const DatePicker: FC<DatePickerProps> = ({
   minDate,
   maxDate,
   disabled = false,
-}) => {
+}: DatePickerProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showYearPicker, setShowYearPicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(
