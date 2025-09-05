@@ -36,7 +36,7 @@ const secondMenu: MenuItem[] = [
   {
     icon: <IcBell />,
     title: '강좌 개설',
-    href: '/admin/lesson/manage',
+    href: '/admin/lesson/create',
   },
 ];
 

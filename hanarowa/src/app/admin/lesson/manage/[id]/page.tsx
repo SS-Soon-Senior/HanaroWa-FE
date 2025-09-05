@@ -100,6 +100,20 @@ function DetailForm() {
           />
         </section>
 
+        {/* 강사 이름 */}
+        <section>
+          <h2 className='font-medium-16 mb-[2.0rem] text-black'>강사 이름</h2>
+          <Input
+            type='text'
+            placeholder={initial?.instructorName ?? '예) 김하나로'}
+            value={formData.instructorName}
+            onChange={(e) => handleInputChange('instructorName', e.target.value)}
+            fullWidth
+            className={TXT}
+            containerClassName={INPUT_BOX}
+          />
+        </section>
+
         {/* 강사 소개 */}
         <section>
           <h2 className='font-medium-16 mb-[2.0rem] text-black'>강사 소개</h2>

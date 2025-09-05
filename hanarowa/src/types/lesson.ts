@@ -2,6 +2,7 @@ export type Status = '승인' | '반려' | '대기중';
 
 export type Lesson = {
   title: string;
+  instructorName: string;
   instructorIntro: string;
   lessonIntro: string;
   fee: string;
@@ -20,6 +21,7 @@ export type Lesson = {
 
 export interface LessonFormData {
   title: string;
+  instructorName: string;
   instructorIntro: string;
   lessonIntro: string;
   fee: string;

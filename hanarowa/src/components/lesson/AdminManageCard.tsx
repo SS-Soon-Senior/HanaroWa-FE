@@ -1,7 +1,10 @@
+'use client';
+
 import { AdminStatusTag } from '@/components';
 import { components } from '@/types/api';
 import { formatDuration } from '@/utils/formatter';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 type AdminManageCardProps =
   components['schemas']['AdminManageLessonResponseDTO'] & {
@@ -19,6 +22,11 @@ const AdminManageCard = ({
   onApprove,
   onReject,
 }: AdminManageCardProps) => {
+  const router = useRouter();
+
+  const handleCardClick = () => {
+    router.push(`/admin/lesson/manage/${id}`);
+  };
   const renderActionButtons = () => {
     if (state === 'PENDING') {
       return (
@@ -59,7 +67,10 @@ const AdminManageCard = ({
   };
 
   return (
-    <div className='rounded-12 flex w-full flex-col items-start gap-[0.6rem] border border-gray-200 bg-white p-[1.6rem]'>
+    <div
+      onClick={handleCardClick}
+      className='rounded-12 flex w-full cursor-pointer flex-col items-start gap-[0.6rem] border border-gray-200 bg-white p-[1.6rem] hover:bg-gray-50'
+    >
       <div className='flex w-full items-start justify-between'>
         <div className='flex flex-1 flex-col items-start gap-[0.6rem]'>
           <h3 className='font-bold-14 text-black'>{lessonName}</h3>
@@ -73,7 +84,7 @@ const AdminManageCard = ({
       </div>
 
       <div className='flex w-full justify-end'>
-        <div onClick={(e) => e.preventDefault()}>{renderActionButtons()}</div>
+        <div onClick={(e) => e.stopPropagation()}>{renderActionButtons()}</div>
       </div>
     </div>
   );
