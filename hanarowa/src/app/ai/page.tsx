@@ -142,7 +142,7 @@ const Page = () => {
 
   return (
     <Layout
-      header={<Header title='AI 상담하기' showBackButton />}
+      header={<Header title='AI 상담하기' showBackButton backUrl='/' />}
       footer={
         currentOption && (
           <div className='flex w-full items-center justify-center px-[1.6rem] pt-[1.2rem] pb-[4rem]'>

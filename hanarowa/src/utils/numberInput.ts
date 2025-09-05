@@ -1,16 +1,12 @@
 import React from 'react';
 
 // 숫자 키 입력만 허용하는 keydown 핸들러
-export const handleNumberKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+export const handleNumberKeyDown = (
+  e: React.KeyboardEvent<HTMLInputElement>
+) => {
   if (
     !/[0-9]/.test(e.key) &&
-    ![
-      'Backspace',
-      'Delete',
-      'ArrowLeft',
-      'ArrowRight',
-      'Tab',
-    ].includes(e.key)
+    !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.key)
   ) {
     e.preventDefault();
   }

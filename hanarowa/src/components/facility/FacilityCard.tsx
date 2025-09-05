@@ -1,6 +1,7 @@
 'use client';
 
 import { IcImgArrow } from '@/assets/svg';
+import { getValidImageUrl } from '@/utils/utils';
 import Image from 'next/image';
 
 type FacilityCardProps = {
@@ -15,22 +16,8 @@ type FacilityCardProps = {
 const FacilityCard = (props: FacilityCardProps) => {
   const { imageUrl, facilityName, description, height, onClick } = props;
 
-  // 유효한 URL인지 검증
-  const isValidUrl = (url: string) => {
-    try {
-      new URL(url);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  // 기본 이미지 URL
-  const DEFAULT_IMAGE_URL =
-    'https://hanarowa-upload.s3.ap-northeast-2.amazonaws.com/uploads/hanabank.png';
-
-  const validImageUrl =
-    imageUrl && isValidUrl(imageUrl) ? imageUrl : DEFAULT_IMAGE_URL;
+  // 유효한 이미지 URL 가져오기
+  const validImageUrl = getValidImageUrl(imageUrl);
 
   return (
     <div
