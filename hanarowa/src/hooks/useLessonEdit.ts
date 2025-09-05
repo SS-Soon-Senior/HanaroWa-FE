@@ -212,6 +212,8 @@ export function useLessonEdit(id: string | undefined) {
   );
 
   const isDirty = useMemo(() => {
+    if (!initial) return false;
+
     const {
       title,
       instructorName,
@@ -229,27 +231,34 @@ export function useLessonEdit(id: string | undefined) {
       lessonImage,
     } = formData;
 
-    const anyText = [
-      title,
-      instructorName,
-      instructorIntro,
-      lessonIntro,
-      fee,
-      category,
-      startDate,
-      endDate,
-      days,
-      time,
-      lessonDescription,
-      expectedParticipants,
-    ].some((v) => (v ?? '').toString().trim() !== '');
-    const anyAdds =
-      (additionalContents?.length ?? 0) > 0 &&
-      additionalContents.some((v) => (v ?? '').toString().trim() !== '');
-    const img = !!lessonImage;
+    // 각 필드가 초기값과 다른지 체크
+    const isChanged = [
+      title !== (initial.title || ''),
+      instructorName !== (initial.instructorName || ''),
+      instructorIntro !== (initial.instructorIntro || ''),
+      lessonIntro !== (initial.lessonIntro || ''),
+      fee !== (initial.fee || ''),
+      category !== (initial.category || ''),
+      startDate !== (initial.startDate || ''),
+      endDate !== (initial.endDate || ''),
+      days !== (initial.days || ''),
+      time !== (initial.time || ''),
+      lessonDescription !== (initial.lessonDescription || ''),
+      expectedParticipants !== (initial.expectedParticipants || ''),
+    ].some(Boolean);
 
-    return anyText || anyAdds || img;
-  }, [formData]);
+    // additionalContents 배열이 변경되었는지 체크
+    const additionalChanged = 
+      additionalContents.length !== (initial.additionalContents?.length ?? 0) ||
+      additionalContents.some((content, index) => 
+        content !== (initial.additionalContents?.[index] || '')
+      );
+
+    // 이미지가 새로 선택되었는지 체크
+    const imageChanged = !!lessonImage;
+
+    return isChanged || additionalChanged || imageChanged;
+  }, [formData, initial]);
 
   const buildPayload = useCallback(
     (originalData: LessonGisuDetailResponseDTO): UpdateLessonGisuRequestDTO => {
