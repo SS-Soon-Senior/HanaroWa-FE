@@ -13,6 +13,7 @@ import {
 } from '@/components';
 import { components } from '@/types/api';
 import createFacilityDate from '@/utils/facility';
+import { DEFAULT_IMAGE_URL } from '@/utils/imageUtils';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -161,7 +162,7 @@ const Page = () => {
         images={facilityImages.map((img) =>
           img.imgUrl && img.imgUrl.trim() !== ''
             ? img.imgUrl
-            : 'https://hanarowa-upload.s3.ap-northeast-2.amazonaws.com/uploads/hanabank.png'
+            : DEFAULT_IMAGE_URL
         )}
       />
 

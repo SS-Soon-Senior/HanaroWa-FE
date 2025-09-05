@@ -16,6 +16,7 @@ import {
   formatLessonTime,
   formatStartDate,
 } from '@/utils/formatter';
+import { getValidImageUrl } from '@/utils/utils';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import { use } from 'react';
@@ -38,22 +39,8 @@ const Page = ({ params }: Props) => {
     lessonData?.lessonGisus?.[0].duration ?? ''
   ); // "8주"
 
-  const isValidUrl = (url: string) => {
-    try {
-      new URL(url);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  const DEFAULT_IMAGE_URL =
-    'https://hanarowa-upload.s3.ap-northeast-2.amazonaws.com/uploads/hanabank.png';
-
-  const validImageUrl =
-    lessonData?.lessonImg && isValidUrl(lessonData?.lessonImg)
-      ? lessonData?.lessonImg
-      : DEFAULT_IMAGE_URL;
+  // 유효한 이미지 URL 가져오기
+  const validImageUrl = getValidImageUrl(lessonData?.lessonImg);
 
   async function applyForLessonAction() {
     'use server';

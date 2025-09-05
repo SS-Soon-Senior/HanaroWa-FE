@@ -1,6 +1,7 @@
 import { IcUsers } from '@/assets/svg';
 import { components } from '@/types/api';
 import { formatDuration, formatPrice } from '@/utils/formatter';
+import { getValidImageUrl } from '@/utils/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -16,21 +17,8 @@ const LessonCard = ({
   duration = '',
   capacity,
 }: LessonCardProps) => {
-  // 유효한 URL인지 검증
-  const isValidUrl = (url: string) => {
-    try {
-      new URL(url);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  const DEFAULT_IMAGE_URL =
-    'https://hanarowa-upload.s3.ap-northeast-2.amazonaws.com/uploads/hanabank.png';
-
-  const validImageUrl =
-    lessonImg && isValidUrl(lessonImg) ? lessonImg : DEFAULT_IMAGE_URL;
+  // 유효한 이미지 URL 가져오기
+  const validImageUrl = getValidImageUrl(lessonImg);
 
   return (
     <Link
