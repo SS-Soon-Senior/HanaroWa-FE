@@ -159,7 +159,9 @@ const Page = () => {
     <Layout header={<Header showBackButton={true} title='예약하기' />}>
       <FacilityImageCarousel
         images={facilityImages.map((img) =>
-          img.imgUrl && img.imgUrl.trim() !== '' ? img.imgUrl : '/default.png'
+          img.imgUrl && img.imgUrl.trim() !== ''
+            ? img.imgUrl
+            : 'https://hanarowa-upload.s3.ap-northeast-2.amazonaws.com/uploads/hanabank.png'
         )}
       />
 

@@ -29,7 +29,7 @@ const Page = () => {
   const completeLessons = openedLessons.filter((c) => !c.inProgress);
 
   return (
-    <Layout header={<Header title='내 강좌' />}>
+    <Layout header={<Header title='내 강좌' backUrl='/' />}>
       <StatusTab tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
 
       {/* 수강 강좌 */}

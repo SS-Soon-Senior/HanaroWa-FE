@@ -322,7 +322,11 @@ const Page = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <Layout header={<Header title='강좌 개설하기' showBackButton={true} />}>
+    <Layout
+      header={
+        <Header title='강좌 개설하기' showBackButton={true} backUrl='/' />
+      }
+    >
       <div className='mb-[4rem] flex w-full flex-col gap-[2rem]'>
         {/* 강좌 제목 */}
         <div className='w-full'>
