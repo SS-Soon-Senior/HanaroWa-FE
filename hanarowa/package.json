@@ -16,6 +16,7 @@
     "openapi": "openapi-typescript http://localhost:8080/hanarowa/api-docs -o src/types/api.ts"
   },
   "dependencies": {
+    "@stomp/stompjs": "^7.1.1",
     "@tanstack/react-query": "^5.85.5",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.12",
@@ -27,6 +28,7 @@
     "react-dom": "19.1.0",
     "react-spinners": "^0.17.0",
     "sonner": "^2.0.7",
+    "sockjs-client": "^1.6.1",
     "tailwind": "^4.0.0",
     "tailwind-merge": "^3.3.1"
   },
@@ -41,6 +43,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/sockjs-client": "^1.5.4",
     "eslint": "^9",
     "eslint-config-next": "15.4.7",
     "eslint-config-prettier": "^10.1.8",

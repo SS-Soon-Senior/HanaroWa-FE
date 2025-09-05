@@ -2,7 +2,6 @@
 
 import { IcImgArrow } from '@/assets/svg';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 
 type FacilityCardProps = {
   facilityId: number;
@@ -10,20 +9,16 @@ type FacilityCardProps = {
   facilityName: string;
   description: string;
   height: number;
+  onClick?: () => void;
 };
 
 const FacilityCard = (props: FacilityCardProps) => {
-  const { facilityId, imageUrl, facilityName, description, height } = props;
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push(`/facility/${facilityId}`);
-  };
+  const { imageUrl, facilityName, description, height, onClick } = props;
 
   return (
     <div
-      className='rounded-16 flex flex-col overflow-hidden bg-white shadow-sm ring-1 ring-black/5'
-      onClick={handleClick}
+      className='rounded-16 flex cursor-pointer flex-col overflow-hidden bg-white shadow-sm ring-1 ring-black/5'
+      onClick={onClick}
     >
       <div className='relative' style={{ height: height * 0.6 }}>
         <Image
