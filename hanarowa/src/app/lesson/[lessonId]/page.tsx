@@ -38,6 +38,23 @@ const Page = ({ params }: Props) => {
     lessonData?.lessonGisus?.[0].duration ?? ''
   ); // "8주"
 
+  const isValidUrl = (url: string) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const DEFAULT_IMAGE_URL =
+    'https://hanarowa-upload.s3.ap-northeast-2.amazonaws.com/uploads/hanabank.png';
+
+  const validImageUrl =
+    lessonData?.lessonImg && isValidUrl(lessonData?.lessonImg)
+      ? lessonData?.lessonImg
+      : DEFAULT_IMAGE_URL;
+
   async function applyForLessonAction() {
     'use server';
 
@@ -61,7 +78,7 @@ const Page = ({ params }: Props) => {
       <form className='flex w-full flex-col' action={applyForLessonAction}>
         <div className='relative -mx-[2rem] h-[28rem] w-[calc(100%+4rem)]'>
           <Image
-            src={lessonData?.lessonImg ?? '/images/lesson/sample-lesson.png'}
+            src={validImageUrl}
             alt='lesson-detail-image'
             fill
             className='object-cover'
