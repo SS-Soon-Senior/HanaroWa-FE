@@ -39,12 +39,16 @@ const Page = () => {
     setSelectedBranch(branch);
     closeModal();
   };
+  console.log(selectedBranch);
 
   return (
     <Layout header={<Header title='시설 예약하기' />}>
       <div className='flex w-full flex-col gap-7 p-4'>
         <BranchFilter
-          branchName={selectedBranch?.branchName || '지점 선택'}
+          branchName={
+            selectedBranch?.locationName + ' ' + selectedBranch?.branchName ||
+            '지점 선택'
+          }
           onChangeBranch={handleBranchChange}
         />
         {facilities.map(
