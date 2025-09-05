@@ -39,7 +39,6 @@ const Page = () => {
     setSelectedBranch(branch);
     closeModal();
   };
-  console.log(selectedBranch);
 
   return (
     <Layout header={<Header title='시설 예약하기' />}>
