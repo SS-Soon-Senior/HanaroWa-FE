@@ -15,6 +15,23 @@ type FacilityCardProps = {
 const FacilityCard = (props: FacilityCardProps) => {
   const { imageUrl, facilityName, description, height, onClick } = props;
 
+  // 유효한 URL인지 검증
+  const isValidUrl = (url: string) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  // 기본 이미지 URL
+  const DEFAULT_IMAGE_URL =
+    'https://hanarowa-upload.s3.ap-northeast-2.amazonaws.com/uploads/hanabank.png';
+
+  const validImageUrl =
+    imageUrl && isValidUrl(imageUrl) ? imageUrl : DEFAULT_IMAGE_URL;
+
   return (
     <div
       className='rounded-16 flex cursor-pointer flex-col overflow-hidden bg-white shadow-sm ring-1 ring-black/5'
@@ -22,7 +39,7 @@ const FacilityCard = (props: FacilityCardProps) => {
     >
       <div className='relative' style={{ height: height * 0.6 }}>
         <Image
-          src={imageUrl}
+          src={validImageUrl}
           alt={facilityName}
           fill
           className='object-cover'

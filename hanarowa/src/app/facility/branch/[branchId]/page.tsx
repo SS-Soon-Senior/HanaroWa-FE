@@ -52,10 +52,7 @@ const Page = () => {
             <FacilityCard
               key={facilityId}
               facilityId={facilityId!}
-              imageUrl={
-                mainImage?.facilityImage ??
-                'https://hanarowa-upload.s3.ap-northeast-2.amazonaws.com/uploads/hanabank.png'
-              }
+              imageUrl={mainImage?.facilityImage || ''}
               facilityName={facilityName ?? ''}
               description={facilityDescription ?? ''}
               height={200}
