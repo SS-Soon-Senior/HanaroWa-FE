@@ -5,7 +5,7 @@ import {
   LessonInfo,
   LessonReview,
   LessonTimeTable,
-  Devider,
+  Divider,
   Header,
   Layout,
   ApplyButton,
@@ -15,7 +15,6 @@ import {
   formatLessonTime,
   formatStartDate,
 } from '@/utils/formatter';
-import { getValidImageUrl } from '@/utils/utils';
 import Image from 'next/image';
 import { use } from 'react';
 
@@ -56,28 +55,28 @@ const Page = ({ params }: Props) => {
         price={lessonData?.lessonGisus?.[0].lessonFee ?? 0}
         lessonGisuId={lessonData?.lessonGisus?.[0].id ?? 0}
       />
-      <Devider />
+      <Divider />
       <InstructorInfo
         name={lessonData?.instructor ?? ''}
         content={lessonData?.instruction ?? ''}
         rating={lessonData?.averageRating ?? 0}
       />
-      <Devider />
+      <Divider />
       <div className='flex w-full flex-col gap-[2rem] py-[2.5rem]'>
         <p className='font-bold-22 text-black'>강의실</p>
         <p className='font-medium-18 text-gray353'>303호</p>
       </div>
-      <Devider />
+      <Divider />
       <LessonTimeTable
         startDate={startDate}
         classDays={lessonTime}
         duration={duration}
       />
-      <Devider />
+      <Divider />
       <LessonCurriculum
         curriculum={lessonData?.lessonGisus?.[0].curriculums ?? []}
       />
-      <Devider />
+      <Divider />
       <LessonReview reviews={lessonData?.reviews ?? []} />
       <ApplyButton lessonGisuId={lessonData?.lessonGisus?.[0].id ?? 0} />
     </Layout>
