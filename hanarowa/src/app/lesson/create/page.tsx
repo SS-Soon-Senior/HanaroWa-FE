@@ -4,6 +4,7 @@ import {
   usePostLesson,
   useCheckAvailability,
   useGetMemberBranch,
+  useGetMemberInfo,
 } from '@/apis';
 import { IcImageUpload, IcUsers } from '@/assets/svg';
 import {
@@ -33,6 +34,8 @@ const Page = () => {
     useCheckAvailability();
   const response = useGetMemberBranch();
   const myBranch = response.data?.result;
+  const memberInfoResponse = useGetMemberInfo();
+  const memberInfo = memberInfoResponse.data?.result;
   const [disabledTimeSlots, setDisabledTimeSlots] = useState<string[]>([]);
 
   // 오늘 날짜를 한국어 형식으로 포맷
@@ -251,7 +254,7 @@ const Page = () => {
 
     // 상위 필드
     fd.append('lessonName', formData.title);
-    fd.append('instructor', formData.instructorIntro);
+    fd.append('instructor', memberInfo?.name || '');
     fd.append('instruction', formData.instructorIntro);
     fd.append('description', formData.lessonIntro);
     fd.append('category', categoryMap[formData.category]);
