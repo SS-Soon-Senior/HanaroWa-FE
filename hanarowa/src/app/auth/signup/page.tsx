@@ -3,6 +3,8 @@
 import { postSignup } from '@/apis';
 import { IcCloseeye, IcOpeneye, IcSignupFace } from '@/assets/svg';
 import { Header, Input, ErrorMessage, Button, Layout } from '@/components';
+import { setAccessToken } from '@/utils/common/auth';
+import { a } from 'framer-motion/client';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
 
@@ -50,23 +52,31 @@ const Page = () => {
       setShowError('비밀번호가 일치하지 않습니다.');
       return;
     }
+    try {
+      const { data, response } = await postSignup({
+        name: form.name,
+        email: form.id,
+        password: form.password,
+      });
 
-    const { response } = await postSignup({
-      name: form.name,
-      email: form.id,
-      password: form.password,
-    });
+      if (!response.ok) {
+        const msg =
+          response.status === 409
+            ? '이미 사용 중인 이메일입니다.'
+            : '회원가입에 실패했습니다. 다시 시도해주세요.';
+        setShowError(msg);
+        return;
+      }
 
-    if (!response.ok) {
-      const msg =
-        response.status === 409
-          ? '이미 사용 중인 이메일입니다.'
-          : '회원가입에 실패했습니다. 다시 시도해주세요.';
-      setShowError(msg);
-      return;
+      const accessToken = data?.result?.tokens?.accessToken;
+      const url = data?.result?.url;
+      if (accessToken) {
+        setAccessToken(accessToken);
+      }
+      router.push(`${url}`);
+    } catch (err) {
+      console.error(err);
     }
-
-    router.push('/auth/signup/info');
   };
 
   return (
