@@ -770,10 +770,6 @@ export interface components {
             email: string;
             password: string;
         };
-        LoginRequestDTO: {
-            email: string;
-            password: string;
-        };
         ApiResponseLoginResponseDTO: {
             isSuccess?: boolean;
             code?: string;
@@ -799,6 +795,10 @@ export interface components {
             email?: string;
             accessToken?: string;
             refreshToken?: string;
+        };
+        LoginRequestDTO: {
+            email: string;
+            password: string;
         };
         /** @description AI 직업 추천 요청 DTO */
         JobRecRequestDto: {
@@ -992,9 +992,9 @@ export interface components {
             duration?: string;
             lessonRoomName?: string;
             reservedAt?: string;
-            notStarted?: boolean;
             inProgress?: boolean;
             reviewed?: boolean;
+            notStarted?: boolean;
         };
         MyOpenLessonListResponseDTO: {
             /** Format: int64 */
@@ -1474,7 +1474,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseString"];
+                    "*/*": components["schemas"]["ApiResponseLoginResponseDTO"];
                 };
             };
         };
