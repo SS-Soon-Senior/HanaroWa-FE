@@ -1,7 +1,7 @@
 'use client';
 
 import { DropdownProps } from '@/types/dropdown';
-import clsx from 'clsx';
+import { cn } from '@/utils/utils';
 import React, { useState, useRef, useEffect } from 'react';
 import { useId, forwardRef } from 'react';
 import { Button } from '../atoms';
@@ -65,11 +65,11 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       <div
         id={dropdownId}
         ref={combinedRef}
-        className={clsx('relative', fullWidth && 'w-full', containerClassName)}
+        className={cn('relative', fullWidth && 'w-full', containerClassName)}
         {...props}
       >
         <div
-          className={clsx(
+          className={cn(
             'border-gray7eb rounded-16 flex w-full cursor-pointer items-center justify-between border-[0.2rem] bg-white px-[2rem] py-[1.7rem]',
             disabled && 'cursor-not-allowed opacity-50',
             className
@@ -77,7 +77,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
           onClick={() => !disabled && setIsOpen(!isOpen)}
         >
           <span
-            className={clsx(
+            className={cn(
               'font-medium-18',
               selectedOption ? 'text-black' : 'text-gray3af',
               labelClassName,
@@ -87,7 +87,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
             {selectedOption ? selectedOption.label : placeholder}
           </span>
           <svg
-            className={clsx(
+            className={cn(
               'text-gray3af h-[2rem] w-[2rem] transition-transform duration-200',
               isOpen && 'rotate-180 transform'
             )}
@@ -113,9 +113,9 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
                 sizeType='xs'
                 onClick={() => handleSelect(option.value)}
                 disabled={option.disabled}
-                className={clsx(
-                  'hover:bg-gray4f6 focus:bg-gray4f6 ml-[1.5rem] justify-start border-none bg-transparent text-left',
-                  value === option.value && 'text-main bg-gray4f6',
+                className={cn(
+                  'hover:bg-gray4f6 focus:bg-gray4f6 justify-start border-none bg-transparent pl-[1.5rem] text-left',
+                  value === option.value && 'text-main bg-white',
                   index === 0 && 'rounded-14',
                   index === options.length - 1 && 'rounded-14',
                   'rounded-none',
