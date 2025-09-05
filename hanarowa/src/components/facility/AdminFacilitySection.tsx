@@ -1,19 +1,12 @@
 'use client';
 
 import { Modal, RoomReservationCard, StatusTag } from '@/components';
+import { components } from '@/types/api';
 import { useDeleteFacilityTime, useFacilitylist } from '@apis';
 import { useModal } from '@hooks';
 import { useMemo, useState } from 'react';
 
-type Reservation = {
-  reservationId?: number;
-  facilityName?: string;
-  memberName?: string;
-  branchName?: string;
-  startedAt?: string;
-  reservedAt?: string;
-  isUsed?: boolean;
-};
+type Reservation = components['schemas']['AdminFacilityResponseDTO'];
 
 const AdminFacilitySection = () => {
   const { data, refetch } = useFacilitylist();
