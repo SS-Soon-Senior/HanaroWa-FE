@@ -25,7 +25,7 @@ const LessonCurriculum = ({
               expanded || index < 3 ? '' : 'hidden'
             )}
           >
-            <p className='font-bold-18 text-black'>{`${index + 1}주차`}</p>
+            <p className='font-bold-18 text-black'>{`${index + 1}회차`}</p>
             <p className='font-bold-18 text-black'>{item.content}</p>
           </div>
         ))}
