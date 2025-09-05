@@ -15,6 +15,15 @@ const ReservationSummary = ({
   endTime,
   toKoreanDate,
 }: ReservationSummaryProps) => {
+  const getDayOfWeek = (dateString: string): string => {
+    const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
+
+    const date = new Date(dateString);
+
+    const dayIndex = date.getDay();
+
+    return daysOfWeek[dayIndex];
+  };
   return (
     <div className='border-main mt-[4.5rem] flex w-full flex-col border-t-2 border-dashed pt-[3.2rem]'>
       <div className='min-h-[16rem]'>
@@ -25,7 +34,7 @@ const ReservationSummary = ({
               <div className='flex flex-row items-center justify-center gap-[1.2rem]'>
                 <IcGreencalendar />
                 <p className='font-medium-18'>
-                  {toKoreanDate(selectedDate)} (무슨요일)
+                  {toKoreanDate(selectedDate)} ({getDayOfWeek(selectedDate)})
                 </p>
               </div>
               <div className='flex flex-row items-center gap-[1.2rem] pb-[2rem]'>

@@ -2,12 +2,9 @@
 
 import { components } from '@/types/api';
 import { Lesson, LessonFormData, LessonUpdatePayload } from '@/types/lesson';
-import { updateLesson, getLessonDetail } from '@apis';
 import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 
 type LessonDetailResponseDTO = components['schemas']['LessonDetailResponseDTO'];
-type UpdateLessonDetailRequestDTO =
-  components['schemas']['UpdateLessonDetailRequestDTO'];
 
 // API 카테고리를 한글 라벨로 매핑
 const categoryMapping: Record<string, string> = {
@@ -119,15 +116,6 @@ export function useLessonEdit(id: string | undefined) {
     expectedParticipants: '',
     additionalContents: [],
   });
-
-  // MOCK 주입 (API 연결 시 여기만 바꾸면 됨)
-  useEffect(() => {
-    if (!id) return;
-    setLoading(true);
-    const data = MOCK_LESSONS[String(id)] ?? null;
-    setInitial(data);
-    setLoading(false);
-  }, [id]);
 
   useEffect(() => {
     if (!initial) return;
