@@ -5,6 +5,7 @@ import { IcMyMember, IcMyPassword, IcMyLogout, IcMyUnsub } from '@/assets/svg';
 import { Header, BottomNavigation, Layout, Modal } from '@/components';
 import { useModal } from '@/hooks';
 import { useGetMemberInfo, useWithdrawMember } from '@apis';
+import { toast } from 'sonner';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -28,6 +29,12 @@ const Page = () => {
         onSuccess: () => {
           router.replace('/auth/login/social');
         },
+        onError: (error: Error) => {
+          const payload = error as Error;
+          toast.error(
+            payload?.message ?? '로그아웃에 실패했어요. 다시 시도해주세요.'
+          );
+        },
       }
     );
   };
@@ -41,8 +48,11 @@ const Page = () => {
           handleLogout();
         },
 
-        onError: (error) => {
-          console.error(error);
+        onError: (error: Error) => {
+          const payload = error as Error;
+          toast.error(
+            payload?.message ?? '회원 탈퇴에 실패했어요. 다시 시도해주세요.'
+          );
         },
       }
     );

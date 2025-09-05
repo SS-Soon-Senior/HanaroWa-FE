@@ -1,3 +1,4 @@
+import { ToastProvider } from '@components';
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import './globals.css';
@@ -18,6 +19,7 @@ export default function RootLayout({
     <html lang='ko' suppressHydrationWarning>
       <body className='antialiased'>
         <Providers>{children}</Providers>
+        <ToastProvider />
       </body>
     </html>
   );

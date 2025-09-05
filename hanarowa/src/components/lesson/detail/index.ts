@@ -1,3 +1,4 @@
+import ApplyButton from './ApplyButton';
 import InstructorInfo from './InstructorInfo';
 import LessonCurriculum from './LessonCurriculum';
 import LessonCurriculumItem from './LessonCurriculum';
@@ -12,4 +13,5 @@ export {
   LessonCurriculum,
   LessonReview,
   LessonCurriculumItem,
+  ApplyButton,
 };

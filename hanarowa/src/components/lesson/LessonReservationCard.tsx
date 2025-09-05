@@ -91,7 +91,7 @@ const LessonReservationCard = ({
             </Button>
           ) : (
             <Button variant='green' sizeType='reserve'>
-              <Link href='/review/create'>리뷰작성하기</Link>
+              <Link href={`/lesson/${lessonGisuId}/review`}>리뷰작성하기</Link>
             </Button>
           ))}
       </div>
