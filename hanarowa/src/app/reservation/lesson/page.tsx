@@ -7,6 +7,7 @@ import {
   StatusTag,
   LessonReservationCard,
   StatusTab,
+  StatusDropdown,
 } from '@/components';
 import { useState } from 'react';
 
@@ -31,7 +32,7 @@ const Page = () => {
   return (
     <Layout header={<Header title='내 강좌' backUrl='/' />}>
       <StatusTab tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
-
+      <StatusDropdown />
       {/* 수강 강좌 */}
       {activeTab === 'applied' && (
         <div className='flex w-full flex-col gap-8 p-4'>
@@ -40,6 +41,7 @@ const Page = () => {
               수강 내역이 없습니다.
             </div>
           )}
+
           {reservations.length > 0 && (
             <div className='space-y-4'>
               <StatusTag status='inprogress' />
