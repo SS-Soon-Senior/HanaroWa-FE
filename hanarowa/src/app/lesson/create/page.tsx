@@ -16,6 +16,7 @@ import {
   Dropdown,
   DatePicker,
   Modal,
+  ErrorMessage,
 } from '@/components';
 import { categoryOptions, dayOptions, timeOptions } from '@/constants';
 import { components } from '@/types/api';
@@ -29,6 +30,7 @@ export type CreateLessonRequest =
 const Page = () => {
   const router = useRouter();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [imageError, setImageError] = useState<string>('');
   const { mutate: createLesson, isPending } = usePostLesson();
   const { mutate: checkAvailability, isPending: isCheckingAvailability } =
     useCheckAvailability();
@@ -473,7 +475,17 @@ const Page = () => {
               onChange={(e) => {
                 const target = e.target as HTMLInputElement;
                 if (target.files && target.files[0]) {
-                  handleInputChange('lessonImage', target.files[0]);
+                  const file = target.files[0];
+                  const maxSize = 512 * 1024; // 512KB
+
+                  if (file.size > maxSize) {
+                    setImageError('이미지 크기 512KB이하로 선택해주세요.');
+                    target.value = '';
+                    return;
+                  }
+
+                  setImageError('');
+                  handleInputChange('lessonImage', file);
                 }
               }}
               containerClassName='!p-0 !border-none !bg-transparent !rounded-none'
@@ -506,6 +518,11 @@ const Page = () => {
               </label>
             )}
           </div>
+          {imageError && (
+            <div className='mt-2'>
+              <ErrorMessage>{imageError}</ErrorMessage>
+            </div>
+          )}
         </div>
 
         {/* 강좌 내용 */}
