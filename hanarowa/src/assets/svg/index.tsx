@@ -1,3 +1,4 @@
+export { default as Ic404 } from './Ic404';
 export { default as IcInfo } from './IcInfo';
 export { default as IcAdminUsers } from './IcAdminUsers';
 export { default as IcAiByeoldol } from './IcAiByeoldol';
