@@ -8,15 +8,11 @@ import isValidToken from './utils/is-valid-token';
 export async function middleware(request: NextRequest) {
   const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const loginUrl = new URL('/auth/login/social', request.url);
-  console.log('미들웨어 실행:', request.url);
 
   // 1. 동기적으로 쿠키를 가져옵니다 (await 제거)
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('accessToken');
   const refreshToken = cookieStore.get('refreshToken');
-
-  console.log('현재 쿠키 - accessToken:', accessToken);
-  console.log('현재 쿠키 - refreshToken:', refreshToken);
 
   // 리프레시 토큰조차 없으면 무조건 로그인 페이지로 보냅니다.
   if (!refreshToken?.value) {
@@ -64,7 +60,6 @@ export async function middleware(request: NextRequest) {
 
     // 리디렉션 응답에 파싱한 새 쿠키들을 설정합니다.
     if (newAccessToken) {
-      // 👈 핵심 변경: newAccessToken 객체에서 이름과 값을 분리하고, 옵션을 직접 설정합니다.
       redirectResponse.cookies.set(newAccessToken.name, newAccessToken.value, {
         path: newAccessToken.path,
         httpOnly: newAccessToken.httpOnly,
@@ -74,7 +69,6 @@ export async function middleware(request: NextRequest) {
       });
     }
     if (newRefreshToken) {
-      // 👈 refreshToken도 동일하게 옵션을 명시적으로 설정해주는 것이 안전합니다.
       redirectResponse.cookies.set(
         newRefreshToken.name,
         newRefreshToken.value,
@@ -95,7 +89,6 @@ export async function middleware(request: NextRequest) {
   }
 }
 
-// config 부분은 그대로 유지
 export const config = {
   matcher: [
     '/((?!api/|_next/static|_next/image|fonts/|.well-known|favicon.(?:ico|svg)|auth/login(?:/.*)?|auth/signup(?:/.*)?).*)',
