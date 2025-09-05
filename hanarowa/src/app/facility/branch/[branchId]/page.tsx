@@ -11,6 +11,7 @@ import {
 import { components } from '@/types/api';
 import { useGetMemberBranch } from '@apis';
 import { useModal } from '@hooks';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 type Branch = components['schemas']['BranchResponseDTO'];
@@ -27,14 +28,12 @@ const Page = () => {
     }
   }, [myBranch]);
 
-  const { facilities, branchName } = useGetFacilities(selectedBranch?.branchId);
+  const { facilities } = useGetFacilities(selectedBranch?.branchId);
 
   const { isOpen, openModal, closeModal } = useModal();
+  const router = useRouter();
 
-  const handleBranchChange = () => {
-    openModal();
-  };
-
+  const handleBranchChange = () => openModal();
   const handleBranchSelect = (branch: Branch) => {
     setSelectedBranch(branch);
     closeModal();
@@ -49,13 +48,13 @@ const Page = () => {
         />
         {facilities.map((facility) => (
           <FacilityCard
-            facilityId={facility.facilityId!}
             key={facility.facilityId}
+            facilityId={facility.facilityId!}
             imageUrl={facility.mainImage?.imageUrl ?? '/default.png'}
             facilityName={facility.facilityName ?? ''}
             description={facility.facilityDescription ?? ''}
             height={200}
-            onClick={() => console.log(`${facility.facilityName} 클릭`)}
+            onClick={() => router.push(`/facility/${facility.facilityId}`)}
           />
         ))}
       </div>
