@@ -1,6 +1,7 @@
 'use client';
 
 import { IcImgArrow } from '@/assets/svg';
+import { getValidImageUrl } from '@/utils/utils';
 import Image from 'next/image';
 
 type FacilityCardProps = {
@@ -15,6 +16,9 @@ type FacilityCardProps = {
 const FacilityCard = (props: FacilityCardProps) => {
   const { imageUrl, facilityName, description, height, onClick } = props;
 
+  // 유효한 이미지 URL 가져오기
+  const validImageUrl = getValidImageUrl(imageUrl);
+
   return (
     <div
       className='rounded-16 flex cursor-pointer flex-col overflow-hidden bg-white shadow-sm ring-1 ring-black/5'
@@ -22,7 +26,7 @@ const FacilityCard = (props: FacilityCardProps) => {
     >
       <div className='relative' style={{ height: height * 0.6 }}>
         <Image
-          src={imageUrl}
+          src={validImageUrl}
           alt={facilityName}
           fill
           className='object-cover'

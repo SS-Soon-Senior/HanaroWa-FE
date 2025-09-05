@@ -1,6 +1,7 @@
 'use client';
 
 import { IcWhitearrow, IcWhitearrowreverse } from '@/assets/svg';
+import { getValidImageUrl } from '@/utils/utils';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -19,11 +20,14 @@ const FacilityImageCarousel = ({ images }: FacilityImageCarouselProps) => {
     setImageIndex((prev) => prev - 1);
   };
 
+  // 유효한 이미지 URL 가져오기
+  const validImageUrl = getValidImageUrl(images[imageIndex]);
+
   return (
     <>
       <div className='relative min-h-[23rem] w-full pt-[2.6rem]'>
         <Image
-          src={images[imageIndex]}
+          src={validImageUrl}
           alt='Facility Image'
           fill
           objectFit='contain'

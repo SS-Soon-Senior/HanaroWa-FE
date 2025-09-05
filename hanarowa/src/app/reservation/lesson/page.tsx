@@ -24,14 +24,22 @@ const Page = () => {
   // 수강 강좌
   const reservations = appliedLessons.filter((c) => c.inProgress);
   const completes = appliedLessons.filter((c) => !c.inProgress);
+  // 개설 강좌
+  const openLessons = openedLessons.filter((c) => c.inProgress);
+  const completeLessons = openedLessons.filter((c) => !c.inProgress);
 
   return (
-    <Layout header={<Header title='내 강좌' />}>
+    <Layout header={<Header title='내 강좌' backUrl='/' />}>
       <StatusTab tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
 
       {/* 수강 강좌 */}
       {activeTab === 'applied' && (
         <div className='flex w-full flex-col gap-8 p-4'>
+          {reservations.length === 0 && completes.length === 0 && (
+            <div className='text-gray666 border-gray4a9 h-screen rounded-2xl py-80 text-center text-3xl'>
+              예약 내역이 없습니다.
+            </div>
+          )}
           {reservations.length > 0 && (
             <div className='space-y-4'>
               <StatusTag status='inprogress' />
@@ -83,48 +91,48 @@ const Page = () => {
       {/* 개설 강좌 */}
       {activeTab === 'opened' && (
         <div className='flex w-full flex-col gap-8 p-4'>
-          {openedLessons.filter((c) => c.inProgress).length > 0 && (
+          {openLessons.length === 0 && completeLessons.length === 0 && (
+            <div className='text-gray666 border-gray4a9 h-screen rounded-2xl py-80 text-center text-3xl'>
+              예약 내역이 없습니다.
+            </div>
+          )}
+          {openLessons.length > 0 && (
             <div className='space-y-4'>
               <StatusTag status='teaching' />
-              {openedLessons
-                .filter((c) => c.inProgress)
-                .map((cls, idx) => (
-                  <LessonReservationCard
-                    key={`teaching-${idx}`}
-                    refetch={refetch}
-                    lessonGisuId={cls.lessonGisuId ?? 0}
-                    lessonName={cls.lessonName ?? ''}
-                    reserveHanDate={cls.openedAt ?? ''}
-                    reservationDate={cls.startedAt ?? ''}
-                    location={cls.lessonRoomName ?? ''}
-                    instructor={cls.instructorName ?? ''}
-                  />
-                ))}
+              {openLessons.map((cls, idx) => (
+                <LessonReservationCard
+                  key={`teaching-${idx}`}
+                  refetch={refetch}
+                  lessonGisuId={cls.lessonGisuId ?? 0}
+                  lessonName={cls.lessonName ?? ''}
+                  reserveHanDate={cls.openedAt ?? ''}
+                  reservationDate={cls.startedAt ?? ''}
+                  location={cls.lessonRoomName ?? ''}
+                  instructor={cls.instructorName ?? ''}
+                />
+              ))}
             </div>
           )}
 
-          {openedLessons.filter((c) => c.inProgress).length > 0 &&
-            openedLessons.filter((c) => !c.inProgress).length > 0 && (
-              <hr className='my-4 border-t border-gray-200' />
-            )}
+          {openLessons.length > 0 && completeLessons.length > 0 && (
+            <hr className='my-4 border-t border-gray-200' />
+          )}
 
-          {openedLessons.filter((c) => !c.inProgress).length > 0 && (
+          {completeLessons.length > 0 && (
             <div className='space-y-4'>
               <StatusTag status='complete' />
-              {openedLessons
-                .filter((c) => !c.inProgress)
-                .map((cls, idx) => (
-                  <LessonReservationCard
-                    key={`complete-${idx}`}
-                    refetch={refetch}
-                    lessonGisuId={cls.lessonGisuId ?? 0}
-                    lessonName={cls.lessonName ?? ''}
-                    reserveHanDate={cls.openedAt ?? ''}
-                    reservationDate={cls.startedAt ?? ''}
-                    location={cls.lessonRoomName ?? ''}
-                    instructor={cls.instructorName ?? ''}
-                  />
-                ))}
+              {completeLessons.map((cls, idx) => (
+                <LessonReservationCard
+                  key={`complete-${idx}`}
+                  refetch={refetch}
+                  lessonGisuId={cls.lessonGisuId ?? 0}
+                  lessonName={cls.lessonName ?? ''}
+                  reserveHanDate={cls.openedAt ?? ''}
+                  reservationDate={cls.startedAt ?? ''}
+                  location={cls.lessonRoomName ?? ''}
+                  instructor={cls.instructorName ?? ''}
+                />
+              ))}
             </div>
           )}
         </div>

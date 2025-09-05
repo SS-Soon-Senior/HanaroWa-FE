@@ -52,7 +52,7 @@ const Page = () => {
             <FacilityCard
               key={facilityId}
               facilityId={facilityId!}
-              imageUrl={mainImage?.facilityImage ?? '/default.png'}
+              imageUrl={mainImage?.facilityImage || ''}
               facilityName={facilityName ?? ''}
               description={facilityDescription ?? ''}
               height={200}

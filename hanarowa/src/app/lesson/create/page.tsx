@@ -4,6 +4,7 @@ import {
   usePostLesson,
   useCheckAvailability,
   useGetMemberBranch,
+  useGetMemberInfo,
 } from '@/apis';
 import { IcImageUpload, IcUsers } from '@/assets/svg';
 import {
@@ -15,9 +16,15 @@ import {
   Dropdown,
   DatePicker,
   Modal,
+  ErrorMessage,
 } from '@/components';
 import { categoryOptions, dayOptions, timeOptions } from '@/constants';
 import { components } from '@/types/api';
+import {
+  handleNumberKeyDown,
+  handleNumberInput,
+  createNumberChangeHandler,
+} from '@/utils/numberInput';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useState, useRef, useEffect } from 'react';
@@ -28,11 +35,14 @@ export type CreateLessonRequest =
 const Page = () => {
   const router = useRouter();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [imageError, setImageError] = useState<string>('');
   const { mutate: createLesson, isPending } = usePostLesson();
   const { mutate: checkAvailability, isPending: isCheckingAvailability } =
     useCheckAvailability();
   const response = useGetMemberBranch();
   const myBranch = response.data?.result;
+  const memberInfoResponse = useGetMemberInfo();
+  const memberInfo = memberInfoResponse.data?.result;
   const [disabledTimeSlots, setDisabledTimeSlots] = useState<string[]>([]);
 
   // 오늘 날짜를 한국어 형식으로 포맷
@@ -251,7 +261,7 @@ const Page = () => {
 
     // 상위 필드
     fd.append('lessonName', formData.title);
-    fd.append('instructor', formData.instructorIntro);
+    fd.append('instructor', memberInfo?.name || '');
     fd.append('instruction', formData.instructorIntro);
     fd.append('description', formData.lessonIntro);
     fd.append('category', categoryMap[formData.category]);
@@ -299,7 +309,6 @@ const Page = () => {
       },
       onError: (error) => {
         console.error('강좌 개설 실패:', error);
-        alert('강좌 개설에 실패했습니다. 다시 시도해주세요.');
       },
     });
   };
@@ -313,7 +322,11 @@ const Page = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <Layout header={<Header title='강좌 개설하기' showBackButton={true} />}>
+    <Layout
+      header={
+        <Header title='강좌 개설하기' showBackButton={true} backUrl='/' />
+      }
+    >
       <div className='mb-[4rem] flex w-full flex-col gap-[2rem]'>
         {/* 강좌 제목 */}
         <div className='w-full'>
@@ -363,7 +376,9 @@ const Page = () => {
             type='number'
             placeholder='10,000'
             value={formData.fee}
-            onChange={(e) => handleInputChange('fee', e.target.value)}
+            onChange={createNumberChangeHandler('fee', handleInputChange)}
+            onKeyDown={handleNumberKeyDown}
+            onInput={handleNumberInput}
             fullWidth
             containerClassName='!h-[5.6rem] !px-[2rem] !py-0'
           />
@@ -452,7 +467,17 @@ const Page = () => {
               onChange={(e) => {
                 const target = e.target as HTMLInputElement;
                 if (target.files && target.files[0]) {
-                  handleInputChange('lessonImage', target.files[0]);
+                  const file = target.files[0];
+                  const maxSize = 512 * 1024; // 512KB
+
+                  if (file.size > maxSize) {
+                    setImageError('이미지 크기 512KB이하로 선택해주세요.');
+                    target.value = '';
+                    return;
+                  }
+
+                  setImageError('');
+                  handleInputChange('lessonImage', file);
                 }
               }}
               containerClassName='!p-0 !border-none !bg-transparent !rounded-none'
@@ -485,6 +510,11 @@ const Page = () => {
               </label>
             )}
           </div>
+          {imageError && (
+            <div className='mt-2'>
+              <ErrorMessage>{imageError}</ErrorMessage>
+            </div>
+          )}
         </div>
 
         {/* 강좌 내용 */}
@@ -551,9 +581,12 @@ const Page = () => {
               type='number'
               placeholder='20'
               value={formData.expectedParticipants}
-              onChange={(e) =>
-                handleInputChange('expectedParticipants', e.target.value)
-              }
+              onChange={createNumberChangeHandler(
+                'expectedParticipants',
+                handleInputChange
+              )}
+              onKeyDown={handleNumberKeyDown}
+              onInput={handleNumberInput}
               className='text-right'
               containerClassName='!border-none !bg-transparent !p-0 !rounded-none !h-auto'
             />

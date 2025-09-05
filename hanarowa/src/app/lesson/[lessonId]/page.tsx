@@ -15,6 +15,7 @@ import {
   formatLessonTime,
   formatStartDate,
 } from '@/utils/formatter';
+import { getValidImageUrl } from '@/utils/utils';
 import Image from 'next/image';
 import { use } from 'react';
 
