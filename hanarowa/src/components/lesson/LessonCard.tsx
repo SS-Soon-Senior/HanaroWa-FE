@@ -16,6 +16,22 @@ const LessonCard = ({
   duration = '',
   capacity,
 }: LessonCardProps) => {
+  // 유효한 URL인지 검증
+  const isValidUrl = (url: string) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const DEFAULT_IMAGE_URL =
+    'https://hanarowa-upload.s3.ap-northeast-2.amazonaws.com/uploads/hanabank.png';
+
+  const validImageUrl =
+    lessonImg && isValidUrl(lessonImg) ? lessonImg : DEFAULT_IMAGE_URL;
+
   return (
     <Link
       href={`/lesson/${lessonId}`}
@@ -23,7 +39,7 @@ const LessonCard = ({
     >
       <div className='relative aspect-square'>
         <Image
-          src={lessonImg!}
+          src={validImageUrl}
           alt={lessonName}
           fill
           className='rounded-8 object-cover'
