@@ -64,25 +64,35 @@ export const MultiDaySelector = forwardRef<
 
     // 기존 value → 선택 요일 역산
     useEffect(() => {
+      console.log('useEffect triggered with value:', value);
+      
       if (!value) {
+        console.log('setting empty selectedDays');
         setSelectedDays([]);
         return;
       }
 
-      // value가 콤마로 구분된 요일들인 경우 (예: "mon,wed")
-      if (value.includes(',')) {
-        const days = value
-          .split(',')
-          .filter((day) =>
-            ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].includes(day)
-          );
-        setSelectedDays(days);
+      // 특별한 한글 값들 처리
+      if (value === '매일') {
+        const allDays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+        console.log('converted days for 매일:', allDays);
+        setSelectedDays(allDays);
         return;
       }
 
-      // 기존 시스템 값들과의 호환성을 위한 역산
+      // 기존 시스템 값들을 먼저 확인 (mon-fri, tue-thu, weekend, daily)
       const currentOption = dayOptions.find((opt) => opt.value === value);
       if (currentOption) {
+        console.log('found currentOption:', currentOption);
+        
+        // daily는 모든 요일
+        if (value === 'daily') {
+          const allDays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+          console.log('converted days for daily:', allDays);
+          setSelectedDays(allDays);
+          return;
+        }
+        
         const label = currentOption.label;
         const days: string[] = [];
         if (label.includes('월')) days.push('mon');
@@ -92,8 +102,39 @@ export const MultiDaySelector = forwardRef<
         if (label.includes('금')) days.push('fri');
         if (label.includes('토')) days.push('sat');
         if (label.includes('일')) days.push('sun');
+        console.log('converted days from dayOptions:', days);
         setSelectedDays(days);
+        return;
       }
+
+      // value가 콤마 또는 하이픈으로 구분된 요일들인 경우 (커스텀 조합)
+      if (value.includes(',') || value.includes('-')) {
+        const separator = value.includes(',') ? ',' : '-';
+        const parts = value.split(separator).map(part => part.trim());
+        console.log('split parts:', parts);
+        
+        // 한글 요일을 영문 코드로 변환
+        const dayMapping: Record<string, string> = {
+          '월': 'mon', '화': 'tue', '수': 'wed', '목': 'thu', 
+          '금': 'fri', '토': 'sat', '일': 'sun'
+        };
+        
+        const days = parts
+          .map(part => dayMapping[part] || part) // 한글이면 영문으로, 아니면 그대로
+          .filter(day => ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].includes(day));
+        
+        console.log('converted days from split:', days);
+        setSelectedDays(days);
+        return;
+      }
+      
+      // 단일 요일인 경우 (예: "mon")
+      if (['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].includes(value)) {
+        console.log('single day:', value);
+        setSelectedDays([value]);
+        return;
+      }
+
     }, [value]);
 
     const toggleOpen = () => {
@@ -114,13 +155,28 @@ export const MultiDaySelector = forwardRef<
       );
       setSelectedDays(sorted);
 
-      const selectionKey = sorted.join(',');
-      // 선택이 없으면 빈 문자열 전달, 있으면 선택된 요일들을 그대로 전달
+      // 특정 조합들을 기존 시스템 값으로 매핑
+      const mappingToSystemValues = (days: string[]): string => {
+        const key = days.join(',');
+        const mapping: Record<string, string> = {
+          'mon,wed': 'mon-wed',
+          'tue,thu': 'tue-thu', 
+          'mon,tue,wed,thu,fri': 'mon-fri',
+          'sat,sun': 'weekend',
+          'mon,tue,wed,thu,fri,sat,sun': 'daily'
+        };
+        
+        return mapping[key] || days.join('-');
+      };
+
+      // 선택이 없으면 빈 문자열 전달, 있으면 매핑된 값 전달
       if (sorted.length === 0) {
+        console.log('MultiDaySelector onChange: empty');
         onChange('');
       } else {
-        // 매핑 대신 선택된 요일들을 그대로 전달
-        onChange(selectionKey);
+        const mappedValue = mappingToSystemValues(sorted);
+        console.log('MultiDaySelector onChange:', mappedValue);
+        onChange(mappedValue);
       }
     };
 

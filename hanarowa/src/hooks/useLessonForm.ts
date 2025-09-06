@@ -103,7 +103,7 @@ export const useLessonForm = (config: LessonFormConfig) => {
       formData.days &&
       currentBranchId
     ) {
-      const durationWithoutTime = `${formData.startDate} ~ ${formData.endDate} ${formData.days}`;
+      const durationWithoutTime = `${formData.startDate}~${formData.endDate} ${formData.days}`;
 
       try {
         const result = await new Promise<{
@@ -166,7 +166,7 @@ export const useLessonForm = (config: LessonFormConfig) => {
       const unavailableSlots: string[] = [];
 
       for (const timeOption of timeOptions) {
-        const duration = `${formData.startDate} ~ ${formData.endDate} ${formData.days} ${timeOption.value}`;
+        const duration = `${formData.startDate}~${formData.endDate} ${formData.days} ${timeOption.value}`;
 
         try {
           const result = await new Promise<{

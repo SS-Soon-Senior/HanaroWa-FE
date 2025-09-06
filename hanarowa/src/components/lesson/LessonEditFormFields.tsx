@@ -1,4 +1,3 @@
-import { RefObject, ChangeEvent } from 'react';
 import { IcImageUpload, IcUsers } from '@/assets/svg';
 import {
   Input,
@@ -9,15 +8,17 @@ import {
   LessonStatusTags,
 } from '@/components';
 import { MultiDaySelector } from '@/components/lesson/MultiDaySelector';
-import { categoryOptions, dayOptions, timeOptions } from '@/constants';
+import { categoryOptions, timeOptions } from '@/constants';
 import { StatusKey } from '@/constants/status';
 import { Lesson, LessonFormData } from '@/types/lesson';
 import Image from 'next/image';
+import { RefObject, ChangeEvent } from 'react';
 
 // CSS 상수들
 const TXT = 'font-medium-16 placeholder:text-gray353';
 const INPUT_BOX = '!h-[5.6rem] !px-[2rem] !py-0';
-const TEXTAREA_BOX = '!w-full !h-[12rem] !px-[2rem] !py-[2rem] !pb-[3.2rem] !gap-[0.6rem]';
+const TEXTAREA_BOX =
+  '!w-full !h-[12rem] !px-[2rem] !py-[2rem] !pb-[3.2rem] !gap-[0.6rem]';
 const DROPDOWN_BOX = '!h-[5.6rem] !px-[2rem] !py-0';
 const DROPDOWN_W = '!w-full';
 
@@ -39,7 +40,10 @@ interface LessonEditFormFieldsProps {
   initial: Lesson | null;
   formData: LessonFormData;
   fileInputRef: RefObject<HTMLInputElement | null>;
-  onInputChange: <K extends keyof LessonFormData>(field: K, value: LessonFormData[K]) => void;
+  onInputChange: <K extends keyof LessonFormData>(
+    field: K,
+    value: LessonFormData[K]
+  ) => void;
   onImageUpload: (e: ChangeEvent<HTMLInputElement>) => void;
   onRemoveImage: () => void;
   onAddContent: () => void;
@@ -188,9 +192,8 @@ export const LessonEditFormFields = ({
       {/* 강의 요일 */}
       <section>
         <h2 className='font-medium-16 mb-[2.0rem] text-black'>강의 요일</h2>
-        {/* 🔄 ROLLBACK SAFE: 기존 Dropdown으로 복구 가능 */}
-        {/*
-        <Dropdown
+
+        {/* <Dropdown
           options={dayOptions}
           value={formData.days}
           placeholder={initial?.days ?? '월, 수'}
@@ -199,12 +202,14 @@ export const LessonEditFormFields = ({
           className={DROPDOWN_BOX}
           labelClassName='font-medium-16'
           placeholderClassName='text-gray353'
-        />
-        */}
+        /> */}
         <MultiDaySelector
           value={formData.days}
           placeholder={initial?.days ?? '월, 수'}
-          onChange={(v) => onInputChange('days', v)}
+          onChange={(v) => {
+            console.log('LessonEditFormFields onChange:', v);
+            onInputChange('days', v);
+          }}
           containerClassName={DROPDOWN_W}
           className={DROPDOWN_BOX}
           labelClassName='font-medium-16'
@@ -362,7 +367,9 @@ export const LessonEditFormFields = ({
             type='number'
             placeholder={initial?.expectedParticipants ?? '20'}
             value={formData.expectedParticipants}
-            onChange={(e) => onInputChange('expectedParticipants', e.target.value)}
+            onChange={(e) =>
+              onInputChange('expectedParticipants', e.target.value)
+            }
             className='font-medium-16 placeholder:text-gray353 text-right'
             containerClassName='!border-none !bg-transparent !p-0 !rounded-none !h-auto'
           />
