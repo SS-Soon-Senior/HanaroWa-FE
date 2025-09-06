@@ -120,16 +120,15 @@ const Page = () => {
         </div>
       )}
 
-      <div className='flex w-full justify-end px-4'>
-        <StatusDropdown
-          value={selectedStatus}
-          onChange={(v) => setSelectedStatus(v)}
-        />
-      </div>
-
       {/* 개설 강좌 */}
       {activeTab === 'opened' && (
         <div className='flex w-full flex-col gap-8 p-4'>
+          <div className='flex w-full justify-end px-4'>
+            <StatusDropdown
+              value={selectedStatus}
+              onChange={(v) => setSelectedStatus(v)}
+            />
+          </div>
           {openedLessons.length === 0 && (
             <div className='text-gray666 border-gray4a9 h-screen rounded-2xl py-80 text-center text-3xl'>
               개설 내역이 없습니다.
@@ -149,6 +148,7 @@ const Page = () => {
                   location={cls.lessonRoomName ?? ''}
                   isInProgress={cls.inProgress}
                   instructor={cls.instructorName ?? ''}
+                  statusViewed={true}
                 />
               ))}
             </div>
