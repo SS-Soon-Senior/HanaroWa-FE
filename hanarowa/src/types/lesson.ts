@@ -26,6 +26,7 @@ export interface LessonFormData {
   lessonIntro: string;
   fee: string;
   category: string;
+  branchId?: string;
   startDate: string;
   endDate: string;
   days: string;

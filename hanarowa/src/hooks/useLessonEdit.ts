@@ -110,6 +110,7 @@ export function useLessonEdit(id: string | undefined) {
     lessonIntro: '',
     fee: '',
     category: '',
+    branchId: '',
     startDate: '',
     endDate: '',
     days: '',
@@ -126,11 +127,8 @@ export function useLessonEdit(id: string | undefined) {
 
     const fetchLessonGisuDetail = async () => {
       try {
-        console.log('📍 URL에서 받은 id:', id);
-        console.log('📍 lessonGisuId로 API 호출:', Number(id));
         setLoading(true);
         const response = await getLessonGisuDetail(Number(id));
-        console.log('📍 API 응답 데이터:', response.result);
         const lessonData = response.result
           ? convertToLesson(response.result)
           : null;
