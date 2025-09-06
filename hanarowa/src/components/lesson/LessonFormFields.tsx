@@ -8,6 +8,7 @@ import {
   DatePicker,
   ErrorMessage,
 } from '@/components';
+import { MultiDaySelector } from '@/components/lesson/MultiDaySelector';
 import { categoryOptions, dayOptions, timeOptions } from '@/constants';
 import { handleNumberKeyDown, handleNumberInput, createNumberChangeHandler } from '@/utils/numberInput';
 import Image from 'next/image';
@@ -174,8 +175,17 @@ export const LessonFormFields = ({
       {/* 강의 요일 */}
       <div className='w-full'>
         <h2 className='font-medium-20 mb-[1.2rem] text-black'>강의 요일</h2>
+        {/* 🔄 ROLLBACK SAFE: 기존 Dropdown으로 복구 가능 */}
+        {/* 
         <Dropdown
           options={dayOptions}
+          value={formData.days}
+          placeholder='월, 수'
+          onChange={(value) => onInputChange('days', value)}
+          className='!h-[5.6rem] !px-[2rem] !py-0'
+        />
+        */}
+        <MultiDaySelector
           value={formData.days}
           placeholder='월, 수'
           onChange={(value) => onInputChange('days', value)}

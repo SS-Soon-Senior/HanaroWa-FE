@@ -8,6 +8,7 @@ import {
   DatePicker,
   LessonStatusTags,
 } from '@/components';
+import { MultiDaySelector } from '@/components/lesson/MultiDaySelector';
 import { categoryOptions, dayOptions, timeOptions } from '@/constants';
 import { StatusKey } from '@/constants/status';
 import { Lesson, LessonFormData } from '@/types/lesson';
@@ -187,8 +188,20 @@ export const LessonEditFormFields = ({
       {/* 강의 요일 */}
       <section>
         <h2 className='font-medium-16 mb-[2.0rem] text-black'>강의 요일</h2>
+        {/* 🔄 ROLLBACK SAFE: 기존 Dropdown으로 복구 가능 */}
+        {/*
         <Dropdown
           options={dayOptions}
+          value={formData.days}
+          placeholder={initial?.days ?? '월, 수'}
+          onChange={(v) => onInputChange('days', v)}
+          containerClassName={DROPDOWN_W}
+          className={DROPDOWN_BOX}
+          labelClassName='font-medium-16'
+          placeholderClassName='text-gray353'
+        />
+        */}
+        <MultiDaySelector
           value={formData.days}
           placeholder={initial?.days ?? '월, 수'}
           onChange={(v) => onInputChange('days', v)}

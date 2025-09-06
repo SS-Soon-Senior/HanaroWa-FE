@@ -17,6 +17,34 @@ export const dayOptions = [
   { value: 'daily', label: '매일' },
 ];
 
+// MultiDaySelector에서 사용할 개별 요일 옵션들
+export const individualDayOptions = [
+  { value: 'mon', label: '월', fullName: '월요일' },
+  { value: 'tue', label: '화', fullName: '화요일' },
+  { value: 'wed', label: '수', fullName: '수요일' },
+  { value: 'thu', label: '목', fullName: '목요일' },
+  { value: 'fri', label: '금', fullName: '금요일' },
+  { value: 'sat', label: '토', fullName: '토요일' },
+  { value: 'sun', label: '일', fullName: '일요일' },
+];
+
+// 선택된 요일들을 기존 시스템 value로 매핑
+export const daySelectionMapping: Record<string, string> = {
+  'mon,wed': 'mon-wed',
+  'tue,thu': 'tue-thu',
+  'mon,tue,wed,thu,fri': 'mon-fri',
+  'sat,sun': 'weekend',
+  'mon,tue,wed,thu,fri,sat,sun': 'daily',
+  // 가까운 조합으로 매핑
+  mon: 'mon-wed', // 월요일만 선택시 월수로
+  tue: 'tue-thu', // 화요일만 선택시 화목으로
+  wed: 'mon-wed',
+  thu: 'tue-thu',
+  fri: 'mon-fri',
+  sat: 'weekend',
+  sun: 'weekend',
+};
+
 export const timeOptions = [
   { value: '09:00-10:00', label: '09:00 ~ 10:00' },
   { value: '10:00-11:00', label: '10:00 ~ 11:00' },
