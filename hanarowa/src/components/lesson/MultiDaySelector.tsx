@@ -1,10 +1,6 @@
 'use client';
 
-import {
-  individualDayOptions,
-  daySelectionMapping,
-  dayOptions,
-} from '@/constants';
+import { individualDayOptions, dayOptions } from '@/constants';
 import { cn } from '@/utils/utils';
 import { useState, useEffect, useRef, useId, forwardRef } from 'react';
 import { Button } from '../atoms';
@@ -30,7 +26,6 @@ export const MultiDaySelector = forwardRef<
     {
       id,
       value,
-      placeholder,
       onChange,
       className,
       labelClassName,
@@ -67,16 +62,27 @@ export const MultiDaySelector = forwardRef<
       return () => document.removeEventListener('mousedown', onDocClick);
     }, []);
 
-    // 기존 value → 선택 요일 역산 (자동 선택 제거)
+    // 기존 value → 선택 요일 역산
     useEffect(() => {
       if (!value) {
         setSelectedDays([]);
         return;
       }
-      // 편집 모드에서 기존 값이 있을 때만 역산해서 표시
-      // 새로 생성할 때는 빈 상태로 시작
+
+      // value가 콤마로 구분된 요일들인 경우 (예: "mon,wed")
+      if (value.includes(',')) {
+        const days = value
+          .split(',')
+          .filter((day) =>
+            ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].includes(day)
+          );
+        setSelectedDays(days);
+        return;
+      }
+
+      // 기존 시스템 값들과의 호환성을 위한 역산
       const currentOption = dayOptions.find((opt) => opt.value === value);
-      if (currentOption && selectedDays.length === 0) {
+      if (currentOption) {
         const label = currentOption.label;
         const days: string[] = [];
         if (label.includes('월')) days.push('mon');
@@ -109,12 +115,12 @@ export const MultiDaySelector = forwardRef<
       setSelectedDays(sorted);
 
       const selectionKey = sorted.join(',');
-      // 선택이 없으면 빈 문자열 전달, 있으면 매핑된 값 전달
+      // 선택이 없으면 빈 문자열 전달, 있으면 선택된 요일들을 그대로 전달
       if (sorted.length === 0) {
         onChange('');
       } else {
-        const mapped = daySelectionMapping[selectionKey] || 'mon-wed';
-        onChange(mapped);
+        // 매핑 대신 선택된 요일들을 그대로 전달
+        onChange(selectionKey);
       }
     };
 
@@ -134,7 +140,6 @@ export const MultiDaySelector = forwardRef<
         ref={combinedRef}
         className={cn('relative', fullWidth && 'w-full', containerClassName)}
       >
-        {/* ▼ 헤더(외형 CSS: Dropdown과 동일) */}
         <div
           className={cn(
             'border-gray7eb rounded-16 flex w-full cursor-pointer items-center justify-between border-[0.2rem] bg-white px-[2rem] py-[1.7rem]',
@@ -146,7 +151,7 @@ export const MultiDaySelector = forwardRef<
           <span
             className={cn(
               'font-medium-18',
-              hasSelection ? 'text-black' : 'text-gray3af', // placeholder/label 색 처리
+              hasSelection ? 'text-black' : 'text-gray3af',
               labelClassName,
               !hasSelection && placeholderClassName
             )}
@@ -172,7 +177,6 @@ export const MultiDaySelector = forwardRef<
           </svg>
         </div>
 
-        {/* ▼ 드롭다운 패널(외형 CSS: Dropdown과 동일) */}
         {isOpen && !disabled && (
           <div className='border-gray7eb rounded-16 absolute z-10 mt-[0.5rem] max-h-[24rem] w-full overflow-auto border-[0.2rem] bg-white shadow-lg'>
             <div className='p-[1.5rem]'>

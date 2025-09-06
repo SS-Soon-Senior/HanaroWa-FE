@@ -35,14 +35,6 @@ export const daySelectionMapping: Record<string, string> = {
   'mon,tue,wed,thu,fri': 'mon-fri',
   'sat,sun': 'weekend',
   'mon,tue,wed,thu,fri,sat,sun': 'daily',
-  // 가까운 조합으로 매핑
-  mon: 'mon-wed', // 월요일만 선택시 월수로
-  tue: 'tue-thu', // 화요일만 선택시 화목으로
-  wed: 'mon-wed',
-  thu: 'tue-thu',
-  fri: 'mon-fri',
-  sat: 'weekend',
-  sun: 'weekend',
 };
 
 export const timeOptions = [
