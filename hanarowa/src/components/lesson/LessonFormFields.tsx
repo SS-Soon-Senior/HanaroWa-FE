@@ -1,4 +1,3 @@
-import { RefObject, ChangeEvent } from 'react';
 import { IcImageUpload, IcUsers } from '@/assets/svg';
 import {
   Input,
@@ -9,11 +8,16 @@ import {
   ErrorMessage,
 } from '@/components';
 import { MultiDaySelector } from '@/components/lesson/MultiDaySelector';
-import { categoryOptions, dayOptions, timeOptions } from '@/constants';
-import { handleNumberKeyDown, handleNumberInput, createNumberChangeHandler } from '@/utils/numberInput';
-import Image from 'next/image';
-import { LessonFormData } from '@/types/lesson';
+import { categoryOptions, timeOptions } from '@/constants';
 import { components } from '@/types/api';
+import { LessonFormData } from '@/types/lesson';
+import {
+  handleNumberKeyDown,
+  handleNumberInput,
+  createNumberChangeHandler,
+} from '@/utils/numberInput';
+import Image from 'next/image';
+import { RefObject, ChangeEvent } from 'react';
 
 interface LessonFormFieldsProps {
   formData: LessonFormData;
@@ -23,7 +27,10 @@ interface LessonFormFieldsProps {
   isAdmin: boolean;
   branches?: components['schemas']['BranchResponseDTO'][];
   fileInputRef: RefObject<HTMLInputElement | null>;
-  onInputChange: (field: keyof LessonFormData, value: string | boolean | File | null | string[]) => void;
+  onInputChange: (
+    field: keyof LessonFormData,
+    value: string | boolean | File | null | string[]
+  ) => void;
   onImageUpload: (e: ChangeEvent<HTMLInputElement>) => void;
   onRemoveImage: () => void;
   onAddContent: () => void;
@@ -111,7 +118,9 @@ export const LessonFormFields = ({
           type='number'
           placeholder='10,000'
           value={formData.fee}
-          onChange={createNumberChangeHandler('fee', (field, value) => onInputChange(field as keyof LessonFormData, value))}
+          onChange={createNumberChangeHandler('fee', (field, value) =>
+            onInputChange(field as keyof LessonFormData, value)
+          )}
           onKeyDown={handleNumberKeyDown}
           onInput={handleNumberInput}
           fullWidth
@@ -213,7 +222,9 @@ export const LessonFormFields = ({
 
       {/* 강의 사진 등록 */}
       <div className='w-full'>
-        <h2 className='font-medium-20 mb-[1.2rem] text-black'>강의 사진 등록</h2>
+        <h2 className='font-medium-20 mb-[1.2rem] text-black'>
+          강의 사진 등록
+        </h2>
         <div className='rounded-16 border-gray7eb border border-dashed bg-white px-[2rem] py-[3rem] text-center'>
           <Input
             type='file'
@@ -319,7 +330,11 @@ export const LessonFormFields = ({
             type='number'
             placeholder='20'
             value={formData.expectedParticipants}
-            onChange={createNumberChangeHandler('expectedParticipants', (field, value) => onInputChange(field as keyof LessonFormData, value))}
+            onChange={createNumberChangeHandler(
+              'expectedParticipants',
+              (field, value) =>
+                onInputChange(field as keyof LessonFormData, value)
+            )}
             onKeyDown={handleNumberKeyDown}
             onInput={handleNumberInput}
             className='text-right'
