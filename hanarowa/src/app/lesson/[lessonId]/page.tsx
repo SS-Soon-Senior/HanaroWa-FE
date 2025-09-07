@@ -64,7 +64,9 @@ const Page = ({ params }: Props) => {
       <Divider />
       <div className='flex w-full flex-col gap-[2rem] py-[2.5rem]'>
         <p className='font-bold-22 text-black'>강의실</p>
-        <p className='font-medium-18 text-gray353'>303호</p>
+        <p className='font-medium-18 text-gray353'>
+          {lessonData?.lessonGisus?.[0].lessonRoom ?? ''}
+        </p>
       </div>
       <Divider />
       <LessonTimeTable

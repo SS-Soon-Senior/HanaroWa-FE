@@ -16,6 +16,7 @@ type LessonReservationCardProps = {
   isReviewed?: boolean;
   isInProgress?: boolean;
   isOpened?: boolean;
+  statusViewed?: boolean;
   refetch: () => void;
 };
 
@@ -29,6 +30,7 @@ const LessonReservationCard = ({
   isReviewed = true,
   isInProgress,
   isOpened = true,
+  statusViewed = false,
   refetch,
 }: LessonReservationCardProps) => {
   const { mutate } = useDeleteLesson();
@@ -56,7 +58,7 @@ const LessonReservationCard = ({
   return (
     <div className='rounded-8 flex w-full flex-col bg-white'>
       <div className='relative flex flex-col gap-[2rem] p-[2.4rem]'>
-        {!isInProgress && (
+        {!isInProgress && statusViewed && (
           <div className='absolute top-7 right-4'>
             <StatusTag status='complete' />
           </div>
