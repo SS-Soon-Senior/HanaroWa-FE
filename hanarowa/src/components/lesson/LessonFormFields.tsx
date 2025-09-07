@@ -146,7 +146,7 @@ export const LessonFormFields = ({
           <h2 className='font-medium-20 mb-[1.2rem] text-black'>지점 선택</h2>
           <Dropdown
             options={branches.map((branch) => ({
-              label: branch.branchName || '',
+              label: branch.locationName ? `${branch.locationName} ${branch.branchName}` : branch.branchName || '',
               value: String(branch.branchId || ''),
             }))}
             value={formData.branchId}
