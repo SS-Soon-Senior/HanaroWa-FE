@@ -17,11 +17,18 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  const { isAccessTokenValid } = isValidToken({
+  const { isAccessTokenValid, userRole } = isValidToken({
     accessToken: accessToken?.value,
   });
 
   if (isAccessTokenValid) {
+    // 관리자 페이지 접근 권한 체크
+    if (request.nextUrl.pathname.startsWith('/admin')) {
+      if (userRole !== 'ADMIN' && userRole !== 'ROLE_ADMIN') {
+        console.log('관리자 권한 없음, 홈으로 리디렉션');
+        return NextResponse.redirect(new URL('/', request.url));
+      }
+    }
     return NextResponse.next();
   }
 

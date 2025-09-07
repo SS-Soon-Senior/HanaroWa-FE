@@ -9,18 +9,21 @@ function isValidToken({
 }): {
   isAccessTokenValid?: boolean;
   isRefreshTokenValid?: boolean;
+  userRole?: string;
 } {
   const currentTime = Math.floor(Date.now() / 1000);
 
   const result: {
     isAccessTokenValid?: boolean;
     isRefreshTokenValid?: boolean;
+    userRole?: string;
   } = {};
 
   try {
     if (accessToken) {
       const accessTokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
       result.isAccessTokenValid = accessTokenPayload.exp > currentTime;
+      result.userRole = accessTokenPayload.role || accessTokenPayload.authorities?.[0] || 'USER';
     }
 
     if (refreshToken) {
