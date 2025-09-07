@@ -2,7 +2,7 @@
 
 import { Dropdown } from '@/components/lesson';
 import type { DropdownProps } from '@/types/dropdown';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export type StatusValue = 'APPROVED' | 'PENDING' | 'REJECTED';
 
@@ -28,14 +28,11 @@ export interface StatusDropdownProps
 export default function StatusDropdown({
   value,
   onChange,
-  placeholder = '승인',
   options = DEFAULT_OPTIONS,
   ...rest
 }: StatusDropdownProps) {
-  const [internal, setInternal] = React.useState<StatusValue | undefined>(
-    value
-  );
-  React.useEffect(() => {
+  const [internal, setInternal] = useState<StatusValue | undefined>(value);
+  useEffect(() => {
     setInternal(value);
   }, [value]);
 
@@ -52,7 +49,6 @@ export default function StatusDropdown({
       options={options}
       value={current}
       onChange={handleChange}
-      placeholder={placeholder}
       className='bg-white px-[1.2rem] py-[0.8rem] text-left'
       {...rest}
     />

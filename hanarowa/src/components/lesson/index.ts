@@ -9,6 +9,8 @@ import StarRating from './StarRating';
 import StatusTab from './StatusTab';
 
 export * from './detail';
+export { LessonFormFields } from './LessonFormFields';
+export { LessonEditFormFields } from './LessonEditFormFields';
 
 export {
   AdminLessonCard,

@@ -4,7 +4,7 @@ import { IcBlackcalendar, IcLocation, IcUser } from '@/assets/svg';
 import { useDeleteLesson } from '@apis';
 import Link from 'next/link';
 import React, { useState } from 'react';
-import { Button } from '../atoms';
+import { Button, StatusTag } from '../atoms';
 
 type LessonReservationCardProps = {
   lessonGisuId: number;
@@ -16,6 +16,7 @@ type LessonReservationCardProps = {
   isReviewed?: boolean;
   isInProgress?: boolean;
   isOpened?: boolean;
+  statusViewed?: boolean;
   refetch: () => void;
 };
 
@@ -29,6 +30,7 @@ const LessonReservationCard = ({
   isReviewed = true,
   isInProgress,
   isOpened = true,
+  statusViewed = false,
   refetch,
 }: LessonReservationCardProps) => {
   const { mutate } = useDeleteLesson();
@@ -55,7 +57,12 @@ const LessonReservationCard = ({
   };
   return (
     <div className='rounded-8 flex w-full flex-col bg-white'>
-      <div className='flex flex-col gap-[2rem] p-[2.4rem]'>
+      <div className='relative flex flex-col gap-[2rem] p-[2.4rem]'>
+        {!isInProgress && statusViewed && (
+          <div className='absolute top-7 right-4'>
+            <StatusTag status='complete' />
+          </div>
+        )}
         <p className='font-medium-18 text-gray3af'>{reserveHanDate}</p>
         <div className='flex flex-col gap-[1.2rem]'>
           <p className='font-bold-24 text-black'>{lessonName}</p>

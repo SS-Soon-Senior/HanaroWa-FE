@@ -110,6 +110,7 @@ export function useLessonEdit(id: string | undefined) {
     lessonIntro: '',
     fee: '',
     category: '',
+    branchId: '',
     startDate: '',
     endDate: '',
     days: '',
@@ -126,11 +127,8 @@ export function useLessonEdit(id: string | undefined) {
 
     const fetchLessonGisuDetail = async () => {
       try {
-        console.log('📍 URL에서 받은 id:', id);
-        console.log('📍 lessonGisuId로 API 호출:', Number(id));
         setLoading(true);
         const response = await getLessonGisuDetail(Number(id));
-        console.log('📍 API 응답 데이터:', response.result);
         const lessonData = response.result
           ? convertToLesson(response.result)
           : null;
@@ -277,6 +275,7 @@ export function useLessonEdit(id: string | undefined) {
       };
 
       const getDayKey = (dayLabel: string) => {
+        // 한글 라벨 매핑
         const mapping: Record<string, string> = {
           '월, 화, 수, 목, 금': 'mon-fri',
           '월, 수': 'mon-wed',
@@ -284,7 +283,23 @@ export function useLessonEdit(id: string | undefined) {
           '토, 일': 'weekend',
           매일: 'daily',
         };
-        return mapping[dayLabel] || 'mon-fri';
+        
+        // 기존 한글 형식이면 매핑 사용
+        if (mapping[dayLabel]) {
+          return mapping[dayLabel];
+        }
+        
+        // 영문 콤마 또는 하이픈 구분 형식이면 그대로 반환 (예: "mon,tue,wed" 또는 "mon-tue-wed")
+        if ((dayLabel.includes(',') || dayLabel.includes('-')) && /^[a-z,-]+$/.test(dayLabel)) {
+          return dayLabel;
+        }
+        
+        // 이미 영문 형식이면 그대로 반환 (예: "mon-fri", "weekend")
+        if (/^[a-z-]+$/.test(dayLabel)) {
+          return dayLabel;
+        }
+        
+        return dayLabel || 'mon-fri';
       };
 
       const formatDuration = (
@@ -297,7 +312,7 @@ export function useLessonEdit(id: string | undefined) {
         const dayKey = getDayKey(days);
         // 시간 형식 통일: ' ~ ' 또는 '-' 둘 다 '-'로 변환
         const timeFormatted = time.replace(' ~ ', '-').replace(/\s+/g, '');
-        return `${startDate} ~ ${endDate} ${dayKey} ${timeFormatted}`;
+        return `${startDate}~${endDate} ${dayKey} ${timeFormatted}`;
       };
 
       // 기존 데이터와 수정된 데이터 병합
