@@ -78,11 +78,12 @@ const Page = () => {
           <IcMyMember />
           <h1 className={textStyle}>회원 정보 수정</h1>
         </Link>
-
-        <Link href='/mypage/password' className={divStyle}>
-          <IcMyPassword />
-          <h1 className={textStyle}>비밀번호 변경</h1>
-        </Link>
+        {!data?.result?.provider && (
+          <Link href='/mypage/password' className={divStyle}>
+            <IcMyPassword />
+            <h1 className={textStyle}>비밀번호 변경</h1>
+          </Link>
+        )}
 
         <div className={divStyle}>
           <IcMyLogout />

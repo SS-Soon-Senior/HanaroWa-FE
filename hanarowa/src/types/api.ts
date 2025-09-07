@@ -994,6 +994,7 @@ export interface components {
             phone?: string;
             /** Format: date */
             birth?: string;
+            provider?: string;
         };
         ApiResponseBranchResponseDTO: {
             isSuccess?: boolean;
@@ -1052,8 +1053,8 @@ export interface components {
             lessonRoomName?: string;
             reservedAt?: string;
             reviewed?: boolean;
-            inProgress?: boolean;
             notStarted?: boolean;
+            inProgress?: boolean;
         };
         MyOpenLessonListResponseDTO: {
             /** Format: int64 */
