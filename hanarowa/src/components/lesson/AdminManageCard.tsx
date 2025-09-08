@@ -36,7 +36,7 @@ const AdminManageCard = ({
               e.preventDefault();
               onApprove(id!);
             }}
-            className='rounded-6 bg-main text-12 flex h-[2.8rem] w-[5rem] flex-col items-center justify-center font-medium text-white transition-colors hover:bg-teal-600'
+            className='rounded-6 bg-main font-medium-14 flex h-[2.8rem] w-[5rem] flex-col items-center justify-center font-medium text-white transition-colors hover:bg-teal-600'
           >
             승인
           </button>
@@ -45,7 +45,7 @@ const AdminManageCard = ({
               e.preventDefault();
               onReject(id!);
             }}
-            className='rounded-6 bg-pink text-12 flex h-[2.8rem] w-[5rem] flex-col items-center justify-center font-medium text-white transition-colors hover:bg-red-500'
+            className='rounded-6 bg-pink font-medium-14 flex h-[2.8rem] w-[5rem] flex-col items-center justify-center font-medium text-white transition-colors hover:bg-red-500'
           >
             반려
           </button>
@@ -56,7 +56,7 @@ const AdminManageCard = ({
     if (state === 'APPROVED' || state === 'REJECTED') {
       return (
         <Link href={`/admin/lesson/manage/${id}`}>
-          <button className='rounded-6 bg-gray4f6 text-12 flex h-[2.8rem] w-[5rem] flex-col items-center justify-center font-medium text-gray-600 transition-colors hover:bg-gray-300'>
+          <button className='rounded-6 bg-gray4f6 font-medium-14 flex h-[2.8rem] w-[5rem] flex-col items-center justify-center font-medium text-gray-600 transition-colors hover:bg-gray-300'>
             수정
           </button>
         </Link>
@@ -73,10 +73,10 @@ const AdminManageCard = ({
     >
       <div className='flex w-full items-start justify-between'>
         <div className='flex flex-1 flex-col items-start gap-[0.6rem]'>
-          <h3 className='font-bold-14 text-black'>{lessonName}</h3>
-          <div className='font-medium-12 text-gray280'>{instructor}</div>
-          <div className='font-medium-12 text-gray280'>{description}</div>
-          <div className='font-medium-12 text-gray280'>
+          <h3 className='font-bold-16 text-black'>{lessonName}</h3>
+          <div className='font-medium-14 text-gray280'>{instructor}</div>
+          <div className='font-medium-14 text-gray280'>{description}</div>
+          <div className='font-medium-14 text-gray280'>
             {formatDuration(duration)}
           </div>
         </div>
