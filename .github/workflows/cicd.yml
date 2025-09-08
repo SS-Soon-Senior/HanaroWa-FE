@@ -63,6 +63,18 @@ jobs:
                   ssh-keyscan ${{ secrets.WAS }} >> ~/.ssh/known_hosts
                   chmod 600 ~/.ssh/known_hosts
 
+                  # SSH 키 파일 확인
+                  echo "=== SSH key file check ==="
+                  ls -la ~/.ssh/
+                  echo "=== SSH key file type ==="
+                  file ~/.ssh/id_rsa
+                  echo "=== SSH key first line ==="
+                  head -1 ~/.ssh/id_rsa
+
+                  # SSH 연결 테스트
+                  echo "=== SSH connection test ==="
+                  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ secrets.WAS }} 'echo "SSH connection successful"'
+
             - name: scp next to was
               run: |
                   echo "=== Starting SCP ==="
