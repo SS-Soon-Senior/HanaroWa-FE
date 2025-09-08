@@ -40,7 +40,7 @@ const hanaFont = localFont({
 export const metadata: Metadata = {
   title: '하나로와',
   description: '하나로와',
-  icons: { icon: '/hanarowa/public/favicon.svg' },
+  icons: { icon: '/favicon.png' },
 };
 
 export default function RootLayout({
