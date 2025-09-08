@@ -1,4 +1,4 @@
-name: HanaroWa-FE
+name: HanaroWa-FE2
 on:
     push:
         branches: [develop]
