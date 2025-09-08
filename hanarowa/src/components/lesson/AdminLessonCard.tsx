@@ -7,7 +7,7 @@ import Link from 'next/link';
 type AdminLessonCardProps = components['schemas']['AdminLessonListResponseDTO'];
 
 const AdminLessonCard = ({
-  id,
+  lessonGisuId,
   lessonName = '',
   instructor = '',
   lessonImg,
@@ -18,7 +18,7 @@ const AdminLessonCard = ({
 }: AdminLessonCardProps) => {
   return (
     <Link
-      href={`/admin/lesson/${id}/member`}
+      href={`/admin/lesson/${lessonGisuId}/member`}
       className='flex w-full flex-col gap-[1.7rem] overflow-hidden'
     >
       <div className='relative aspect-square'>
