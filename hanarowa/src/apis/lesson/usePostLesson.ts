@@ -15,15 +15,20 @@ const usePostLesson = () => {
       for (const [key, value] of formData.entries()) {
         console.log(`${key}:`, value);
       }
-
+      const authHeader = accessToken
+        ? accessToken.startsWith('Bearer ')
+          ? accessToken
+          : `Bearer ${accessToken}`
+        : undefined;
       // FormData를 직접 fetch로 전송 (openapi-fetch는 FormData 타입 지원에 제한이 있음)
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/lesson/create`,
         {
           method: 'POST',
           body: formData,
+          credentials: 'include',
           headers: {
-            Authorization: `Bearer ${accessToken}`, //todo
+            ...(authHeader ? { Authorization: authHeader } : {}),
           },
         }
       );
