@@ -84,8 +84,12 @@ const AdminFacilitySection = () => {
           title='회원의 예약을 취소하시겠습니까?'
           description='회원에게 미리 고지를 해주세요'
           greenButtonText='확인'
+          grayButtonText='취소'
           onClickGreenButton={() => {
             onClickDelete(reservationId);
+          }}
+          onClickGrayButton={() => {
+            closeModal();
           }}
         />
       )}
