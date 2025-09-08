@@ -1,5 +1,7 @@
 import { Button } from '@components';
 import type { Meta, StoryObj } from '@storybook/nextjs';
+import { useState } from 'storybook/internal/preview-api';
+import { fn } from 'storybook/test';
 import React from 'react';
 
 const meta = {
@@ -8,8 +10,6 @@ const meta = {
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',
-    // ❌ 여기의 exclude를 제거하세요
-    // controls: { exclude: ['variant', 'sizeType'] },
   },
   decorators: [
     (Story) => (
@@ -26,6 +26,9 @@ const meta = {
     children: '확인',
     variant: 'green',
     sizeType: 'md',
+    onClick: () => {
+      fn();
+    },
   },
 } satisfies Meta<typeof Button>;
 
@@ -33,21 +36,34 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  args: { variant: 'green', children: 'Default' },
   parameters: { controls: { disable: true } }, // 👈 컨트롤 숨김
 };
 
 export const Disabled: Story = {
-  args: { variant: 'disabled', children: '비활성화' },
+  args: { variant: 'disabled', children: 'Disabled' },
   parameters: { controls: { disable: true } },
 };
 
-export const LightGray: Story = {
-  args: { variant: 'lightgray', children: '라이트그레이' },
-  parameters: { controls: { disable: true } },
+export const Select: Story = {
+  render: function Render(args) {
+    const [variant, setVariant] = useState(args.variant);
+
+    const handleClick = () => {
+      const newVariant = variant === 'green' ? 'line' : 'green';
+      setVariant(newVariant);
+    };
+
+    return <Button {...args} variant={variant} onClick={handleClick} />;
+  },
+  args: {
+    variant: 'line',
+    children: 'Select',
+  },
 };
 
-export const Line: Story = {
-  args: { variant: 'line', children: '라인 버튼' },
+export const Cancel: Story = {
+  args: { variant: 'lightgray', children: 'Cancel' },
   parameters: { controls: { disable: true } },
 };
 

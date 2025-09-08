@@ -1,4 +1,5 @@
 // Input.stories.tsx
+import { IcCloseeye, IcGraysearch, IcOpeneye, IcSearch } from '@/assets/svg';
 import { Input } from '@components';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import React, { useState } from 'react';
@@ -38,42 +39,41 @@ export const Disabled: Story = {
   args: { disabled: true, placeholder: '비활성화됨' },
 };
 
-export const WithRightContent: Story = {
-  render: () => (
-    <Input
-      placeholder='입력하세요'
-      rightContent={
-        <button
-          type='button'
-          className='rounded-8 ml-2 flex items-center justify-center border border-gray-300 px-3 py-1 text-[16px] whitespace-nowrap'
-          onClick={() => alert('검색')}
-        >
-          검색
-        </button>
-      }
-    />
-  ),
-};
-
-export const Controlled: Story = {
-  render: (args) => {
+export const NumberInput: Story = {
+  render: () => {
     const [value, setValue] = useState('');
     return (
       <Input
-        {...args}
         value={value}
+        type='number'
+        containerClassName='max-w-[10rem]'
         onChange={(e) => setValue(e.target.value)}
-        placeholder='입력하면 오른쪽에 버튼 생김'
+        placeholder='20'
         rightContent={
-          value ? (
-            <button
-              type='button'
-              className='rounded-8 ml-2 flex items-center px-3 text-[16px] whitespace-nowrap ring-1 ring-gray-300'
-              onClick={() => setValue('')}
-            >
-              지우기
+          <span className='font-medium-20 font-hana text-black'>명</span>
+        }
+      />
+    );
+  },
+};
+
+export const PasswordInput: Story = {
+  render: () => {
+    const [open, setOpen] = useState(false);
+    return (
+      <Input
+        type={open ? 'text' : 'password'}
+        placeholder='비밀번호 입력'
+        rightContent={
+          open ? (
+            <button type='button' onClick={() => setOpen(false)}>
+              <IcOpeneye />
             </button>
-          ) : null
+          ) : (
+            <button type='button' onClick={() => setOpen(true)}>
+              <IcCloseeye />
+            </button>
+          )
         }
       />
     );

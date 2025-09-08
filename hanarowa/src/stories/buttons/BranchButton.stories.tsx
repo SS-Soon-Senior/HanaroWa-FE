@@ -38,7 +38,7 @@ export const Default: Story = {
 
 export const Disabled: Story = {
   args: {
-    disabled: true,
+    disabled: false,
     style: { padding: '1rem' },
   },
   render: (args) => <BranchButton {...args} />,

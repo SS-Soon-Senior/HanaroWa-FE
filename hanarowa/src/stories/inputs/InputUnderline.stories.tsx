@@ -1,6 +1,8 @@
 // InputUnderline.stories.tsx
+import { IcGraysearch } from '@/assets/svg';
 import { InputUnderline } from '@components';
 import type { Meta, StoryObj } from '@storybook/nextjs';
+import { useState } from 'storybook/internal/preview-api';
 import React from 'react';
 
 const meta = {
@@ -45,6 +47,23 @@ export const ReadOnly: Story = {
   args: { readOnly: true, value: '읽기 전용' },
 };
 
-export const Password: Story = {
-  args: { type: 'password', placeholder: '비밀번호' },
+export const SearchInput: Story = {
+  render: () => {
+    const [search, setSearch] = useState<string>('');
+    return (
+      <div className='relative w-full'>
+        <InputUnderline
+          placeholder='강좌를 검색해보세요'
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <div
+          className='absolute top-[1.2rem] right-[1rem] flex cursor-pointer'
+          onClick={() => alert(`검색어: ${search}`)}
+        >
+          <IcGraysearch />
+        </div>
+      </div>
+    );
+  },
 };
