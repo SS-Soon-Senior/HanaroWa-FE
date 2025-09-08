@@ -11,12 +11,10 @@ const RefreshPage = () => {
   useEffect(() => {
     const handleRefresh = async () => {
       try {
-        // 직접 백엔드로 요청 (API 라우트 없이)
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/reissue`,
           {
             method: 'POST',
-            credentials: 'include', // 쿠키 자동 포함
             cache: 'no-store',
           }
         );
