@@ -1,48 +1,10 @@
 @import 'tailwindcss';
 
-@font-face {
-  font-family: 'Hana';
-  src: url('/fonts/Hana2-Light.otf') format('opentype');
-  font-weight: 300;
-  font-style: light;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Hana';
-  src: url('/fonts/Hana2-Regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: regular;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Hana';
-  src: url('/fonts/Hana2-Medium.otf') format('opentype');
-  font-weight: 500;
-  font-style: medium;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Hana';
-  src: url('/fonts/Hana2-Bold.otf') format('opentype');
-  font-weight: 600;
-  font-style: bold;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Hana';
-  src: url('/fonts/Hana2-Heavy.otf') format('opentype');
-  font-weight: 700;
-  font-style: extra-bold;
-  font-display: swap;
+@theme {
+  --font-hana: 'Hana', sans-serif;
 }
 
 @theme {
-  --font-hana: 'Hana', sans-serif;
-
   --color-black: #393939;
   --color-main: #00a49d;
   --color-red: #f14a76;
@@ -67,10 +29,10 @@
 
 @layer base {
   html {
-    font-family: var(--font-hana);
     overscroll-behavior: none;
     background-color: var(--color-background);
     font-size: 62.5%;
+    font-family: 'Hana', sans-serif;
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
@@ -78,8 +40,8 @@
   body {
     width: 100%;
     min-height: 100dvh;
-    font-family: var(--font-hana);
     scroll-behavior: smooth;
+    font-family: 'Hana', sans-serif;
   }
 
   p {
@@ -203,64 +165,64 @@
     @apply font-hana text-[1.6rem] leading-[150%] font-[500];
   }
   .font-medium-14 {
-    @apply font-hana text-[1.4rem] leading-[150%] font-medium;
+    @apply font-hana text-[1.4rem] leading-[150%] font-[500];
   }
 
   /* Regular font styles */
   .font-regular-30 {
-    @apply font-hana text-[3.0rem] leading-[150%] font-normal;
+    @apply font-hana text-[3.0rem] leading-[150%] font-[400];
   }
   .font-regular-28 {
-    @apply font-hana text-[2.8rem] leading-[150%] font-normal;
+    @apply font-hana text-[2.8rem] leading-[150%] font-[400];
   }
   .font-regular-26 {
-    @apply font-hana text-[2.6rem] leading-[150%] font-normal;
+    @apply font-hana text-[2.6rem] leading-[150%] font-[400];
   }
   .font-regular-24 {
-    @apply font-hana text-[2.4rem] leading-[150%] font-normal;
+    @apply font-hana text-[2.4rem] leading-[150%] font-[400];
   }
   .font-regular-22 {
-    @apply font-hana text-[2.2rem] leading-[150%] font-normal;
+    @apply font-hana text-[2.2rem] leading-[150%] font-[400];
   }
   .font-regular-20 {
-    @apply font-hana text-[2.0rem] leading-[150%] font-normal;
+    @apply font-hana text-[2.0rem] leading-[150%] font-[400];
   }
   .font-regular-18 {
-    @apply font-hana text-[1.8rem] leading-[150%] font-normal;
+    @apply font-hana text-[1.8rem] leading-[150%] font-[400];
   }
   .font-regular-17 {
-    @apply font-hana text-[1.7rem] leading-[150%] font-normal;
+    @apply font-hana text-[1.7rem] leading-[150%] font-[400];
   }
   .font-regular-16 {
-    @apply font-hana text-[1.6rem] leading-[150%] font-normal;
+    @apply font-hana text-[1.6rem] leading-[150%] font-[400];
   }
   .font-regular-14 {
-    @apply font-hana text-[1.4rem] leading-normal font-normal;
+    @apply font-hana text-[1.4rem] leading-normal font-[400];
   }
 
   /* Light font styles */
   .font-light-30 {
-    @apply font-hana text-[3.0rem] leading-[150%] font-light;
+    @apply font-hana text-[3.0rem] leading-[150%] font-[300];
   }
   .font-light-28 {
-    @apply font-hana text-[2.8rem] leading-[150%] font-light;
+    @apply font-hana text-[2.8rem] leading-[150%] font-[300];
   }
   .font-light-26 {
-    @apply font-hana text-[2.6rem] leading-[150%] font-light;
+    @apply font-hana text-[2.6rem] leading-[150%] font-[300];
   }
   .font-light-24 {
-    @apply font-hana text-[2.4rem] leading-[150%] font-light;
+    @apply font-hana text-[2.4rem] leading-[150%] font-[300];
   }
   .font-light-22 {
-    @apply font-hana text-[2.2rem] leading-[150%] font-light;
+    @apply font-hana text-[2.2rem] leading-[150%] font-[300];
   }
   .font-light-20 {
-    @apply font-hana text-[2.0rem] leading-[150%] font-light;
+    @apply font-hana text-[2.0rem] leading-[150%] font-[300];
   }
   .font-light-18 {
-    @apply font-hana text-[1.8rem] leading-[150%] font-light;
+    @apply font-hana text-[1.8rem] leading-[150%] font-[300];
   }
   .font-light-16 {
-    @apply font-hana text-[1.6rem] leading-[150%] font-light;
+    @apply font-hana text-[1.6rem] leading-[150%] font-[300];
   }
 }
