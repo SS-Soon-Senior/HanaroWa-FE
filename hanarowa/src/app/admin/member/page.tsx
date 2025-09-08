@@ -18,6 +18,7 @@ const Page = () => {
             phone={m.phone || ''}
             email={m.email || ''}
             birth={m.birth || ''}
+            deletedAt={m.deletedAt || ''}
           />
         ))}
       </div>

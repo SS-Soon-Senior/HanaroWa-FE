@@ -55,6 +55,7 @@ jobs:
               run: zip -rq next.zip public .next/standalone
 
             - name: setup ssh
+              shell: bash
               run: |
                   mkdir -p ~/.ssh
                   echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
