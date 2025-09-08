@@ -31,7 +31,7 @@ const AdminStatusTag = ({ status }: AdminStatusTagProps) => {
 
   return (
     <span
-      className={`rounded-12 text-12 flex h-[2.4rem] w-[6rem] flex-col items-center justify-center font-medium ${getStatusColor(status)}`}
+      className={`rounded-12 font-medium-14 flex h-[2.4rem] w-[6rem] flex-col items-center justify-center py-[0.5rem] ${getStatusColor(status)}`}
     >
       {getStatusText(status)}
     </span>
