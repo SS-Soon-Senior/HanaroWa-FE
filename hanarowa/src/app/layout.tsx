@@ -40,7 +40,7 @@ const hanaFont = localFont({
 export const metadata: Metadata = {
   title: '하나로와',
   description: '하나로와',
-  icons: { icon: '/favicon.svg' },
+  icons: { icon: '/hanarowa/public/favicon.svg' },
 };
 
 export default function RootLayout({
@@ -49,8 +49,12 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang='ko' suppressHydrationWarning className={hanaFont.variable}>
-      <body className='font-hana antialiased'>
+    <html
+      lang='ko'
+      suppressHydrationWarning
+      className={`${hanaFont.variable} font-hana`}
+    >
+      <body className='antialiased'>
         <Providers>{children}</Providers>
         <ToastProvider />
       </body>

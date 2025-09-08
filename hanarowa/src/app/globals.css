@@ -1,6 +1,10 @@
 @import 'tailwindcss';
 
 @theme {
+  --font-hana: 'Hana', sans-serif;
+}
+
+@theme {
   --color-black: #393939;
   --color-main: #00a49d;
   --color-red: #f14a76;
@@ -28,6 +32,7 @@
     overscroll-behavior: none;
     background-color: var(--color-background);
     font-size: 62.5%;
+    font-family: 'Hana', sans-serif;
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
@@ -36,6 +41,7 @@
     width: 100%;
     min-height: 100dvh;
     scroll-behavior: smooth;
+    font-family: 'Hana', sans-serif;
   }
 
   p {
