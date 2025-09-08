@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  output: 'standalone',
   images: {
     remotePatterns: [
       {
@@ -48,6 +49,8 @@ const nextConfig: NextConfig = {
       }
     );
     fileLoaderRule.exclude = /\.svg$/i;
+    config.resolve.alias['@'] = __dirname;
+
     return config;
   },
 };
