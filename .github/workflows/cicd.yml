@@ -65,12 +65,26 @@ jobs:
 
             - name: scp next to was
               run: |
-                  scp hanarowa/next.zip ec2-user@${{ secrets.WAS }}:/home/ec2-user/workspace/
+                  echo "=== Starting SCP ==="
+                  scp -v hanarowa/next.zip ec2-user@${{ secrets.WAS }}:/home/ec2-user/workspace/
+                  echo "=== SCP completed ==="
 
             - name: restart next
               run: |
                   ssh ec2-user@${{ secrets.WAS }} '
+                    echo "=== Server workspace before cleanup ==="
                     cd /home/ec2-user/workspace
+                    ls -la
+                    
+                    echo "=== Removing old hanarowa ==="
                     rm -rf hanarowa
+                    
+                    echo "=== Unzipping next.zip ==="
                     unzip -q next.zip -d hanarowa
+                    
+                    echo "=== After unzip ==="
+                    ls -la hanarowa/
+                    
+                    echo "=== Server.js check ==="
+                    ls -la hanarowa/server.js || echo "server.js not found"
                   '
