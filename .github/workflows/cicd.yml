@@ -55,14 +55,13 @@ jobs:
               run: zip -rq next.zip public .next/standalone
 
             - name: setup ssh
+              shell: bash
               run: |
-                  mkdir -p /home/runner/.ssh
-                  echo "${{ secrets.SSH_KEY }}" > /home/runner/.ssh/id_rsa
-                  chmod 400 /home/runner/.ssh/id_rsa
-                  ssh-keyscan ${{ secrets.WAS }} >> /home/runner/.ssh/known_hosts
-                  chmod 600 /home/runner/.ssh/known_hosts
-              env:
-                  HOME: /home/runner
+                  mkdir -p ~/.ssh
+                  echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+                  chmod 400 ~/.ssh/id_rsa
+                  ssh-keyscan ${{ secrets.WAS }} >> ~/.ssh/known_hosts
+                  chmod 600 ~/.ssh/known_hosts
 
             - name: scp next to was
               run: |
