@@ -6,7 +6,14 @@ type MemberCardProps = components['schemas']['MemberListResponseDTO'];
 const DivStyle =
   'flex flex-row items-center gap-[1.2rem] font-medium-14 text-gray353';
 
-const MemberCard = ({ name, branch, phone, email, birth }: MemberCardProps) => {
+const MemberCard = ({
+  name,
+  branch,
+  phone,
+  email,
+  birth,
+  deletedAt,
+}: MemberCardProps) => {
   return (
     <div className='rounded-16 relative flex w-full flex-col bg-white shadow-sm ring-1 ring-black/5'>
       <div className='flex flex-col gap-[0.8rem] px-[2rem] py-[1.8rem]'>
@@ -29,6 +36,11 @@ const MemberCard = ({ name, branch, phone, email, birth }: MemberCardProps) => {
           <IcCake />
           <p>{birth}</p>
         </div>
+        {deletedAt && (
+          <div className={DivStyle}>
+            <p>탈퇴 일자: {deletedAt}</p>
+          </div>
+        )}
       </div>
     </div>
   );

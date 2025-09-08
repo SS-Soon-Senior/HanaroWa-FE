@@ -1054,9 +1054,9 @@ export interface components {
             duration?: string;
             lessonRoomName?: string;
             reservedAt?: string;
+            reviewed?: boolean;
             inProgress?: boolean;
             notStarted?: boolean;
-            reviewed?: boolean;
         };
         MyOpenLessonListResponseDTO: {
             /** Format: int64 */
@@ -1231,6 +1231,8 @@ export interface components {
             branch?: string;
             phone?: string;
             email?: string;
+            /** Format: date-time */
+            deletedAt?: string;
             /** Format: date */
             birth?: string;
         };
