@@ -195,6 +195,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** 일반 로그인 */
         post: operations["signin"];
         delete?: never;
         options?: never;
@@ -211,6 +212,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** 토큰 재발급 */
         post: operations["refresh"];
         delete?: never;
         options?: never;
@@ -1052,9 +1054,9 @@ export interface components {
             duration?: string;
             lessonRoomName?: string;
             reservedAt?: string;
-            reviewed?: boolean;
-            notStarted?: boolean;
             inProgress?: boolean;
+            notStarted?: boolean;
+            reviewed?: boolean;
         };
         MyOpenLessonListResponseDTO: {
             /** Format: int64 */
@@ -1235,6 +1237,8 @@ export interface components {
         AdminLessonListResponseDTO: {
             /** Format: int64 */
             id?: number;
+            /** Format: int64 */
+            lessonGisuId?: number;
             lessonName?: string;
             instructor?: string;
             lessonImg?: string;

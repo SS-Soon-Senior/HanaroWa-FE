@@ -12,7 +12,7 @@ const Page = () => {
     <Layout header={<Header title='강좌 목록' />}>
       <div className='grid w-full grid-cols-2 gap-[2.5rem]'>
         {lessons.map((l) => (
-          <AdminLessonCard key={l.id} {...l} />
+          <AdminLessonCard key={l.lessonGisuId} {...l} />
         ))}
       </div>
     </Layout>
