@@ -98,4 +98,5 @@ jobs:
                     ls -la hanarowa/
                     
                     ls -la hanarowa/server.js || echo "server.js not found"
+                    pm2 reload my-next-app
                   '
