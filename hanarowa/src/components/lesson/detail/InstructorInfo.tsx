@@ -16,7 +16,9 @@ const InstructorInfo = ({ name, content, rating }: InstructorInfoProps) => {
           <p className='font-bold-20 text-black'>{name}</p>
           <div className='flex items-center gap-[0.4rem]'>
             <IcStarRed />
-            <span className='font-bold-18 text-black'>{rating}</span>
+            <span className='font-bold-18 text-black'>
+              {rating?.toFixed(1)}
+            </span>
           </div>
         </div>
 
