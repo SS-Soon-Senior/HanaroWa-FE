@@ -4,7 +4,7 @@ import { use } from 'react';
 
 const Page = () => {
   const { data, response } = use(getAdminMemberList());
-  console.log(data, response);
+  console.log('회원 목록', data, response);
 
   const memberlist = data?.result ?? [];
 
@@ -14,6 +14,7 @@ const Page = () => {
         {!response?.ok ? (
           <p className='text-gray4a9 py-[2rem] text-center'>
             회원 목록을 불러오지 못했어요
+            {String(response)}
             {data?.message ? `: ${data.message}` : ''}
           </p>
         ) : memberlist.length === 0 ? (
