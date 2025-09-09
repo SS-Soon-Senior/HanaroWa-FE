@@ -1,6 +1,5 @@
 import { Header, Layout, MemberCard } from '@/components';
 import { getAdminMemberList } from '@apis';
-import { get } from 'http';
 import { use } from 'react';
 
 const Page = () => {
