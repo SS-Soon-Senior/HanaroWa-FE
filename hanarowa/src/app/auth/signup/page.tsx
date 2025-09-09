@@ -4,7 +4,6 @@ import { postSignup } from '@/apis';
 import { IcCloseeye, IcOpeneye, IcSignupFace } from '@/assets/svg';
 import { Header, Input, ErrorMessage, Button, Layout } from '@/components';
 import { setAccessToken } from '@/utils/common/auth';
-import { a } from 'framer-motion/client';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
 

@@ -81,6 +81,7 @@ export function useReservationCountWS(lessonGisuId: number) {
               Authorization: `Bearer ${accessToken}`,
             }
           );
+          console.log(subscription);
           console.log('Subscribed to:', `/topic/lesson/${lessonGisuId}/count`);
         } catch (error) {
           console.error('Error subscribing to WebSocket topic:', error);
