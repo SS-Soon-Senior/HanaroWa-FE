@@ -7,7 +7,7 @@ type LessonDetailResponse =
 const getLessonDetail = async (
   lessonId: number
 ): Promise<LessonDetailResponse> => {
-  const { data, error } = await client.GET('/admin/lesson/{lessonId}', {
+  const { data, error } = await client.GET('/api/admin/lesson/{lessonId}', {
     params: {
       path: { lessonId },
     },

@@ -1,26 +1,38 @@
 import { Header, Layout, MemberCard } from '@/components';
-import { useAdminGetMemberlist } from '@apis';
+import { getAdminMemberList } from '@apis';
 import { use } from 'react';
 
 const Page = () => {
-  const { data } = use(useAdminGetMemberlist());
+  const { data, response } = use(getAdminMemberList());
+  console.log(data, response);
 
-  const memberlist = data?.result;
+  const memberlist = data?.result ?? [];
 
   return (
     <Layout header={<Header title='회원 목록' />}>
       <div className='flex w-full flex-col gap-[1.4rem] py-[1rem]'>
-        {memberlist?.map((m, i = 0) => (
-          <MemberCard
-            key={i++}
-            name={m.name || ''}
-            branch={m.branch || ''}
-            phone={m.phone || ''}
-            email={m.email || ''}
-            birth={m.birth || ''}
-            deletedAt={m.deletedAt || ''}
-          />
-        ))}
+        {!response?.ok ? (
+          <p className='text-gray4a9 py-[2rem] text-center'>
+            회원 목록을 불러오지 못했어요
+            {data?.message ? `: ${data.message}` : ''}
+          </p>
+        ) : memberlist.length === 0 ? (
+          <p className='text-gray4a9 py-[2rem] text-center'>
+            등록된 회원이 없습니다.
+          </p>
+        ) : (
+          memberlist.map((m, i) => (
+            <MemberCard
+              key={`member-${m.email ?? i}`}
+              name={m.name || ''}
+              branch={m.branch || ''}
+              phone={m.phone || ''}
+              email={m.email || ''}
+              birth={m.birth || ''}
+              deletedAt={''}
+            />
+          ))
+        )}
       </div>
     </Layout>
   );
