@@ -97,6 +97,5 @@ jobs:
                     echo "=== After unzip ==="
                     ls -la hanarowa/
                     
-                    echo "=== Server.js check ==="
                     ls -la hanarowa/server.js || echo "server.js not found"
                   '
