@@ -1,4 +1,4 @@
-import useAdminGetMemberlist from './admin/useAdminGet';
+import getAdminMemberList from './admin/getAdminMemberList';
 import getMemberBranch from './getMemberBranch';
 import useGetMemberBranch from './useGetMemberBranch';
 import useGetMemberInfo from './useGetMemberInfo';
@@ -17,5 +17,5 @@ export {
   useWithdrawMember,
   usePatchPassword,
   useModifyInfo,
-  useAdminGetMemberlist,
+  getAdminMemberList,
 };
