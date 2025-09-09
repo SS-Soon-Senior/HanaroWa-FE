@@ -573,7 +573,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/admin/member": {
+    "/api/admin/members": {
         parameters: {
             query?: never;
             header?: never;
