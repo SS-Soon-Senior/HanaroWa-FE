@@ -29,7 +29,7 @@ interface ApiResponse {
 const useCheckAvailability = () => {
   return useMutation<ApiResponse, Error, CheckAvailabilityRequest>({
     mutationFn: async (data: CheckAvailabilityRequest) => {
-      const response = await client.POST('/lesson/check/availability', {
+      const response = await client.POST('/api/lesson/check/availability', {
         body: data,
       });
 

@@ -3,7 +3,7 @@ import { TanstackQueryClient } from '@apis';
 const useGetFilterLessonList = (branchId: number) => {
   const response = TanstackQueryClient.useQuery(
     'get',
-    '/lesson/list/{branchId}',
+    '/api/lesson/list/{branchId}',
     {
       params: {
         path: {

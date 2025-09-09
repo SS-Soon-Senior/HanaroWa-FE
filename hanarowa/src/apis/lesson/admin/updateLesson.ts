@@ -5,7 +5,7 @@ type UpdateLessonDetailRequestDTO =
   components['schemas']['UpdateLessonDetailRequestDTO'];
 
 const updateLesson = (lessonId: string, data: UpdateLessonDetailRequestDTO) => {
-  return client.PATCH('/admin/lesson/{lessonId}', {
+  return client.PATCH('/api/admin/lesson/{lessonId}', {
     params: {
       path: {
         lessonId: parseInt(lessonId),

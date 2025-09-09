@@ -46,7 +46,7 @@ baseClient.use({
 async function refreshToken(): Promise<boolean> {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/reissue`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/reissue`,
       {
         method: 'POST',
         credentials: 'include',

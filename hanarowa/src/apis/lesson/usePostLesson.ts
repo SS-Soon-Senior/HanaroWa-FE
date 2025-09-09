@@ -22,7 +22,7 @@ const usePostLesson = () => {
         : undefined;
       // FormData를 직접 fetch로 전송 (openapi-fetch는 FormData 타입 지원에 제한이 있음)
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/lesson/create`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/lesson/create`,
         {
           method: 'POST',
           body: formData,
