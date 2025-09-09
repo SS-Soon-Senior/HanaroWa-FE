@@ -8,7 +8,7 @@ const updateLessonState = (
   lessonGisuId: number,
   data: UpdateLessonStateRequest
 ) => {
-  return client.PATCH('/admin/lesson/{lessonGisuId}/state', {
+  return client.PATCH('/api/admin/lesson/{lessonGisuId}/state', {
     params: {
       path: {
         lessonGisuId,

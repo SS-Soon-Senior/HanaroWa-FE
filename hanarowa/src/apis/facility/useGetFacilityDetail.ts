@@ -1,7 +1,7 @@
 import { TanstackQueryClient } from '@apis';
 
 const useGetFacilityDetail = (facilityId: string) => {
-  return TanstackQueryClient.useQuery('get', '/facility/{facilityId}', {
+  return TanstackQueryClient.useQuery('get', '/api/facility/{facilityId}', {
     params: {
       path: {
         facilityId: Number(facilityId),

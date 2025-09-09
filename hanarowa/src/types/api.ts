@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/member/info": {
+    "/api/member/info": {
         parameters: {
             query?: never;
             header?: never;
@@ -21,7 +21,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/member/branch/{branchId}": {
+    "/api/member/branch/{branchId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -41,7 +41,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/lesson/{lessonGisuId}": {
+    "/api/lesson/{lessonGisuId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -65,7 +65,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/lesson/{lessonGisuId}/review": {
+    "/api/lesson/{lessonGisuId}/review": {
         parameters: {
             query?: never;
             header?: never;
@@ -85,7 +85,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/lesson/create": {
+    "/api/lesson/create": {
         parameters: {
             query?: never;
             header?: never;
@@ -105,7 +105,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/lesson/check/availability": {
+    "/api/lesson/check/availability": {
         parameters: {
             query?: never;
             header?: never;
@@ -125,7 +125,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/facility/reservation": {
+    "/api/facility/reservation": {
         parameters: {
             query?: never;
             header?: never;
@@ -149,7 +149,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/signup": {
+    "/api/auth/signup": {
         parameters: {
             query?: never;
             header?: never;
@@ -166,7 +166,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/signout": {
+    "/api/auth/signout": {
         parameters: {
             query?: never;
             header?: never;
@@ -186,7 +186,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/signin": {
+    "/api/auth/signin": {
         parameters: {
             query?: never;
             header?: never;
@@ -203,7 +203,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/reissue": {
+    "/api/auth/reissue": {
         parameters: {
             query?: never;
             header?: never;
@@ -220,7 +220,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/ai/recommend-jobs": {
+    "/api/ai/recommend-jobs": {
         parameters: {
             query?: never;
             header?: never;
@@ -237,7 +237,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/ai/recommend-courses": {
+    "/api/ai/recommend-courses": {
         parameters: {
             query?: never;
             header?: never;
@@ -254,7 +254,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/member": {
+    "/api/member": {
         parameters: {
             query?: never;
             header?: never;
@@ -272,7 +272,7 @@ export interface paths {
         patch: operations["modifyInfo"];
         trace?: never;
     };
-    "/member/withdraw": {
+    "/api/member/withdraw": {
         parameters: {
             query?: never;
             header?: never;
@@ -289,7 +289,7 @@ export interface paths {
         patch: operations["withDraw"];
         trace?: never;
     };
-    "/member/password": {
+    "/api/member/password": {
         parameters: {
             query?: never;
             header?: never;
@@ -306,7 +306,7 @@ export interface paths {
         patch: operations["modifyPassword"];
         trace?: never;
     };
-    "/admin/lesson/{lessonId}": {
+    "/api/admin/lesson/{lessonId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -324,7 +324,7 @@ export interface paths {
         patch: operations["updateLessonDetail"];
         trace?: never;
     };
-    "/admin/lesson/{lessonGisuId}/state": {
+    "/api/admin/lesson/{lessonGisuId}/state": {
         parameters: {
             query?: never;
             header?: never;
@@ -341,7 +341,7 @@ export interface paths {
         patch: operations["updateLessonState"];
         trace?: never;
     };
-    "/admin/lesson/gisu/{lessonGisuId}": {
+    "/api/admin/lesson/gisu/{lessonGisuId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -359,7 +359,7 @@ export interface paths {
         patch: operations["updateLessonGisu"];
         trace?: never;
     };
-    "/member/branch": {
+    "/api/member/branch": {
         parameters: {
             query?: never;
             header?: never;
@@ -379,7 +379,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/lesson/{lessonId}": {
+    "/api/lesson/{lessonId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -396,7 +396,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/lesson/reservation": {
+    "/api/lesson/reservation": {
         parameters: {
             query?: never;
             header?: never;
@@ -413,7 +413,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/lesson/list": {
+    "/api/lesson/list": {
         parameters: {
             query?: never;
             header?: never;
@@ -433,7 +433,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/lesson/list/{branchId}": {
+    "/api/lesson/list/{branchId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -453,7 +453,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/facility/{facilityId}": {
+    "/api/facility/{facilityId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -473,7 +473,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/facility/branch/{branchId}": {
+    "/api/facility/branch/{branchId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -493,7 +493,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/branch": {
+    "/api/branch": {
         parameters: {
             query?: never;
             header?: never;
@@ -513,7 +513,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/signin/naver": {
+    "/api/auth/signin/naver": {
         parameters: {
             query?: never;
             header?: never;
@@ -533,7 +533,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/signin/kakao": {
+    "/api/auth/signin/kakao": {
         parameters: {
             query?: never;
             header?: never;
@@ -553,7 +553,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/signin/google": {
+    "/api/auth/signin/google": {
         parameters: {
             query?: never;
             header?: never;
@@ -573,7 +573,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/member": {
+    "/api/admin/member": {
         parameters: {
             query?: never;
             header?: never;
@@ -590,7 +590,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/lesson": {
+    "/api/admin/lesson": {
         parameters: {
             query?: never;
             header?: never;
@@ -607,7 +607,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/lesson/{lessonGisuId}/member": {
+    "/api/admin/lesson/{lessonGisuId}/member": {
         parameters: {
             query?: never;
             header?: never;
@@ -624,7 +624,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/lesson/manage": {
+    "/api/admin/lesson/manage": {
         parameters: {
             query?: never;
             header?: never;
@@ -641,7 +641,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/facility": {
+    "/api/admin/facility": {
         parameters: {
             query?: never;
             header?: never;
@@ -661,7 +661,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/facility/{reservationId}": {
+    "/api/facility/{reservationId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -681,7 +681,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/facility/{reservationId}": {
+    "/api/admin/facility/{reservationId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1054,8 +1054,8 @@ export interface components {
             duration?: string;
             lessonRoomName?: string;
             reservedAt?: string;
-            reviewed?: boolean;
             inProgress?: boolean;
+            reviewed?: boolean;
             notStarted?: boolean;
         };
         MyOpenLessonListResponseDTO: {
@@ -1231,7 +1231,7 @@ export interface components {
             branch?: string;
             phone?: string;
             email?: string;
-            /** Format: date-time */
+            /** Format: date */
             deletedAt?: string;
             /** Format: date */
             birth?: string;

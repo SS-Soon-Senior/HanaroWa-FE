@@ -4,7 +4,7 @@ import { createServerClient } from '@/apis/serverClient';
 
 const useAdminGetMemberlist = async () => {
   const client = await createServerClient();
-  return client.GET(`/admin/member`);
+  return client.GET(`/api/admin/member`);
 };
 
 export default useAdminGetMemberlist;

@@ -4,8 +4,11 @@ import { client } from '@apis';
 type UpdateLessonGisuRequestDTO =
   components['schemas']['UpdateLessonGisuRequestDTO'];
 
-const updateLessonGisu = (lessonGisuId: string, data: UpdateLessonGisuRequestDTO) => {
-  return client.PATCH('/admin/lesson/gisu/{lessonGisuId}', {
+const updateLessonGisu = (
+  lessonGisuId: string,
+  data: UpdateLessonGisuRequestDTO
+) => {
+  return client.PATCH('/api/admin/lesson/gisu/{lessonGisuId}', {
     params: {
       path: {
         lessonGisuId: parseInt(lessonGisuId),
