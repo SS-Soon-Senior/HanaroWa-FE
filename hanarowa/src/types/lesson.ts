@@ -1,6 +1,6 @@
 export type Status = '승인' | '반려' | '대기중';
 
-export type Lesson = {
+export interface BaseLessonData {
   title: string;
   instructorName: string;
   instructorIntro: string;
@@ -9,32 +9,33 @@ export type Lesson = {
   category: string;
   startDate: string;
   endDate: string;
-  duration?: string; // 계산된 기간
   days: string;
   time: string;
-  imageUrl?: string;
   lessonDescription: string;
   expectedParticipants: string;
   additionalContents: string[];
-  status?: Status; // 추가
-};
+}
 
-export interface LessonFormData {
-  title: string;
-  instructorName: string;
-  instructorIntro: string;
-  lessonIntro: string;
-  fee: string;
-  category: string;
+export interface Lesson extends BaseLessonData {
+  duration?: string;
+  imageUrl?: string;
+  status?: Status;
+}
+
+export interface LessonFormData extends BaseLessonData {
   branchId?: string;
-  startDate: string;
-  endDate: string;
-  days: string;
-  time: string;
   lessonImage: File | null;
-  lessonDescription: string;
-  expectedParticipants: string;
-  additionalContents: string[];
+}
+
+export interface LessonFormErrors {
+  [key: string]: string;
+}
+
+export interface LessonFormState {
+  data: LessonFormData;
+  errors: LessonFormErrors;
+  isSubmitting: boolean;
+  isValid: boolean;
 }
 
 export type LessonUpdatePayload = Omit<Lesson, 'imageUrl'>;

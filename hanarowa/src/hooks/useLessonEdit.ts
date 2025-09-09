@@ -1,9 +1,14 @@
 'use client';
 
-import { components } from '@/types/api';
-import { Lesson, LessonFormData } from '@/types/lesson';
-import { getLessonGisuDetail, updateLessonGisu } from '@apis';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { getLessonGisuDetail, updateLessonGisu } from '@/apis';
+import type { components } from '@/types/api';
+import type { Lesson } from '@/types/lesson';
+import {
+  mapSelectedDaysToValue,
+  mapValueToSelectedDays,
+} from '@/utils/lesson-mappers';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useBaseLessonForm, type BaseLessonConfig } from './useBaseLesson';
 
 type LessonGisuDetailResponseDTO = components['schemas']['LessonGisuDetailResponseDTO'];
 type UpdateLessonGisuRequestDTO =
@@ -99,27 +104,18 @@ function convertToLesson(dto: LessonGisuDetailResponseDTO): Lesson | null {
   };
 }
 
-export function useLessonEdit(id: string | undefined) {
+interface LessonEditConfig extends BaseLessonConfig {
+  id: string | undefined;
+}
+
+export function useLessonEdit(config: LessonEditConfig) {
+  const { id, ...baseConfig } = config;
   const [initial, setInitial] = useState<Lesson | null>(null);
   const [loading, setLoading] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  const [formData, setFormData] = useState<LessonFormData>({
-    title: '',
-    instructorName: '',
-    instructorIntro: '',
-    lessonIntro: '',
-    fee: '',
-    category: '',
-    branchId: '',
-    startDate: '',
-    endDate: '',
-    days: '',
-    time: '',
-    lessonImage: null,
-    lessonDescription: '',
-    expectedParticipants: '',
-    additionalContents: [],
-  });
+  const baseForm = useBaseLessonForm(baseConfig);
+  const { formData, setFormData } = baseForm;
 
   // 실제 API 호출
   useEffect(() => {
@@ -144,8 +140,6 @@ export function useLessonEdit(id: string | undefined) {
     fetchLessonGisuDetail();
   }, [id]);
 
-  const [isInitialized, setIsInitialized] = useState(false);
-
   useEffect(() => {
     if (!initial || isInitialized) return;
 
@@ -156,6 +150,7 @@ export function useLessonEdit(id: string | undefined) {
       lessonIntro: initial.lessonIntro || '',
       fee: initial.fee || '',
       category: initial.category || '',
+      branchId: '',
       startDate: initial.startDate || '',
       endDate: initial.endDate || '',
       days: initial.days || '',
@@ -166,39 +161,7 @@ export function useLessonEdit(id: string | undefined) {
       additionalContents: initial.additionalContents || [],
     });
     setIsInitialized(true);
-  }, [initial, isInitialized]);
-
-  const handleInputChange = useCallback(
-    <K extends keyof LessonFormData>(field: K, value: LessonFormData[K]) => {
-      setFormData((prev) => ({ ...prev, [field]: value }));
-    },
-    []
-  );
-
-  const handleAddContent = useCallback(() => {
-    setFormData((prev) => ({
-      ...prev,
-      additionalContents: [...prev.additionalContents, ''],
-    }));
-  }, []);
-
-  const handleAdditionalContentChange = useCallback(
-    (index: number, value: string) => {
-      setFormData((prev) => {
-        const next = [...prev.additionalContents];
-        next[index] = value;
-        return { ...prev, additionalContents: next };
-      });
-    },
-    []
-  );
-
-  const removeAdditionalContent = useCallback((index: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      additionalContents: prev.additionalContents.filter((_, i) => i !== index),
-    }));
-  }, []);
+  }, [initial, isInitialized, setFormData]);
 
   const additionalCount = useMemo(
     () =>
@@ -275,31 +238,7 @@ export function useLessonEdit(id: string | undefined) {
       };
 
       const getDayKey = (dayLabel: string) => {
-        // 한글 라벨 매핑
-        const mapping: Record<string, string> = {
-          '월, 화, 수, 목, 금': 'mon-fri',
-          '월, 수': 'mon-wed',
-          '화, 목': 'tue-thu',
-          '토, 일': 'weekend',
-          매일: 'daily',
-        };
-        
-        // 기존 한글 형식이면 매핑 사용
-        if (mapping[dayLabel]) {
-          return mapping[dayLabel];
-        }
-        
-        // 영문 콤마 또는 하이픈 구분 형식이면 그대로 반환 (예: "mon,tue,wed" 또는 "mon-tue-wed")
-        if ((dayLabel.includes(',') || dayLabel.includes('-')) && /^[a-z,-]+$/.test(dayLabel)) {
-          return dayLabel;
-        }
-        
-        // 이미 영문 형식이면 그대로 반환 (예: "mon-fri", "weekend")
-        if (/^[a-z-]+$/.test(dayLabel)) {
-          return dayLabel;
-        }
-        
-        return dayLabel || 'mon-fri';
+        return mapSelectedDaysToValue(mapValueToSelectedDays(dayLabel));
       };
 
       const formatDuration = (
@@ -371,14 +310,14 @@ export function useLessonEdit(id: string | undefined) {
           | 'CULTURE',
         lessonImg: originalData.lessonImg,
         capacity:
-          parseInt(
+          Number.parseInt(
             formData.expectedParticipants.trim() ||
               initial?.expectedParticipants ||
               originalData.capacity?.toString() ||
               '0'
           ) || 0,
         lessonFee:
-          parseInt(
+          Number.parseInt(
             formData.fee.trim() ||
               initial?.fee ||
               originalData.lessonFee?.toString() ||
@@ -428,7 +367,10 @@ export function useLessonEdit(id: string | undefined) {
 
       const payload = buildPayload(originalData);
       console.log('🔄 업데이트 payload:', payload);
-      console.log('🔄 updateLessonGisu 호출 - lessonGisuId:', Number(id).toString());
+      console.log(
+        '🔄 updateLessonGisu 호출 - lessonGisuId:',
+        Number(id).toString()
+      );
       await updateLessonGisu(Number(id).toString(), payload);
       console.log('✅ 업데이트 성공');
       return true; // 성공 시 true 반환
@@ -441,15 +383,11 @@ export function useLessonEdit(id: string | undefined) {
   }, [id, initial, buildPayload]);
 
   return {
+    ...baseForm,
     initial,
     loading,
-    formData,
     isDirty,
     additionalCount,
-    handleInputChange,
-    handleAddContent,
-    handleAdditionalContentChange,
-    removeAdditionalContent,
     buildPayload,
     updateLessonData,
   };
