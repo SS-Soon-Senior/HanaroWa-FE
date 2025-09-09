@@ -4,6 +4,7 @@ import { use } from 'react';
 
 const Page = () => {
   const { data, response } = use(getAdminMemberList());
+  console.log(data, response);
 
   const memberlist = data?.result ?? [];
 
