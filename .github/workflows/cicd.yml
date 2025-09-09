@@ -60,17 +60,42 @@ jobs:
                   mkdir -p ~/.ssh
                   echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
                   chmod 400 ~/.ssh/id_rsa
-                  ssh-keyscan ${{ secrets.WAS }} >> ~/.ssh/known_hosts
+                  ssh-keyscan -H ${{ secrets.WAS }} >> ~/.ssh/known_hosts
                   chmod 600 ~/.ssh/known_hosts
+
+                  # SSH 키 파일 확인
+                  echo "=== SSH key file check ==="
+                  ls -la ~/.ssh/
+                  echo "=== SSH key file type ==="
+                  file ~/.ssh/id_rsa
+                  echo "=== SSH key first line ==="
+                  head -1 ~/.ssh/id_rsa
+
+                  # SSH 연결 테스트
+                  echo "=== SSH connection test ==="
+                  ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ secrets.WAS }} 'echo "SSH connection successful"'
 
             - name: scp next to was
               run: |
-                  scp hanarowa/next.zip ec2-user@${{ secrets.WAS }}:/home/ec2-user/workspace/
+                  echo "=== Starting SCP ==="
+                  scp -v hanarowa/next.zip ec2-user@${{ secrets.WAS }}:/home/ec2-user/workspace/
+                  echo "=== SCP completed ==="
 
             - name: restart next
               run: |
                   ssh ec2-user@${{ secrets.WAS }} '
+                    echo "=== Server workspace before cleanup ==="
                     cd /home/ec2-user/workspace
+                    ls -la
+                    
+                    echo "=== Removing old hanarowa ==="
                     rm -rf hanarowa
+                    
+                    echo "=== Unzipping next.zip ==="
                     unzip -q next.zip -d hanarowa
+                    
+                    echo "=== After unzip ==="
+                    ls -la hanarowa/
+                    
+                    ls -la hanarowa/server.js || echo "server.js not found"
                   '
