@@ -1,9 +1,10 @@
 import { Header, Layout, MemberCard } from '@/components';
-import { useAdminGetMemberlist } from '@apis';
+import { getAdminMemberList } from '@apis';
+import { get } from 'http';
 import { use } from 'react';
 
 const Page = () => {
-  const { data, response } = use(useAdminGetMemberlist());
+  const { data, response } = use(getAdminMemberList());
 
   const memberlist = data?.result ?? [];
 
