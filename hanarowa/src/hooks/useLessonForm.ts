@@ -3,6 +3,7 @@
 import { usePostLesson, useCheckAvailability } from '@/apis';
 import { timeOptions } from '@/constants/lesson-options';
 import type { components } from '@/types/api';
+import { validateLessonData } from '@/utils/lesson-mappers';
 import { useState, useCallback } from 'react';
 import { useBaseLessonForm, type BaseLessonConfig } from './useBaseLesson';
 
@@ -68,7 +69,7 @@ export const useLessonForm = (config: LessonFormConfig) => {
         );
       });
 
-      if (result?.result?.timeSlots && result.result.timeSlots.length > 1) {
+      if (result?.result?.timeSlots && result.result.timeSlots.length > 0) {
         const unavailableSlots = result.result.timeSlots
           .filter((slot) => !slot.available || slot.availableRoomsCount === 0)
           .map((slot) => {
@@ -94,55 +95,6 @@ export const useLessonForm = (config: LessonFormConfig) => {
     } catch (error) {
       console.error('시간대 확인 중 오류 발생:', error);
     }
-
-    const unavailableSlots: string[] = [];
-
-    for (const timeOption of timeOptions) {
-      const duration = `${formData.startDate}~${formData.endDate} ${formData.days} ${timeOption.value}`;
-
-      try {
-        const result = await new Promise<{
-          isSuccess: boolean;
-          code: string;
-          message: string;
-          result: {
-            available: boolean;
-            availableRoomsCount: number;
-            timeSlots: Array<{
-              startTime: string;
-              endTime: string;
-              available: boolean;
-              availableRoomsCount: number;
-            }>;
-          };
-        }>((resolve, reject) => {
-          checkAvailability(
-            {
-              branchId: Number.parseInt(currentBranchId),
-              duration,
-            },
-            {
-              onSuccess: resolve,
-              onError: reject,
-            }
-          );
-        });
-
-        if (
-          !result?.result?.available ||
-          result?.result?.availableRoomsCount === 0
-        ) {
-          unavailableSlots.push(timeOption.value);
-        }
-      } catch (error) {
-        console.error('시간대 확인 중 오류 발생:', error);
-        unavailableSlots.push(timeOption.value);
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 100));
-    }
-
-    setDisabledTimeSlots(unavailableSlots);
   }, [
     formData.startDate,
     formData.endDate,
@@ -154,14 +106,24 @@ export const useLessonForm = (config: LessonFormConfig) => {
   ]);
 
   const handleSubmit = useCallback(() => {
-    if (!validateForm()) {
+    const currentInstructorName = isAdmin
+      ? formData.instructorName
+      : instructorName;
+
+    // Create validation data with current instructor name
+    const validationData = {
+      ...formData,
+      instructorName: currentInstructorName || formData.instructorName,
+    };
+
+    const validation = validateLessonData(validationData);
+    if (!validation.isValid) {
+      // Show first error message
+      alert(validation.errors[0]);
       return;
     }
 
     const currentBranchId = isAdmin ? formData.branchId : branchId;
-    const currentInstructorName = isAdmin
-      ? formData.instructorName
-      : instructorName;
 
     if (!currentBranchId) {
       alert(
@@ -225,9 +187,6 @@ export const useLessonForm = (config: LessonFormConfig) => {
     if (formData.lessonImage) {
       fd.append('lessonImg', formData.lessonImage, formData.lessonImage.name);
     }
-
-    fd.delete('lessonGisus');
-    fd.delete('lessonGisus[0]');
 
     createLesson(fd, {
       onSuccess: () => {

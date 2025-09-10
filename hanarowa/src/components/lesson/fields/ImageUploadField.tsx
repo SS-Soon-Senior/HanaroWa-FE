@@ -2,7 +2,7 @@
 
 import { IcImageUpload } from '@/assets/svg';
 import { Input, Button, ErrorMessage } from '@/components';
-import type { LessonFormData } from '@/types/lesson';
+import type { LessonFormData, Lesson } from '@/types/lesson';
 import Image from 'next/image';
 import React from 'react';
 
@@ -16,6 +16,7 @@ interface ImageUploadFieldProps {
   ) => void;
   onImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onRemoveImage: () => void;
+  initial?: Lesson | null;
 }
 
 export const ImageUploadField = ({
@@ -24,6 +25,7 @@ export const ImageUploadField = ({
   fileInputRef,
   onImageUpload,
   onRemoveImage,
+  initial,
 }: ImageUploadFieldProps) => {
   return (
     <div className='w-full'>
@@ -58,6 +60,23 @@ export const ImageUploadField = ({
             >
               ×
             </Button>
+          </div>
+        ) : initial?.imageUrl ? (
+          <div className='relative'>
+            <Image
+              src={initial.imageUrl}
+              alt='기존 이미지'
+              width={480}
+              height={320}
+              className='rounded-12 max-h-[20rem] w-full object-contain'
+            />
+            <label
+              htmlFor='lessonImage'
+              className='rounded-6 absolute top-2 right-2 cursor-pointer bg-black/60 px-2 py-1 text-xs text-white'
+              title='이미지 변경'
+            >
+              변경
+            </label>
           </div>
         ) : (
           <label

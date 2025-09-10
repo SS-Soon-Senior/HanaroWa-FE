@@ -3,6 +3,8 @@
 import React from 'react';
 import type { components } from '@/types/api';
 import type { LessonFormData, Lesson } from '@/types/lesson';
+import { StatusKey } from '@/constants/status';
+import LessonStatusTags from '@/components/atoms/tags/LessonStatusTag';
 import { BasicInfoFields } from './fields/BasicInfoFields';
 import { CategoryAndBranchFields } from './fields/CategoryAndBranchFields';
 import { ContentFields } from './fields/ContentFields';
@@ -10,6 +12,20 @@ import { ImageUploadField } from './fields/ImageUploadField';
 import { ScheduleFields } from './fields/ScheduleFields';
 
 export type LessonFormMode = 'create' | 'edit';
+
+// 한글 상태값을 StatusKey로 변환
+const convertToStatusKey = (status: string): StatusKey => {
+  switch (status) {
+    case '승인':
+      return 'approved';
+    case '반려':
+      return 'rejected';
+    case '대기중':
+      return 'pending';
+    default:
+      return 'pending';
+  }
+};
 
 interface LessonFormProps {
   mode: LessonFormMode;
@@ -62,6 +78,15 @@ export const LessonForm = ({
 }: LessonFormProps) => {
   return (
     <div className='flex flex-col gap-[2.4rem]'>
+      {/* Status Tags - Only show in edit mode */}
+      {mode === 'edit' && initial && (
+        <section className='mt-[3rem] mb-[2rem]'>
+          <LessonStatusTags
+            currentStatus={convertToStatusKey(initial?.status ?? '대기중')}
+          />
+        </section>
+      )}
+
       {/* Basic Information Section */}
       <BasicInfoFields
         formData={formData}
@@ -95,6 +120,7 @@ export const LessonForm = ({
         onInputChange={onInputChange}
         onImageUpload={onImageUpload}
         onRemoveImage={onRemoveImage}
+        initial={initial}
       />
 
       {/* Content Section */}
