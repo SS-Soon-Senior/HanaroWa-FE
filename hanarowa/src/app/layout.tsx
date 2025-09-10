@@ -40,7 +40,7 @@ const hanaFont = localFont({
 export const metadata: Metadata = {
   title: '하나로와',
   description: '하나로와',
-  icons: { icon: '/favicon.png' },
+  icons: { icon: '/favicon.ico' },
 };
 
 export default function RootLayout({
@@ -54,7 +54,6 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${hanaFont.variable} font-hana`}
     >
-      <link rel='icon' href='/favicon.png' type='image/x-icon' />
       <body className='antialiased'>
         <Providers>{children}</Providers>
         <ToastProvider />
