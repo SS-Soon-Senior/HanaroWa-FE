@@ -1,10 +1,10 @@
 'use client';
 
-import React from 'react';
+import LessonStatusTags from '@/components/atoms/tags/LessonStatusTag';
+import { StatusKey } from '@/constants/status';
 import type { components } from '@/types/api';
 import type { LessonFormData, Lesson } from '@/types/lesson';
-import { StatusKey } from '@/constants/status';
-import LessonStatusTags from '@/components/atoms/tags/LessonStatusTag';
+import React from 'react';
 import { BasicInfoFields } from './fields/BasicInfoFields';
 import { CategoryAndBranchFields } from './fields/CategoryAndBranchFields';
 import { ContentFields } from './fields/ContentFields';
@@ -74,6 +74,7 @@ export const LessonForm = ({
   getTodayFormatted,
   initial,
   // 사용하지 않는 props들은 구조분해할당에서 제외하고 나머지로 처리
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ...rest
 }: LessonFormProps) => {
   return (

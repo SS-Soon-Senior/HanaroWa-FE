@@ -187,6 +187,7 @@ export const useLessonForm = (config: LessonFormConfig) => {
         console.error('강좌 개설 실패:', error);
       },
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     formData,
     createLesson,

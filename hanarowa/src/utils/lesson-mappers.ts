@@ -19,6 +19,7 @@ export function mapSelectedDaysToValue(selectedDays: string[]): string {
 export function mapValueToSelectedDays(value: string): string[] {
   // Find the key that maps to this value
   const entry = Object.entries(daySelectionMapping).find(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ([_, v]) => v === value
   );
   if (entry) {
