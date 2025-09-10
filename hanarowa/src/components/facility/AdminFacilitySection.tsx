@@ -45,39 +45,47 @@ const AdminFacilitySection = () => {
 
   return (
     <div className='flex w-full flex-col gap-[1.8rem]'>
-      <div>
-        <StatusTag status='reservation' />
-      </div>
-      {notUsed?.map((d) => (
-        <RoomReservationCard
-          key={`notUsed-${d.reservationId ?? `${d.branchName}-${d.startedAt}`}`}
-          startedAt={d.startedAt}
-          reservedAt={d.reservedAt}
-          placeName={d.branchName}
-          userName={d.memberName}
-          facilityName={d.facilityName}
-          isUsed={false}
-          onClick={() => {
-            setReservationId(d.reservationId || 0);
-            openModal();
-          }}
-        />
-      ))}
-      <hr className='border-gray7eb' />
-      <div>
-        <StatusTag status='complete' />
-      </div>
-      {used?.map((d) => (
-        <RoomReservationCard
-          key={`used-${d.reservationId ?? `${d.branchName}-${d.startedAt}`}`}
-          startedAt={d.startedAt}
-          reservedAt={d.reservedAt}
-          placeName={d.branchName}
-          userName={d.memberName}
-          facilityName={d.facilityName}
-          isUsed={true}
-        />
-      ))}
+      {notUsed.length > 0 && (
+        <>
+          <div>
+            <StatusTag status='reservation' />
+          </div>
+          {notUsed?.map((d) => (
+            <RoomReservationCard
+              key={`notUsed-${d.reservationId ?? `${d.branchName}-${d.startedAt}`}`}
+              startedAt={d.startedAt}
+              reservedAt={d.reservedAt}
+              placeName={d.branchName}
+              userName={d.memberName}
+              facilityName={d.facilityName}
+              isUsed={false}
+              onClick={() => {
+                setReservationId(d.reservationId || 0);
+                openModal();
+              }}
+            />
+          ))}
+          <hr className='border-gray7eb' />
+        </>
+      )}
+      {used.length > 0 && (
+        <>
+          <div>
+            <StatusTag status='complete' />
+          </div>
+          {used?.map((d) => (
+            <RoomReservationCard
+              key={`used-${d.reservationId ?? `${d.branchName}-${d.startedAt}`}`}
+              startedAt={d.startedAt}
+              reservedAt={d.reservedAt}
+              placeName={d.branchName}
+              userName={d.memberName}
+              facilityName={d.facilityName}
+              isUsed={true}
+            />
+          ))}
+        </>
+      )}
 
       {isOpen && (
         <Modal
