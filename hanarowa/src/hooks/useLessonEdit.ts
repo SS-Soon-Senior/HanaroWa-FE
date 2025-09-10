@@ -174,7 +174,7 @@ export function useLessonEdit(id: string | undefined) {
   }, [initial, isInitialized]);
 
   const handleInputChange = useCallback(
-    <K extends keyof LessonFormData>(field: K, value: LessonFormData[K]) => {
+    (field: keyof LessonFormData, value: string | boolean | File | null | string[]) => {
       setFormData((prev) => ({ ...prev, [field]: value }));
     },
     []
