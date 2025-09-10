@@ -36,7 +36,7 @@ export function getCategoryLabel(value: string): string {
     categoryOptions.find((option) => option.value === value)?.label || value
   );
 }
-ㄴ;
+
 export function calculateLessonDuration(
   startDate: string,
   endDate: string
