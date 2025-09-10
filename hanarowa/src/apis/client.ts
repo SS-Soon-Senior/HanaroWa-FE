@@ -1,6 +1,7 @@
 import { paths } from '@/types/api';
 import createFetchClient from 'openapi-fetch';
 import createClient from 'openapi-react-query';
+import { toast } from 'sonner';
 
 const baseClient = createFetchClient<paths>({
   baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,

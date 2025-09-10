@@ -1,225 +1,135 @@
-import { useState, useRef, useCallback } from 'react';
+'use client';
+
 import { usePostLesson, useCheckAvailability } from '@/apis';
-import { components } from '@/types/api';
-import { LessonFormData } from '@/types/lesson';
-import { timeOptions } from '@/constants';
+import type { components } from '@/types/api';
+import { validateLessonData } from '@/utils/lesson-mappers';
+import { useState, useCallback } from 'react';
+import { useBaseLessonForm, type BaseLessonConfig } from './useBaseLesson';
 
-export type CreateLessonRequest = components['schemas']['CreateLessonRequestDTO'];
+export type CreateLessonRequest =
+  components['schemas']['CreateLessonRequestDTO'];
 
-export interface LessonFormConfig {
+export interface LessonFormConfig extends BaseLessonConfig {
   isAdmin: boolean;
-  initialData?: Partial<LessonFormData>;
-  onSuccess?: () => void;
   branchId?: string;
   instructorName?: string;
 }
 
 export const useLessonForm = (config: LessonFormConfig) => {
-  const { isAdmin, initialData, onSuccess, branchId, instructorName } = config;
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [imageError, setImageError] = useState<string>('');
+  const { isAdmin, branchId, instructorName, ...baseConfig } = config;
   const [disabledTimeSlots, setDisabledTimeSlots] = useState<string[]>([]);
-  
-  const [formData, setFormData] = useState<LessonFormData>({
-    title: '',
-    instructorName: '',
-    instructorIntro: '',
-    lessonIntro: '',
-    fee: '',
-    category: '',
-    branchId: '',
-    startDate: '',
-    endDate: '',
-    days: '',
-    time: '',
-    lessonImage: null,
-    lessonDescription: '',
-    expectedParticipants: '20',
-    additionalContents: [],
-    ...initialData,
-  });
+
+  const baseForm = useBaseLessonForm(baseConfig);
+  const { formData, validateForm, onSuccess } = baseForm;
 
   const { mutate: createLesson, isPending } = usePostLesson();
-  const { mutate: checkAvailability, isPending: isCheckingAvailability } = useCheckAvailability();
-
-  const handleInputChange = useCallback(
-    (field: keyof LessonFormData, value: string | boolean | File | null | string[]) => {
-      setFormData((prev) => ({
-        ...prev,
-        [field]: value,
-      }));
-    },
-    []
-  );
-
-  const handleAddContent = useCallback(() => {
-    setFormData((prev) => ({
-      ...prev,
-      additionalContents: [...prev.additionalContents, ''],
-    }));
-  }, []);
-
-  const handleAdditionalContentChange = useCallback((index: number, value: string) => {
-    const newContents = [...formData.additionalContents];
-    newContents[index] = value;
-    handleInputChange('additionalContents', newContents);
-  }, [formData.additionalContents, handleInputChange]);
-
-  const removeAdditionalContent = useCallback((index: number) => {
-    const newContents = formData.additionalContents.filter((_, i) => i !== index);
-    handleInputChange('additionalContents', newContents);
-  }, [formData.additionalContents, handleInputChange]);
-
-  const handleRemoveImage = useCallback(() => {
-    handleInputChange('lessonImage', null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  }, [handleInputChange]);
-
-  const handleImageUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement;
-    if (target.files && target.files[0]) {
-      const file = target.files[0];
-      const maxSize = 512 * 1024; // 512KB
-
-      if (file.size > maxSize) {
-        setImageError('이미지 크기 512KB이하로 선택해주세요.');
-        target.value = '';
-        return;
-      }
-
-      setImageError('');
-      handleInputChange('lessonImage', file);
-    }
-  }, [handleInputChange]);
+  const { mutate: checkAvailability, isPending: isCheckingAvailability } =
+    useCheckAvailability();
 
   const checkTimeAvailability = useCallback(async () => {
     const currentBranchId = isAdmin ? formData.branchId : branchId;
-    
-    if (
-      formData.startDate &&
-      formData.endDate &&
-      formData.days &&
-      currentBranchId
-    ) {
-      const durationWithoutTime = `${formData.startDate}~${formData.endDate} ${formData.days}`;
 
-      try {
-        const result = await new Promise<{
-          isSuccess: boolean;
-          code: string;
-          message: string;
-          result: {
+    if (
+      !formData.startDate ||
+      !formData.endDate ||
+      !formData.days ||
+      !currentBranchId
+    ) {
+      return;
+    }
+
+    const durationWithoutTime = `${formData.startDate}~${formData.endDate} ${formData.days}`;
+
+    try {
+      const result = await new Promise<{
+        isSuccess: boolean;
+        code: string;
+        message: string;
+        result: {
+          available: boolean;
+          availableRoomsCount: number;
+          timeSlots: Array<{
+            startTime: string;
+            endTime: string;
             available: boolean;
             availableRoomsCount: number;
-            timeSlots: Array<{
-              startTime: string;
-              endTime: string;
-              available: boolean;
-              availableRoomsCount: number;
-            }>;
-          };
-        }>((resolve, reject) => {
-          checkAvailability(
-            {
-              branchId: parseInt(currentBranchId),
-              duration: durationWithoutTime,
-            },
-            {
-              onSuccess: resolve,
-              onError: reject,
-            }
-          );
-        });
+          }>;
+        };
+      }>((resolve, reject) => {
+        checkAvailability(
+          {
+            branchId: Number.parseInt(currentBranchId),
+            duration: durationWithoutTime,
+          },
+          {
+            onSuccess: resolve,
+            onError: reject,
+          }
+        );
+      });
 
-        if (result?.result?.timeSlots && result.result.timeSlots.length > 1) {
-          const unavailableSlots = result.result.timeSlots
-            .filter((slot) => !slot.available || slot.availableRoomsCount === 0)
-            .map((slot) => {
-              const startTime = new Date(slot.startTime).toLocaleTimeString(
-                'ko-KR',
-                {
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  hour12: false,
-                }
-              );
-              const endTime = new Date(slot.endTime).toLocaleTimeString(
-                'ko-KR',
-                {
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  hour12: false,
-                }
-              );
-              return `${startTime}-${endTime}`;
-            });
-
-          setDisabledTimeSlots(unavailableSlots);
-          return;
-        }
-      } catch (error) {
-        console.error('시간대 확인 중 오류 발생:', error);
-      }
-
-      const unavailableSlots: string[] = [];
-
-      for (const timeOption of timeOptions) {
-        const duration = `${formData.startDate}~${formData.endDate} ${formData.days} ${timeOption.value}`;
-
-        try {
-          const result = await new Promise<{
-            isSuccess: boolean;
-            code: string;
-            message: string;
-            result: {
-              available: boolean;
-              availableRoomsCount: number;
-              timeSlots: Array<{
-                startTime: string;
-                endTime: string;
-                available: boolean;
-                availableRoomsCount: number;
-              }>;
-            };
-          }>((resolve, reject) => {
-            checkAvailability(
+      if (result?.result?.timeSlots && result.result.timeSlots.length > 0) {
+        const unavailableSlots = result.result.timeSlots
+          .filter((slot) => !slot.available || slot.availableRoomsCount === 0)
+          .map((slot) => {
+            const startTime = new Date(slot.startTime).toLocaleTimeString(
+              'ko-KR',
               {
-                branchId: parseInt(currentBranchId),
-                duration,
-              },
-              {
-                onSuccess: resolve,
-                onError: reject,
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false,
               }
             );
+            const endTime = new Date(slot.endTime).toLocaleTimeString('ko-KR', {
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: false,
+            });
+            return `${startTime}-${endTime}`;
           });
 
-          if (
-            !result?.result?.available ||
-            result?.result?.availableRoomsCount === 0
-          ) {
-            unavailableSlots.push(timeOption.value);
-          }
-        } catch (error) {
-          console.error('시간대 확인 중 오류 발생:', error);
-          unavailableSlots.push(timeOption.value);
-        }
-
-        await new Promise((resolve) => setTimeout(resolve, 100));
+        setDisabledTimeSlots(unavailableSlots);
+        return;
       }
-
-      setDisabledTimeSlots(unavailableSlots);
+    } catch (error) {
+      console.error('시간대 확인 중 오류 발생:', error);
     }
-  }, [formData.startDate, formData.endDate, formData.days, formData.branchId, branchId, isAdmin, checkAvailability]);
+  }, [
+    formData.startDate,
+    formData.endDate,
+    formData.days,
+    formData.branchId,
+    branchId,
+    isAdmin,
+    checkAvailability,
+  ]);
 
   const handleSubmit = useCallback(() => {
+    const currentInstructorName = isAdmin
+      ? formData.instructorName
+      : instructorName;
+
+    // Create validation data with current instructor name
+    const validationData = {
+      ...formData,
+      instructorName: currentInstructorName || formData.instructorName,
+    };
+
+    const validation = validateLessonData(validationData);
+    if (!validation.isValid) {
+      // Show first error message
+      alert(validation.errors[0]);
+      return;
+    }
+
     const currentBranchId = isAdmin ? formData.branchId : branchId;
-    const currentInstructorName = isAdmin ? formData.instructorName : instructorName;
-    
+
     if (!currentBranchId) {
-      alert(isAdmin ? '지점을 선택해주세요.' : '지점 정보를 찾을 수 없습니다. 다시 로그인해주세요.');
+      alert(
+        isAdmin
+          ? '지점을 선택해주세요.'
+          : '지점 정보를 찾을 수 없습니다. 다시 로그인해주세요.'
+      );
       return;
     }
     if (isAdmin && !currentInstructorName?.trim()) {
@@ -247,8 +157,9 @@ export const useLessonForm = (config: LessonFormConfig) => {
     fd.append('branchId', String(currentBranchId));
 
     const i = 0;
-    const capacity = parseInt(formData.expectedParticipants || '0', 10) || 20;
-    const lessonFee = parseInt(formData.fee || '0', 10) || 0;
+    const capacity =
+      Number.parseInt(formData.expectedParticipants || '0', 10) || 20;
+    const lessonFee = Number.parseInt(formData.fee || '0', 10) || 0;
     const duration = `${formData.startDate}~${formData.endDate} ${formData.days} ${formData.time}`;
     const lessonRoomId = 1;
 
@@ -256,7 +167,7 @@ export const useLessonForm = (config: LessonFormConfig) => {
     fd.append(`lessonGisus[${i}].lessonFee`, String(lessonFee));
     fd.append(`lessonGisus[${i}].duration`, duration);
     fd.append(`lessonGisus[${i}].lessonRoomId`, String(lessonRoomId));
-    
+
     if (isAdmin) {
       fd.append(`lessonGisus[${i}].state`, 'APPROVED');
     }
@@ -276,9 +187,6 @@ export const useLessonForm = (config: LessonFormConfig) => {
       fd.append('lessonImg', formData.lessonImage, formData.lessonImage.name);
     }
 
-    fd.delete('lessonGisus');
-    fd.delete('lessonGisus[0]');
-
     createLesson(fd, {
       onSuccess: () => {
         onSuccess?.();
@@ -287,21 +195,21 @@ export const useLessonForm = (config: LessonFormConfig) => {
         console.error('강좌 개설 실패:', error);
       },
     });
-  }, [formData, createLesson, onSuccess, isAdmin, branchId, instructorName]);
+  }, [
+    formData,
+    createLesson,
+    onSuccess,
+    isAdmin,
+    branchId,
+    instructorName,
+    validateForm,
+  ]);
 
   return {
-    formData,
-    fileInputRef,
-    imageError,
+    ...baseForm,
     disabledTimeSlots,
     isPending,
     isCheckingAvailability,
-    handleInputChange,
-    handleAddContent,
-    handleAdditionalContentChange,
-    removeAdditionalContent,
-    handleRemoveImage,
-    handleImageUpload,
     checkTimeAvailability,
     handleSubmit,
   };

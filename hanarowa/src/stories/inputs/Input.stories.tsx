@@ -1,5 +1,5 @@
 // Input.stories.tsx
-import { IcCloseeye, IcGraysearch, IcOpeneye, IcSearch } from '@/assets/svg';
+import { IcCloseeye, IcOpeneye } from '@/assets/svg';
 import { Input } from '@components';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import React, { useState } from 'react';
