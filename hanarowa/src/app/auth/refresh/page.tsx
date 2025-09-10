@@ -20,10 +20,9 @@ const RefreshPage = () => {
         );
 
         if (response.ok) {
-          console.log('Token refresh successful');
           router.replace('/');
         } else {
-          console.error(
+          console.warn(
             'Token refresh failed:',
             response.status,
             await response.text()
@@ -31,7 +30,7 @@ const RefreshPage = () => {
           router.replace('/auth/login/social');
         }
       } catch (error) {
-        console.error('Refresh error:', error);
+        console.warn('Refresh error:', error);
         router.replace('/auth/login/social');
       } finally {
         setIsLoading(false);

@@ -14,9 +14,8 @@ function ApplyButton({ lessonGisuId }: { lessonGisuId: number }) {
     mutation.mutate(
       { params: { path: { lessonGisuId } } },
       {
-        onSuccess: (data: components['schemas']['ApiResponseString']) => {
+        onSuccess: () => {
           const message = encodeURIComponent('강좌 신청이');
-          console.log(data);
           router.push(`/complete?state=${message}`);
         },
         onError: (err: Error) => {

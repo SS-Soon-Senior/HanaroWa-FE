@@ -22,7 +22,6 @@ const Page = () => {
   const completes = data?.result?.filter((f) => f.isUsed) ?? [];
 
   const onClickDelete = (reservationId: number | null) => {
-    console.log(reservationId);
     if (reservationId) {
       mutate(
         {

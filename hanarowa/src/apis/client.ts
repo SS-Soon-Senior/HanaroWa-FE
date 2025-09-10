@@ -55,6 +55,7 @@ async function refreshToken(): Promise<boolean> {
     );
     return response.ok;
   } catch (error) {
+    console.warn('Error refreshing token:', error);
     return false;
   }
 }

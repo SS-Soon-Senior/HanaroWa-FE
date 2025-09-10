@@ -20,7 +20,6 @@ import { useRouter } from 'next/navigation';
 import { useState, ChangeEvent } from 'react';
 
 const Page = () => {
-  // 서버에서 가져온 값
   const { data } = useGetMemberInfo();
   const { isOpen, openModal, closeModal } = useModal();
   const serverBirth = data?.result?.birth;
@@ -28,11 +27,9 @@ const Page = () => {
 
   const router = useRouter();
 
-  // 사용자가 실제로 입력하는 값
   const [birth, setBirth] = useState('');
   const [phone, setPhone] = useState('');
 
-  //입력값 검증
   const [showError, setShowError] = useState(false);
 
   const isDirty = birth !== '' || phone !== '';
@@ -66,7 +63,7 @@ const Page = () => {
         },
 
         onError: (error) => {
-          console.error(error);
+          console.warn(error);
         },
       }
     );

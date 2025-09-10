@@ -1,4 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import { TanstackQueryClient } from '../client';
 
 const usePostBranch = () => {
@@ -13,7 +14,8 @@ const usePostBranch = () => {
         });
       },
       onError: (error) => {
-        console.error('지점 선택 실패:', error);
+        console.warn(error);
+        toast.error('지점 선택에 실패했어요. 다시 시도해주세요.');
       },
     }
   );
