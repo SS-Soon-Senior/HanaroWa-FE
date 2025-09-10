@@ -14,7 +14,7 @@ const Page = () => {
         {!response?.ok ? (
           <p className='text-gray4a9 py-[2rem] text-center'>
             회원 목록을 불러오지 못했어요
-            {String(response)}
+            {JSON.stringify(response, null, 2)}
             {data?.message ? `: ${data.message}` : ''}
           </p>
         ) : memberlist.length === 0 ? (
