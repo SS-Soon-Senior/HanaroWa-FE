@@ -3,19 +3,18 @@ import { getAdminMemberList } from '@apis';
 import { use } from 'react';
 
 const Page = () => {
-  const { data, response } = use(getAdminMemberList());
-  console.log('회원 목록', data, response);
+  const a = use(getAdminMemberList());
 
-  const memberlist = data?.result ?? [];
+  const memberlist = a.data?.result ?? [];
 
   return (
     <Layout header={<Header title='회원 목록' />}>
       <div className='flex w-full flex-col gap-[1.4rem] py-[1rem]'>
-        {!response?.ok ? (
+        {!a.response?.ok ? (
           <span className='text-gray4a9 py-[2rem] text-center text-2xl'>
             회원 목록을 불러오지 못했어요
-            {JSON.stringify(response)}
-            {data?.message ? `: ${data.message}` : ''}
+            {JSON.stringify(a)}
+            {a.data?.message ? `: ${a.data.message}` : ''}
           </span>
         ) : memberlist.length === 0 ? (
           <p className='text-gray4a9 py-[2rem] text-center'>
