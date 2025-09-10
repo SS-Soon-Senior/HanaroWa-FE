@@ -36,8 +36,6 @@ const Page = ({ params }: Props) => {
     lessonData?.lessonGisus?.[0].duration ?? ''
   ); // "8주"
 
-  console.log('lessonData:', lessonData);
-
   return (
     <Layout header={<Header title='강좌 상세' showBackButton />}>
       <div className='relative -mx-[2rem] h-[28rem] w-[calc(100%+4rem)]'>

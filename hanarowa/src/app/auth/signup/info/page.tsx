@@ -15,6 +15,7 @@ import {
   formatPhone,
 } from '@/utils/formatter';
 import { usePostMemberInfo } from '@apis';
+import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
 
@@ -49,7 +50,8 @@ const Page = () => {
           router.push('/branch');
         },
         onError: (error) => {
-          console.error(error);
+          console.warn('회원 정보 수정 실패:', error);
+          toast.error('회원 정보 수정에 실패했어요. 다시 시도해주세요.');
         },
       }
     );

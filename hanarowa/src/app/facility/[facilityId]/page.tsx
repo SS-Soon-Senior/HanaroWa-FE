@@ -150,7 +150,7 @@ const Page = () => {
           router.push(`/complete?state=${message}`);
         },
         onError: (error) => {
-          console.error('시설 예약 실패:', error);
+          console.warn('시설 예약 실패:', error);
         },
       }
     );

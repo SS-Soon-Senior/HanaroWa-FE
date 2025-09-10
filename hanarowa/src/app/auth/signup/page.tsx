@@ -74,7 +74,8 @@ const Page = () => {
       }
       router.push(`${url}`);
     } catch (err) {
-      console.error(err);
+      console.warn(err);
+      setShowError('회원가입 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
 

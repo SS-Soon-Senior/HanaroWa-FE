@@ -7,7 +7,7 @@ function getUserRoleFromToken(token: string): string | null {
     const payload = JSON.parse(atob(token.split('.')[1]));
     return payload.role || payload.authorities?.[0] || null;
   } catch (error) {
-    console.error('Token decoding failed:', error);
+    console.warn('Token decoding failed:', error);
     return null;
   }
 }

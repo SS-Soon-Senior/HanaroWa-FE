@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import { TanstackQueryClient } from '../client';
 
 const useDeleteLesson = () => {
@@ -5,11 +6,10 @@ const useDeleteLesson = () => {
     'delete',
     '/api/lesson/{lessonGisuId}',
     {
-      onSuccess: () => {
-        console.log('강의 취소 성공');
-      },
+      onSuccess: () => {},
       onError: (error) => {
-        console.error('강의 취소 실패:', error);
+        console.warn('강의 취소 실패:', error);
+        toast.error('강의 취소에 실패했어요. 다시 시도해주세요.');
       },
     }
   );

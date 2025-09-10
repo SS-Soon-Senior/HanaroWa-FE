@@ -41,7 +41,7 @@ const Page = () => {
 
       router.push(`${url}`);
     } catch (err) {
-      console.error(err);
+      console.warn(err);
       setError('로그인 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
   };

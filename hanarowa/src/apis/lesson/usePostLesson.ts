@@ -3,6 +3,7 @@
 import { components } from '@/types/api';
 import { getAccessToken } from '@/utils/common/auth';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 const usePostLesson = () => {
   const queryClient = useQueryClient();
@@ -10,17 +11,11 @@ const usePostLesson = () => {
 
   return useMutation({
     mutationFn: async (formData: FormData) => {
-      // FormData 내용 로깅
-      console.log('전송할 FormData 내용:');
-      for (const [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
-      }
       const authHeader = accessToken
         ? accessToken.startsWith('Bearer ')
           ? accessToken
           : `Bearer ${accessToken}`
         : undefined;
-      // FormData를 직접 fetch로 전송 (openapi-fetch는 FormData 타입 지원에 제한이 있음)
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/lesson/create`,
         {
@@ -33,15 +28,8 @@ const usePostLesson = () => {
         }
       );
 
-      console.log('응답 상태:', response.status);
-      console.log('응답 헤더:', response.headers);
-
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('에러 응답:', errorText);
-        throw new Error(
-          `HTTP error! status: ${response.status}, message: ${errorText}`
-        );
+        toast.error('강좌 개설에 실패했어요. 다시 시도해주세요.');
       }
 
       return response.json() as Promise<
@@ -49,12 +37,11 @@ const usePostLesson = () => {
       >;
     },
     onSuccess: () => {
-      console.log('강좌 개설 성공');
-      // 강좌 목록을 다시 불러와서 화면을 갱신
       queryClient.invalidateQueries({ queryKey: ['lesson', 'list'] });
     },
     onError: (error) => {
-      console.error('강좌 개설 실패:', error);
+      console.warn('강좌 개설 실패:', error);
+      toast.error('강좌 개설에 실패했어요. 다시 시도해주세요.');
     },
   });
 };
