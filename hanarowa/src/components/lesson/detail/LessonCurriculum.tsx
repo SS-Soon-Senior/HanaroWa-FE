@@ -30,7 +30,7 @@ const LessonCurriculum = ({
           </div>
         ))}
 
-        {curriculum.length > 2 && (
+        {curriculum.length > 3 && (
           <Button
             onClick={() => setExpanded(!expanded)}
             className='font-bold-18 text-main flex h-fit rounded-[0.8rem] border-[0.1rem] border-[#D2E8E4] bg-[#E5F5F1] px-[1.6rem] py-[1.4rem]'
