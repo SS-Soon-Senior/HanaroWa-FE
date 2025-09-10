@@ -1,5 +1,4 @@
 import { components } from '@/types/api';
-import { div } from 'framer-motion/client';
 import StarRating from '../StarRating';
 
 type Props = {

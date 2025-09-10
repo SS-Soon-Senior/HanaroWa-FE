@@ -3,6 +3,7 @@
 import { usePostLesson, useCheckAvailability } from '@/apis';
 import type { components } from '@/types/api';
 import { validateLessonData } from '@/utils/lesson-mappers';
+import { toast } from 'sonner';
 import { useState, useCallback } from 'react';
 import { useBaseLessonForm, type BaseLessonConfig } from './useBaseLesson';
 
@@ -92,7 +93,8 @@ export const useLessonForm = (config: LessonFormConfig) => {
         return;
       }
     } catch (error) {
-      console.error('시간대 확인 중 오류 발생:', error);
+      console.warn('시간대 확인 중 오류 발생:', error);
+      toast.error('시간대 확인 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
   }, [
     formData.startDate,
@@ -117,15 +119,18 @@ export const useLessonForm = (config: LessonFormConfig) => {
 
     const validation = validateLessonData(validationData);
     if (!validation.isValid) {
+      toast.error('입력한 정보를 확인해주세요.');
       return;
     }
 
     const currentBranchId = isAdmin ? formData.branchId : branchId;
 
     if (!currentBranchId) {
+      toast.error('지점 정보를 확인해주세요.');
       return;
     }
     if (isAdmin && !currentInstructorName?.trim()) {
+      toast.error('강사명을 입력해주세요.');
       return;
     }
 
@@ -185,6 +190,7 @@ export const useLessonForm = (config: LessonFormConfig) => {
       },
       onError: (error) => {
         console.error('강좌 개설 실패:', error);
+        toast.error('강좌 개설에 실패했어요. 다시 시도해주세요.');
       },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
