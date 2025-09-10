@@ -14,6 +14,7 @@ import {
 import { components } from '@/types/api';
 import createFacilityDate from '@/utils/facility';
 import { DEFAULT_IMAGE_URL } from '@/utils/imageUtils';
+import { toast } from 'sonner';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -129,7 +130,7 @@ const Page = () => {
 
   const handleSubmit = () => {
     if (!selectedDate || selectedTimes.length === 0 || !facilityId) {
-      alert('날짜와 시간을 모두 선택해주세요.');
+      toast.error('날짜와 시간을 모두 선택해주세요.');
       return;
     }
     if (clicked) return;
