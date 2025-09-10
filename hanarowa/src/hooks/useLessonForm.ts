@@ -117,23 +117,15 @@ export const useLessonForm = (config: LessonFormConfig) => {
 
     const validation = validateLessonData(validationData);
     if (!validation.isValid) {
-      // Show first error message
-      alert(validation.errors[0]);
       return;
     }
 
     const currentBranchId = isAdmin ? formData.branchId : branchId;
 
     if (!currentBranchId) {
-      alert(
-        isAdmin
-          ? '지점을 선택해주세요.'
-          : '지점 정보를 찾을 수 없습니다. 다시 로그인해주세요.'
-      );
       return;
     }
     if (isAdmin && !currentInstructorName?.trim()) {
-      alert('강사 이름을 입력해주세요.');
       return;
     }
 
