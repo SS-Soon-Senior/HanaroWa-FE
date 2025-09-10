@@ -1,13 +1,13 @@
 'use client';
 
 import { usePostLesson, useCheckAvailability } from '@/apis';
-import { timeOptions } from '@/constants/lesson-options';
 import type { components } from '@/types/api';
 import { validateLessonData } from '@/utils/lesson-mappers';
 import { useState, useCallback } from 'react';
 import { useBaseLessonForm, type BaseLessonConfig } from './useBaseLesson';
 
-export type CreateLessonRequest = components['schemas']['CreateLessonRequestDTO'];
+export type CreateLessonRequest =
+  components['schemas']['CreateLessonRequestDTO'];
 
 export interface LessonFormConfig extends BaseLessonConfig {
   isAdmin: boolean;
@@ -25,7 +25,6 @@ export const useLessonForm = (config: LessonFormConfig) => {
   const { mutate: createLesson, isPending } = usePostLesson();
   const { mutate: checkAvailability, isPending: isCheckingAvailability } =
     useCheckAvailability();
-
 
   const checkTimeAvailability = useCallback(async () => {
     const currentBranchId = isAdmin ? formData.branchId : branchId;
