@@ -1,7 +1,7 @@
-name: HanaroWa-FE2
+name: HanaroWa-FE
 on:
     push:
-        branches: [develop]
+        branches: [main]
 
 jobs:
     build:
@@ -87,16 +87,16 @@ jobs:
                     echo "=== Server workspace before cleanup ==="
                     cd /home/ec2-user/workspace
                     ls -la
-                    
+
                     echo "=== Removing old hanarowa ==="
                     rm -rf hanarowa
-                    
+
                     echo "=== Unzipping next.zip ==="
                     unzip -q next.zip -d hanarowa
-                    
+
                     echo "=== After unzip ==="
                     ls -la hanarowa/
-                    
+
                     ls -la hanarowa/server.js || echo "server.js not found"
                     pm2 reload my-next-app
                   '
