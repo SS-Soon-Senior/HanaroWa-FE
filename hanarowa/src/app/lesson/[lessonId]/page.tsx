@@ -40,7 +40,10 @@ const Page = ({ params }: Props) => {
     <Layout header={<Header title='강좌 상세' showBackButton />}>
       <div className='relative -mx-[2rem] h-[28rem] w-[calc(100%+4rem)]'>
         <Image
-          src={lessonData?.lessonImg ?? '/images/lesson/sample-lesson.png'}
+          src={
+            lessonData?.lessonImg ??
+            'https://hanarowa-upload.s3.ap-northeast-2.amazonaws.com/uploads/hanabank.png'
+          }
           alt='lesson-detail-image'
           fill
           className='object-cover'

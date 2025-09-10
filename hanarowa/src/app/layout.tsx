@@ -54,6 +54,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${hanaFont.variable} font-hana`}
     >
+      <link rel='icon' href='/favicon.ico' sizes='any' />
       <body className='antialiased'>
         <Providers>{children}</Providers>
         <ToastProvider />
