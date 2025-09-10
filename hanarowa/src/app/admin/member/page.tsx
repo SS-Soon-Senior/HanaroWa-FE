@@ -12,11 +12,11 @@ const Page = () => {
     <Layout header={<Header title='회원 목록' />}>
       <div className='flex w-full flex-col gap-[1.4rem] py-[1rem]'>
         {!response?.ok ? (
-          <p className='text-gray4a9 py-[2rem] text-center'>
+          <span className='text-gray4a9 py-[2rem] text-center text-2xl'>
             회원 목록을 불러오지 못했어요
-            {JSON.stringify(response, null, 2)}
+            {JSON.stringify(response)}
             {data?.message ? `: ${data.message}` : ''}
-          </p>
+          </span>
         ) : memberlist.length === 0 ? (
           <p className='text-gray4a9 py-[2rem] text-center'>
             등록된 회원이 없습니다.
