@@ -4,20 +4,13 @@ import {
   categoryOptions,
 } from '@/constants/lesson-options';
 
-/**
- * Maps selected individual days to system day value
- */
 export function mapSelectedDaysToValue(selectedDays: string[]): string {
   const sortedDays = selectedDays.sort();
   const key = sortedDays.join(',');
   return daySelectionMapping[key] || selectedDays.join(',');
 }
 
-/**
- * Maps system day value to individual day selections
- */
 export function mapValueToSelectedDays(value: string): string[] {
-  // Find the key that maps to this value
   const entry = Object.entries(daySelectionMapping).find(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ([_, v]) => v === value
@@ -25,13 +18,9 @@ export function mapValueToSelectedDays(value: string): string[] {
   if (entry) {
     return entry[0].split(',');
   }
-  // If not found in mapping, assume it's already individual days
   return value.split(',');
 }
 
-/**
- * Gets display label for selected days
- */
 export function getDaysDisplayLabel(selectedDays: string[]): string {
   return selectedDays
     .map(
@@ -42,18 +31,12 @@ export function getDaysDisplayLabel(selectedDays: string[]): string {
     .join(', ');
 }
 
-/**
- * Gets category label from value
- */
 export function getCategoryLabel(value: string): string {
   return (
     categoryOptions.find((option) => option.value === value)?.label || value
   );
 }
-
-/**
- * Calculates lesson duration in weeks
- */
+ㄴ;
 export function calculateLessonDuration(
   startDate: string,
   endDate: string
@@ -68,9 +51,6 @@ export function calculateLessonDuration(
   return `${diffWeeks}주`;
 }
 
-/**
- * Validates lesson form data
- */
 export function validateLessonData(data: {
   title?: string;
   instructorName?: string;
