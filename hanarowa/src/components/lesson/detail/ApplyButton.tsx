@@ -1,6 +1,5 @@
 'use client';
 
-import type { components } from '@/types/api';
 import { usePostLessonApply } from '@apis';
 import { Button } from '@components';
 import { toast } from 'sonner';
