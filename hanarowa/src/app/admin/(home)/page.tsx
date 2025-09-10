@@ -1,5 +1,3 @@
-'use client';
-
 import {
   IcSofa,
   IcAdminUsers,
@@ -8,10 +6,10 @@ import {
   IcBell,
   IcBookByeoldol,
 } from '@/assets/svg';
-import { Layout, BranchSelectHeader, MenuSection } from '@components';
-import { useBranch } from '@hooks';
+import type { MenuItem } from '@/components/home/MenuSection';
+import { Layout, MenuSection } from '@components';
 
-const firstMenu = [
+const firstMenu: MenuItem[] = [
   {
     icon: <IcSofa />,
     title: '시설 예약',
@@ -25,11 +23,11 @@ const firstMenu = [
   {
     icon: <IcCalendar />,
     title: '강좌 관리',
-    href: '/admin/lesson',
+    href: '/admin/lesson/manage',
   },
 ];
 
-const secondMenu = [
+const secondMenu: MenuItem[] = [
   {
     icon: <IcBook />,
     title: '강좌 목록',
@@ -38,18 +36,13 @@ const secondMenu = [
   {
     icon: <IcBell />,
     title: '강좌 개설',
-    href: '/admin/lesson/manage',
+    href: '/admin/lesson/create',
   },
 ];
 
 const Page = () => {
-  const { location, branch } = useBranch();
   return (
-    <Layout
-      header={
-        <BranchSelectHeader location={location} title={branch} admin={true} />
-      }
-    >
+    <Layout>
       <div className='flex flex-col items-center justify-center pt-[15rem]'>
         <div className='flex flex-col items-center justify-center'>
           <IcBookByeoldol />

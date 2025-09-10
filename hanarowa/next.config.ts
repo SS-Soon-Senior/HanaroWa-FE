@@ -12,6 +12,14 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  output: 'standalone',
+  images: {
+    remotePatterns: [
+      {
+        hostname: 'hanarowa-upload.s3.ap-northeast-2.amazonaws.com',
+      },
+    ],
+  },
   // webpack 설정
   webpack: (config) => {
     // @ts-expect-error 타입 에러 무시
@@ -41,6 +49,7 @@ const nextConfig: NextConfig = {
       }
     );
     fileLoaderRule.exclude = /\.svg$/i;
+
     return config;
   },
 };

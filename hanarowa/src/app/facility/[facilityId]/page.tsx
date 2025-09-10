@@ -1,5 +1,6 @@
 'use client';
 
+import { useGetFacilityDetail, usePostReserveFacility } from '@/apis';
 import {
   Layout,
   Header,
@@ -10,31 +11,68 @@ import {
   TimeSelector,
   ReservationSummary,
 } from '@/components';
+import { components } from '@/types/api';
+import createFacilityDate from '@/utils/facility';
+import { DEFAULT_IMAGE_URL } from '@/utils/imageUtils';
+import { toast } from 'sonner';
+import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-type Schedule = Record<string, string[]>;
-
-const DUMMY_SCHEDULE: Schedule = {
-  '2025-08-19': ['09:00'],
-  '2025-08-20': ['10:00'],
-  '2025-08-21': ['11:00'],
-};
-
+type FacilityDetailResponse =
+  components['schemas']['FacilityDetailResponseDTO'];
+export type FacilityReservation =
+  components['schemas']['FacilityReservationDTO'];
+const TIMES = [
+  '09:00',
+  '10:00',
+  '11:00',
+  '12:00',
+  '13:00',
+  '14:00',
+  '15:00',
+  '16:00',
+  '17:00',
+];
 const Page = () => {
-  const [selectedDate, setSelectedDate] = useState<string | null>('2025-08-19');
+  const { formatDate, tomorrow, today } = createFacilityDate();
+
+  const facilityId = useParams<{ facilityId: string }>().facilityId;
+
+  const router = useRouter();
+  const { data, isLoading, isError } = useGetFacilityDetail(facilityId);
+  const { mutate } = usePostReserveFacility();
+  const [selectedDate, setSelectedDate] = useState<string | null>(
+    formatDate(tomorrow)
+  );
   const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
+  const [clicked, setClicked] = useState(false);
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <div>로딩 중...</div>
+      </Layout>
+    );
+  }
+
+  if (isError || !data?.result) {
+    return (
+      <Layout>
+        <div>데이터를 불러오는 데 실패했습니다.</div>
+      </Layout>
+    );
+  }
+
+  const {
+    facilityName = '시설 정보 없음',
+    facilityDescription = '시설 설명 없음',
+    facilityImages = [],
+    facilityTimes = {},
+  }: FacilityDetailResponse = data.result;
 
   const bookedTimesForSelectedDate = selectedDate
-    ? DUMMY_SCHEDULE[selectedDate] || []
+    ? facilityTimes[selectedDate] || []
     : [];
-
-  const ImgSrc = [
-    '/imgs/IMG_7675.png',
-    '/imgs/cinemaroom.png',
-    '/imgs/stardolilogo.png',
-  ];
-  const roomname = '화이트보드룸';
-  const roomtext = '편안하게 영화를 볼 수 있는 공간';
 
   const handleDateSelect = (date: string): void => {
     setSelectedDate(date);
@@ -66,18 +104,18 @@ const Page = () => {
     setSelectedTimes(newSelection);
   };
 
-  const dates = ['2025-08-19', '2025-08-20', '2025-08-21'];
-  const times = [
-    '09:00',
-    '10:00',
-    '11:00',
-    '12:00',
-    '13:00',
-    '14:00',
-    '15:00',
-    '16:00',
-    '17:00',
+  // 모레, 글피 날짜 생성
+  const dayAfterTomorrow = new Date(today);
+  dayAfterTomorrow.setDate(today.getDate() + 2);
+  const threeDaysLater = new Date(today);
+  threeDaysLater.setDate(today.getDate() + 3);
+
+  const dates = [
+    formatDate(tomorrow),
+    formatDate(dayAfterTomorrow),
+    formatDate(threeDaysLater),
   ];
+
   const sortedSelectedTimes = [...selectedTimes].sort();
   const startTime = sortedSelectedTimes[0];
   const duration = sortedSelectedTimes.length;
@@ -90,11 +128,46 @@ const Page = () => {
     return `${y}년 ${parseInt(m, 10)}월 ${parseInt(d, 10)}일`;
   };
 
+  const handleSubmit = () => {
+    if (!selectedDate || selectedTimes.length === 0 || !facilityId) {
+      toast.error('날짜와 시간을 모두 선택해주세요.');
+      return;
+    }
+    if (clicked) return;
+
+    setClicked(true);
+    mutate(
+      {
+        body: {
+          facilityId: Number(facilityId),
+          reservationDate: selectedDate,
+          startTime: startTime,
+          endTime: endTime,
+        },
+      },
+      {
+        onSuccess: () => {
+          const message = encodeURIComponent('시설 예약이');
+          router.push(`/complete?state=${message}`);
+        },
+        onError: (error) => {
+          console.warn('시설 예약 실패:', error);
+        },
+      }
+    );
+  };
+
   return (
     <Layout header={<Header showBackButton={true} title='예약하기' />}>
-      <FacilityImageCarousel images={ImgSrc} />
+      <FacilityImageCarousel
+        images={facilityImages.map((img) =>
+          img.imgUrl && img.imgUrl.trim() !== ''
+            ? img.imgUrl
+            : DEFAULT_IMAGE_URL
+        )}
+      />
 
-      <FacilityInfo roomname={roomname} roomtext={roomtext} />
+      <FacilityInfo roomname={facilityName} roomtext={facilityDescription} />
 
       <DateSelector
         dates={dates}
@@ -103,7 +176,7 @@ const Page = () => {
       />
 
       <TimeSelector
-        times={times}
+        times={TIMES}
         selectedTimes={selectedTimes}
         bookedTimes={bookedTimesForSelectedDate}
         onTimeSelect={handleTimeSelect}
@@ -117,8 +190,13 @@ const Page = () => {
         toKoreanDate={toKoreanDate}
       />
 
-      <Button variant={duration === 0 ? 'disabled' : 'green'} sizeType='lg'>
-        예약하기
+      <Button
+        variant={clicked || duration === 0 ? 'disabled' : 'green'}
+        sizeType='lg'
+        onClick={handleSubmit}
+        disabled={clicked || duration === 0}
+      >
+        {clicked ? '예약 중...' : '예약하기'}
       </Button>
     </Layout>
   );

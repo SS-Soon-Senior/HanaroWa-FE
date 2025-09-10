@@ -2,21 +2,31 @@
 
 import { IcPlayByeoldol } from '@/assets/svg';
 import { BranchButton, Layout } from '@/components';
-import { branches } from '@/components/atoms/modals/BranchSelectModal';
-import { useBranch } from '@/hooks';
+import { components } from '@/types/api';
+import { useGetBranch, usePostBranch } from '@apis';
 import { useRouter } from 'next/navigation';
 
+type Branch = components['schemas']['BranchResponseDTO'];
+
 const Page = () => {
-  const { setLocation } = useBranch();
+  const response = useGetBranch();
+  const brancheSet = response.data?.result || [];
+  const { mutate: updateMyBranch } = usePostBranch();
   const router = useRouter();
 
-  const onClickBranch = (location: string, branch: string) => {
-    setLocation(location, branch);
+  const onClickBranch = (branch: Branch) => {
+    updateMyBranch({
+      params: {
+        path: {
+          branchId: branch.branchId!,
+        },
+      },
+    });
     router.push('/');
   };
 
   return (
-    <Layout>
+    <Layout className='px-[1rem]'>
       <div className='bg-background sticky top-0 z-20 flex w-full flex-col items-center pt-[7rem] pb-[3rem]'>
         <IcPlayByeoldol className='mx-auto' />
         <h1 className='font-bold-30 text-main text-center'>지점 선택하기</h1>
@@ -24,14 +34,16 @@ const Page = () => {
           내가 자주 이용하는 지점을 선택해주세요!
         </h2>
       </div>
-      <div className='overflow-scroll overflow-y-auto'>
-        <div className='grid grid-cols-2 gap-x-[1.5rem] gap-y-[2.4rem] pb-12'>
-          {branches.map(({ id, location, branch }) => (
+      <div className='w-full overflow-scroll overflow-y-auto'>
+        <div className='grid w-full grid-cols-2 gap-x-[1.5rem] gap-y-[2.4rem] p-[1rem] pb-12'>
+          {brancheSet.map(({ branchId, locationName, branchName }) => (
             <BranchButton
-              key={id}
-              location={location}
-              branch={branch}
-              onClick={() => onClickBranch(location, branch)}
+              key={branchId}
+              location={locationName ?? ''}
+              branch={branchName ?? ''}
+              onClick={() =>
+                onClickBranch({ branchId, locationName, branchName })
+              }
             />
           ))}
         </div>

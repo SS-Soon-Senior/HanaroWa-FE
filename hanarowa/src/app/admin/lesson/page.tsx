@@ -1,17 +1,18 @@
-'use client';
+import { components } from '@/types/api';
+import { getLessons } from '@apis';
+import { Header, Layout, AdminLessonCard } from '@components';
+import { use } from 'react';
 
-import { Lessons } from '@/data/lessons';
-import { Header, Layout, LessonCard } from '@components';
-import Link from 'next/link';
+export type AdminLesson = components['schemas']['AdminLessonListResponseDTO'];
 
 const Page = () => {
+  const { data } = use(getLessons());
+  const lessons: AdminLesson[] = data?.result ?? [];
   return (
-    <Layout header={<Header title='강좌 목록' showSearchButton />}>
+    <Layout header={<Header title='강좌 목록' />}>
       <div className='grid w-full grid-cols-2 gap-[2.5rem]'>
-        {Lessons.map(({ id, ...cardProps }) => (
-          <Link key={id} href={`/admin/lesson/${id}/member`}>
-            <LessonCard {...cardProps} />
-          </Link>
+        {lessons.map((l) => (
+          <AdminLessonCard key={l.lessonGisuId} {...l} />
         ))}
       </div>
     </Layout>

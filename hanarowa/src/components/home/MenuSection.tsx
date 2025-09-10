@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
 import { IconButton } from '../atoms';
 
-interface MenuItem {
+export interface MenuItem {
   icon?: ReactNode;
   title: string;
   href?: string;
@@ -32,9 +32,9 @@ const MenuSection = ({ title, items, className }: MenuSectionProps) => {
         <h2 className='font-bold-22 text-center text-black'>{title}</h2>
       )}
       <div className={`mt-[1.2rem] flex flex-row justify-center gap-[2rem]`}>
-        {items.map((item, index) => (
+        {items.map((item) => (
           <IconButton
-            key={index}
+            key={typeof item.href === 'string' ? item.href : item.title}
             icon={item.icon}
             title={item.title}
             onClick={() => handleClick(item.href)}

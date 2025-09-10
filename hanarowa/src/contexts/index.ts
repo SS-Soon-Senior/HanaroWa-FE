@@ -1,3 +1,3 @@
-import { BranchProvider, BranchContext } from './BranchContext';
+import { LessonEditProvider, useLessonEditContext } from './LessonEditContext';
 
-export { BranchProvider, BranchContext };
+export { LessonEditProvider, useLessonEditContext };

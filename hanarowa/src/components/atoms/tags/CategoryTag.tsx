@@ -17,7 +17,8 @@ const CategoryTag = ({
       onClick={onClick}
       className={cn(
         `font-bold-14 flex h-fit w-fit flex-shrink-0 rounded-full px-[1.6rem] py-[0.8rem]`,
-        disabled ? 'bg-gray4f6 text-gray3af' : className
+        disabled ? 'bg-gray4f6 text-gray3af' : className,
+        onClick ? 'cursor-pointer' : ''
       )}
     >
       {title}

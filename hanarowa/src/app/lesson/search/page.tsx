@@ -2,63 +2,38 @@
 
 import { IcGraysearch } from '@/assets/svg';
 import { Header, InputUnderline, Layout, LessonCard } from '@/components';
-
-const Lessons = [
-  {
-    id: 1,
-    imageUrl: '/imgs/IMG_7675.png',
-    title: '남심 저격',
-    creator: '시니영',
-    date: '3월 15일',
-    participants: 12,
-    capacity: 15,
-    price: 120000,
-  },
-  {
-    id: 2,
-    imageUrl: '/imgs/IMG_7675.png',
-    title: '노후 브랜딩',
-    creator: '박영희',
-    date: '3월 15일',
-    participants: 12,
-    capacity: 15,
-    price: 120000,
-  },
-  {
-    id: 3,
-    imageUrl: '/imgs/IMG_7675.png',
-    title: '건강한 요리교실',
-    creator: '김철수',
-    date: '3월 20일',
-    participants: 8,
-    capacity: 12,
-    price: 120000,
-  },
-  {
-    id: 4,
-    imageUrl: '/imgs/IMG_7675.png',
-    title: '스마트폰 활용법',
-    creator: '이민수',
-    date: '3월 18일',
-    participants: 10,
-    capacity: 20,
-    price: 120000,
-  },
-];
+import { useGetSearchLessonList } from '@apis';
+import { useDebounce } from '@hooks';
+import { useState } from 'react';
 
 const Page = () => {
+  const [search, setSearch] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
+  useDebounce(() => setSearchQuery(search), 500, [search]);
+
+  const { data: lessons, isLoading } = useGetSearchLessonList(searchQuery);
+
   return (
     <Layout header={<Header title='강좌 목록' />}>
       <div className='w-full'>
-        <InputUnderline placeholder='강좌를 검색해보세요' />
+        <InputUnderline
+          placeholder='강좌를 검색해보세요'
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
         <div className='absolute top-[10.5rem] right-[2.8rem] flex cursor-pointer'>
           <IcGraysearch />
         </div>
       </div>
       <div className='grid w-full grid-cols-2 gap-[2.5rem] pt-[2.5rem]'>
-        {Lessons.map(({ id, ...cardProps }) => (
-          <LessonCard key={id} {...cardProps} />
-        ))}
+        {isLoading ? (
+          <></>
+        ) : (
+          lessons?.result?.map(({ ...cardProps }, index) => (
+            <LessonCard key={index} {...cardProps} />
+          ))
+        )}
       </div>
     </Layout>
   );

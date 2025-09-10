@@ -1,3 +1,4 @@
+export { default as Ic404 } from './Ic404';
 export { default as IcInfo } from './IcInfo';
 export { default as IcAdminUsers } from './IcAdminUsers';
 export { default as IcAiByeoldol } from './IcAiByeoldol';
@@ -45,6 +46,7 @@ export { default as IcRefresh } from './IcRefresh';
 export { default as IcReserveclock } from './IcReserveclock';
 export { default as IcRightChevron } from './IcRightChevron';
 export { default as IcSearch } from './IcSearch';
+export { default as IcSend } from './IcSend';
 export { default as IcSignupFace } from './IcSignupFace';
 export { default as IcSofa } from './IcSofa';
 export { default as IcStarEmpty } from './IcStarEmpty';

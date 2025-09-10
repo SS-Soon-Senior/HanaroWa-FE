@@ -1,16 +1,31 @@
 'use client';
 
 import { IcCloseeye, IcOpeneye } from '@/assets/svg';
-import { Header, Layout, Input, Button, ErrorMessage } from '@/components';
+import {
+  Header,
+  Layout,
+  Input,
+  Button,
+  ErrorMessage,
+  Modal,
+} from '@/components';
+import { usePatchPassword } from '@apis';
+import { useModal } from '@hooks';
+import { useRouter } from 'next/navigation';
 import { useState, ChangeEvent } from 'react';
 
 const hasLetterAndNumber = (s: string) => /[A-Za-z]/.test(s) && /\d/.test(s);
+const isValidPassword = (s: string) =>
+  /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,20}$/.test(s);
 
 const Page = () => {
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [checkNewPassword, setCheckNewPassword] = useState('');
   const [error, setError] = useState<string>('');
+  const { mutate } = usePatchPassword();
+  const { isOpen, openModal, closeModal } = useModal();
+  const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -18,13 +33,6 @@ const Page = () => {
 
   const isFull = [password, newPassword, checkNewPassword].every(Boolean);
   const handleSubmit = async () => {
-    // 현재 비번 서버에서 확인하는 함수 생성 필요
-    // const ok = await checkMemberPassword(password);
-    // if (!ok) {
-    //   setError('비밀번호가 일치하지 않습니다.');
-    //   return;
-    // }
-
     // 새 비밀번호/확인 불일치
     if (newPassword !== checkNewPassword) {
       setError('새 비밀번호가 일치하지 않습니다.');
@@ -33,14 +41,37 @@ const Page = () => {
 
     // 비번 유효성 검증
     if (!hasLetterAndNumber(newPassword)) {
-      setError('영문자, 숫자를 모두 포함해야 합니다.');
+      setError('새 비밀번호는 영문자, 숫자를 모두 포함해야 합니다.');
+      return;
+    }
+
+    if (!isValidPassword(newPassword)) {
+      setError(
+        '비밀번호는 6~20자 사이이며, 문자, 숫자를 각각 최소 1개 포함해야 합니다.'
+      );
       return;
     }
 
     // 모두 통과
     setError('');
 
-    // 서버 api 호출하는 코드 필요
+    mutate(
+      {
+        body: {
+          currentPassword: password,
+          newPassword,
+        },
+      },
+      {
+        onSuccess: () => {
+          openModal();
+        },
+
+        onError(err: { message?: string }) {
+          setError(err.message ?? '비밀번호 변경 실패');
+        },
+      }
+    );
   };
 
   const onChangeClear =
@@ -105,19 +136,31 @@ const Page = () => {
             />
           </div>
         </div>
-        {error && (
-          <div className='mb-[1.2rem] flex justify-center'>
-            <ErrorMessage align='text-center'>{error}</ErrorMessage>
-          </div>
+        <div>
+          {error && (
+            <div className='mb-[2.5rem] flex justify-center'>
+              <ErrorMessage align='text-center'>{error}</ErrorMessage>
+            </div>
+          )}
+          <Button
+            sizeType='lg'
+            variant={isFull ? 'green' : 'disabled'}
+            disabled={!isFull}
+            onClick={handleSubmit}
+          >
+            수정하기
+          </Button>
+        </div>
+        {isOpen && (
+          <Modal
+            title='비밀번호 변경 완료'
+            greenButtonText='확인'
+            onClickGreenButton={() => {
+              closeModal();
+              router.push('/mypage');
+            }}
+          />
         )}
-        <Button
-          sizeType='lg'
-          variant={isFull ? 'green' : 'disabled'}
-          disabled={!isFull}
-          onClick={handleSubmit}
-        >
-          수정하기
-        </Button>
       </div>
     </Layout>
   );

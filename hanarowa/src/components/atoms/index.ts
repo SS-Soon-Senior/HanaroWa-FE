@@ -1,8 +1,10 @@
 import BottomNavigation from './BottomNavigation';
-import Devider from './Devider';
+import DatePicker from './DatePicker';
+import Divider from './Divider';
 import ErrorMessage from './ErrorMessage';
 import Layout from './Layout';
 import MemberCard from './MemberCard';
+import StatusDropdown from './dropdown/StatusDropdown';
 
 export * from './headers';
 export * from './buttons';
@@ -10,4 +12,12 @@ export * from './inputs';
 export * from './modals';
 export * from './tags';
 
-export { BottomNavigation, Layout, ErrorMessage, Devider, MemberCard };
+export {
+  BottomNavigation,
+  DatePicker,
+  StatusDropdown,
+  Layout,
+  ErrorMessage,
+  Divider,
+  MemberCard,
+};

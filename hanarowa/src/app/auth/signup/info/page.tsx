@@ -1,14 +1,61 @@
 'use client';
 
 import { IcSignupFace } from '@/assets/svg';
-import { Layout, Header, Input, Button } from '@/components';
-import { useState } from 'react';
+import {
+  Layout,
+  Header,
+  Input,
+  Button,
+  ErrorMessage,
+  DatePicker,
+} from '@/components';
+import {
+  formatDateFromISO,
+  formatDateToISO,
+  formatPhone,
+} from '@/utils/formatter';
+import { usePostMemberInfo } from '@apis';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { ChangeEvent, useState } from 'react';
 
 const Page = () => {
+  const router = useRouter();
   const [birth, setBirth] = useState('');
   const [phone, setPhone] = useState('');
 
+  const { mutate } = usePostMemberInfo();
+
+  const [showError, setShowError] = useState(false);
+
   const isAllFilled = birth.trim() !== '' && phone.trim() !== '';
+  const valid = birth.replace(/\D/g, '').length === 8 && phone.length === 13;
+
+  const handleSubmit = () => {
+    if (!valid) {
+      setShowError(true);
+      return;
+    }
+    setShowError(false);
+
+    mutate(
+      {
+        body: {
+          birth: birth.replace(/\D/g, ''), // YYYYMMDD 형식으로 변환
+          phoneNumber: phone, // 하이픈 포함
+        },
+      },
+      {
+        onSuccess: () => {
+          router.push('/branch');
+        },
+        onError: (error) => {
+          console.warn('회원 정보 수정 실패:', error);
+          toast.error('회원 정보 수정에 실패했어요. 다시 시도해주세요.');
+        },
+      }
+    );
+  };
 
   return (
     <Layout header={<Header />}>
@@ -24,11 +71,11 @@ const Page = () => {
               <p className='font-medium-20 text-black'>
                 생년월일을 입력하세요.
               </p>
-              <Input
-                placeholder='6자리 숫자로 입력해주세요.'
-                name='birth'
-                value={birth}
-                onChange={(e) => setBirth(e.target.value)}
+              <DatePicker
+                value={birth ? formatDateToISO(birth) : ''}
+                onChange={(value) => setBirth(formatDateFromISO(value))}
+                placeholder='생년월일을 선택하세요'
+                maxDate={new Date().toISOString().split('T')[0]}
               />
             </div>
 
@@ -41,18 +88,31 @@ const Page = () => {
                 placeholder='010-0000-0000'
                 name='phone'
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setPhone(formatPhone(e.target.value))
+                }
+                inputMode='numeric'
+                maxLength={13}
+                autoComplete='tel'
               />
             </div>
           </div>
 
           {/* 버튼 */}
-          <div className='mx-auto mt-auto flex w-full flex-col items-end gap-[2.5rem]'>
+          <div className='mx-auto mt-auto flex w-full flex-col gap-[2.5rem]'>
+            {showError && (
+              <div className='mb-[1.2rem] flex justify-center'>
+                <ErrorMessage align='text-center'>
+                  각 항목을 올바르게 입력해주세요.
+                </ErrorMessage>
+              </div>
+            )}
             <Button
               variant={isAllFilled ? 'green' : 'disabled'}
               sizeType='lg'
               type='button'
               disabled={!isAllFilled}
+              onClick={handleSubmit}
             >
               확인
             </Button>
